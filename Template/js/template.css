@@ -1,0 +1,78 @@
+/* misc */
+.dialogButtons{text-align: right;}
+.exfHidden{display:none !important};
+
+/* Bootstrap customization */
+ul.dropdown-menu li {padding: 4px 0;}
+
+/* DataTables customization */
+.dataTable .detailRow table {width:initial; margin: initial;}
+.dataTable td.ok{background-color: green;}
+.dataTable td.warning{background-color: yellow;}
+.dataTable td.error{background-color: red; color: white;}
+.dataTable thead th {text-align: center;}
+.dataTable tfoot th.dt-body-right {padding-right: 10px;}
+.dataTable tr.detailRow table {width: initial;}
+
+/* jQuery NumPad */
+td.nmpd-target{border: 1px solid #d2d6de !important;}
+
+/* DataList */
+.datalist-value {margin: 2px 5px;}
+.exf-datalist .placeholder {padding: 8px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;}
+
+/* sortable */
+body.dragging, body.dragging * {
+	cursor: move !important;
+}
+
+.dragged {
+	position: absolute;
+	opacity: 0.7;
+	z-index: 2000;
+}
+
+ol.sortable {  
+	margin: 0;
+	padding: 0px;
+	list-style: none;
+}
+
+ol.sortable li {
+	position: relative;
+	display: block;
+	margin: 5px;
+	padding: 5px;
+	border-left: 3px solid #e6e7e8;
+	color: #444;
+	background: #f4f4f4;
+}
+
+ol.sortable li .checkbox {margin-top: 5px; margin-bottom: 5px;}
+ol.sortable i.handle {margin: 8px 5px;}
+
+ol.sortable li.placeholder {
+	position: relative;
+	margin: 5x;
+	padding: 5x;
+	border: 3px dashed #e6e7e8; 
+	height: 37px;
+}
+
+ol.sortable li.placeholder:before {
+	position: absolute;
+	content: "";
+	width: 0;
+	height: 0;
+	margin-top: -5px;
+	left: -5px;
+	top: -4px;
+	border: 5px solid transparent;
+	border-left-color: red;
+	border-right: none; 
+}
+
+ol {list-style-type: none; }
+ol i.icon-move {cursor: pointer; }
+ol li.highlight {background: #333333; color: #999999; }
+ol li.highlight i.icon-move {}
