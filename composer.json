@@ -16,6 +16,11 @@
 		"exface/core" : ">=1.0",
 		"almasaeed2010/AdminLTE" : "2.*",
 		"bower-asset/datatables.net" : "1.10.*",
-		"bower-asset/datatables.net-bs" : "1.10.*"
+		"bower-asset/datatables.net-bs" : "1.10.*",
+		"bower-asset/datatables.net-colreorder": "1.*",
+		"bower-asset/datatables.net-colreorder-bs": "1.*",
+		"bower-asset/datatables.net-responsive": "2.*",
+		"bower-asset/datatables.net-responsive-bs": "2.*",
+		"npm-asset/Flot": "0.*"
 	}
 }
