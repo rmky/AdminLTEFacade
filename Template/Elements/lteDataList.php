@@ -369,7 +369,7 @@ JS;
 	
 	public function generate_headers(){
 		$includes = parent::generate_headers();
-		$includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/handlebars.js"></script>';
+		$includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
 		return $includes;
 	}
 	
