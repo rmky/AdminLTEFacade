@@ -14,7 +14,8 @@
 	},
 	"require" : {
 		"exface/core" : ">=1.0",
-		"almasaeed2010/AdminLTE": "2.*",
-		"bower-asset/datatables.net": "1.*"
+		"almasaeed2010/AdminLTE" : "2.*",
+		"bower-asset/datatables.net" : "1.10.*",
+		"bower-asset/datatables.net-bs" : "1.10.*"
 	}
 }
