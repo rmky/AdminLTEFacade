@@ -222,7 +222,7 @@ JS;
 	public function generate_headers(){
 		$includes = parent::generate_headers();
 		$includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Template/js/jssor/skin.css">';
-		$includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/jssor/jssor.slider.mini.js"></script>';
+		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.mini.js"></script>';
 		return $includes;
 	}
 }
