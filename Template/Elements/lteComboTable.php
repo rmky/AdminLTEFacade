@@ -83,8 +83,8 @@ JS;
 	
 	function generate_headers(){
 		$headers = parent::generate_headers();
-		$headers[] = '<link href="exface/vendor/exface/AdminLteTemplate/Template/js/magicsuggest/magicsuggest-min.css" rel="stylesheet">';
-		$headers[] = '<script src="exface/vendor/exface/AdminLteTemplate/Template/js/magicsuggest/magicsuggest-min.js"></script>';
+		$headers[] = '<link href="exface/vendor/bower-asset/magicsuggest/magicsuggest-min.css" rel="stylesheet">';
+		$headers[] = '<script src="exface/vendor/bower-asset/magicsuggest/magicsuggest-min.js"></script>';
 		return $headers;
 	}
 	
