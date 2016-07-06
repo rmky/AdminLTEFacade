@@ -1,6 +1,6 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
-use exface\Core\CommonLogic\Model\DataTypes\AbstractDataType;
+use exface\Core\DataTypes\AbstractDataType;
 class lteEditMatrix extends lteDataMatrix {
 	protected $element_type = 'datagrid';
 	private $label_values = array();
