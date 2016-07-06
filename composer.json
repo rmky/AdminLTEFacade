@@ -28,7 +28,6 @@
 		"bower-asset/bootstrap-sweetalert": ">=1",
 		"bower-asset/imagesloaded": ">=4",
 		"bower-asset/masonry": ">=4",
-		"bower-asset/quagga": ">=0.11",
 		"bower-asset/jquery-sortable": ">=0.9",
 		"npm-asset/flot-charts" : ">0.8",
 		"npm-asset/jquery.numpad" : ">=1"
