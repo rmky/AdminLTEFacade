@@ -13,7 +13,7 @@
 		"issues" : "https://github.com/exface/AdminLteTemplate/issues"
 	},
 	"require" : {
-		"exface/core" : ">=1.0",
+		"exface/core" : "~0.1",
 		"almasaeed2010/AdminLTE" : "2.*",
 		"components/handlebars.js" : ">=4",
 		"bower-asset/datatables.net" : "~1.10.12",
