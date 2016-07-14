@@ -3,7 +3,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Widgets\Button;
 /**
  * generates jQuery Mobile buttons for ExFace
- * @author aka
+ * @author Andrej Kabachnik
  *
  */
 class lteMenuButton extends lteAbstractElement {

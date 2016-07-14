@@ -5,7 +5,7 @@ use exface\Core\Widgets\DialogButton;
 use exface\Core\Interfaces\Actions\ActionInterface;
 /**
  * generates jQuery Mobile buttons for ExFace
- * @author aka
+ * @author Andrej Kabachnik
  *
  */
 class lteButton extends lteAbstractElement {
@@ -234,7 +234,7 @@ class lteButton extends lteAbstractElement {
 	 */
 	protected function generate_js_placeholder_replacer($js_var, $js_values_object, $string_with_placeholders, $js_sanitizer_function = null){
 		$output = '';
-		$placeholders = $this->get_template()->exface()->utils()->find_placeholders_in_string($string_with_placeholders);
+		$placeholders = $this->get_template()->get_workbench()->utils()->find_placeholders_in_string($string_with_placeholders);
 		foreach ($placeholders as $ph){
 			$value = $js_values_object . "['" . $ph . "']";
 			if ($js_sanitizer_function){

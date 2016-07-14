@@ -2,7 +2,7 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 /**
  * TODO Make propertygrid compatible to the new template. Right now unusable!!!
- * @author aka
+ * @author Andrej Kabachnik
  *
  */
 class ltePropertyTable extends lteData {
