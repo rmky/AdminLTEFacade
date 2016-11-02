@@ -24,7 +24,7 @@ class lteMenuButton extends lteAbstractElement {
 				}
 			}
 			// In any case, create a menu entry
-			$buttons_html .= '<li><a data-target="#" onclick="' . $this->generate_js_button_function_name($b) . '();"><i class="' . $this->get_icon_class($b->get_icon_name()) . '"></i>' . $b->get_caption() . '</a></li>';
+			$buttons_html .= '<li><a data-target="#" onclick="' . $this->build_js_button_function_name($b) . '();"><i class="' . $this->get_icon_class($b->get_icon_name()) . '"></i>' . $b->get_caption() . '</a></li>';
 		}
 		$icon = ($this->get_widget()->get_icon_name() ? '<i class="' . $this->get_icon_class($this->get_widget()->get_icon_name()) . '"></i> ' : '');
 		
@@ -46,10 +46,10 @@ HTML;
 	function generate_js(){
 		$output = '';
 		foreach ($this->get_widget()->get_buttons() as $b){
-			if ($click = $b->generate_js_click_function()) {
+			if ($click = $b->build_js_click_function()) {
 				$output .= "
-					function " . $this->generate_js_button_function_name($b) . "(){
-						" . $b->generate_js_click_function() . "
+					function " . $this->build_js_button_function_name($b) . "(){
+						" . $b->build_js_click_function() . "
 					}
 					";
 			}
@@ -57,8 +57,8 @@ HTML;
 		return $output;
 	}
 	
-	function generate_js_button_function_name(Button $button){
-		return $this->get_template()->get_element($button)->generate_js_click_function_name();
+	function build_js_button_function_name(Button $button){
+		return $this->get_template()->get_element($button)->build_js_click_function_name();
 	}
 }
 ?>

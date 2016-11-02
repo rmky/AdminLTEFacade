@@ -63,8 +63,8 @@ class lteDataList extends lteDataTable {
 		}
 		
 		$footer_style = $widget->get_hide_toolbar_bottom() ? 'display: none;' : '';
-		$bottom_toolbar = $widget->get_hide_toolbar_bottom() ? '' : $this->generate_html_bottom_toolbar($button_html);
-		$top_toolbar = $this->generate_html_top_toolbar();
+		$bottom_toolbar = $widget->get_hide_toolbar_bottom() ? '' : $this->build_html_bottom_toolbar($button_html);
+		$top_toolbar = $this->build_html_top_toolbar();
 		
 		// output the html code
 		// TODO replace "stripe" class by a custom css class
@@ -87,7 +87,7 @@ class lteDataList extends lteDataTable {
 			</div>
 		</div>
 	</div>
-	{$this->generate_html_table_customizer()}
+	{$this->build_html_table_customizer()}
 </div>
 
 <script type="text/x-handlebars-template" id="{$this->get_id()}_tpl">
@@ -179,13 +179,13 @@ HTML;
 				if ($fltr->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED) continue;
 				$fltr_element = $this->get_template()->get_element($fltr);
 				$filters_js .= $this->get_template()->generate_js($fltr, $this->get_id().'_popup_config');
-				$filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $fltr_element->get_js_value_getter() . ";\n";
+				$filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $fltr_element->build_js_value_getter() . ";\n";
 				
 				// Here we generate some JS make the filter visible by default, once it gets used.
 				// This code will be called when the table's config page gets closed.
 				if (!$fltr->is_hidden()){
 					$filters_js_promoted .= "
-							if (" . $fltr_element->get_js_value_getter() . " && $('#" . $fltr_element->get_id() . "').parents('#{$this->get_id()}_popup_config').length > 0){
+							if (" . $fltr_element->build_js_value_getter() . " && $('#" . $fltr_element->get_id() . "').parents('#{$this->get_id()}_popup_config').length > 0){
 								var fltr = $('#" . $fltr_element->get_id() . "').parents('.exf_input');
 								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->get_id()}_filters_container');
 								fltr.detach().appendTo(ui_block).trigger('resize');
@@ -193,7 +193,7 @@ HTML;
 							}
 					";
 					/*$filters_js_promoted .= "
-							if (" . $fltr_element->get_js_value_getter() . "){
+							if (" . $fltr_element->build_js_value_getter() . "){
 								var fltr = $('#" . $fltr_element->get_id() . "').parents('.exf_input');
 								var ui_block = $('<div></div>');
 								if ($('#{$this->get_id()}_filters_container').children('div').length % 2 == 0){
@@ -220,16 +220,16 @@ HTML;
 		// Click actions
 		// Single click. Currently only supports one double click action - the first one in the list of buttons
 		if ($leftclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_LEFT_CLICK)[0]){
-			$leftclick_script = $this->get_template()->get_element($leftclick_button)->generate_js_click_function_name() .  '()';
+			$leftclick_script = $this->get_template()->get_element($leftclick_button)->build_js_click_function_name() .  '()';
 		}
 		// Double click. Currently only supports one double click action - the first one in the list of buttons
 		if ($dblclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_DOUBLE_CLICK)[0]){
-			$dblclick_script = $this->get_template()->get_element($dblclick_button)->generate_js_click_function_name() .  '()';
+			$dblclick_script = $this->get_template()->get_element($dblclick_button)->build_js_click_function_name() .  '()';
 		}
 		
 		// Double click. Currently only supports one double click action - the first one in the list of buttons
 		if ($leftclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_LEFT_CLICK)[0]){
-			$leftclick_script = $this->get_template()->get_element($leftclick_button)->generate_js_click_function_name() .  '()';
+			$leftclick_script = $this->get_template()->get_element($leftclick_button)->build_js_click_function_name() .  '()';
 		}
 		
 		// configure pagination
@@ -249,11 +249,11 @@ $(document).ready(function() {
 	
 	{$this->get_function_prefix()}load();
 	
-	{$this->get_js_pagination()}
+	{$this->build_js_pagination()}
 	
-	{$this->get_js_quicksearch()}
+	{$this->build_js_quicksearch()}
 	
-	{$this->get_js_row_selection()}
+	{$this->build_js_row_selection()}
 	
 	$('#{$this->get_id()}').on('resize', $('#{$this->get_id()}').masonry('layout'));
 	
@@ -286,7 +286,7 @@ function {$this->get_function_prefix()}getSelection(){
 
 function {$this->get_function_prefix()}load(replace_data){
 	if ($('#{$this->get_id()}').data('loading')) return;
-	{$this->get_js_busy_icon_show()}
+	{$this->build_js_busy_icon_show()}
 	$('#{$this->get_id()}').data('loading', 1);
 	if (replace_data !== false){
 		var currentItems = $('#{$this->get_id()}').children();
@@ -303,7 +303,7 @@ function {$this->get_function_prefix()}load(replace_data){
     	try {
 			var data = $.parseJSON(json);
 		} catch (err) {
-			{$this->get_js_busy_icon_hide()}
+			{$this->build_js_busy_icon_hide()}
 		}
 		if (data.data.length > 0) {
 			var template = Handlebars.compile($('#{$this->get_id()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
@@ -315,17 +315,17 @@ function {$this->get_function_prefix()}load(replace_data){
 	        		$('#{$this->get_id()} .placeholder').hide();
 	        		$('#{$this->get_id()}').show().masonry('appended', elements);
 	        		$('#{$this->get_id()}').closest('.exf_grid_item').trigger('resize');
-			        {$this->get_js_busy_icon_hide()}
+			        {$this->build_js_busy_icon_hide()}
 			        $('#{$this->get_id()}').data('loading', 0);
 				});
         } else {
         	$('#{$this->get_id()} .placeholder').show();
         	$('#{$this->get_id()}').data('loading', 0);
-        	{$this->get_js_busy_icon_hide()}
+        	{$this->build_js_busy_icon_hide()}
         }
 	}).fail(function(){
-		{$this->get_js_busy_icon_hide()}
-		{$this->get_js_show_error('Sorry, your request could not be processed correctly. Please contact an administrator!', 'Server error')};
+		{$this->build_js_busy_icon_hide()}
+		{$this->build_js_show_error('Sorry, your request could not be processed correctly. Please contact an administrator!', 'Server error')};
 	});
 }
 
@@ -363,7 +363,7 @@ JS;
 		return $output;
 	}
 	
-	public function get_js_refresh($keep_pagination_position = false){
+	public function build_js_refresh($keep_pagination_position = false){
 		return $this->get_function_prefix() . "load();";
 	}
 	
@@ -373,7 +373,7 @@ JS;
 		return $includes;
 	}
 	
-	public function get_js_data_getter(){
+	public function build_js_data_getter(){
 		if ($this->is_editable()){
 			// TODO
 		} else {

@@ -37,18 +37,18 @@ class lteButton extends lteAbstractElement {
 			}
 		}
 		
-		if ($click = $this->generate_js_click_function()) {
+		if ($click = $this->build_js_click_function()) {
 			
 			// Generate the function to be called, when the button is clicked
 			$output .= "
-				function " . $this->generate_js_click_function_name() . "(input){
+				function " . $this->build_js_click_function_name() . "(input){
 					" . $click . "
 				}
 				";
 			
 			// Handle hotkeys
 			if ($this->get_widget()->get_hotkey()){
-				$hotkey_handlers[$this->get_widget()->get_hotkey()][] = $this->generate_js_click_function_name();
+				$hotkey_handlers[$this->get_widget()->get_hotkey()][] = $this->build_js_click_function_name();
 			}
 		}
 		
@@ -72,13 +72,13 @@ class lteButton extends lteAbstractElement {
 		$icon_classes = ($widget->get_icon_name() && !$widget->get_hide_button_icon() ? ' ' . $this->get_icon_class($widget->get_icon_name()) : '');
 		$hidden_class = ($widget->is_hidden() ? ' exfHidden' : '');
 		$output .= '
-				<button id="' . $this->get_id() . '" type="button" class="btn ' . ($widget->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? 'btn-primary ' : 'btn-default ') . $hidden_class . '" onclick="' . $this->generate_js_click_function_name() . '();">
+				<button id="' . $this->get_id() . '" type="button" class="btn ' . ($widget->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? 'btn-primary ' : 'btn-default ') . $hidden_class . '" onclick="' . $this->build_js_click_function_name() . '();">
 						<i class="' . $icon_classes . '"></i> ' . ($widget->get_caption() && !$widget->get_hide_button_text() ? $widget->get_caption() : '') . '
 				</button>';
 		return $output;
 	}
 
-	function generate_js_click_function(){
+	function build_js_click_function(){
 		$output = '';
 		/* @var $widget \exface\Core\Widgets\Button */
 		$widget = $this->get_widget();
@@ -89,8 +89,8 @@ class lteButton extends lteAbstractElement {
 		// if the button does not have a action attached, just see if the attributes of the button
 		// will cause some click-behaviour and return the JS for that
 		if (!$action) {
-			$output .= $this->generate_js_close_dialog($widget, $input_element)
-			. $this->generate_js_input_refresh($widget, $input_element);
+			$output .= $this->build_js_close_dialog($widget, $input_element)
+			. $this->build_js_input_refresh($widget, $input_element);
 			return $output;
 		}
 		
@@ -112,7 +112,7 @@ class lteButton extends lteAbstractElement {
 					
 					var requestData = {};
 					requestData.oId = '" . $widget->get_meta_object_id() . "';
-					requestData.rows = Array.prototype.slice.call(" . $input_element->get_js_data_getter() . ");
+					requestData.rows = Array.prototype.slice.call(" . $input_element->build_js_data_getter() . ");
 					" . $js_check_input_rows;
 
 		if ($action->implements_interface('iRunTemplateScript')){
@@ -126,22 +126,22 @@ class lteButton extends lteAbstractElement {
 							'" . $this->get_ajax_url() . "&resource=".$widget->get_page_id()."&element=".$widget->get_id()."&action=".$widget->get_action_alias()."&data=' + encodeURIComponent(JSON.stringify(requestData)));
 					$('#" . $this->get_id($action->get_dialog_widget()->get_id()) . "').modal('show');
 					" // Make sure, the input widget of the button is always refreshed, once the dialog is closed again 
-					. ($this->generate_js_input_refresh($widget, $input_element) ? "$('#" . $this->get_id($action->get_dialog_widget()->get_id()) . "').one('hide.bs.modal', function(){" . $this->generate_js_input_refresh($widget, $input_element) . "});" : "");
+					. ($this->build_js_input_refresh($widget, $input_element) ? "$('#" . $this->get_id($action->get_dialog_widget()->get_id()) . "').one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "");
 			
 					
 		} elseif ($action->implements_interface('iShowUrl')) {
 			/* @var $action \exface\Core\Interfaces\Actions\iShowUrl */
 			$output = $js_requestData . "
 					var " . $action->get_alias() . "Url='" . $action->get_url() . "';
-					" . $this->generate_js_placeholder_replacer($action->get_alias() . "Url", "requestData.rows[0]", $action->get_url(), ($action->get_urlencode_placeholders() ? 'encodeURIComponent' : null));
+					" . $this->build_js_placeholder_replacer($action->get_alias() . "Url", "requestData.rows[0]", $action->get_url(), ($action->get_urlencode_placeholders() ? 'encodeURIComponent' : null));
 			if ($action->get_open_in_new_window()){
-				$output .= $input_element->get_js_busy_icon_show() . "window.open(" . $action->get_alias() . "Url);" . $input_element->get_js_busy_icon_hide();
+				$output .= $input_element->build_js_busy_icon_show() . "window.open(" . $action->get_alias() . "Url);" . $input_element->build_js_busy_icon_hide();
 			} else {
-				$output .= $input_element->get_js_busy_icon_show() . "window.location.href = " . $action->get_alias() . "Url;";
+				$output .= $input_element->build_js_busy_icon_show() . "window.location.href = " . $action->get_alias() . "Url;";
 			}
 		} elseif ($action->implements_interface('iShowWidget')) {
 			if ($action->get_page_id() != $this->get_page_id()){
-				$output = $js_requestData . $input_element->get_js_busy_icon_show() . "
+				$output = $js_requestData . $input_element->build_js_busy_icon_show() . "
 				 	window.location.href = '" . $this->get_template()->create_link_internal($action->get_page_id()) . "?prefill={\"meta_object_id\":\"" . $widget->get_meta_object_id() . "\",\"rows\":[{\"" . $widget->get_meta_object()->get_uid_alias() . "\":' + requestData.rows[0]." . $widget->get_meta_object()->get_uid_alias() . " + '}]}';";
 			}
 		} elseif ($action->implements_interface('iModifyData') && $input_element->get_widget()->get_widget_type() != "DataTable") {
@@ -156,21 +156,21 @@ class lteButton extends lteAbstractElement {
 					        data : postData,
 					        success:function(data, textStatus, jqXHR) 
 					        {
-					            " . $this->generate_js_close_dialog($widget, $input_element) . "
-					            " . $this->generate_js_input_refresh($widget, $input_element) . "
-		                       	" . $input_element->get_js_busy_icon_show() . "
+					            " . $this->build_js_close_dialog($widget, $input_element) . "
+					            " . $this->build_js_input_refresh($widget, $input_element) . "
+		                       	" . $input_element->build_js_busy_icon_show() . "
 					        },
 					        error: function(jqXHR, textStatus, errorThrown) 
 					        {
-					            " . $input_element->get_js_busy_icon_hide() . "
+					            " . $input_element->build_js_busy_icon_hide() . "
 			                    alert(jqXHR.responseText);      
 					        }
 					    });";
 		} elseif ($action->implements_interface('iNavigate')){
-			$output = $input_element->get_js_busy_icon_show() . 'parent.history.back(); return false;';
+			$output = $input_element->build_js_busy_icon_show() . 'parent.history.back(); return false;';
 		} else {
 			$output = $js_requestData . "
-						" . $input_element->get_js_busy_icon_show() . "
+						" . $input_element->build_js_busy_icon_show() . "
 						$.post('" . $this->get_ajax_url() ."',
 							{	action: '".$widget->get_action_alias()."',
 								resource: '".$widget->get_page_id()."',
@@ -179,8 +179,8 @@ class lteButton extends lteAbstractElement {
 								data: requestData
 							},
 							function(data) {
-								" . $this->generate_js_input_refresh($widget, $input_element) . "
-								" . $input_element->get_js_busy_icon_hide() . "
+								" . $this->build_js_input_refresh($widget, $input_element) . "
+								" . $input_element->build_js_busy_icon_hide() . "
 							}
 						);";
 		}
@@ -196,18 +196,18 @@ class lteButton extends lteAbstractElement {
 		return $this->get_widget()->get_action();
 	}
 
-	protected function generate_js_input_refresh($widget, $input_element){
-		return ($widget->get_refresh_input() && $input_element->get_js_refresh() ? $input_element->get_js_refresh() . ";" : "");
+	protected function build_js_input_refresh($widget, $input_element){
+		return ($widget->get_refresh_input() && $input_element->build_js_refresh() ? $input_element->build_js_refresh() . ";" : "");
 	}
 
-	protected function generate_js_close_dialog($widget, $input_element){
+	protected function build_js_close_dialog($widget, $input_element){
 		return ($widget->get_widget_type() == 'DialogButton' && $widget->get_close_dialog_after_action_succeeds() ? "$('#" . $input_element->get_id() . "').modal('hide');" : "" );
 	}
 	
 	/**
 	 * Returns javascript code with global variables and functions needed for certain button types
 	 */
-	protected function generate_js_globals(){
+	protected function build_js_globals(){
 		$output = '';
 		/* Commented out because moved to generate_js()
 		// If the button reacts to any hotkey, we need to declare a global variable to collect keys pressed
@@ -218,7 +218,7 @@ class lteButton extends lteAbstractElement {
 		return $output;
 	}
 	
-	public function generate_js_click_function_name(){
+	public function build_js_click_function_name(){
 		return $this->get_function_prefix() . 'click';
 	}
 	
@@ -232,7 +232,7 @@ class lteButton extends lteAbstractElement {
 	 * @param string $js_sanitizer_function - a Javascript function to be applied to each value (e.g. encodeURIComponent) - without braces!!!
 	 * @return string - e.g. result = result.replace('[#placeholder#]', values['placeholder']);
 	 */
-	protected function generate_js_placeholder_replacer($js_var, $js_values_object, $string_with_placeholders, $js_sanitizer_function = null){
+	protected function build_js_placeholder_replacer($js_var, $js_values_object, $string_with_placeholders, $js_sanitizer_function = null){
 		$output = '';
 		$placeholders = $this->get_template()->get_workbench()->utils()->find_placeholders_in_string($string_with_placeholders);
 		foreach ($placeholders as $ph){

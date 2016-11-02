@@ -77,11 +77,11 @@ abstract class lteAbstractElement {
 		return $headers;
 	}
 	
-	function get_js_init_options(){
+	function build_js_init_options(){
 		return '';
 	}
 	
-	function generate_js_inline_editor_init(){
+	function build_js_inline_editor_init(){
 		return '';
 	}
 	
@@ -94,38 +94,38 @@ abstract class lteAbstractElement {
 	 * represented by a DataSheet
 	 * @return string
 	 */
-	public function get_js_value_getter(){
+	public function build_js_value_getter(){
 		return '$("#' . $this->get_id() . '").val()';
 	}
 	
-	public function get_js_value_setter($escaped_value_to_set){
+	public function build_js_value_setter($escaped_value_to_set){
 		return '$("#' . $this->get_id() . '").val(' . $escaped_value_to_set . ')';
 	}
 	
 	/**
-	 * In contrast to get_js_value_getter the data_getter returns the entire dataset used by a widget.
+	 * In contrast to build_js_value_getter the data_getter returns the entire dataset used by a widget.
 	 * This is a big difference for multi-dimensional widgets like a dataGrid, where the data_getter 
 	 * will return all rows and columns, while the value_getter only returns the selected row.
 	 * Still, the default for this method is just using the value_getter.
 	 * @return string
 	 */
-	public function get_js_data_getter(){
-		return $this->get_js_value_getter();
+	public function build_js_data_getter(){
+		return $this->build_js_value_getter();
 	}
 	
-	public function get_js_refresh(){
+	public function build_js_refresh(){
 		return '';
 	}
 	
-	public function get_js_busy_icon_show(){
+	public function build_js_busy_icon_show(){
 		return '$("#' . $this->get_id() . '").parents(".box").append($(\'<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>\'));';
 	}
 	
-	public function get_js_busy_icon_hide(){
+	public function build_js_busy_icon_hide(){
 		return '$("#' . $this->get_id() . '").parents(".box").find(".overlay").remove();';
 	}
 	
-	public function get_js_show_error($error_text, $title = null){
+	public function build_js_show_error($error_text, $title = null){
 		return "swal('" . ($title ? $title : 'Error') . "', '" . $error_text . "', 'error')";
 	}
 	

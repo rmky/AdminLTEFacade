@@ -13,7 +13,7 @@ class lteInputText extends lteInput {
 							. $this->get_value_with_defaults() . 
 							'</textarea>
 					';
-		return $this->generate_html_wrapper($output);;
+		return $this->build_html_wrapper($output);;
 	}
 }
 ?>

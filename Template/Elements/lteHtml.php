@@ -16,7 +16,7 @@ class lteHtml extends lteText {
 		}
 		
 		$output .= '<div id="' . $this->get_id() . '">' . $this->get_widget()->get_html() . '</div>';
-		return $this->generate_html_wrapper($output);
+		return $this->build_html_wrapper($output);
 	}
 	
 	function generate_js(){

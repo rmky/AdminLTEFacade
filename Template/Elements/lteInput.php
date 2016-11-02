@@ -15,10 +15,10 @@ class lteInput extends lteAbstractElement {
 								' . ($this->get_widget()->is_required() ? 'required="true" ' : '') . '
 								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
 					';
-		return $this->generate_html_wrapper($output);
+		return $this->build_html_wrapper($output);
 	}
 	
-	public function generate_html_wrapper($inner_html){
+	public function build_html_wrapper($inner_html){
 		$output = '
 					<div class="fitem exf_input exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->get_hint() . '">
 							' . $inner_html . '

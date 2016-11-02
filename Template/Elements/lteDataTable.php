@@ -74,8 +74,8 @@ class lteDataTable extends lteAbstractElement {
 			$button_html .= $this->get_template()->get_element($more_buttons_menu)->generate_html();
 		}
 		$footer_style = $widget->get_hide_toolbar_bottom() ? 'display: none;' : '';
-		$bottom_toolbar = $this->generate_html_bottom_toolbar($button_html);
-		$top_toolbar = $this->generate_html_top_toolbar();
+		$bottom_toolbar = $this->build_html_bottom_toolbar($button_html);
+		$top_toolbar = $this->build_html_top_toolbar();
 		
 		// output the html code
 		// TODO replace "stripe" class by a custom css class
@@ -100,7 +100,7 @@ class lteDataTable extends lteAbstractElement {
 			</div>
 		</div>
 	</div>
-	{$this->generate_html_table_customizer()}
+	{$this->build_html_table_customizer()}
 </div>
 HTML;
 		
@@ -151,7 +151,7 @@ HTML;
 		
 		// columns
 		foreach ($widget->get_columns() as $nr => $col){
-			$columns[] = $this->get_js_column_def($col);
+			$columns[] = $this->build_js_column_def($col);
 			$nr = $nr + $column_number_offset;
 			if ($col->get_footer()){
 				$footer_callback .= <<<JS
@@ -188,14 +188,14 @@ JS;
 				if ($fltr->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED) continue;
 				$fltr_element = $this->get_template()->get_element($fltr);
 				$filters_js .= $this->get_template()->generate_js($fltr);
-				$filters_ajax .= 'd.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $fltr_element->get_js_value_getter() . ";\n";
+				$filters_ajax .= 'd.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $fltr_element->build_js_value_getter() . ";\n";
 				$filters_ajax .= 'if(d.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ') filtersOn = true;' . "\n";
 				
 				// Here we generate some JS make the filter visible by default, once it gets used.
 				// This code will be called when the table's config page gets closed.
 				if (!$fltr->is_hidden()){
 					$filters_js_promoted .= "
-							if (" . $fltr_element->get_js_value_getter() . " && $('#" . $fltr_element->get_id() . "').parents('#{$this->get_id()}_popup_config').length > 0){
+							if (" . $fltr_element->build_js_value_getter() . " && $('#" . $fltr_element->get_id() . "').parents('#{$this->get_id()}_popup_config').length > 0){
 								var fltr = $('#" . $fltr_element->get_id() . "').parents('.exf_input');
 								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->get_id()}_filters_container');
 								fltr.detach().appendTo(ui_block).trigger('resize');
@@ -203,7 +203,7 @@ JS;
 							}
 					";
 					/*$filters_js_promoted .= "
-							if (" . $fltr_element->get_js_value_getter() . "){
+							if (" . $fltr_element->build_js_value_getter() . "){
 								var fltr = $('#" . $fltr_element->get_id() . "').parents('.exf_input');
 								var ui_block = $('<div></div>');
 								if ($('#{$this->get_id()}_filters_container').children('div').length % 2 == 0){
@@ -228,7 +228,7 @@ JS;
 				$buttons_js .= $btn_element->generate_js();
 				if (!$button->is_hidden() && (!$button->get_action() || $button->get_action()->get_input_rows_min() === 1)){
 					$icon = ($button->get_icon_name() ? '<i class=\'' . $btn_element->get_icon_class($button->get_icon_name()) . '\'></i> ' : '');
-					$context_menu_js .= '{text: "' . $icon . $button->get_caption() . '", action: function(e){e.preventDefault(); ' . $btn_element->generate_js_click_function_name() . '();}}, ';
+					$context_menu_js .= '{text: "' . $icon . $button->get_caption() . '", action: function(e){e.preventDefault(); ' . $btn_element->build_js_click_function_name() . '();}}, ';
 				}
 			}
 			$context_menu_js = $context_menu_js ? substr($context_menu_js, 0, -2) : $context_menu_js;
@@ -237,16 +237,16 @@ JS;
 		// Click actions
 		// Single click. Currently only supports one double click action - the first one in the list of buttons
 		if ($leftclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_LEFT_CLICK)[0]){
-			$leftclick_script = $this->get_template()->get_element($leftclick_button)->generate_js_click_function_name() .  '()';
+			$leftclick_script = $this->get_template()->get_element($leftclick_button)->build_js_click_function_name() .  '()';
 		}
 		// Double click. Currently only supports one double click action - the first one in the list of buttons
 		if ($dblclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_DOUBLE_CLICK)[0]){
-			$dblclick_script = $this->get_template()->get_element($dblclick_button)->generate_js_click_function_name() .  '()';
+			$dblclick_script = $this->get_template()->get_element($dblclick_button)->build_js_click_function_name() .  '()';
 		}
 		
 		// Double click. Currently only supports one double click action - the first one in the list of buttons
 		if ($rightclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_RIGHT_CLICK)[0]){
-			$rightclick_script = $this->get_template()->get_element($rightclick_button)->generate_js_click_function_name() .  '()';
+			$rightclick_script = $this->get_template()->get_element($rightclick_button)->build_js_click_function_name() .  '()';
 		}
 		
 		// configure pagination
@@ -283,7 +283,7 @@ $(document).ready(function() {
 			"url": "{$this->get_ajax_url()}",
 			"type": "POST",
 			"data": function ( d ) {
-				{$this->get_js_busy_icon_show()}
+				{$this->build_js_busy_icon_show()}
 				var filtersOn = false;
 				d.action = '{$widget->get_lazy_loading_action()}';
 				d.resource = "{$this->get_page_id()}";
@@ -300,7 +300,7 @@ $(document).ready(function() {
 				}
 			},
 			"error": function(result){
-				{$this->get_js_busy_icon_hide()}
+				{$this->build_js_busy_icon_hide()}
 				swal('Server error '+result.status, 'Sorry, your request could not be processed correctly. Please contact an administrator!', 'error');},
 		},
 		"language": {
@@ -317,8 +317,8 @@ $(document).ready(function() {
 			context.attach('#{$this->get_id()} tbody tr', [{$context_menu_js}]);
 			{$this->get_id()}_drawPagination();
 			{$this->get_id()}_table.columns.adjust();
-			{$this->get_js_disable_text_selection()}
-			{$this->get_js_busy_icon_hide()}
+			{$this->build_js_disable_text_selection()}
+			{$this->build_js_busy_icon_hide()}
 		}
 		{$footer_callback}
 	} );
@@ -335,13 +335,13 @@ $(document).ready(function() {
 		{$rightclick_script}
 	});
 	
-	{$this->get_js_pagination()}
+	{$this->build_js_pagination()}
 	
-	{$this->get_js_quicksearch()}
+	{$this->build_js_quicksearch()}
 	
-	{$this->get_js_row_selection()}
+	{$this->build_js_row_selection()}
 	
-	{$this->get_js_row_details()}
+	{$this->build_js_row_details()}
 	
 	$('#{$this->get_id()}_popup_columnList').sortable();
 	context.init({preventDoubleContext: false});
@@ -389,7 +389,7 @@ JS;
 		return $output;
 	}
 	
-	public function get_js_column_def (\exface\Core\Widgets\DataColumn $col){
+	public function build_js_column_def (\exface\Core\Widgets\DataColumn $col){
 		$editor = $this->editors[$col->get_id()];
 	
 		$output = '{
@@ -398,7 +398,7 @@ JS;
 							//. ($col->get_colspan() ? ', colspan: "' . intval($col->get_colspan()) . '"' : '')
 							//. ($col->get_rowspan() ? ', rowspan: "' . intval($col->get_rowspan()) . '"' : '')
 							. ($col->is_hidden() ? ', visible: false' :  '')
-							//. ($editor ? ', editor: {type: "' . $editor->get_element_type() . '"' . ($editor->get_js_init_options() ? ', options: {' . $editor->get_js_init_options() . '}' : '') . '}' : '')
+							//. ($editor ? ', editor: {type: "' . $editor->get_element_type() . '"' . ($editor->build_js_init_options() ? ', options: {' . $editor->build_js_init_options() . '}' : '') . '}' : '')
 							. ', className: "' . $this->get_css_column_class($col) . '"'
 							. ', orderable: ' . ($col->get_sortable() ? 'true' : 'false')
 							. '}';
@@ -421,7 +421,7 @@ JS;
 		return $classes;
 	}
 	
-	public function get_js_edit_mode_enabler(){
+	public function build_js_edit_mode_enabler(){
 		return '
 					var rows = $(this).' . $this->get_element_type() . '("getRows");
 					for (var i=0; i<rows.length; i++){
@@ -438,7 +438,7 @@ JS;
 		return $this->on_load_success;
 	}
 	
-	public function get_js_value_getter($row=null, $column=null){
+	public function build_js_value_getter($row=null, $column=null){
 		$output = $this->get_id()."_table";
 		if (is_null($row)){
 			$output .= ".rows('.selected').data()";
@@ -453,7 +453,7 @@ JS;
 		return $output . "['" . $column . "']";
 	}
 	
-	public function get_js_data_getter(){
+	public function build_js_data_getter(){
 		if ($this->is_editable()){
 			// TODO
 		} else {
@@ -461,7 +461,7 @@ JS;
 		}
 	}
 	
-	public function get_js_refresh($keep_pagination_position = false){
+	public function build_js_refresh($keep_pagination_position = false){
 		return $this->get_id() . "_table.draw(" . ($keep_pagination_position ? "false" : "true") . ");";
 	}
 	
@@ -488,7 +488,7 @@ JS;
 	 * Renders javascript event handlers for tapping on rows. A single tap (or click) selects a row, while a longtap opens the
 	 * context menu for the row if one is defined. The long tap also selects the row.
 	 */
-	protected function get_js_row_selection(){
+	protected function build_js_row_selection(){
 		$output = '';		
 		if ($this->get_widget()->get_multi_select()){
 			$output .= "
@@ -517,7 +517,7 @@ JS;
 		return $output;
 	}
 	
-	protected function generate_html_top_toolbar(){
+	protected function build_html_top_toolbar(){
 		$table_caption = $this->get_widget()->get_caption() ? $this->get_widget()->get_caption() : $this->get_meta_object()->get_name();
 		$quick_search_fields = $this->get_widget()->get_meta_object()->get_label_attribute() ? $this->get_widget()->get_meta_object()->get_label_attribute()->get_name() : '';
 		foreach ($this->get_widget()->get_quick_search_filters() as $qfltr){
@@ -529,7 +529,7 @@ JS;
 			$output = <<<HTML
 	<h3 class="box-title">$table_caption</h3>
 	<div class="box-tools pull-right">
-		<button type="button" class="btn btn-box-tool" onclick="{$this->get_js_refresh(false)} return false;"><i class="fa fa-refresh"></i></button>
+		<button type="button" class="btn btn-box-tool" onclick="{$this->build_js_refresh(false)} return false;"><i class="fa fa-refresh"></i></button>
 	</div>
 HTML;
 		} else {
@@ -547,7 +547,7 @@ HTML;
 					</span>
 					<input id="{$this->get_id()}_quickSearch" type="text" class="form-control" placeholder="Quick search{$quick_search_fields}" />
 					<span class="input-group-btn">
-						<button type="button" class="btn btn-default" onclick="{$this->get_js_refresh(false)} return false;"><i class="fa fa-search"></i></button>
+						<button type="button" class="btn btn-default" onclick="{$this->build_js_refresh(false)} return false;"><i class="fa fa-search"></i></button>
 					</span>
 				</div>
 			</div>
@@ -560,7 +560,7 @@ HTML;
 		return $output;
 	}
 	
-	protected function generate_html_bottom_toolbar($buttons_html){
+	protected function build_html_bottom_toolbar($buttons_html){
 		$output = <<<HTML
 			<div class="col-xs-12 col-sm-6" style="padding-top: 10px;">{$buttons_html}</div>
 			<div class="col-xs-12 col-sm-6 text-right" style="padding-top: 10px;">
@@ -583,7 +583,7 @@ HTML;
 							</li>
 					  	</ul>
 					</div>
-					<button type="button" data-target="#" class="btn btn-default" onclick="{$this->get_js_refresh(true)} return false;"><i class="fa fa-refresh"></i></button>
+					<button type="button" data-target="#" class="btn btn-default" onclick="{$this->build_js_refresh(true)} return false;"><i class="fa fa-refresh"></i></button>
 					<button type="button" data-target="#{$this->get_id()}_popup_config" data-toggle="modal" class="btn btn-default"><i class="fa fa-gear"></i></button>
 				</form>
 			</div>
@@ -591,10 +591,10 @@ HTML;
 		return $output;
 	}
 	
-	protected function get_js_pagination(){
+	protected function build_js_pagination(){
 		$output = <<<JS
-	$('#{$this->get_id()}_prevPage').on('click', function(){{$this->get_id()}_table.page('previous'); {$this->get_js_refresh(true)}});
-	$('#{$this->get_id()}_nextPage').on('click', function(){{$this->get_id()}_table.page('next'); {$this->get_js_refresh(true)}});
+	$('#{$this->get_id()}_prevPage').on('click', function(){{$this->get_id()}_table.page('previous'); {$this->build_js_refresh(true)}});
+	$('#{$this->get_id()}_nextPage').on('click', function(){{$this->get_id()}_table.page('next'); {$this->build_js_refresh(true)}});
 	
 	$('#{$this->get_id()}_pageInfo').on('click', function(){
 		$('#{$this->get_id()}_pageInput').val({$this->get_id()}_table.page()+1);
@@ -607,22 +607,22 @@ JS;
 		return $output;
 	}
 	
-	protected function get_js_quicksearch(){
+	protected function build_js_quicksearch(){
 		$output = <<<JS
 	$('#{$this->get_id()}_quickSearch_form').on('submit', function(event) {
-		{$this->get_js_refresh(false)}	
+		{$this->build_js_refresh(false)}	
 		event.preventDefault();
 		return false;
 	});
 				
 	$('#{$this->get_id()}_quickSearch').on('change', function(event) {
-		{$this->get_js_refresh(false)}	
+		{$this->build_js_refresh(false)}	
 	});
 JS;
 		return $output;
 	}
 	
-	protected function get_js_row_details(){
+	protected function build_js_row_details(){
 		$output = '';
 		/* @var $widget \exface\Core\Widgets\DataTable */
 		$widget = $this->get_widget();
@@ -665,11 +665,11 @@ JS;
 	 * with the context menu being displayed. It look awful. 
 	 * @return string
 	 */
-	protected function get_js_disable_text_selection(){
+	protected function build_js_disable_text_selection(){
 		return "$('#{$this->get_id()} tbody tr td').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);";
 	}
 	
-	protected function generate_html_table_customizer(){
+	protected function build_html_table_customizer(){
 		$filters_html = '';
 		$columns_html = '';
 		$sorting_html = '';
@@ -717,7 +717,7 @@ JS;
 			</div>
 			<div class="modal-footer">
 				<button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left">Cancel</button>
-				<button type="button" href="#" data-dismiss="modal" class="btn btn-primary" onclick="{$this->get_js_refresh(false)}">OK</button>
+				<button type="button" href="#" data-dismiss="modal" class="btn btn-primary" onclick="{$this->build_js_refresh(false)}">OK</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

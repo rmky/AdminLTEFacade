@@ -11,7 +11,7 @@ class lteImageSlider extends lteDataList {
 	function generate_html(){
 		/* @var $widget \exface\Core\Widgets\ImageGallery */
 		$widget = $this->get_widget();
-		$top_toolbar = $this->generate_html_top_toolbar();
+		$top_toolbar = $this->build_html_top_toolbar();
 		
 		// output the html code
 		$output = <<<HTML
@@ -45,7 +45,7 @@ class lteImageSlider extends lteDataList {
 		    </div>
 		</div>
 	</div>
-	{$this->generate_html_table_customizer()}
+	{$this->build_html_table_customizer()}
 </div>
 					
 <script type="text/x-handlebars-template" id="{$this->get_id()}_tpl">
@@ -101,13 +101,13 @@ HTML;
 				if ($fltr->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED) continue;
 				$fltr_element = $this->get_template()->get_element($fltr);
 				$filters_js .= $this->get_template()->generate_js($fltr);
-				$filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $fltr_element->get_js_value_getter() . ";\n";
+				$filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $fltr_element->build_js_value_getter() . ";\n";
 				
 				// Here we generate some JS make the filter visible by default, once it gets used.
 				// This code will be called when the table's config page gets closed.
 				if (!$fltr->is_hidden()){
 					$filters_js_promoted .= "
-							if (" . $fltr_element->get_js_value_getter() . " && $('#" . $fltr_element->get_id() . "').parents('#{$this->get_id()}_popup_config').length > 0){
+							if (" . $fltr_element->build_js_value_getter() . " && $('#" . $fltr_element->get_id() . "').parents('#{$this->get_id()}_popup_config').length > 0){
 								var fltr = $('#" . $fltr_element->get_id() . "').parents('.exf_input');
 								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->get_id()}_filters_container');
 								fltr.detach().appendTo(ui_block).trigger('resize');
@@ -131,11 +131,11 @@ $(document).ready(function() {
 	
 	{$this->get_function_prefix()}load();
 	
-	{$this->get_js_pagination()}
+	{$this->build_js_pagination()}
 	
-	{$this->get_js_quicksearch()}
+	{$this->build_js_quicksearch()}
 	
-	{$this->get_js_row_selection()}
+	{$this->build_js_row_selection()}
 	
 });
 
@@ -186,7 +186,7 @@ $(window).bind("orientationchange", ScaleSlider);
 
 function {$this->get_function_prefix()}load(){
 	if ($('#{$this->get_id()}').data('loading')) return;
-	{$this->get_js_busy_icon_show()}
+	{$this->build_js_busy_icon_show()}
 	$('#{$this->get_id()}').data('loading', 1);
 	var data = {};
     data.action = '{$widget->get_lazy_loading_action()}';
@@ -203,7 +203,7 @@ function {$this->get_function_prefix()}load(){
 	        $('#{$this->get_id()} .slides').append(elements);
 	        {$this->get_function_prefix()}startSlider();
         }
-        {$this->get_js_busy_icon_hide()}
+        {$this->build_js_busy_icon_hide()}
         $('#{$this->get_id()}').data('loading', 0);
 	});
 }
@@ -215,7 +215,7 @@ JS;
 		return $output;
 	}
 	
-	public function get_js_refresh($keep_pagination_position = false){
+	public function build_js_refresh($keep_pagination_position = false){
 		return $this->get_function_prefix() . "load();";
 	}
 	

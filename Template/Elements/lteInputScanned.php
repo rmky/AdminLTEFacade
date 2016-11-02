@@ -22,7 +22,7 @@ class lteInputScanned extends lteAbstractElement {
 		
 	}
 	
-	function generate_js_inline_editor_init(){
+	function build_js_inline_editor_init(){
 		if (!$this->get_widget()->get_blur_after_scan()) return '';
 		$output = "
 					$.extend($.fn.datagrid.defaults.editors, {

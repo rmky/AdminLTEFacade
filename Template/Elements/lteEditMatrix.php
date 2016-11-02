@@ -59,7 +59,7 @@ class lteEditMatrix extends lteDataMatrix {
 		
 		if ($this->is_editable()){
 			foreach ($this->get_editors() as $editor){
-				$output .= $editor->generate_js_inline_editor_init();
+				$output .= $editor->build_js_inline_editor_init();
 			}
 		}
 		

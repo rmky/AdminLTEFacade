@@ -12,7 +12,7 @@ HTML;
 		return $output;
 	}
 	
-	public function get_js_data_getter(){
+	public function build_js_data_getter(){
 
 		return $this->get_function_prefix() . 'getData()';
 	}
@@ -29,7 +29,7 @@ HTML;
 		
 		$data_getters = '';
 		foreach ($widget->get_widgets() as $w){
-			if ($getter = $this->get_template()->get_element($w)->get_js_data_getter()){
+			if ($getter = $this->get_template()->get_element($w)->build_js_data_getter()){
 				$data_getters .= "result['" . $w->get_attribute_alias() . "'] = " . $getter . ";\n";
 			}
 		}

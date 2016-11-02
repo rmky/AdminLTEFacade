@@ -34,10 +34,10 @@ class lteText extends lteAbstractElement {
 		}
 		
 		$output .= '<p id="' . $this->get_id() . '" style="' . $style . '">' . $html . '</p>';
-		return $this->generate_html_wrapper($output);
+		return $this->build_html_wrapper($output);
 	}
 	
-	public function generate_html_wrapper($inner_html){
+	public function build_html_wrapper($inner_html){
 		$output = '
 					<div class="exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->get_hint() . '">
 							' . $inner_html . '

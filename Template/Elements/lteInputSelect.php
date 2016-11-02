@@ -23,7 +23,7 @@ class lteInputSelect extends lteInput {
 						</select>
 					';
 		
-		return $this->generate_html_wrapper($output);
+		return $this->build_html_wrapper($output);
 	}
 }
 ?>
