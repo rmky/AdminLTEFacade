@@ -1,6 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Widgets\DataTable;
+use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
  * 
@@ -453,12 +454,15 @@ JS;
 		return $output . "['" . $column . "']";
 	}
 	
-	public function build_js_data_getter(){
-		if ($this->is_editable()){
+	public function build_js_data_getter(ActionInterface $action = null, $custom_body_js = null){
+		if (is_null($action)){
+			$rows = $this->get_id() . "_table.rows().data()";
+		} elseif ($this->is_editable() && $action->implements_interface('iModifyData')){
 			// TODO
 		} else {
-			return $this->get_id() . "_table.rows('.selected').data()";
+			$rows = $this->get_id() . "_table.rows('.selected').data()";
 		}
+		return parent::build_js_data_getter($action, "data.rows = " . $rows . ";");
 	}
 	
 	public function build_js_refresh($keep_pagination_position = false){

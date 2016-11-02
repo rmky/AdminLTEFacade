@@ -1,5 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+use exface\Core\Interfaces\Actions\ActionInterface;
+
 class lteBox extends ltePanel {
 	
 	public function generate_html(){
@@ -12,9 +14,8 @@ HTML;
 		return $output;
 	}
 	
-	public function build_js_data_getter(){
-
-		return $this->get_function_prefix() . 'getData()';
+	public function build_js_data_getter(ActionInterface $action = null, $custom_body_js = null){
+		return parent::build_js_data_getter($action, "data.rows = " . $this->get_function_prefix() . "getData();");
 	}
 	
 	public function generate_js(){

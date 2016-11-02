@@ -109,10 +109,7 @@ class lteButton extends lteAbstractElement {
 		}
 
 		$js_requestData = "
-					
-					var requestData = {};
-					requestData.oId = '" . $widget->get_meta_object_id() . "';
-					requestData.rows = Array.prototype.slice.call(" . $input_element->build_js_data_getter() . ");
+					var requestData = " . $input_element->build_js_data_getter($action) . ";
 					" . $js_check_input_rows;
 
 		if ($action->implements_interface('iRunTemplateScript')){

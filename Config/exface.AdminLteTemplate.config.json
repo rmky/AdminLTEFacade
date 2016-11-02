@@ -6,6 +6,6 @@
 	"HINT_MAX_CHARS_IN_LINE": 60,
 	"FORBIDDEN_CHARS_IN_ELEMENT_ID": ["/", "(", ")", "."],
 	"FORBIDDEN_CHARS_IN_FUNCTION_PREFIX": ["-", "."],
-	"DEFAULT_AJAX_URL": "exface/exface.php?exftpl=exface.JEasyUiTemplate",
+	"DEFAULT_AJAX_URL": "exface/exface.php?exftpl=exface.AdminLteTemplate",
 	"DATAGRID_SHOW_FOOTER_BY_DEFAULT": false
 }

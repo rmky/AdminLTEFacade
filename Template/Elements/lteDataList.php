@@ -2,6 +2,8 @@
 
 use exface\Core\Widgets\DataColumn;
 use exface\Core\Widgets\DataColumnGroup;
+use exface\Core\Interfaces\Actions\ActionInputInterface;
+use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
  * 
@@ -373,12 +375,13 @@ JS;
 		return $includes;
 	}
 	
-	public function build_js_data_getter(){
-		if ($this->is_editable()){
+	public function build_js_data_getter(ActionInterface $action = null, $custom_body_js = null){
+		if (is_null($action)){
 			// TODO
 		} else {
-			return $this->get_function_prefix() . "getSelection()";
+			$rows = $this->get_function_prefix() . "getSelection()";
 		}
+		return parent::build_js_data_getter($action, "data.rows = " . $rows . ";");
 	}
 }
 ?>
