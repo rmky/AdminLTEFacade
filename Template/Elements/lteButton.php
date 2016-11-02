@@ -3,6 +3,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Interfaces\Actions\iModifyData;
 use exface\Core\Widgets\DialogButton;
 use exface\Core\Interfaces\Actions\ActionInterface;
+use exface\Core\Actions\GoBack;
 /**
  * generates jQuery Mobile buttons for ExFace
  * @author Andrej Kabachnik
@@ -141,45 +142,32 @@ class lteButton extends lteAbstractElement {
 				$output = $js_requestData . $input_element->build_js_busy_icon_show() . "
 				 	window.location.href = '" . $this->get_template()->create_link_internal($action->get_page_id()) . "?prefill={\"meta_object_id\":\"" . $widget->get_meta_object_id() . "\",\"rows\":[{\"" . $widget->get_meta_object()->get_uid_alias() . "\":' + requestData.rows[0]." . $widget->get_meta_object()->get_uid_alias() . " + '}]}';";
 			}
-		} elseif ($action->implements_interface('iModifyData') && $input_element->get_widget()->get_widget_type() != "DataTable") {
-			$output = " var form = $($('#" . $input_element->get_id() . " form')[0]);
-						$('#" . $input_element->get_id() . "').append($('<div class=\"overlay\"><i class=\"fa fa-refresh fa-spin\"></i></div>'));
-
-					    var postData = $(form).serializeArray();
-					    $.ajax(
-					    {
-					        url : '" . $this->get_ajax_url() . "&resource=".$widget->get_page_id()."&element=".$widget->get_id()."&action=".$widget->get_action_alias() . "&object=" . $widget->get_meta_object_id() . "',
-					        type: 'POST',
-					        data : postData,
-					        success:function(data, textStatus, jqXHR) 
-					        {
-					            " . $this->build_js_close_dialog($widget, $input_element) . "
-					            " . $this->build_js_input_refresh($widget, $input_element) . "
-		                       	" . $input_element->build_js_busy_icon_show() . "
-					        },
-					        error: function(jqXHR, textStatus, errorThrown) 
-					        {
-					            " . $input_element->build_js_busy_icon_hide() . "
-			                    alert(jqXHR.responseText);      
-					        }
-					    });";
-		} elseif ($action->implements_interface('iNavigate')){
+		} elseif ($action instanceof GoBack){
 			$output = $input_element->build_js_busy_icon_show() . 'parent.history.back(); return false;';
 		} else {
 			$output = $js_requestData . "
 						" . $input_element->build_js_busy_icon_show() . "
-						$.post('" . $this->get_ajax_url() ."',
-							{	action: '".$widget->get_action_alias()."',
+						$.ajax({
+							url: '" . $this->get_ajax_url() ."',
+							type: 'POST',
+							data: {	
+								action: '".$widget->get_action_alias()."',
 								resource: '".$widget->get_page_id()."',
 								element: '".$widget->get_id()."',
 								object: '" . $widget->get_meta_object_id() . "',
 								data: requestData
 							},
-							function(data) {
-								" . $this->build_js_input_refresh($widget, $input_element) . "
+							success: function(data, textStatus, jqXHR) {
+								" . $this->build_js_close_dialog($widget, $input_element) . "
+					            " . $this->build_js_input_refresh($widget, $input_element) . "
 								" . $input_element->build_js_busy_icon_hide() . "
-							}
-						);";
+							},
+					        error: function(jqXHR, textStatus, errorThrown) 
+					        {
+					            " . $input_element->build_js_busy_icon_hide() . "
+			                    alert(jqXHR.responseText);      
+					        }
+						});";
 		}
 
 		return $output;
