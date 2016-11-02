@@ -455,6 +455,11 @@ JS;
 	}
 	
 	public function build_js_data_getter(ActionInterface $action = null, $custom_body_js = null){
+		// If some other class extending from the DataTable took care of getting data, just use it's code.
+		if ($custom_body_js){
+			return parent::build_js_data_getter($action, $custom_body_js);
+		}
+		
 		if (is_null($action)){
 			$rows = $this->get_id() . "_table.rows().data()";
 		} elseif ($this->is_editable() && $action->implements_interface('iModifyData')){
