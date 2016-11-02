@@ -2,7 +2,6 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\DataTypes\AbstractDataType;
 class lteEditMatrix extends lteDataMatrix {
-	protected $element_type = 'datagrid';
 	private $label_values = array();
 	
 	function generate_headers(){

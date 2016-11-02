@@ -1,7 +1,6 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 class lteCheckBox extends lteAbstractElement {
-	protected $element_type = 'checkbox';
 	
 	function generate_html(){
 		$output = '	<div class="fitem exf_input checkbox exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->get_hint() . '">

@@ -2,7 +2,10 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 class lteInput extends lteAbstractElement {
 	
-	protected $element_type = 'text';
+	protected function init(){
+		parent::init();
+		$this->set_element_type('text');
+	}
 	
 	function generate_html(){
 		$output = '

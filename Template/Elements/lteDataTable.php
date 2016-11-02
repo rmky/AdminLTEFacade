@@ -12,9 +12,8 @@ class lteDataTable extends lteAbstractElement {
 	private $on_load_success = '';
 	private $row_details_expand_icon = 'fa-plus-square-o';
 	private $row_details_collapse_icon = 'fa-minus-square-o';
-
-	protected $editable = false;
-	protected $editors = array();
+	private $editable = false;
+	private $editors = array();
 	
 	function generate_html(){
 		/* @var $widget \exface\Core\Widgets\DataTable */
@@ -465,7 +464,7 @@ JS;
 		} elseif ($this->is_editable() && $action->implements_interface('iModifyData')){
 			// TODO
 		} else {
-			$rows = $this->get_id() . "_table.rows('.selected').data()";
+			$rows = "Array.prototype.slice.call(" . $this->get_id() . "_table.rows('.selected').data())";
 		}
 		return parent::build_js_data_getter($action, "data.rows = " . $rows . ";");
 	}

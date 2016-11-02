@@ -1,7 +1,6 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 class lteInputHidden extends lteInput {
-	protected $element_type = 'hidden';
 	
 	function generate_html(){
 		$output = '<input type="hidden" 
