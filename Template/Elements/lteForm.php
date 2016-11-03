@@ -9,7 +9,7 @@ class lteForm extends ltePanel {
 		}
 		
 		$output .= '<form class="form" id="' . $this->get_widget()->get_id() . '">';
-		$output .= $this->generate_widgets_html();	
+		$output .= $this->build_html_for_widgets();	
 		$output .= '<div class="col-xs-12" id="' . $this->get_id() . '_sizer" style=""></div>';
 		$output .= '</form>';
 		
@@ -19,7 +19,7 @@ class lteForm extends ltePanel {
 	function generate_js(){
 		// FIXME had to override the generate_js() method of lteContainer here, because masonry broke the form for some reason. But masonry
 		// layouts are important for forms, so this needs to be fixed. Remove this method from lteForm when done.
-		return $this->children_generate_js();
+		return $this->build_js_for_children();
 	}
 	
 	public function get_method() {

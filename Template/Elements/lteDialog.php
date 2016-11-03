@@ -5,7 +5,7 @@ class lteDialog extends ltePanel {
 	function generate_js(){
 		$output = '';
 		if (!$this->get_widget()->get_lazy_loading()){
-			$output .= $this->generate_widgets_js();
+			$output .= $this->build_js_for_widgets();
 		}
 		$output .= $this->generate_buttons_js();
 		return $output;
@@ -24,7 +24,7 @@ class lteDialog extends ltePanel {
 				<h4 class="modal-title">{$widget->get_caption()}</h4>
 			</div>
 			<div class="modal-body">
-				{$this->generate_widgets_html()}
+				{$this->build_html_for_widgets()}
 			</div>
 			<div class="modal-footer">
 				{$this->generate_buttons_html()}

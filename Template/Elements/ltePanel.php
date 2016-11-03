@@ -22,7 +22,7 @@ class ltePanel extends lteContainer {
 	{$header}
 	<div class="box-body"> 
 		<div class="row" id="{$this->get_id()}">
-			{$this->generate_widgets_html()}
+			{$this->build_html_for_widgets()}
 			<div class="col-xs-1" id="{$this->get_id()}_sizer" style=""></div>
 		</div>
 	</div>
