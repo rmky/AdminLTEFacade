@@ -2,7 +2,6 @@
 
 use exface\Core\Widgets\DialogButton;
 use exface\Core\Interfaces\Actions\ActionInterface;
-use exface\Core\Actions\GoBack;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryButtonTrait;
 use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
 use exface\Core\Widgets\Button;
