@@ -5,7 +5,6 @@ use exface\AdminLteTemplate\Template\AdminLteTemplate;
 
 abstract class lteAbstractElement extends AbstractJqueryElement {
 	
-	private $element_type;
 	private $icon_classes = array(
 			'edit' => 'fa fa-pencil-square-o',
 			'remove' => 'fa fa-times',
@@ -69,14 +68,6 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 			}
 		}
 		return $width;
-	}
-	
-	public function get_element_type() {
-		return $this->element_type;
-	}
-	
-	public function set_element_type($value) {
-		$this->element_type = $value;
 	}
 	
 	public function prepare_data(\exface\Core\Interfaces\DataSheets\DataSheetInterface $data_sheet){
