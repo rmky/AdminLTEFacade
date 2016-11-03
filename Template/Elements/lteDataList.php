@@ -327,7 +327,7 @@ function {$this->get_function_prefix()}load(replace_data){
         }
 	}).fail(function(){
 		{$this->build_js_busy_icon_hide()}
-		{$this->build_js_show_error('Sorry, your request could not be processed correctly. Please contact an administrator!', 'Server error')};
+		{$this->build_js_show_error_message('Sorry, your request could not be processed correctly. Please contact an administrator!', 'Server error')};
 	});
 }
 

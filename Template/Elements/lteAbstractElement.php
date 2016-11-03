@@ -37,8 +37,23 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 		return '$("#' . $this->get_id() . '").parents(".box").find(".overlay").remove();';
 	}
 	
-	public function build_js_show_error($error_text, $title = null){
-		return "swal('" . ($title ? $title : 'Error') . "', '" . $error_text . "', 'error')";
+	/**
+	 *
+	 * {@inheritDoc}
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_error_message()
+	 */
+	public function build_js_show_error_message($message_body_js, $title = null){
+		return "swal('" . ($title ? $title : 'Error') . "', " . $message_body_js . ", 'error');";
+	}
+	
+	/**
+	 *
+	 * {@inheritDoc}
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_success_message()
+	 */
+	public function build_js_show_success_message($message_body_js, $title = null){
+		// TODO use some library to show toast notificactions
+		return '';
 	}
 	
 	/**
