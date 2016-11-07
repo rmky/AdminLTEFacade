@@ -10,7 +10,7 @@ class lteComboTable extends lteInput {
 	private $min_chars_to_search = 1;
 
 	function generate_html(){
-		$output = '	<div class="fitem exf_input" title="' . $this->get_hint() . '">
+		$output = '	<div class="fitem exf_input" title="' . $this->build_hint_text() . '">
 						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
 						<input type="hidden"
 								id="' . $this->get_id() . '" 

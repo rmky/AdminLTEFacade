@@ -24,9 +24,9 @@ class lteMenuButton extends lteAbstractElement {
 				}
 			}
 			// In any case, create a menu entry
-			$buttons_html .= '<li><a data-target="#" onclick="' . $this->build_js_button_function_name($b) . '();"><i class="' . $this->get_icon_class($b->get_icon_name()) . '"></i>' . $b->get_caption() . '</a></li>';
+			$buttons_html .= '<li><a data-target="#" onclick="' . $this->build_js_button_function_name($b) . '();"><i class="' . $this->build_css_icon_class($b->get_icon_name()) . '"></i>' . $b->get_caption() . '</a></li>';
 		}
-		$icon = ($this->get_widget()->get_icon_name() ? '<i class="' . $this->get_icon_class($this->get_widget()->get_icon_name()) . '"></i> ' : '');
+		$icon = ($this->get_widget()->get_icon_name() ? '<i class="' . $this->build_css_icon_class($this->get_widget()->get_icon_name()) . '"></i> ' : '');
 		
 		$output .= <<<HTML
 

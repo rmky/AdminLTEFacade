@@ -129,7 +129,7 @@ HTML;
 
 $(document).ready(function() {
 	
-	{$this->get_function_prefix()}load();
+	{$this->build_js_function_prefix()}load();
 	
 	{$this->build_js_pagination()}
 	
@@ -139,7 +139,7 @@ $(document).ready(function() {
 	
 });
 
-function {$this->get_function_prefix()}startSlider(){
+function {$this->build_js_function_prefix()}startSlider(){
             
 var options = {
   \$AutoPlay: true,
@@ -184,7 +184,7 @@ $(window).bind("orientationchange", ScaleSlider);
 
 }
 
-function {$this->get_function_prefix()}load(){
+function {$this->build_js_function_prefix()}load(){
 	if ($('#{$this->get_id()}').data('loading')) return;
 	{$this->build_js_busy_icon_show()}
 	$('#{$this->get_id()}').data('loading', 1);
@@ -201,7 +201,7 @@ function {$this->get_function_prefix()}load(){
 			var template = Handlebars.compile($('#{$this->get_id()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
 	        var elements = $(template(data));
 	        $('#{$this->get_id()} .slides').append(elements);
-	        {$this->get_function_prefix()}startSlider();
+	        {$this->build_js_function_prefix()}startSlider();
         }
         {$this->build_js_busy_icon_hide()}
         $('#{$this->get_id()}').data('loading', 0);
@@ -216,7 +216,7 @@ JS;
 	}
 	
 	public function build_js_refresh($keep_pagination_position = false){
-		return $this->get_function_prefix() . "load();";
+		return $this->build_js_function_prefix() . "load();";
 	}
 	
 	public function generate_headers(){

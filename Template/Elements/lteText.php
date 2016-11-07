@@ -39,7 +39,7 @@ class lteText extends lteAbstractElement {
 	
 	public function build_html_wrapper($inner_html){
 		$output = '
-					<div class="exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->get_hint() . '">
+					<div class="exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->build_hint_text() . '">
 							' . $inner_html . '
 					</div>';
 		return $output;

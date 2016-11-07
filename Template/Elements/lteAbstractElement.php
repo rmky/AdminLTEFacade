@@ -5,22 +5,6 @@ use exface\AdminLteTemplate\Template\AdminLteTemplate;
 
 abstract class lteAbstractElement extends AbstractJqueryElement {
 	
-	private $icon_classes = array(
-			'edit' => 'fa fa-pencil-square-o',
-			'remove' => 'fa fa-times',
-			'add' => 'fa fa-plus',
-			'save' => 'fa fa-check',
-			'cancel' => 'fa fa-times',
-			'relaod' => 'fa fa-refresh',
-			'copy' => 'fa fa-files-o',
-			'more' => 'fa fa-ellipsis-h',
-			'link' => 'fa fa-external-link',
-			'barcode' => 'fa fa-barcode',
-			'back' => 'fa fa-arrow-left',
-			'camera' => 'fa fa-camera',
-			'search' => 'fa fa-search'
-	);
-	
 	public function build_js_init_options(){
 		return '';
 	}
@@ -116,13 +100,5 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 		$data['footer'] = $data_sheet->get_totals_rows();
 		return $data;
 	} 
-
-	public function get_icon_class($exf_icon_name){
-	if ($this->icon_classes[$exf_icon_name]){
-			return $this->icon_classes[$exf_icon_name];
-		} else {
-			return $exf_icon_name;
-		}
-	}
 }
 ?>

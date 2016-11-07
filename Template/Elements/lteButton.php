@@ -74,7 +74,7 @@ class lteButton extends lteAbstractElement {
 		$widget = $this->get_widget();
 		
 		// In any case, create a button
-		$icon_classes = ($widget->get_icon_name() && !$widget->get_hide_button_icon() ? ' ' . $this->get_icon_class($widget->get_icon_name()) : '');
+		$icon_classes = ($widget->get_icon_name() && !$widget->get_hide_button_icon() ? ' ' . $this->build_css_icon_class($widget->get_icon_name()) : '');
 		$hidden_class = ($widget->is_hidden() ? ' exfHidden' : '');
 		$output .= '
 				<button id="' . $this->get_id() . '" type="button" class="btn ' . ($widget->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? 'btn-primary ' : 'btn-default ') . $hidden_class . '" onclick="' . $this->build_js_click_function_name() . '();">

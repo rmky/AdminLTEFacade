@@ -23,7 +23,7 @@ class lteInput extends lteAbstractElement {
 	
 	public function build_html_wrapper($inner_html){
 		$output = '
-					<div class="fitem exf_input exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->get_hint() . '">
+					<div class="fitem exf_input exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->build_hint_text() . '">
 							' . $inner_html . '
 					</div>';
 		return $output;

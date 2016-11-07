@@ -249,7 +249,7 @@ $(document).ready(function() {
 		itemSelector: '.exf_grid_item'
 	});
 	
-	{$this->get_function_prefix()}load();
+	{$this->build_js_function_prefix()}load();
 	
 	{$this->build_js_pagination()}
 	
@@ -275,7 +275,7 @@ $(document).ready(function() {
 	
 });
 
-function {$this->get_function_prefix()}getSelection(){
+function {$this->build_js_function_prefix()}getSelection(){
 	var data = [];
 	var row = {};
 	$('#{$this->get_id()} .box.selected .datalist-value').each(function(index, element){
@@ -286,7 +286,7 @@ function {$this->get_function_prefix()}getSelection(){
 	return data;
 }
 
-function {$this->get_function_prefix()}load(replace_data){
+function {$this->build_js_function_prefix()}load(replace_data){
 	if ($('#{$this->get_id()}').data('loading')) return;
 	{$this->build_js_busy_icon_show()}
 	$('#{$this->get_id()}').data('loading', 1);
@@ -366,7 +366,7 @@ JS;
 	}
 	
 	public function build_js_refresh($keep_pagination_position = false){
-		return $this->get_function_prefix() . "load();";
+		return $this->build_js_function_prefix() . "load();";
 	}
 	
 	public function generate_headers(){
@@ -379,7 +379,7 @@ JS;
 		if (is_null($action)){
 			// TODO
 		} else {
-			$rows = $this->get_function_prefix() . "getSelection()";
+			$rows = $this->build_js_function_prefix() . "getSelection()";
 		}
 		return parent::build_js_data_getter($action, "data.rows = " . $rows . ";");
 	}

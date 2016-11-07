@@ -34,7 +34,7 @@ class lteEditMatrix extends lteDataMatrix {
 			$output .= '<div id="' . $this->get_toolbar_id() . '" class="datagrid-toolbar">';
 			if ($fltr_html){
 				$output .= $fltr_html . '
-							    <a style="float:right;margin:2px;" href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="' . $this->get_function_prefix() . 'doSearch()">Search</a>';
+							    <a style="float:right;margin:2px;" href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="' . $this->build_js_function_prefix() . 'doSearch()">Search</a>';
 			}
 			if ($button_html) {
 				$output .= '<div>' . $button_html . '</div>';

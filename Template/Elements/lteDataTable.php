@@ -227,7 +227,7 @@ JS;
 				$btn_element = $this->get_template()->get_element($button);
 				$buttons_js .= $btn_element->generate_js();
 				if (!$button->is_hidden() && (!$button->get_action() || $button->get_action()->get_input_rows_min() === 1)){
-					$icon = ($button->get_icon_name() ? '<i class=\'' . $btn_element->get_icon_class($button->get_icon_name()) . '\'></i> ' : '');
+					$icon = ($button->get_icon_name() ? '<i class=\'' . $btn_element->build_css_icon_class($button->get_icon_name()) . '\'></i> ' : '');
 					$context_menu_js .= '{text: "' . $icon . $button->get_caption() . '", action: function(e){e.preventDefault(); ' . $btn_element->build_js_click_function_name() . '();}}, ';
 				}
 			}

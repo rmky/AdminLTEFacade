@@ -15,7 +15,7 @@ HTML;
 	}
 	
 	public function build_js_data_getter(ActionInterface $action = null, $custom_body_js = null){
-		return parent::build_js_data_getter($action, "data.rows = " . $this->get_function_prefix() . "getData();");
+		return parent::build_js_data_getter($action, "data.rows = " . $this->build_js_function_prefix() . "getData();");
 	}
 	
 	public function generate_js(){
@@ -23,7 +23,7 @@ HTML;
 		/* @var $widget \exface\Core\Widgets\Box */
 		$widget = $this->get_widget();
 		
-		$data_getter_function = $this->get_function_prefix() . 'getData';
+		$data_getter_function = $this->build_js_function_prefix() . 'getData';
 		if ($widget->get_prefill_data()){
 			$prefill_uid = $widget->get_prefill_data()->get_cell_value($widget->get_meta_object()->get_uid_alias(), 0);
 		}

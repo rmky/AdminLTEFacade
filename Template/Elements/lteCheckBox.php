@@ -3,7 +3,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteCheckBox extends lteAbstractElement {
 	
 	function generate_html(){
-		$output = '	<div class="fitem exf_input checkbox exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->get_hint() . '">
+		$output = '	<div class="fitem exf_input checkbox exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->build_hint_text() . '">
 						<label>
 							<input type="checkbox" value="1" 
 									form="" 

@@ -91,7 +91,7 @@ HTML;
 		
 		// Create the function to process fetched data
 		$output .= '
-			function ' . $this->get_function_prefix() . 'plot(ds){
+			function ' . $this->build_js_function_prefix() . 'plot(ds){
 				';
 		
 		// Transform the input data to a flot dataset
@@ -258,13 +258,13 @@ HTML;
 				
 			// Loader function
 			$output .= '
-				function ' . $this->get_function_prefix() . 'load(urlParams){
+				function ' . $this->build_js_function_prefix() . 'load(urlParams){
 					' . $this->build_js_busy_icon_show() . '
 					if (!urlParams) urlParams = "";
 					var data = {};
 					' . $post_data . '
 						$.post("' . $this->get_ajax_url() . $url_params . '"+urlParams, data, function(data){
-							' . $this->get_function_prefix() . 'plot($.parseJSON(data));
+							' . $this->build_js_function_prefix() . 'plot($.parseJSON(data));
 							' . $this->build_js_busy_icon_hide() . '
 					});
 				}';
@@ -279,13 +279,13 @@ HTML;
 				}
 				// build JS for the search function
 				$output .= '
-						function ' .$this->get_function_prefix() . 'doSearch(){
-							' . $this->get_function_prefix() . "load(" . implode("+", $fltrs) . ');
+						function ' .$this->build_js_function_prefix() . 'doSearch(){
+							' . $this->build_js_function_prefix() . "load(" . implode("+", $fltrs) . ');
 						}';
 			}
 				
 			// Call the data loader to populate the Chart initially
-			$output .= $this->get_function_prefix() . 'load();';
+			$output .= $this->build_js_function_prefix() . 'load();';
 		}
 		
 		return $output;
@@ -424,7 +424,7 @@ HTML;
 		$output = '';
 		if ($link = $this->get_widget()->get_data_widget_link()){
 			$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
-			$output .= $this->get_function_prefix() . 'plot(' . $linked_element->build_js_data_getter() . ".rows);";
+			$output .= $this->build_js_function_prefix() . 'plot(' . $linked_element->build_js_data_getter() . ".rows);";
 		}
 		return $output;
 	}
@@ -508,7 +508,7 @@ HTML;
 			</div>
 			<div class="modal-footer">
 				<button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left">Cancel</button>
-				<button type="button" href="#" data-dismiss="modal" class="btn btn-primary" onclick="{$this->get_function_prefix()}doSearch();">OK</button>
+				<button type="button" href="#" data-dismiss="modal" class="btn btn-primary" onclick="{$this->build_js_function_prefix()}doSearch();">OK</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -526,7 +526,7 @@ HTML;
 		<h3 class="box-title">$table_caption</h3>
 		<div class="box-tools pull-right">
 			<button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#{$this->get_id()}_popup_config"><i class="fa fa-filter"></i></button>
-			<button type="button" class="btn btn-box-tool" onclick="{$this->get_function_prefix()}doSearch(); return false;"><i class="fa fa-refresh"></i></button>
+			<button type="button" class="btn btn-box-tool" onclick="{$this->build_js_function_prefix()}doSearch(); return false;"><i class="fa fa-refresh"></i></button>
 		</div>
 			
 HTML;
