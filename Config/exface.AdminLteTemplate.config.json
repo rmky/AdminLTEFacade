@@ -21,5 +21,7 @@
 	"ICON_CLASSES.BARCODE": "fa fa-barcode",
 	"ICON_CLASSES.BACK": "fa fa-arrow-left",
 	"ICON_CLASSES.CAMERA": "fa fa-camera",
-	"ICON_CLASSES.SEARCH": "fa fa-search"
+	"ICON_CLASSES.SEARCH": "fa fa-search",
+	"ICON_CLASSES.STAR": "fa fa-star",
+	"ICON_CLASSES.PIN": "fa fa-thumb-tack"
 }
