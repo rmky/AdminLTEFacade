@@ -89,11 +89,11 @@ class lteButton extends lteAbstractElement {
 		// The problem is, we would have to fetch the page via AJAX and insert it into the DOM, which
 		// would probably mean, that we have to take care of removing it ourselves (to save memory)...
 		return $this->build_js_request_data_collector($action, $input_element) . "
-					$('#" . $this->get_id($action->get_dialog_widget()->get_id()) . "').find('.modal-body').load(
+					$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').find('.modal-body').load(
 							'" . $this->get_ajax_url() . "&resource=".$widget->get_page_id()."&element=".$widget->get_id()."&action=".$widget->get_action_alias()."&data=' + encodeURIComponent(JSON.stringify(requestData)));
-					$('#" . $this->get_id($action->get_dialog_widget()->get_id()) . "').modal('show');
+					$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').modal('show');
 					" // Make sure, the input widget of the button is always refreshed, once the dialog is closed again
-		. ($this->build_js_input_refresh($widget, $input_element) ? "$('#" . $this->get_id($action->get_dialog_widget()->get_id()) . "').one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "");
+		. ($this->build_js_input_refresh($widget, $input_element) ? "$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "");
 	}
 
 	protected function build_js_close_dialog($widget, $input_element){
