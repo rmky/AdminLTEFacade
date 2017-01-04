@@ -49,5 +49,14 @@ HTML;
 	
 		return $output;
 	}
+	
+	function generate_js(){
+		$output = "
+				$('#" . $this->get_id() . "').masonry({columnWidth: '#" . $this->get_id() . "_sizer', itemSelector: '#" . $this->get_id() . " > .exf_grid_item'});
+				$('#" . $this->get_id() . "').children('.exf_grid_item').on('resize', function(event){ $('#" . $this->get_id() . "').masonry('layout'); });
+				";
+	
+		return $output . $this->build_js_for_children();
+	}
 }
 ?>

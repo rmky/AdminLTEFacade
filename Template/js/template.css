@@ -21,6 +21,9 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 .datalist-value {margin: 2px 5px;}
 .exf-datalist .placeholder {padding: 8px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;}
 
+/* Inputs */
+.exface_inputgroup {border-width: 1px 0 0 0; padding: 10px 0 20px 0;}
+
 /* sortable */
 body.dragging, body.dragging * {
 	cursor: move !important;
