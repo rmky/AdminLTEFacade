@@ -10,13 +10,18 @@ class AdminLteTemplate extends AbstractAjaxTemplate {
 		$this->set_class_namespace(__NAMESPACE__);
 	}
 	
-	public function process_request($resource_id=NULL, $widget_id=NULL, $action_alias=NULL){
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see \exface\AbstractAjaxTemplate\Template\AbstractAjaxTemplate::process_request($page_id, $widget_id, $action_alias, $page_id=NULL, $widget_id=NULL, $action_alias=NULL, $disable_error_handling=false)
+	 */
+	public function process_request($page_id=NULL, $widget_id=NULL, $action_alias=NULL, $disable_error_handling=false){
 		$this->request_columns = $this->get_workbench()->get_request_params()['columns'];
 		$this->get_workbench()->remove_request_param('columns');
 		$this->get_workbench()->remove_request_param('search');
 		$this->get_workbench()->remove_request_param('draw');
 		$this->get_workbench()->remove_request_param('_');
-		return parent::process_request($resource_id, $widget_id, $action_alias);
+		return parent::process_request($page_id, $widget_id, $action_alias);
 	}
 	
 	public function get_request_paging_offset(){
