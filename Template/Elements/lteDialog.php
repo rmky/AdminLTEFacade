@@ -1,13 +1,13 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
-class lteDialog extends ltePanel {
+class lteDialog extends lteForm {
 	
 	function generate_js(){
 		$output = '';
 		if (!$this->get_widget()->get_lazy_loading()){
 			$output .= $this->build_js_for_widgets();
 		}
-		$output .= $this->generate_buttons_js();
+		$output .= $this->build_js_buttons();
 		return $output;
 	}
 	
@@ -27,7 +27,7 @@ class lteDialog extends ltePanel {
 				{$this->build_html_for_widgets()}
 			</div>
 			<div class="modal-footer">
-				{$this->generate_buttons_html()}
+				{$this->build_html_buttons()}
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

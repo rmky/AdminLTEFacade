@@ -29,5 +29,23 @@ class lteForm extends ltePanel {
 	public function set_method($value) {
 		$this->method = $value;
 	}
+	
+	function build_html_buttons(){
+		$output = '';
+		foreach ($this->get_widget()->get_buttons() as $btn){
+			$output .= $this->get_template()->generate_html($btn);
+		}
+	
+		return $output;
+	}
+	
+	function build_js_buttons(){
+		$output = '';
+		foreach ($this->get_widget()->get_buttons() as $btn){
+			$output .= $this->get_template()->generate_js($btn);
+		}
+	
+		return $output;
+	}
 }
 ?>
