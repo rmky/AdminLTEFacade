@@ -11,14 +11,18 @@ class lteComboTable extends lteInput {
 
 	function generate_html(){
 		$output = '	<div class="fitem exf_input" title="' . $this->build_hint_text() . '">
-						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
+						<label ' . ($this->get_widget()->is_required() ? 'class="required"' : '') . '
+								for="' . $this->get_id() . '">
+							' . $this->get_widget()->get_caption() . '
+						</label>
 						<input type="hidden"
 								id="' . $this->get_id() . '" 
 								name="' . $this->get_widget()->get_attribute_alias() . '"
 								value="' . $this->escape_string($this->get_value_with_defaults()) . '" />
 						<input class="form-control"
 								id="' . $this->get_id() . '_ms"
-								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '/>
+								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '
+								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
 					</div>';
 		return $output;
 	}

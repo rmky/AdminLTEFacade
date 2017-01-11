@@ -46,10 +46,10 @@ HTML;
 	function generate_js(){
 		$output = '';
 		foreach ($this->get_widget()->get_buttons() as $b){
-			if ($click = $b->build_js_click_function()) {
+			if ($js_click_function = $this->get_template()->get_element($b)->build_js_click_function()) {
 				$output .= "
 					function " . $this->build_js_button_function_name($b) . "(){
-						" . $b->build_js_click_function() . "
+						" . $js_click_function . "
 					}
 					";
 			}
