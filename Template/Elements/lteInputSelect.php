@@ -12,10 +12,7 @@ class lteInputSelect extends lteInput {
 		}
 		
 		$output = '
-						<label ' . ($this->get_widget()->is_required() ? 'class="required"' : '') . '
-								for="' . $this->get_id() . '">
-							' . $this->get_widget()->get_caption() . '
-						</label>
+						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
 						<select class="form-control"
 								name="' . $this->get_widget()->get_attribute_alias() . '"
 								value="' . $this->escape_string($this->get_value_with_defaults()) . '"

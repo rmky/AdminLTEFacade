@@ -1,6 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Widgets\Button;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryButtonTrait;
 /**
  * generates jQuery Mobile buttons for ExFace
  * @author Andrej Kabachnik
@@ -8,6 +9,8 @@ use exface\Core\Widgets\Button;
  */
 class lteMenuButton extends lteAbstractElement {
 
+	use JqueryButtonTrait;
+	
 	/**
 	 * @see \exface\Templates\jeasyui\Widgets\abstractWidget::generate_html()
 	 */

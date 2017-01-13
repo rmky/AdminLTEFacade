@@ -11,10 +11,7 @@ class lteComboTable extends lteInput {
 
 	function generate_html(){
 		$output = '	<div class="fitem exf_input" title="' . $this->build_hint_text() . '">
-						<label ' . ($this->get_widget()->is_required() ? 'class="required"' : '') . '
-								for="' . $this->get_id() . '">
-							' . $this->get_widget()->get_caption() . '
-						</label>
+						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
 						<input type="hidden"
 								id="' . $this->get_id() . '" 
 								name="' . $this->get_widget()->get_attribute_alias() . '"

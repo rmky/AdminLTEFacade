@@ -9,10 +9,7 @@ class lteInput extends lteAbstractElement {
 	
 	function generate_html(){
 		$output = '
-						<label ' . ($this->get_widget()->is_required() ? 'class="required"' : '') . '
-								for="' . $this->get_id() . '">
-							' . $this->get_widget()->get_caption() . '
-						</label>
+						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
 						<input class="form-control"
 								type="' . $this->get_element_type() . '"
 								name="' . $this->get_widget()->get_attribute_alias() . '" 
