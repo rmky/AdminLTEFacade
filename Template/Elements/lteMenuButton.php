@@ -1,6 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Widgets\Button;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryButtonTrait;
 /**
  * generates jQuery Mobile buttons for ExFace
  * @author Andrej Kabachnik
@@ -8,6 +9,8 @@ use exface\Core\Widgets\Button;
  */
 class lteMenuButton extends lteAbstractElement {
 
+	use JqueryButtonTrait;
+	
 	/**
 	 * @see \exface\Templates\jeasyui\Widgets\abstractWidget::generate_html()
 	 */
@@ -46,10 +49,10 @@ HTML;
 	function generate_js(){
 		$output = '';
 		foreach ($this->get_widget()->get_buttons() as $b){
-			if ($click = $b->build_js_click_function()) {
+			if ($js_click_function = $this->get_template()->get_element($b)->build_js_click_function()) {
 				$output .= "
 					function " . $this->build_js_button_function_name($b) . "(){
-						" . $b->build_js_click_function() . "
+						" . $js_click_function . "
 					}
 					";
 			}

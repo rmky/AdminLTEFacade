@@ -17,7 +17,7 @@ class lteDataMatrix extends lteDataTable {
 	}
 	
 	function generate_html(){
-		$rows_html = $this->render_data_source();
+		$rows_html = $this->build_js_data_source();
 		$headers = array();
 		foreach ($this->get_widget()->get_columns() as $col){
 			if ($col->get_id() == $this->get_widget()->get_data_column_id()){
@@ -48,9 +48,9 @@ class lteDataMatrix extends lteDataTable {
 	 * This special data source renderer fetches data according to the filters an reorganizes the rows and column to fit the matrix.
 	 * It basically transposes the data column (data_column_id) using values of the label column (label_column_id) as new column headers.
 	 * The other columns remain untouched.
-	 * @see \exface\Templates\jeasyui\Widgets\grid::render_data_source()
+	 * @see \exface\Templates\jeasyui\Widgets\grid::build_js_data_source()
 	 */
-	public function render_data_source(){
+	public function build_js_data_source(){
 		global $exface;
 		/* @var $widget \exface\Core\Widgets\DataMatrix */
 		$widget = $this->get_widget();
