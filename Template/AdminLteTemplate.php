@@ -53,7 +53,7 @@ class AdminLteTemplate extends AbstractAjaxTemplate {
 			$this->get_workbench()->remove_request_param('order');
 
 			foreach ($sorters as $sorter){
-				if ($sorter['column']){
+				if (!is_null($sorter['column'])){ //sonst wird nicht nach der 0. Spalte sortiert (0 == false)
 					if ($sort_attr = $this->request_columns[$sorter['column']]['data']){
 						$this->request_sorting_sort_by .= ($this->request_sorting_sort_by ? ',' : '') . $sort_attr;
 						$this->request_sorting_direction .= ($this->request_sorting_direction ? ',' : '') . $sorter['dir'];
