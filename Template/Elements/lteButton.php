@@ -76,8 +76,10 @@ class lteButton extends lteAbstractElement {
 		// In any case, create a button
 		$icon_classes = ($widget->get_icon_name() && !$widget->get_hide_button_icon() ? ' ' . $this->build_css_icon_class($widget->get_icon_name()) : '');
 		$hidden_class = ($widget->is_hidden() ? ' exfHidden' : '');
+		$disabled_class = $widget->is_disabled() ? ' disabled' : '';
+		$align_class = $this->get_align_class();
 		$output .= '
-				<button id="' . $this->get_id() . '" type="button" class="btn ' . ($widget->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? 'btn-primary ' : 'btn-default ') . $hidden_class . '" onclick="' . $this->build_js_click_function_name() . '();">
+				<button id="' . $this->get_id() . '" type="button" class="btn ' . ($widget->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? 'btn-primary ' : 'btn-default ') . $hidden_class . $disabled_class . $align_class . '" onclick="' . $this->build_js_click_function_name() . '();">
 						<i class="' . $icon_classes . '"></i> ' . ($widget->get_caption() && !$widget->get_hide_button_text() ? $widget->get_caption() : '') . '
 				</button>';
 		return $output;
@@ -114,5 +116,12 @@ class lteButton extends lteAbstractElement {
 		return $output;
 	}
 	
+	function get_align_class() {
+		$align = $this->get_widget()->get_align();
+		if ($align == 'left') { $align_class = ' pull-left'; }
+		elseif ($align == 'right') { $align_class = ' pull-right'; }
+		else { $align_class = ''; }
+		return $align_class;
+	}
 }
 ?>

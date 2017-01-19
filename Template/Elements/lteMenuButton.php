@@ -27,16 +27,26 @@ class lteMenuButton extends lteAbstractElement {
 				}
 			}
 			// In any case, create a menu entry
-			$buttons_html .= '<li><a data-target="#" onclick="' . $this->build_js_button_function_name($b) . '();"><i class="' . $this->build_css_icon_class($b->get_icon_name()) . '"></i>' . $b->get_caption() . '</a></li>';
+			$disabled_class = $b->is_disabled() ? 'disabled' : '';
+			$buttons_html .= '
+					<li' . ($b->is_disabled() ? ' class="disabled"' : '') . '>
+						<a data-target="#"' . ($b->is_disabled() ? '' : ' onclick="' . $this->build_js_button_function_name($b) . '();"') . '>
+							<i class="' . $this->build_css_icon_class($b->get_icon_name()) . '"></i>'
+												. $b->get_caption() . '
+						</a>
+					</li>';
 		}
 		$icon = ($this->get_widget()->get_icon_name() ? '<i class="' . $this->build_css_icon_class($this->get_widget()->get_icon_name()) . '"></i> ' : '');
+		$align_class = $this->get_align_class();
 		
 		$output .= <<<HTML
 
-<button type="button" class="btn btn-default" data-toggle="dropdown">{$icon}{$this->get_widget()->get_caption()}</button>
-<ul class="dropdown-menu" role="menu">
-	{$buttons_html}
-</ul>		
+<div class="btn-group{$align_class}">
+	<button type="button" class="btn btn-default" data-toggle="dropdown">{$icon}{$this->get_widget()->get_caption()}</button>
+	<ul class="dropdown-menu" role="menu">
+		{$buttons_html}
+	</ul>
+</div>
 HTML;
 		
 		return $output;
@@ -62,6 +72,14 @@ HTML;
 	
 	function build_js_button_function_name(Button $button){
 		return $this->get_template()->get_element($button)->build_js_click_function_name();
+	}
+	
+	function get_align_class() {
+		$align = $this->get_widget()->get_align();
+		if ($align == 'left') { $align_class = ' pull-left'; }
+		elseif ($align == 'right') { $align_class = ' pull-right'; }
+		else { $align_class = ''; }
+		return $align_class;
 	}
 }
 ?>
