@@ -10,6 +10,7 @@ class lteInput extends lteAbstractElement {
 	function generate_html(){
 		$output = '
 						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
+						' . ($this->get_widget()->is_required() ? '<div class="required">' : '') . '
 						<input class="form-control"
 								type="' . $this->get_element_type() . '"
 								name="' . $this->get_widget()->get_attribute_alias() . '" 
@@ -17,6 +18,7 @@ class lteInput extends lteAbstractElement {
 								id="' . $this->get_id() . '"  
 								' . ($this->get_widget()->is_required() ? 'required="true" ' : '') . '
 								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
+						' . ($this->get_widget()->is_required() ? '</div>' : '') . '
 					';
 		return $this->build_html_wrapper($output);
 	}

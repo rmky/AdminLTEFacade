@@ -119,8 +119,8 @@ class lteButton extends lteAbstractElement {
 	function get_align_class() {
 		$align = $this->get_widget()->get_align();
 		if ($align == 'left') { $align_class = ' pull-left'; }
-		elseif ($align == 'right') { $align_class = ' pull-right'; }
-		else { $align_class = ''; }
+			elseif ($align == 'right') { $align_class = ' pull-right'; }
+			else { $align_class = ''; }
 		return $align_class;
 	}
 }
