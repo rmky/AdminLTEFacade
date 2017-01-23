@@ -66,7 +66,7 @@ class lteInput extends lteAbstractElement {
 					};
 					
 					// checks if a value is set when the element is changed
-					$(\'#' .$this->get_id() . '\').on(\'input\', function() {
+					$(\'#' .$this->get_id() . '\').on(\'input change\', function() {
 						if (this.value) {
 							this.parentElement.classList.remove(\'invalid\');
 						} else {

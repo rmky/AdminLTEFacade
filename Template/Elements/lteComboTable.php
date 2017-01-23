@@ -80,7 +80,9 @@ $(document).ready(function() {
 });		
 JS;
 		
-		$output .= $this->build_js_required();
+		if ($widget->is_required()) {
+			$output .= $this->build_js_required();
+		}
 		
 		return $output;
 	}
