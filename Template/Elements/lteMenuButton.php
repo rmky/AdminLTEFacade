@@ -43,7 +43,7 @@ class lteMenuButton extends lteAbstractElement {
 		
 		$output .= <<<HTML
 
-<div class="btn-group{$align_class}">
+<div class="btn-group dropup{$align_class}">
 	<button type="button" class="btn{$button_class}" data-toggle="dropdown">{$icon}{$this->get_widget()->get_caption()}</button>
 	<ul class="dropdown-menu" role="menu">
 		{$buttons_html}

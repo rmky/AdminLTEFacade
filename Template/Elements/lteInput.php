@@ -10,7 +10,6 @@ class lteInput extends lteAbstractElement {
 	function generate_html(){
 		$output = '
 						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
-						' . ($this->get_widget()->is_required() ? '<div class="required">' : '') . '
 						<input class="form-control"
 								type="' . $this->get_element_type() . '"
 								name="' . $this->get_widget()->get_attribute_alias() . '" 
@@ -18,7 +17,6 @@ class lteInput extends lteAbstractElement {
 								id="' . $this->get_id() . '"  
 								' . ($this->get_widget()->is_required() ? 'required="true" ' : '') . '
 								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
-						' . ($this->get_widget()->is_required() ? '</div>' : '') . '
 					';
 		return $this->build_html_wrapper($output);
 	}
@@ -49,7 +47,34 @@ class lteInput extends lteAbstractElement {
 	}
 	
 	function generate_js(){
-		return '';
+		$output = '';
+		
+		if ($this->get_widget()->is_required()) {
+			$output .= $this->build_js_required();
+		}
+		
+		return $output;
+	}
+	
+	function build_js_required() {
+		$output = '
+					// checks if a value is set when the element is created
+					if ($(\'#' .$this->get_id() . '\')[0].value) {
+						$(\'#' .$this->get_id() . '\')[0].parentElement.classList.remove(\'invalid\');
+					} else {
+						$(\'#' .$this->get_id() . '\')[0].parentElement.classList.add(\'invalid\');
+					};
+					
+					// checks if a value is set when the element is changed
+					$(\'#' .$this->get_id() . '\').on(\'input\', function() {
+						if (this.value) {
+							this.parentElement.classList.remove(\'invalid\');
+						} else {
+							this.parentElement.classList.add(\'invalid\');
+						}
+					});';
+		
+		return $output;
 	}
 }
 ?>

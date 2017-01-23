@@ -16,12 +16,10 @@ class lteComboTable extends lteInput {
 								id="' . $this->get_id() . '" 
 								name="' . $this->get_widget()->get_attribute_alias() . '"
 								value="' . $this->escape_string($this->get_value_with_defaults()) . '" />
-						' . ($this->get_widget()->is_required() ? '<div class="required">' : '') . '
 						<input class="form-control"
 								id="' . $this->get_id() . '_ms"
 								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '
 								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
-						' . ($this->get_widget()->is_required() ? '</div>' : '') . '
 					</div>';
 		return $output;
 	}
@@ -73,7 +71,7 @@ $(document).ready(function() {
    {$initial_value_script}
     
     $(ms).on('selectionchange', function(e,m){
-	  $('#{$this->get_id()}').val(ms.getValue());
+	  $('#{$this->get_id()}').val(ms.getValue()).trigger('input');
 	});
 	  		
 	$(ms).on('load', function(e,ms){
@@ -81,6 +79,9 @@ $(document).ready(function() {
   	});
 });		
 JS;
+		
+		$output .= $this->build_js_required();
+		
 		return $output;
 	}
 	

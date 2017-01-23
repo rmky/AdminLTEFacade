@@ -23,7 +23,7 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 
 /* Inputs */
 .exface_inputgroup {border-width: 1px 0 0 0; padding: 10px 0 20px 0;}
-.required .form-control {
+.invalid .form-control {
 	border-color: #ffa8a8;
 	background-color: #fff3f3;
 }

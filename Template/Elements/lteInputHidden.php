@@ -10,4 +10,7 @@ class lteInputHidden extends lteInput {
 		return $output;
 	}
 
+	function generate_js() {
+		return '';
+	}
 }
