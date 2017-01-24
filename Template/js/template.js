@@ -5,7 +5,7 @@ $( document ).ready(function() {
 function pinnedObjectsRefresh(containerSelector, counterSelector){
 	$(containerSelector).empty();
 	$.post(
-		"exface/exface.php?exftpl=exface.JEasyUiTemplate&action=exface.Core.FavoritesFetch&resource=[~id~]", 
+		"exface/exface.php?exftpl=exface.JEasyUiTemplate&action=exface.Core.ObjectBasketFetch&resource=[~id~]", 
 		function( data ) {
 			pinnedObjectsMenu(data, containerSelector, counterSelector);
 		},
@@ -16,7 +16,7 @@ function pinnedObjectsRefresh(containerSelector, counterSelector){
 function pinnedObjectsRemoveObject(objectId, containerSelector, counterSelector){
 	$(containerSelector).empty();
 	$.post(
-		"exface/exface.php?exftpl=exface.JEasyUiTemplate&action=exface.Core.FavoritesRemove&object=" + objectId + "&resource=[~id~]", 
+		"exface/exface.php?exftpl=exface.JEasyUiTemplate&action=exface.Core.ObjectBasketRemove&object=" + objectId + "&resource=[~id~]", 
 		function( data ) {
 			pinnedObjectsMenu(data, containerSelector, counterSelector);
 		},
