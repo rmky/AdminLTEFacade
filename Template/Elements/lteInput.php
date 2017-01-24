@@ -30,18 +30,13 @@ class lteInput extends lteAbstractElement {
 	}
 	
 	public function get_value_with_defaults(){
-		$value = $this->get_widget()->get_value();
+		if ($this->get_widget()->get_value_expression() && $this->get_widget()->get_value_expression()->is_reference()){
+			$value = '';
+		} else {
+			$value = $this->get_widget()->get_value();
+		}
 		if (is_null($value) || $value === ''){
-			if (!$default_expr = $this->get_widget()->get_attribute()->get_fixed_value()){
-				$default_expr = $this->get_widget()->get_attribute()->get_default_value();
-			}
-			if ($default_expr){
-				if ($data_sheet = $this->get_widget()->get_prefill_data()){
-					$value = $default_expr->evaluate($data_sheet, $this->get_widget()->get_attribute()->get_alias(), 0);
-				} elseif ($default_expr->is_string()){
-					$value = $default_expr->get_raw_value();
-				}
-			}
+			$value = $this->get_widget()->get_default_value();
 		}
 		return $value;
 	}
