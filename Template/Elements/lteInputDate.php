@@ -49,6 +49,11 @@ class lteInputDate extends lteInput {
 					},
 					todayHighlight: true
 				});';
+		
+		if ($this->get_widget()->is_required()) {
+			$output .= $this->build_js_required();
+		}
+		
 		return $output;
 	}
 	

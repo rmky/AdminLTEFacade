@@ -17,14 +17,16 @@ class lteDialog extends lteForm {
 		
 		$output = <<<HTML
 <div class="modal" id="{$this->get_id()}">
-	<div class="modal-dialog">
+	<div class="modal-dialog" style="width:{$this->get_width()};">
 		<div class="modal-content">
 			<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">{$widget->get_caption()}</h4>
 			</div>
 			<div class="modal-body">
-				{$this->build_html_for_widgets()}
+				<div class="modal-body-content-wrapper">
+					{$this->build_html_for_widgets()}
+				</div>
 			</div>
 			<div class="modal-footer">
 				{$this->build_html_buttons()}
@@ -34,6 +36,13 @@ class lteDialog extends lteForm {
 </div><!-- /.modal -->
 HTML;
 		return $output;
+	}
+	
+	function get_width(){
+		if ($this->get_widget()->get_width()->is_undefined()){
+			$this->get_widget()->set_width((2 * $this->get_width_relative_unit() + 35) . 'px');
+		}
+		return parent::get_width();
 	}
 }
 ?>

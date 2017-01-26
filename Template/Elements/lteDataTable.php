@@ -301,7 +301,11 @@ $(document).ready(function() {
 			},
 			"error": function(result){
 				{$this->build_js_busy_icon_hide()}
-				swal('Server error '+result.status, 'Sorry, your request could not be processed correctly. Please contact an administrator!', 'error');},
+				swal('Server error '+result.status, 'Sorry, your request could not be processed correctly. Please contact an administrator!', 'error');
+			},
+			"complete": function() {
+				$(document).trigger("exface.Core.DataTable.Ajax.Complete", ["{$this->get_id()}"]);
+			}
 		},
 		"language": {
             "zeroRecords": "{$widget->get_text_empty()}"

@@ -71,7 +71,7 @@ $(document).ready(function() {
    {$initial_value_script}
     
     $(ms).on('selectionchange', function(e,m){
-	  $('#{$this->get_id()}').val(ms.getValue());
+	  $('#{$this->get_id()}').val(ms.getValue()).trigger('change');
 	});
 	  		
 	$(ms).on('load', function(e,ms){
@@ -79,6 +79,11 @@ $(document).ready(function() {
   	});
 });		
 JS;
+		
+		if ($widget->is_required()) {
+			$output .= $this->build_js_required();
+		}
+		
 		return $output;
 	}
 	

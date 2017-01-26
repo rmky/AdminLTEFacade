@@ -8,7 +8,7 @@ class lteInputSelect extends lteInput {
 		$options = '';
 		foreach ($widget->get_selectable_options() as $value => $text){
 			$options .= '
-					<option value="' . $value . '"' . ($this->get_value_with_defaults() === $value ? ' selected="selected"' : '') . '>' . $text . '</option>';
+					<option value="' . $value . '"' . ($this->get_value_with_defaults() == $value ? ' selected="selected"' : '') . '>' . $text . '</option>';
 		}
 		
 		$output = '

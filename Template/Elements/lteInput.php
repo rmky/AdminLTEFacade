@@ -30,7 +30,11 @@ class lteInput extends lteAbstractElement {
 	}
 	
 	public function get_value_with_defaults(){
-		$value = $this->get_widget()->get_value();
+		if ($this->get_widget()->get_value_expression() && $this->get_widget()->get_value_expression()->is_reference()){
+			$value = '';
+		} else {
+			$value = $this->get_widget()->get_value();
+		}
 		if (is_null($value) || $value === ''){
 			$value = $this->get_widget()->get_default_value();
 		}
@@ -38,7 +42,34 @@ class lteInput extends lteAbstractElement {
 	}
 	
 	function generate_js(){
-		return '';
+		$output = '';
+		
+		if ($this->get_widget()->is_required()) {
+			$output .= $this->build_js_required();
+		}
+		
+		return $output;
+	}
+	
+	function build_js_required() {
+		$output = '
+					// checks if a value is set when the element is created
+					if ($(\'#' .$this->get_id() . '\')[0].value) {
+						$(\'#' .$this->get_id() . '\')[0].parentElement.classList.remove(\'invalid\');
+					} else {
+						$(\'#' .$this->get_id() . '\')[0].parentElement.classList.add(\'invalid\');
+					};
+					
+					// checks if a value is set when the element is changed
+					$(\'#' .$this->get_id() . '\').on(\'input change\', function() {
+						if (this.value) {
+							this.parentElement.classList.remove(\'invalid\');
+						} else {
+							this.parentElement.classList.add(\'invalid\');
+						}
+					});';
+		
+		return $output;
 	}
 }
 ?>
