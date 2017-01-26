@@ -71,7 +71,7 @@ $(document).ready(function() {
    {$initial_value_script}
     
     $(ms).on('selectionchange', function(e,m){
-	  $('#{$this->get_id()}').val(ms.getValue()).trigger('input');
+	  $('#{$this->get_id()}').val(ms.getValue()).trigger('change');
 	});
 	  		
 	$(ms).on('load', function(e,ms){
