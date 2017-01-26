@@ -6,7 +6,7 @@ class lteBox extends lteForm {
 	
 	public function generate_html(){
 		$output = <<<HTML
-<div class="{$this->get_width_classes()} exf_grid_item" style="width:100%">
+<div class="{$this->get_width_classes()} exf_grid_item">
 	{$this->build_html_box()}
 </div>
 HTML;
