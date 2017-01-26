@@ -18,7 +18,8 @@ class lteComboTable extends lteInput {
 								value="' . $this->escape_string($this->get_value_with_defaults()) . '" />
 						<input class="form-control"
 								id="' . $this->get_id() . '_ms"
-								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '/>
+								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '
+								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
 					</div>';
 		return $output;
 	}

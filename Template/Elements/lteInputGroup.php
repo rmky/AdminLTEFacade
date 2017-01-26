@@ -14,7 +14,7 @@ class lteInputGroup extends ltePanel {
 	}
 	
 	public function generate_js() {
-		
+		return $this->build_js_for_children();
 	}
 }
 ?>
