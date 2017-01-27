@@ -5,7 +5,7 @@ $( document ).ready(function() {
 function pinnedObjectsRefresh(containerSelector, counterSelector){
 	$(containerSelector).empty();
 	$.post(
-		"exface/exface.php?exftpl=exface.JEasyUiTemplate&action=exface.Core.ObjectBasketFetch", 
+			pinnedObjectsBaseUrl() + "&action=exface.Core.ObjectBasketFetch", 
 		function( data ) {
 			pinnedObjectsMenu(data, containerSelector, counterSelector);
 		},
@@ -16,12 +16,16 @@ function pinnedObjectsRefresh(containerSelector, counterSelector){
 function pinnedObjectsRemoveObject(objectId, containerSelector, counterSelector){
 	$(containerSelector).empty();
 	$.post(
-		"exface/exface.php?exftpl=exface.JEasyUiTemplate&action=exface.Core.ObjectBasketRemove&object=" + objectId, 
+		pinnedObjectsBaseUrl() + "&action=exface.Core.ObjectBasketRemove&object=" + objectId, 
 		function( data ) {
 			pinnedObjectsMenu(data, containerSelector, counterSelector);
 		},
 		'json'
 	);
+}
+
+function pinnedObjectsBaseUrl(){
+	return "exface/exface.php?exftpl=exface.AdminLteTemplate&resource="+getPageId();
 }
 
 function pinnedObjectsMenu(data, containerSelector, counterSelector){
@@ -62,9 +66,9 @@ function pinnedObjectsModalShow(modalElement, data){
 					requestData.rows.push(data.instances[$(elem).val()]);
 				});
 				$.post(
-					"exface/exface.php?exftpl=exface.JEasyUiTemplate&action=exface.Core.ObjectBasketCallAction&object=" + data['object_id'] + "&basketAction=" + requestAction + "&data=" + JSON.stringify(requestData), 
+					pinnedObjectsBaseUrl() + "&action=exface.Core.ObjectBasketCallAction&object=" + data['object_id'] + "&basketAction=" + requestAction + "&data=" + JSON.stringify(requestData), 
 					function( data ) {
-						modalElement.find('.modal-body').empty().text(data);
+						modalElement.find('.modal-body').empty().append(data);
 					}
 				);
 			})
@@ -72,4 +76,8 @@ function pinnedObjectsModalShow(modalElement, data){
 		}
 	}
 	modalElement.modal('show');
+}
+
+function getPageId(){
+	return $("meta[name='page_id']").attr("content");
 }
