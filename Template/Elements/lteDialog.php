@@ -1,5 +1,14 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+
+use exface\Core\Widgets\Dialog;
+
+/**
+ * @method Dialog get_widget()
+ * 
+ * @author aka
+ *
+ */
 class lteDialog extends lteForm {
 	
 	function generate_js(){
@@ -12,8 +21,6 @@ class lteDialog extends lteForm {
 	}
 	
 	public function generate_html(){
-		/* @var $widget \exface\Core\Widgets\Dialog */
-		$widget = $this->get_widget();
 		
 		$output = <<<HTML
 <div class="modal" id="{$this->get_id()}">
@@ -21,7 +28,7 @@ class lteDialog extends lteForm {
 		<div class="modal-content">
 			<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">{$widget->get_caption()}</h4>
+				<h4 class="modal-title">{$this->get_widget()->get_caption()}</h4>
 			</div>
 			<div class="modal-body">
 				<div class="modal-body-content-wrapper">
