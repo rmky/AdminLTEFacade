@@ -1,5 +1,15 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+
+use exface\Core\Widgets\InputSelect;
+
+/**
+ * 
+ * @method InputSelect get_widget()
+ * 
+ * @author Andrej Kabachnik
+ *
+ */
 class lteInputSelect extends lteInput {
 	
 	function generate_html(){
@@ -18,7 +28,8 @@ class lteInputSelect extends lteInput {
 								value="' . $this->escape_string($this->get_value_with_defaults()) . '"
 								id="' . $this->get_id() . '"
 								' . ($this->get_widget()->is_required() ? 'required="true" ' : '') . '
-								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '>
+								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '
+								' . ($this->get_widget()->get_multi_select() ? 'multiple' : '') . '>
 							' . $options . '
 						</select>
 					';
