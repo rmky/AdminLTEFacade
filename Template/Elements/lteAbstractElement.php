@@ -27,7 +27,9 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_error_message()
 	 */
 	public function build_js_show_error_message($message_body_js, $title = null){
-		return "swal('" . ($title ? $title : 'Error') . "', " . $message_body_js . ", 'error');";
+		return '
+			swal({html:true, title:' . ($title ? $title : '"Error"') . ', text:' . $message_body_js . '});
+			$(document).trigger("exface.AdminLteTemplate.SweetAlert.Complete");';
 	}
 	
 	/**
