@@ -260,12 +260,20 @@ HTML;
 			$output .= '
 				function ' . $this->build_js_function_prefix() . 'load(urlParams){
 					' . $this->build_js_busy_icon_show() . '
-					if (!urlParams) urlParams = "";
 					var data = {};
 					' . $post_data . '
-						$.post("' . $this->get_ajax_url() . $url_params . '"+urlParams, data, function(data){
+					if (!urlParams) urlParams = "";
+					$.ajax({
+						url: "' . $this->get_ajax_url() . $url_params . '"+urlParams,
+						data: data,
+						success: function(data){
 							' . $this->build_js_function_prefix() . 'plot($.parseJSON(data));
 							' . $this->build_js_busy_icon_hide() . '
+						},
+						error: function(jqXHR, textStatus, errorThrown){
+							' . $this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText') . '
+							' . $this->build_js_busy_icon_hide() . '
+						}
 					});
 				}';
 				
