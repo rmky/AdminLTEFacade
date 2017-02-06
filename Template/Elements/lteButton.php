@@ -94,7 +94,7 @@ class lteButton extends lteAbstractElement {
 		return $this->build_js_request_data_collector($action, $input_element) . "
 					$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').find('.modal-body .modal-body-content-wrapper').load(
 							'" . $this->get_ajax_url() . "&resource=".$widget->get_page_id()."&element=".$widget->get_id()."&action=".$widget->get_action_alias()."&data=' + encodeURIComponent(JSON.stringify(requestData)),
-							function() { $(document).trigger('exface.Core.Dialog.complete', ['" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "']) });
+							function() { $(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "']) });
 					$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').modal('show');
 					" // Make sure, the input widget of the button is always refreshed, once the dialog is closed again
 		. ($this->build_js_input_refresh($widget, $input_element) ? "$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "");

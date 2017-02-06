@@ -492,18 +492,20 @@ HTML;
 				<h4 class="modal-title">Table settings</h4>
 			</div>
 			<div class="modal-body">
-				<div role="tabpanel">
-	
-					<!-- Nav tabs -->
-					<ul class="nav nav-tabs" role="tablist">
-						<li role="presentation" class="active"><a href="#{$this->get_id()}_popup_filters" aria-controls="{$this->get_id()}_popup_filters" role="tab" data-toggle="tab">Filters</a></li>
-					</ul>
-					
-					<!-- Tab panes -->
-					<div class="tab-content">
-						<div role="tabpanel" class="tab-pane active" id="{$this->get_id()}_popup_filters">{$filters_html}</div>
+				<div class="modal-body-content-wrapper">
+					<div role="tabpanel">
+		
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#{$this->get_id()}_popup_filters" aria-controls="{$this->get_id()}_popup_filters" role="tab" data-toggle="tab">Filters</a></li>
+						</ul>
+						
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="{$this->get_id()}_popup_filters">{$filters_html}</div>
+						</div>
+				
 					</div>
-			
 				</div>
 			</div>
 			<div class="modal-footer">
