@@ -35,6 +35,17 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 	/**
 	 *
 	 * {@inheritDoc}
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_error()
+	 */
+	public function build_js_show_error($message_body_js, $title = null){
+		return '
+			adminlteCreateDialog($("body"), "error", ' . ($title ? $title : '"' . $this->translate('MESSAGE.ERROR_TITLE') . '"') . ', ' . $message_body_js . ');
+			';
+	}
+	
+	/**
+	 *
+	 * {@inheritDoc}
 	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_message_success()
 	 */
 	public function build_js_show_message_success($message_body_js, $title = null){

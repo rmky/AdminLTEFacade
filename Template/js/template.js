@@ -81,3 +81,22 @@ function pinnedObjectsModalShow(modalElement, data){
 function getPageId(){
 	return $("meta[name='page_id']").attr("content");
 }
+
+function adminlteCreateDialog(parentElement, id, title, content){
+	var dialog = $(' \
+		<div class="modal" id="'+id+'"> \
+			<div class="modal-dialog"> \
+				<div class="modal-content"> \
+					<div class="modal-header"> \
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> \
+						<h4 class="modal-title">'+title+'</h4> \
+					</div> \
+					<div class="modal-body"> \
+						' + content + ' \
+					</div> \
+				</div><!-- /.modal-content --> \
+			</div><!-- /.modal-dialog --> \
+		</div><!-- /.modal -->').resize();
+	parentElement.append(dialog);
+	$('#'+id).modal('show');
+}

@@ -21,8 +21,9 @@ class lteDialog extends lteForm {
 	}
 	
 	public function generate_html(){
-		
-		$output = <<<HTML
+		$output = '';
+		if (!$this->get_widget()->get_lazy_loading()){
+			$output = <<<HTML
 <div class="modal" id="{$this->get_id()}">
 	<div class="modal-dialog" style="width:{$this->get_width()};">
 		<div class="modal-content">
@@ -42,6 +43,7 @@ class lteDialog extends lteForm {
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 HTML;
+		}
 		return $output;
 	}
 	
