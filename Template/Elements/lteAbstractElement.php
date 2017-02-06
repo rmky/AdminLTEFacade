@@ -24,20 +24,20 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 	/**
 	 *
 	 * {@inheritDoc}
-	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_error_message()
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_message_error()
 	 */
-	public function build_js_show_error_message($message_body_js, $title = null){
+	public function build_js_show_message_error($message_body_js, $title = null){
 		return '
-			swal({html:true, title:' . ($title ? $title : '"Error"') . ', text:' . $message_body_js . '});
+			swal({html:true, title:' . ($title ? $title : '"' . $this->translate('MESSAGE.ERROR_TITLE') . '"') . ', text:' . $message_body_js . '});
 			$(document).trigger("exface.AdminLteTemplate.SweetAlert.Complete");';
 	}
 	
 	/**
 	 *
 	 * {@inheritDoc}
-	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_success_message()
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_message_success()
 	 */
-	public function build_js_show_success_message($message_body_js, $title = null){
+	public function build_js_show_message_success($message_body_js, $title = null){
 		// TODO use some library to show toast notificactions
 		return '';
 	}
