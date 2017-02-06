@@ -4,6 +4,7 @@
 
 /* Bootstrap customization */
 ul.dropdown-menu li {padding: 4px 0;}
+.modal .tab-content>.tab-pane {height: initial !important;}
 
 /* DataTables customization */
 .dataTable .detailRow table {width:initial; margin: initial;}

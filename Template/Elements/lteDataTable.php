@@ -299,9 +299,9 @@ $(document).ready(function() {
 					//$('#{$this->get_id()}_quickSearch_form .filter-labels').empty();
 				}
 			},
-			"error": function(result){
+			"error": function(jqXHR, textStatus, errorThrown ){
 				{$this->build_js_busy_icon_hide()}
-				swal('Server error '+result.status, 'Sorry, your request could not be processed correctly. Please contact an administrator!', 'error');
+				{$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
 			}
 		},
 		"language": {
