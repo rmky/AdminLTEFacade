@@ -12,7 +12,7 @@ use exface\Core\Widgets\InputSelect;
  */
 class lteInputSelect extends lteInput {
 	
-	function generate_html(){
+	public function generate_html(){
 		/* @var $widget \exface\Core\Widgets\InputSelect */
 		$widget = $this->get_widget();
 		$options = '';

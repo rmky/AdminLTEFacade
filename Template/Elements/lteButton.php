@@ -7,7 +7,8 @@ use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
 use exface\Core\Widgets\Button;
 
 /**
- * generates jQuery Mobile buttons for ExFace
+ * Generates jQuery Mobile buttons for ExFace
+ * 
  * @author Andrej Kabachnik
  *
  */
