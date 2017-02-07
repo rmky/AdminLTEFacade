@@ -5,6 +5,7 @@
 /* Bootstrap customization */
 ul.dropdown-menu li {padding: 4px 0;}
 .modal .tab-content>.tab-pane {height: initial !important;}
+.exf_input>.form-group {margin-bottom: initial;}
 
 /* DataTables customization */
 .dataTable .detailRow table {width:initial; margin: initial;}
@@ -181,3 +182,7 @@ ol li.highlight i.icon-move {}
 	height: calc(100vh - 260px);
 	overflow: auto;
 }
+
+/* Symfony Debugger */
+#sf-resetcontent h1 {display: none;} 
+h2.block_exception.clear_fix {margin: 0}

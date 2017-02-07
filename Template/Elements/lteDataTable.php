@@ -260,7 +260,14 @@ JS;
 var {$this->get_id()}_table;
 $.fn.dataTable.ext.errMode = 'throw';
 
+/*
 $(document).ready(function() {
+	{$this->build_js_function_prefix()}Init();
+});
+*/
+{$this->build_js_function_prefix()}Init();
+
+function {$this->build_js_function_prefix()}Init(){
 	
 	if ({$this->get_id()}_table && $.fn.DataTable.isDataTable( '#{$this->get_id()}' )) {
 		{$this->get_id()}_table.columns.adjust();
@@ -279,31 +286,7 @@ $(document).ready(function() {
 		{$paging_options}
 		"scrollX": true,
 		"scrollXollapse": true,
-		"ajax": {
-			"url": "{$this->get_ajax_url()}",
-			"type": "POST",
-			"data": function ( d ) {
-				{$this->build_js_busy_icon_show()}
-				var filtersOn = false;
-				d.action = '{$widget->get_lazy_loading_action()}';
-				d.resource = "{$this->get_page_id()}";
-				d.element = "{$widget->get_id()}";
-				d.object = "{$this->get_widget()->get_meta_object()->get_id()}";
-				{$filters_ajax}
-				
-				if (filtersOn){
-					$('#{$this->get_id()}_quickSearch_form .btn-advanced-filtering').removeClass('btn-default').addClass('btn-info');
-					//$('#{$this->get_id()}_quickSearch_form .filter-labels').append('<span class="label label-info">Primary</span>');
-				} else {
-					$('#{$this->get_id()}_quickSearch_form .btn-advanced-filtering').removeClass('btn-info').addClass('btn-default');
-					//$('#{$this->get_id()}_quickSearch_form .filter-labels').empty();
-				}
-			},
-			"error": function(jqXHR, textStatus, errorThrown ){
-				{$this->build_js_busy_icon_hide()}
-				{$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
-			}
-		},
+		{$this->build_js_data_source($filters_ajax)}
 		"language": {
             "zeroRecords": "{$widget->get_text_empty()}"
         },
@@ -316,8 +299,10 @@ $(document).ready(function() {
 			});
 			$('#{$this->get_id()}').closest('.exf_grid_item').trigger('resize');
 			context.attach('#{$this->get_id()} tbody tr', [{$context_menu_js}]);
-			{$this->get_id()}_drawPagination();
-			{$this->get_id()}_table.columns.adjust();
+			if({$this->get_id()}_table){
+				{$this->get_id()}_drawPagination();
+				{$this->get_id()}_table.columns.adjust();
+			}
 			{$this->build_js_disable_text_selection()}
 			{$this->build_js_busy_icon_hide()}
 		}
@@ -346,7 +331,7 @@ $(document).ready(function() {
 	
 	$('#{$this->get_id()}_popup_columnList').sortable();
 	context.init({preventDoubleContext: false});
-});
+}
 	
 function setColumnVisibility(name, visible){
 	{$this->get_id()}_table.column(name+':name').visible(visible);
@@ -388,6 +373,61 @@ $('#{$this->get_id()}_popup_config').on('hidden.bs.modal', function(e) {
 JS;
 		
 		return $output;
+	}
+	
+	protected function build_js_data_source($js_filters){
+		$widget = $this->get_widget();
+		$result = '';
+		if ($this->get_widget()->get_lazy_loading()){
+			$result = <<<JS
+		"ajax": {
+			"url": "{$this->get_ajax_url()}",
+			"type": "POST",
+			"data": function ( d ) {
+				{$this->build_js_busy_icon_show()}
+				var filtersOn = false;
+				d.action = '{$widget->get_lazy_loading_action()}';
+				d.resource = "{$this->get_page_id()}";
+				d.element = "{$widget->get_id()}";
+				d.object = "{$this->get_widget()->get_meta_object()->get_id()}";
+				{$js_filters}
+				
+				if (filtersOn){
+					$('#{$this->get_id()}_quickSearch_form .btn-advanced-filtering').removeClass('btn-default').addClass('btn-info');
+					//$('#{$this->get_id()}_quickSearch_form .filter-labels').append('<span class="label label-info">Primary</span>');
+				} else {
+					$('#{$this->get_id()}_quickSearch_form .btn-advanced-filtering').removeClass('btn-info').addClass('btn-default');
+					//$('#{$this->get_id()}_quickSearch_form .filter-labels').empty();
+				}
+			},
+			"error": function(jqXHR, textStatus, errorThrown ){
+				{$this->build_js_busy_icon_hide()}
+				{$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
+			}
+		}
+JS;
+		} else {
+			// Data embedded in the code of the DataGrid
+			if ($widget->get_prefill_data() && $widget->get_prefill_data()->get_meta_object()->is($widget->get_meta_object())){
+				$data = $widget->prepare_data_sheet_to_read($widget->get_prefill_data());
+			} else {
+				$data = $widget->prepare_data_sheet_to_read();
+			}
+			if (!$data->is_fresh()){
+				$data->data_read();
+			}
+			$rows = array();
+			foreach ($data->get_rows() as $row){
+				$rows[] = array_values($row);
+			}
+			$result = '"ajax": function (data, callback, settings) {
+				callback(
+						' . $this->get_template()->encode_data($this->prepare_data($data)) . '
+						);
+				}';
+		}
+				
+		return $result . ',';
 	}
 	
 	public function build_js_column_def (\exface\Core\Widgets\DataColumn $col){
@@ -454,12 +494,7 @@ JS;
 		return $output . "['" . $column . "']";
 	}
 	
-	public function build_js_data_getter(ActionInterface $action = null, $custom_body_js = null){
-		// If some other class extending from the DataTable took care of getting data, just use it's code.
-		if ($custom_body_js){
-			return parent::build_js_data_getter($action, $custom_body_js);
-		}
-		
+	public function build_js_data_getter(ActionInterface $action = null){		
 		if (is_null($action)){
 			$rows = $this->get_id() . "_table.rows().data()";
 		} elseif ($this->is_editable() && $action->implements_interface('iModifyData')){
@@ -467,7 +502,7 @@ JS;
 		} else {
 			$rows = "Array.prototype.slice.call(" . $this->get_id() . "_table.rows('.selected').data())";
 		}
-		return parent::build_js_data_getter($action, "data.rows = " . $rows . ";");
+		return "{oId: '" . $this->get_widget()->get_meta_object_id() . "', rows: " . $rows . "}";
 	}
 	
 	public function build_js_refresh($keep_pagination_position = false){
@@ -702,8 +737,8 @@ JS;
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Table settings</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}</h4>
 			</div>
 			<div class="modal-body">
 				<div class="modal-body-content-wrapper">
@@ -711,14 +746,14 @@ JS;
 	
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs" role="tablist">
-							<li role="presentation" class="active"><a href="#{$this->get_id()}_popup_filters" aria-controls="{$this->get_id()}_popup_filters" role="tab" data-toggle="tab">Filters</a></li>
-							<li role="presentation"><a href="#{$this->get_id()}_popup_columns" aria-controls="{$this->get_id()}_popup_columns" role="tab" data-toggle="tab">Columns</a></li>
-							<li role="presentation"><a href="#{$this->get_id()}_popup_sorting" aria-controls="{$this->get_id()}_popup_sorting" role="tab" data-toggle="tab">Sorting</a></li>
+							<li role="presentation" class="active"><a href="#{$this->get_id()}_popup_filters" aria-controls="{$this->get_id()}_popup_filters" role="tab" data-toggle="tab">{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.FILTERS')}</a></li>
+							<li role="presentation"><a href="#{$this->get_id()}_popup_columns" aria-controls="{$this->get_id()}_popup_columns" role="tab" data-toggle="tab">{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.COLUMNS')}</a></li>
+							<li role="presentation"><a href="#{$this->get_id()}_popup_sorting" aria-controls="{$this->get_id()}_popup_sorting" role="tab" data-toggle="tab">{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.SORTING')}</a></li>
 						</ul>
 										
 						<!-- Tab panes -->
 						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="{$this->get_id()}_popup_filters">{$filters_html}</div>
+							<div role="tabpanel" class="tab-pane active row" id="{$this->get_id()}_popup_filters">{$filters_html}</div>
 							<div role="tabpanel" class="tab-pane" id="{$this->get_id()}_popup_columns">{$columns_html}</div>
 							<div role="tabpanel" class="tab-pane" id="{$this->get_id()}_popup_sorting">{$sorting_html}</div>
 						</div>

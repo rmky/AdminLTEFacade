@@ -103,12 +103,12 @@ class lteButton extends lteAbstractElement {
 		                       	if ($('#ajax-dialogs').length < 1){
 		                       		$('body').append('<div id=\"ajax-dialogs\"></div>');
                        			}
-		                       	$('#ajax-dialogs').empty().append(data);
-		                       	$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').modal().modal('show');
+		                       	$('#ajax-dialogs').append(data);
+		                       	$('#ajax-dialogs').children('.modal').last().modal('show');
                        			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "']);
 		                       	"
 								// Make sure, the input widget of the button is always refreshed, once the dialog is closed again
-								. ($this->build_js_input_refresh($widget, $input_element) ? "$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "") . "
+								. ($this->build_js_input_refresh($widget, $input_element) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "") . "
 							},
 							error: function(jqXHR, textStatus, errorThrown){
 								" . $this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText') . "

@@ -32,7 +32,7 @@ class lteDialog extends lteForm {
 				<h4 class="modal-title">{$this->get_widget()->get_caption()}</h4>
 			</div>
 			<div class="modal-body">
-				<div class="modal-body-content-wrapper">
+				<div class="modal-body-content-wrapper row">
 					{$this->build_html_for_widgets()}
 				</div>
 			</div>

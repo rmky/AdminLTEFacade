@@ -1,5 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+use exface\Core\Interfaces\Actions\ActionInterface;
+
 class lteInput extends lteAbstractElement {
 	
 	protected function init(){
@@ -70,6 +72,19 @@ class lteInput extends lteAbstractElement {
 					});';
 		
 		return $output;
+	}
+	
+	/**
+	 *
+	 * {@inheritDoc}
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_data_getter($action, $custom_body_js)
+	 */
+	public function build_js_data_getter(ActionInterface $action = null){
+		if ($this->get_widget()->is_readonly()){
+			return '{}';
+		} else {
+			return parent::build_js_data_getter($action);
+		}
 	}
 }
 ?>

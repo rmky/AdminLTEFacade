@@ -31,7 +31,7 @@ class lteTab extends ltePanel {
 		
 		$output =
 	'<div class="tab-pane' . $active_class . '" id="' . $this->get_id() . '">
-		<div class="tab-pane-content-wrapper">
+		<div class="tab-pane-content-wrapper row">
 			' . $this->build_html_for_children() . '
 		</div>
 	</div>';
