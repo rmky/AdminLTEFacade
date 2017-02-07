@@ -78,9 +78,7 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 				case 2: $width = 'col-xs-12 col-md-8'; break;
 				case 3: case 'max': $width = 'col-xs-12';
 			}
-		} elseif ($this->get_widget()->get_width()->is_undefined()) {
-			$width = 'col-xs-12';
-		}
+		} 
 		return $width;
 	}
 	

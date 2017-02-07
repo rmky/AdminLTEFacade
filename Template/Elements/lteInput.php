@@ -86,5 +86,12 @@ class lteInput extends lteAbstractElement {
 			return parent::build_js_data_getter($action);
 		}
 	}
+	
+	public function get_width_classes(){
+		if ($this->get_widget()->get_width()->is_undefined()) {
+			return 'col-xs-12';
+		}
+		return parent::get_width_classes();
+	}
 }
 ?>
