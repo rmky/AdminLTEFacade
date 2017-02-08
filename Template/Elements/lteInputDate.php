@@ -59,8 +59,8 @@ class lteInputDate extends lteInput {
 	
 	public function generate_headers(){
 		$headers = parent::generate_headers();
-		$headers[] = '<script type="text/javascript" src="exface/vendor/almasaeed2010/adminlte/plugins/datepicker/bootstrap-datepicker.js"></script>';
-		$headers[] = '<link rel="stylesheet" href="exface/vendor/almasaeed2010/adminlte/plugins/datepicker/datepicker3.css">';
+		$headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>';
+		$headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
 		return $headers;
 	}
 }

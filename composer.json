@@ -26,9 +26,9 @@
 		"bower-asset/masonry" : ">=4",
 		"bower-asset/jquery-sortable" : ">=0.9",
 		"bower-asset/jquery-numpad" : "~1.4",
-		"npm-asset/flot-charts" : ">0.8",
-		"cubiq/iscroll" : ">=5.2",
-		"vitch/jScrollPane" : ">=2.0.23",
-		"uxsolutions/bootstrap-datepicker" : ">=1.6"
+		"bower-asset/iscroll" : ">=5.2",
+		"bower-asset/jScrollPane" : ">=2.0.23",
+		"bower-asset/bootstrap-datepicker" : ">=1.6",
+		"npm-asset/flot-charts" : ">0.8"
 	}
 }
