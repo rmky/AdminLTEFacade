@@ -166,23 +166,6 @@ ol li.highlight i.icon-move {}
   width: 20px;
 }
 
-/* SweetAlert */
-.sweet-alert {
-	width: 50vw !important;
-	left: 25vw !important;
-	top: 10px !important;
-	margin: 0 !important;
-}
-.sweet-alert .tab-pane {
-	height: 315px;
-	height: -webkit-calc(100vh - 260px);
-	height: -moz-calc(100vh - 260px);
-	height: -ms-calc(100vh - 260px);
-	height: -o-calc(100vh - 260px);
-	height: calc(100vh - 260px);
-	overflow: auto;
-}
-
 /* Symfony Debugger */
 #sf-resetcontent h1 {display: none;} 
 h2.block_exception.clear_fix {margin: 0}
