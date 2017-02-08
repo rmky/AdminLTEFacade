@@ -1,14 +1,29 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+
+use exface\Core\Widgets\InputSelect;
+
+/**
+ * 
+ * @method InputSelect get_widget()
+ * 
+ * @author Andrej Kabachnik
+ *
+ */
 class lteInputSelect extends lteInput {
 	
-	function generate_html(){
+	public function generate_html(){
 		/* @var $widget \exface\Core\Widgets\InputSelect */
 		$widget = $this->get_widget();
 		$options = '';
 		foreach ($widget->get_selectable_options() as $value => $text){
+			if ($this->get_widget()->get_multi_select() && count($this->get_widget()->get_values()) > 1){
+				$selected = in_array($value, $this->get_widget()->get_values());
+			} else {
+				$selected = $this->get_value_with_defaults() == $value ? true : false;
+			}
 			$options .= '
-					<option value="' . $value . '"' . ($this->get_value_with_defaults() == $value ? ' selected="selected"' : '') . '>' . $text . '</option>';
+					<option value="' . $value . '"' . ($selected ? ' selected="selected"' : '') . '>' . $text . '</option>';
 		}
 		
 		$output = '
@@ -18,7 +33,8 @@ class lteInputSelect extends lteInput {
 								value="' . $this->escape_string($this->get_value_with_defaults()) . '"
 								id="' . $this->get_id() . '"
 								' . ($this->get_widget()->is_required() ? 'required="true" ' : '') . '
-								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '>
+								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '
+								' . ($this->get_widget()->get_multi_select() ? 'multiple' : '') . '>
 							' . $options . '
 						</select>
 					';

@@ -4,6 +4,8 @@
 
 /* Bootstrap customization */
 ul.dropdown-menu li {padding: 4px 0;}
+.modal .tab-content>.tab-pane {height: initial !important;}
+.exf_input>.form-group {margin-bottom: initial;}
 
 /* DataTables customization */
 .dataTable .detailRow table {width:initial; margin: initial;}
@@ -27,6 +29,7 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 	border-color: #ffa8a8;
 	background-color: #fff3f3;
 }
+.ms-sel-ctn input, .ms-ctn input:focus {background-color: inherit};
 
 /* sortable */
 body.dragging, body.dragging * {
@@ -163,19 +166,6 @@ ol li.highlight i.icon-move {}
   width: 20px;
 }
 
-/* SweetAlert */
-.sweet-alert {
-	width: 50vw !important;
-	left: 25vw !important;
-	top: 10px !important;
-	margin: 0 !important;
-}
-.sweet-alert .tab-pane {
-	height: 315px;
-	height: -webkit-calc(100vh - 260px);
-	height: -moz-calc(100vh - 260px);
-	height: -ms-calc(100vh - 260px);
-	height: -o-calc(100vh - 260px);
-	height: calc(100vh - 260px);
-	overflow: auto;
-}
+/* Symfony Debugger */
+#sf-resetcontent h1 {display: none;} 
+h2.block_exception.clear_fix {margin: 0}

@@ -7,7 +7,8 @@ use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
 use exface\Core\Widgets\Button;
 
 /**
- * generates jQuery Mobile buttons for ExFace
+ * Generates jQuery Mobile buttons for ExFace
+ * 
  * @author Andrej Kabachnik
  *
  */
@@ -34,11 +35,6 @@ class lteButton extends lteAbstractElement {
 			// Print the here first.
 			if ($action && $action->implements_interface('iRunTemplateScript')){
 				$output .= $this->get_action()->print_helper_functions();
-			}
-			// See if the action needs some more JS, that is not the click function (e.g. showing another widget)
-			if ($action->implements_interface('iShowDialog')){
-				$dialog_widget = $action->get_dialog_widget();
-				$output .= $this->get_template()->generate_js($dialog_widget);
 			}
 		}
 		
@@ -69,7 +65,6 @@ class lteButton extends lteAbstractElement {
 	 */
 	function generate_html(){
 		$output = '';
-		$action = $this->get_action();
 		/* @var $widget \exface\Core\Widgets\Button */
 		$widget = $this->get_widget();
 		
@@ -87,16 +82,43 @@ class lteButton extends lteAbstractElement {
 	
 	protected function build_js_click_show_dialog(ActionInterface $action, AbstractJqueryElement $input_element){
 		$widget = $this->get_widget();
-		// FIXME the request should be sent via POST to avoid length limitations of GET
-		// The problem is, we would have to fetch the page via AJAX and insert it into the DOM, which
-		// would probably mean, that we have to take care of removing it ourselves (to save memory)...
-		return $this->build_js_request_data_collector($action, $input_element) . "
-					$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').find('.modal-body .modal-body-content-wrapper').load(
-							'" . $this->get_ajax_url() . "&resource=".$widget->get_page_id()."&element=".$widget->get_id()."&action=".$widget->get_action_alias()."&data=' + encodeURIComponent(JSON.stringify(requestData)),
-							function() { $(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "']) });
-					$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').modal('show');
-					" // Make sure, the input widget of the button is always refreshed, once the dialog is closed again
-		. ($this->build_js_input_refresh($widget, $input_element) ? "$('#" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "').one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "");
+		
+		$output = $this->build_js_request_data_collector($action, $input_element);
+		$output .= "
+						" . $this->build_js_busy_icon_show() . "
+						$.ajax({
+							type: 'POST',
+							url: '" . $this->get_ajax_url() ."',
+							dataType: 'html',
+							data: {
+								action: '".$widget->get_action_alias()."',
+								resource: '" . $widget->get_page_id() . "',
+								element: '" . $widget->get_id() . "',
+								data: requestData
+							},
+							success: function(data, textStatus, jqXHR) {
+								" . $this->build_js_close_dialog($widget, $input_element) . "
+								" . $this->build_js_input_refresh($widget, $input_element) . "
+		                       	" . $this->build_js_busy_icon_hide() . "
+		                       	if ($('#ajax-dialogs').length < 1){
+		                       		$('body').append('<div id=\"ajax-dialogs\"></div>');
+                       			}
+		                       	$('#ajax-dialogs').append(data);
+		                       	$('#ajax-dialogs').children('.modal').last().modal('show');
+                       			$(document).trigger('" . $action->get_alias_with_namespace() . ".action.performed');
+                       			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "']);
+		                       	"
+								// Make sure, the input widget of the button is always refreshed, once the dialog is closed again
+								. ($this->build_js_input_refresh($widget, $input_element) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "") . "
+							},
+							error: function(jqXHR, textStatus, errorThrown){
+								" . $this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText') . "
+								" . $this->build_js_busy_icon_hide() . "
+							}
+						});
+					";
+		
+		return $output;
 	}
 
 	protected function build_js_close_dialog($widget, $input_element){

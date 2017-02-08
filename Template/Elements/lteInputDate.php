@@ -28,7 +28,7 @@ class lteInputDate extends lteInput {
 		$output = '
 				$(\'#' . $this->get_id() . '\').' . $this->get_element_type() . '({
 					autoclose: true,
-					format: {
+					/*format: {
 						toDisplay: function (date, format, language) {
 							//date is a date-object and is parsed to a string
 							//date is returned as yyyy-MM-dd
@@ -46,7 +46,7 @@ class lteInputDate extends lteInput {
 							var dd = Number(match[3]);
 							return new Date(Date.UTC(yyyy, MM, dd));
 						}
-					},
+					},*/
 					todayHighlight: true
 				});';
 		
@@ -59,8 +59,8 @@ class lteInputDate extends lteInput {
 	
 	public function generate_headers(){
 		$headers = parent::generate_headers();
-		$headers[] = '<script type="text/javascript" src="exface/vendor/almasaeed2010/adminlte/plugins/datepicker/bootstrap-datepicker.js"></script>';
-		$headers[] = '<link rel="stylesheet" href="exface/vendor/almasaeed2010/adminlte/plugins/datepicker/datepicker3.css">';
+		$headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>';
+		$headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
 		return $headers;
 	}
 }

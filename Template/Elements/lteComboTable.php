@@ -10,7 +10,7 @@ class lteComboTable extends lteInput {
 	private $min_chars_to_search = 1;
 
 	function generate_html(){
-		$output = '	<div class="fitem exf_input" title="' . $this->build_hint_text() . '">
+		$output = '
 						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
 						<input type="hidden"
 								id="' . $this->get_id() . '" 
@@ -20,8 +20,8 @@ class lteComboTable extends lteInput {
 								id="' . $this->get_id() . '_ms"
 								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '
 								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
-					</div>';
-		return $output;
+					';
+		return $this->build_html_wrapper($output);
 	}
 	
 	function generate_js(){

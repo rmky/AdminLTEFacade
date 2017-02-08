@@ -1,5 +1,14 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+
+use exface\Core\Widgets\Dialog;
+
+/**
+ * @method Dialog get_widget()
+ * 
+ * @author aka
+ *
+ */
 class lteDialog extends lteForm {
 	
 	function generate_js(){
@@ -12,19 +21,18 @@ class lteDialog extends lteForm {
 	}
 	
 	public function generate_html(){
-		/* @var $widget \exface\Core\Widgets\Dialog */
-		$widget = $this->get_widget();
-		
-		$output = <<<HTML
+		$output = '';
+		if (!$this->get_widget()->get_lazy_loading()){
+			$output = <<<HTML
 <div class="modal" id="{$this->get_id()}">
 	<div class="modal-dialog" style="width:{$this->get_width()};">
 		<div class="modal-content">
 			<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">{$widget->get_caption()}</h4>
+				<h4 class="modal-title">{$this->get_widget()->get_caption()}</h4>
 			</div>
 			<div class="modal-body">
-				<div class="modal-body-content-wrapper">
+				<div class="modal-body-content-wrapper row">
 					{$this->build_html_for_widgets()}
 				</div>
 			</div>
@@ -35,6 +43,7 @@ class lteDialog extends lteForm {
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 HTML;
+		}
 		return $output;
 	}
 	

@@ -24,20 +24,30 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 	/**
 	 *
 	 * {@inheritDoc}
-	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_error_message()
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_message_error()
 	 */
-	public function build_js_show_error_message($message_body_js, $title = null){
+	public function build_js_show_message_error($message_body_js, $title = null){
 		return '
-			swal({html:true, title:' . ($title ? $title : '"Error"') . ', text:' . $message_body_js . '});
-			$(document).trigger("exface.AdminLteTemplate.SweetAlert.Complete");';
+			swal(' . ($title ? $title : '"' . $this->translate('MESSAGE.ERROR_TITLE') . '"') . ', ' . $message_body_js . ', "error");';
 	}
 	
 	/**
 	 *
 	 * {@inheritDoc}
-	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_success_message()
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_error()
 	 */
-	public function build_js_show_success_message($message_body_js, $title = null){
+	public function build_js_show_error($message_body_js, $title = null){
+		return '
+			adminlteCreateDialog($("body"), "error", ' . ($title ? $title : '"' . $this->translate('MESSAGE.ERROR_TITLE') . '"') . ', ' . $message_body_js . ');
+			';
+	}
+	
+	/**
+	 *
+	 * {@inheritDoc}
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_message_success()
+	 */
+	public function build_js_show_message_success($message_body_js, $title = null){
 		// TODO use some library to show toast notificactions
 		return '';
 	}
@@ -67,7 +77,7 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 				case 2: $width = 'col-xs-12 col-md-8'; break;
 				case 3: case 'max': $width = 'col-xs-12';
 			}
-		}
+		} 
 		return $width;
 	}
 	
