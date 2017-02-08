@@ -14,6 +14,8 @@ $( document ).ready(function() {
             $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
         }, 0);
     });
+	
+	$(document).on('exface.Core.ObjectBasketAdd.action.performed', function(e){pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');});
 });
 
 function pinnedObjectsRefresh(containerSelector, counterSelector){
