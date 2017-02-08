@@ -28,7 +28,7 @@ class lteInputDate extends lteInput {
 		$output = '
 				$(\'#' . $this->get_id() . '\').' . $this->get_element_type() . '({
 					autoclose: true,
-					/*format: {
+					format: {
 						toDisplay: function (date, format, language) {
 							//date is a date-object and is parsed to a string
 							//date is returned as yyyy-MM-dd
@@ -46,7 +46,7 @@ class lteInputDate extends lteInput {
 							var dd = Number(match[3]);
 							return new Date(Date.UTC(yyyy, MM, dd));
 						}
-					},*/
+					},
 					todayHighlight: true
 				});';
 		
