@@ -30,7 +30,7 @@ function pinnedObjectsRefresh(containerSelector, counterSelector){
 function pinnedObjectsRemoveObject(objectId, containerSelector, counterSelector){
 	$(containerSelector).empty();
 	$.post(
-		pinnedObjectsBaseUrl() + "&action=exface.Core.ObjectBasketRemove&object=" + objectId, 
+		pinnedObjectsBaseUrl() + "&action=exface.Core.ObjectBasketRemove&object=" + objectId + '&data={"oId": "' + objectId + '"}', 
 		function( data ) {
 			pinnedObjectsMenu(data, containerSelector, counterSelector);
 		},
