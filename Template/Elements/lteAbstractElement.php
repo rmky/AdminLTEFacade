@@ -38,7 +38,7 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 	 */
 	public function build_js_show_error($message_body_js, $title = null){
 		return '
-			adminlteCreateDialog($("body"), "error", ' . ($title ? $title : '"' . $this->translate('MESSAGE.ERROR_TITLE') . '"') . ', ' . $message_body_js . ');
+			adminLteCreateDialog($("body"), "error", ' . ($title ? $title : '"' . $this->translate('MESSAGE.ERROR_TITLE') . '"') . ', ' . $message_body_js . ');
 			';
 	}
 	

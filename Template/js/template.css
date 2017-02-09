@@ -167,5 +167,6 @@ ol li.highlight i.icon-move {}
 }
 
 /* Symfony Debugger */
+#sf-resetcontent {width: auto !important;} 
 #sf-resetcontent h1 {display: none;} 
 h2.block_exception.clear_fix {margin: 0}

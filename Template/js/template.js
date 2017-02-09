@@ -84,7 +84,7 @@ function getPageId(){
 	return $("meta[name='page_id']").attr("content");
 }
 
-function adminlteCreateDialog(parentElement, id, title, content){
+function adminLteCreateDialog(parentElement, id, title, content){
 	var dialog = $(' \
 		<div class="modal" id="'+id+'"> \
 			<div class="modal-dialog"> \
