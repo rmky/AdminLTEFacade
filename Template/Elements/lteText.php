@@ -2,10 +2,6 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 class lteText extends lteAbstractElement {
 	
-	function init(){
-	
-	}
-	
 	function generate_html(){
 		$output = '';
 		$widget = $this->get_widget();
@@ -47,6 +43,13 @@ class lteText extends lteAbstractElement {
 	
 	function generate_js(){
 		return '';
+	}
+	
+	public function get_width_classes(){
+		if ($this->get_widget()->get_width()->is_undefined()) {
+			return 'col-xs-12';
+		}
+		return parent::get_width_classes();
 	}
 	
 }
