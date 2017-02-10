@@ -29,7 +29,7 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 	border-color: #ffa8a8;
 	background-color: #fff3f3;
 }
-.ms-sel-ctn input, .ms-ctn input:focus {background-color: inherit};
+.ms-sel-ctn input, .ms-ctn input:focus {background-color: inherit !important};
 
 /* sortable */
 body.dragging, body.dragging * {

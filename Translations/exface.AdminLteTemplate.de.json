@@ -4,9 +4,12 @@
 	"MESSAGE.SELECT_AT_LEAST_X_ROWS": "Bitte mindestens %number% Zeile auswählen!|Bitte mindestens %number% Zeilen auswählen!",
 	"MESSAGE.SELECT_X_TO_Y_ROWS": "Bitte %min% bis %max% Zeilen auswählen!",
 	"MESSAGE.ERROR_TITLE": "Fehler",
+	"MESSAGE.FILL_REQUIRED_ATTRIBUTES": "Bitte füllen Sie die benötigten Felder aus: ",
 	
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE": "Tabelleneinstellungen",
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.FILTERS": "Filter",
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.COLUMNS": "Spalten",
-	"WIDGET.DATATABLE.SETTINGS_DIALOG.SORTING": "Sortierung"
+	"WIDGET.DATATABLE.SETTINGS_DIALOG.SORTING": "Sortierung",
+	
+	"WIDGET.TEXT.EMPTY_TEXT": "-"
 }

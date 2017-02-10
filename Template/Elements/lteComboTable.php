@@ -18,8 +18,7 @@ class lteComboTable extends lteInput {
 								value="' . $this->escape_string($this->get_value_with_defaults()) . '" />
 						<input class="form-control"
 								id="' . $this->get_id() . '_ms"
-								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '
-								' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
+								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '/>
 					';
 		return $this->build_html_wrapper($output);
 	}
@@ -29,7 +28,7 @@ class lteComboTable extends lteInput {
 		$widget = $this->get_widget();
 		
 		// Add other options
-		$other_options = (!$widget->get_multi_select() ? ', maxSelection: 1' : '');
+		$other_options = (!$widget->get_multi_select() ? ',maxSelection: 1' : '') . ($widget->is_disabled() ? ',disabled: true' : '');
 		
 		// Set initial value
 		if ($widget->get_value()){
