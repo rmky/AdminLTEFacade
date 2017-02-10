@@ -4,7 +4,7 @@
 
 /* Bootstrap customization */
 ul.dropdown-menu li {padding: 4px 0;}
-.modal .tab-content>.tab-pane {height: initial !important;}
+.tab-content>.tab-pane {height: initial !important;}
 .exf_input>.form-group {margin-bottom: initial;}
 
 /* DataTables customization */

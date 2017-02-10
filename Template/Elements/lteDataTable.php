@@ -288,7 +288,7 @@ function {$this->build_js_function_prefix()}Init(){
 		"scrollXollapse": true,
 		{$this->build_js_data_source($filters_ajax)}
 		"language": {
-            "zeroRecords": "{$widget->get_text_empty()}"
+            "zeroRecords": "{$widget->get_empty_text()}"
         },
 		"columns": [{$columns}],
 		"order": [ {$default_sorters} ],
