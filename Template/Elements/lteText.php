@@ -35,10 +35,18 @@ class lteText extends lteAbstractElement {
 	
 	public function build_html_wrapper($inner_html){
 		$output = '
-					<div class="exf_grid_item ' . $this->get_width_classes() . '" title="' . $this->build_hint_text() . '">
+					<div class="exf_grid_item ' . $this->get_width_classes() . $this->build_css_classes() . '" title="' . $this->build_hint_text() . '">
 							' . $inner_html . '
 					</div>';
 		return $output;
+	}
+	
+	public function build_css_classes(){
+		$classes = ' ';
+		if ($this->get_widget()->is_hidden()){
+			$classes .= 'hidden';
+		}
+		return $classes;
 	}
 	
 	function generate_js(){
