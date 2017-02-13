@@ -17,12 +17,12 @@ class lteImageSlider extends lteDataList {
 		$output = <<<HTML
 
 <div class="{$this->get_width_classes()} exf_grid_item">
-	<div class="box" style="height: {$this->get_height()}">
+	<div class="box" >
 		<div class="box-header">
 			{$top_toolbar}
 		</div><!-- /.box-header -->
-		<div class="box-body no-padding">
-			<div id="{$this->get_id()}" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 960px; height: 400px; overflow: hidden; visibility: hidden;">
+		<div class="box-body">
+			<div id="{$this->get_id()}" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 960px; height: calc({$this->get_height()} - 43px); overflow: hidden; visibility: hidden;">
 		        <div data-u="slides" class="slides" style="cursor: default; position: relative; top: 0px; left: 240px; width: 720px; height: 400px; overflow: hidden;">
 		            <!-- Slides -->
 		        </div>
@@ -64,6 +64,10 @@ class lteImageSlider extends lteDataList {
 HTML;
 		
 		return $output;
+	}
+	
+	public function get_height_default(){
+		return 12;
 	}
 	
 	function generate_js(){
@@ -222,7 +226,7 @@ JS;
 	public function generate_headers(){
 		$includes = parent::generate_headers();
 		$includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Template/js/jssor/skin.css">';
-		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.mini.js"></script>';
+		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
 		return $includes;
 	}
 }

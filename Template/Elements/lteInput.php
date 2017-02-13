@@ -2,7 +2,7 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Interfaces\Actions\ActionInterface;
 
-class lteInput extends lteAbstractElement {
+class lteInput extends lteText {
 	
 	protected function init(){
 		parent::init();
@@ -85,13 +85,6 @@ class lteInput extends lteAbstractElement {
 		} else {
 			return parent::build_js_data_getter($action);
 		}
-	}
-	
-	public function get_width_classes(){
-		if ($this->get_widget()->get_width()->is_undefined()) {
-			return 'col-xs-12';
-		}
-		return parent::get_width_classes();
 	}
 }
 ?>

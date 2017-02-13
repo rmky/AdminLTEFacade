@@ -4,7 +4,7 @@
 
 /* Bootstrap customization */
 ul.dropdown-menu li {padding: 4px 0;}
-.modal .tab-content>.tab-pane {height: initial !important;}
+.tab-content>.tab-pane {height: initial !important;}
 .exf_input>.form-group {margin-bottom: initial;}
 
 /* DataTables customization */
@@ -167,5 +167,6 @@ ol li.highlight i.icon-move {}
 }
 
 /* Symfony Debugger */
+#sf-resetcontent {width: auto !important;} 
 #sf-resetcontent h1 {display: none;} 
 h2.block_exception.clear_fix {margin: 0}

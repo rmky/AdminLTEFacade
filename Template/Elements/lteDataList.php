@@ -79,7 +79,7 @@ class lteDataList extends lteDataTable {
 		</div><!-- /.box-header -->
 		<div class="box-body no-padding">
 			<div id="{$this->get_id()}" class="exf-datalist">
-				<div class="placeholder dataTables_empty">{$widget->get_text_empty()}</div>
+				<div class="placeholder dataTables_empty">{$widget->get_empty_text()}</div>
 				<div class="col-xs-1" id="{$this->get_id()}_sizer"></div>
 			</div>
 		</div>
