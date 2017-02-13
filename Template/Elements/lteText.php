@@ -26,10 +26,14 @@ class lteText extends lteAbstractElement {
 		}
 		
 		if ($this->get_widget()->get_caption() && !$this->get_widget()->get_hide_caption()){
-			$output .= '<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>';
+			$output .= '<label for="' . $this->get_id() . '" class="exf-text-label">' . $this->get_widget()->get_caption() . '</label>';
 		}
 		
-		$output .= '<p id="' . $this->get_id() . '" style="' . $style . '">' . $html . '</p>';
+		if (!trim($html) && !$this->get_widget()->get_empty_text()) {
+			$html = $this->translate('WIDGET.TEXT.EMPTY_TEXT');
+		}
+		
+		$output .= '<p id="' . $this->get_id() . '" class="exf-text-content" style="' . $style . '">' . $html . '</p>';
 		return $this->build_html_wrapper($output);
 	}
 	

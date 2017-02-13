@@ -18,7 +18,9 @@ class lteInputDate extends lteInput {
 									type="text"
 									name="' . $this->get_widget()->get_attribute_alias() . '"
 									value="' . $this->escape_string($this->get_value_with_defaults()) . '" 
-									id="' . $this->get_id() . '"/>
+									id="' . $this->get_id() . '"
+									' . ($this->get_widget()->is_required() ? 'required="true" ' : '') . '
+									' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
 						</div>
 					';
 		return $this->build_html_wrapper($output);
