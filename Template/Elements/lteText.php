@@ -1,5 +1,15 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+
+use exface\Core\Widgets\Text;
+
+/**
+ * 
+ * @method Text get_widget()
+ * 
+ * @author Andrej Kabachnik
+ *
+ */
 class lteText extends lteAbstractElement {
 	
 	function generate_html(){
@@ -29,8 +39,8 @@ class lteText extends lteAbstractElement {
 			$output .= '<label for="' . $this->get_id() . '" class="exf-text-label">' . $this->get_widget()->get_caption() . '</label>';
 		}
 		
-		if (!trim($html) && !$this->get_widget()->get_empty_text()) {
-			$html = $this->translate('WIDGET.TEXT.EMPTY_TEXT');
+		if (!trim($html) && $this->get_widget()->get_empty_text()) {
+			$html = $this->get_widget()->get_empty_text();
 		}
 		
 		$output .= '<p id="' . $this->get_id() . '" class="exf-text-content" style="' . $style . '">' . $html . '</p>';
