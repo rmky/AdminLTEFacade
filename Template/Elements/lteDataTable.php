@@ -5,7 +5,9 @@ use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
  * 
- * @author PATRIOT
+ * @method DataTable get_widget()
+ * 
+ * @author Andrej Kabachnik
  *
  */
 class lteDataTable extends lteAbstractElement {
@@ -16,7 +18,6 @@ class lteDataTable extends lteAbstractElement {
 	private $editors = array();
 	
 	function generate_html(){
-		/* @var $widget \exface\Core\Widgets\DataTable */
 		$widget = $this->get_widget();
 		$thead = '';
 		$tfoot = '';
@@ -30,6 +31,16 @@ class lteDataTable extends lteAbstractElement {
 			}
 		}
 		
+		// Extra column for the multiselect-checkbox
+		if ($widget->get_multi_select()){
+			$checkbox_header = '<th onclick="javascript: if(!$(this).parent().hasClass(\'selected\')) {' . $this->get_id() . '_table.rows().select(); $(this).parent().addClass(\'selected\');} else{' . $this->get_id() . '_table.rows().deselect(); $(this).parent().removeClass(\'selected\');}"></th>';
+			$thead = $checkbox_header . $thead;
+			if ($tfoot){
+				$tfoot = $checkbox_header . $tfoot;
+			}
+		}
+		
+		// Extra column for expand-button if rows have details
 		if ($widget->has_row_details()){
 			$thead = '<th></th>' . $thead;
 			if ($tfoot){
@@ -121,13 +132,29 @@ HTML;
 		$default_sorters = '';
 		
 		
-		// row details
+		// Multiselect-Checkbox
+		if ($widget->get_multi_select()){
+			$columns[] = '
+					{
+						"className": "select-checkbox",
+						"width": "10px",
+						"orderable": false,
+						"data": null,
+						"targets": 0,
+						"defaultContent": ""
+					}
+					';
+			$column_number_offset++;
+		}
+		
+		// Expand-Button for row details
 		if ($widget->has_row_details()){
 			$columns[] = '
 					{
-						"class":          "details-control text-center",
-						"orderable":      false,
-						"data":           null,
+						"class": "details-control text-center",
+						"width": "10px",
+						"orderable": false,
+						"data": null,
 						"defaultContent": \'<i class="fa ' . $this->row_details_expand_icon . '"></i>\'
 					}
 					';
@@ -249,6 +276,13 @@ JS;
 			$rightclick_script = $this->get_template()->get_element($rightclick_button)->build_js_click_function_name() .  '()';
 		}
 		
+		// Selection
+		if ($this->get_widget()->get_multi_select()){
+			$select_options = 'style: "multi"';
+		} else {
+			$select_options = 'style: "single"';
+		}
+		
 		// configure pagination
 		if ($widget->get_paginate()){
 			$paging_options = '"pageLength": ' . $widget->get_paginate_default_page_size() . ','; 
@@ -282,7 +316,7 @@ function {$this->build_js_function_prefix()}Init(){
 		"dom": 't',
 		"deferRender": true,
 		"processing": true,
-		"serverSide": true,
+		"select": { {$select_options} },
 		{$paging_options}
 		"scrollX": true,
 		"scrollXollapse": true,
@@ -294,8 +328,7 @@ function {$this->build_js_function_prefix()}Init(){
 		"order": [ {$default_sorters} ],
 		"drawCallback": function(settings, json) {
 			$('#{$this->get_id()} tbody tr').on('contextmenu', function(e){
-				$('#{$this->get_id()} tbody tr').removeClass('selected bg-aqua');
-				$(e.target).closest('tr').addClass('selected bg-aqua');
+				{$this->get_id()}_table.row($(e.target).closest('tr')).select();
 			});
 			$('#{$this->get_id()}').closest('.exf_grid_item').trigger('resize');
 			context.attach('#{$this->get_id()} tbody tr', [{$context_menu_js}]);
@@ -380,6 +413,7 @@ JS;
 		$result = '';
 		if ($this->get_widget()->get_lazy_loading()){
 			$result = <<<JS
+		"serverSide": true,
 		"ajax": {
 			"url": "{$this->get_ajax_url()}",
 			"type": "POST",
@@ -416,15 +450,13 @@ JS;
 			if (!$data->is_fresh()){
 				$data->data_read();
 			}
-			$rows = array();
-			foreach ($data->get_rows() as $row){
-				$rows[] = array_values($row);
-			}
-			$result = '"ajax": function (data, callback, settings) {
+			$result = <<<JS
+			"ajax": function (data, callback, settings) {
 				callback(
-						' . $this->get_template()->encode_data($this->prepare_data($data)) . '
+						{$this->get_template()->encode_data($this->prepare_data($data))}
 						);
-				}';
+				}
+JS;
 		}
 				
 		return $result . ',';
@@ -500,7 +532,7 @@ JS;
 		} elseif ($this->is_editable() && $action->implements_interface('iModifyData')){
 			// TODO
 		} else {
-			$rows = "Array.prototype.slice.call(" . $this->get_id() . "_table.rows('.selected').data())";
+			$rows = "Array.prototype.slice.call(" . $this->get_id() . "_table.rows({selected: true}).data())";
 		}
 		return "{oId: '" . $this->get_widget()->get_meta_object_id() . "', rows: " . $rows . "}";
 	}
@@ -516,6 +548,8 @@ JS;
 		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net/js/jquery.dataTables.min.js"></script>';
 		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>';
 		$includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/DataTables.exface.helpers.js"></script>';
+		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-select/js/dataTables.select.min.js"></script>';
+		$includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-select-bs/css/select.bootstrap.min.css">';
 		
 		// Sortable plugin for column sorting in the table configuration popup
 		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jquery-sortable/source/js/jquery-sortable-min.js"></script>';
@@ -534,7 +568,7 @@ JS;
 	 */
 	protected function build_js_row_selection(){
 		$output = '';		
-		if ($this->get_widget()->get_multi_select()){
+		/*if ($this->get_widget()->get_multi_select()){
 			$output .= "
 					$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
 						if (event.which !== 1) return;
@@ -557,7 +591,7 @@ JS;
 				        }
 				    } );
 					";
-		}
+		}*/
 		return $output;
 	}
 	
@@ -783,15 +817,6 @@ HTML;
 	
 	public function get_editors(){
 		return $this->editors;
-	}
-	
-	/**
-	 * @return DataTable
-	 * {@inheritDoc}
-	 * @see \exface\AdminLteTemplate\Template\Elements\lteAbstractElement::get_widget()
-	 */
-	public function get_widget(){
-		return parent::get_widget();
 	}
 }
 ?>
