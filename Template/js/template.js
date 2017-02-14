@@ -71,7 +71,7 @@ function pinnedObjectsMenu(data, containerSelector, counterSelector){
 	               	$('#ajax-dialogs').find('.modal').first().modal('show');
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					adminlteCreateDialog($("body"), "error", jqXHR.responseText, jqXHR.status + " " + jqXHR.statusText);
+					adminLteCreateDialog($("body"), "error", jqXHR.responseText, jqXHR.status + " " + jqXHR.statusText);
 				}
 			});
 		});
