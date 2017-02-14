@@ -8,13 +8,17 @@ ul.dropdown-menu li {padding: 4px 0;}
 .exf_input>.form-group {margin-bottom: initial;}
 
 /* DataTables customization */
-.dataTable .detailRow table {width:initial; margin: initial;}
-.dataTable td.ok{background-color: green;}
-.dataTable td.warning{background-color: yellow;}
-.dataTable td.error{background-color: red; color: white;}
-.dataTable thead th {text-align: center;}
-.dataTable tfoot th.dt-body-right {padding-right: 10px;}
-.dataTable tr.detailRow table {width: initial;}
+table.dataTable tr.detailRow table {width: initial;}
+table.dataTable .detailRow table {width:initial; margin: initial;}
+table.dataTable thead th {text-align: center;}
+table.dataTable tfoot th.dt-body-right {padding-right: 10px;}
+/* Fix useless checkboxes being shown above and below body data breaking scrolling */
+.dataTables_scrollBody table.dataTable th.select-checkbox:before {display:none !important}
+/* Cell coloring */
+table.dataTable td.ok{background-color: green;}
+table.dataTable td.warning{background-color: yellow;}
+table.dataTable td.error{background-color: red; color: white;}
+
 
 /* jQuery NumPad */
 td.nmpd-target{border: 1px solid #d2d6de !important;}

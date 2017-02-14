@@ -410,14 +410,9 @@ JS;
 	
 	protected function build_js_data_source($js_filters){
 		$widget = $this->get_widget();
-		$result = '';
-		if ($this->get_widget()->get_lazy_loading()){
-			$result = <<<JS
-		"serverSide": true,
-		"ajax": {
-			"url": "{$this->get_ajax_url()}",
-			"type": "POST",
-			"data": function ( d ) {
+		
+		$ajax_data = <<<JS
+			function ( d ) {
 				{$this->build_js_busy_icon_show()}
 				var filtersOn = false;
 				d.action = '{$widget->get_lazy_loading_action()}';
@@ -433,7 +428,17 @@ JS;
 					$('#{$this->get_id()}_quickSearch_form .btn-advanced-filtering').removeClass('btn-info').addClass('btn-default');
 					//$('#{$this->get_id()}_quickSearch_form .filter-labels').empty();
 				}
-			},
+			}
+JS;
+		
+		$result = '';
+		if ($this->get_widget()->get_lazy_loading()){
+			$result = <<<JS
+		"serverSide": true,
+		"ajax": {
+			"url": "{$this->get_ajax_url()}",
+			"type": "POST",
+			"data": {$ajax_data},
 			"error": function(jqXHR, textStatus, errorThrown ){
 				{$this->build_js_busy_icon_hide()}
 				{$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
@@ -538,7 +543,11 @@ JS;
 	}
 	
 	public function build_js_refresh($keep_pagination_position = false){
-		return $this->get_id() . "_table.draw(" . ($keep_pagination_position ? "false" : "true") . ");";
+		if (!$this->get_widget()->get_lazy_loading()){
+			return "{$this->get_id()}_table.search($('#" . $this->get_id() . "_quickSearch').val(), false, true).draw();";
+		} else {
+			return $this->get_id() . "_table.draw(" . ($keep_pagination_position ? "false" : "true") . ");";
+		}
 	}
 	
 	public function generate_headers(){
@@ -597,11 +606,16 @@ JS;
 	
 	protected function build_html_top_toolbar(){
 		$table_caption = $this->get_widget()->get_caption() ? $this->get_widget()->get_caption() : $this->get_meta_object()->get_name();
+		
 		$quick_search_fields = $this->get_widget()->get_meta_object()->get_label_attribute() ? $this->get_widget()->get_meta_object()->get_label_attribute()->get_name() : '';
 		foreach ($this->get_widget()->get_quick_search_filters() as $qfltr){
 			$quick_search_fields .= ($quick_search_fields ? ', ' : '') . $qfltr->get_caption();
 		}
 		if ($quick_search_fields) $quick_search_fields = ': ' . $quick_search_fields;
+		
+		if (!$this->get_widget()->get_lazy_loading()){
+			$filter_button_disabled = ' disabled';
+		}
 		
 		if ($this->get_widget()->get_hide_toolbar_top()){
 			$output = <<<HTML
@@ -621,7 +635,7 @@ HTML;
 			<div class="col-xs-12 col-md-6">
 				<div class="input-group">
 					<span class="input-group-btn">
-						<button type="button" class="btn btn-default btn-advanced-filtering" data-toggle="modal" data-target="#{$this->get_id()}_popup_config"><i class="fa fa-filter"></i></button>
+						<button type="button" class="btn btn-default btn-advanced-filtering" data-toggle="modal"{$filter_button_disabled} data-target="#{$this->get_id()}_popup_config"><i class="fa fa-filter"></i></button>
 					</span>
 					<input id="{$this->get_id()}_quickSearch" type="text" class="form-control" placeholder="Quick search{$quick_search_fields}" />
 					<span class="input-group-btn">
