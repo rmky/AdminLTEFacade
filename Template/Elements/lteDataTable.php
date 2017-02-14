@@ -661,9 +661,8 @@ HTML;
 						<button type="button" href="#" id="{$this->get_id()}_prevPage" class="btn btn-default"><i class="fa fa-caret-left"></i></button>
 						<button type="button" href="#" id="{$this->get_id()}_pageInfo" class="btn btn-default" data-toggle="dropdown">0 - 0 / 0</buton>
 						<button type="button" href="#" id="{$this->get_id()}_nextPage" class="btn btn-default"><i class="fa fa-caret-right"></i></button>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="{$this->get_id()}_pageInfo">
-					  		<li class="box-body" style="">
-					  			<label for="{$this->get_id()}_pageInput">Page:</label>
+						<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="{$this->get_id()}_pageInfo" style="width: 307px;">
+					  		<li class="box-body">
 				  				<button href="#" type="button" id="{$this->get_id()}_firstPage" class="btn btn-default" onclick="$('#{$this->get_id()}_pageInput').val(1);"><i class="fa fa-fast-backward"></i></button>	
 					  			<div class="input-group">
 									<input id="{$this->get_id()}_pageInput" type="number" class="form-control" value="1" />
