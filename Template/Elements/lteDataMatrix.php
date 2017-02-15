@@ -50,7 +50,7 @@ class lteDataMatrix extends lteDataTable {
 	 * The other columns remain untouched.
 	 * @see \exface\Templates\jeasyui\Widgets\grid::build_js_data_source()
 	 */
-	public function build_js_data_source(){
+	public function build_js_data_source($js_filters = ''){
 		global $exface;
 		/* @var $widget \exface\Core\Widgets\DataMatrix */
 		$widget = $this->get_widget();

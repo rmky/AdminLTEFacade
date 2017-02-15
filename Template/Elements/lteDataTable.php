@@ -408,7 +408,7 @@ JS;
 		return $output;
 	}
 	
-	protected function build_js_data_source($js_filters){
+	protected function build_js_data_source($js_filters = ''){
 		$widget = $this->get_widget();
 		
 		$ajax_data = <<<JS
@@ -735,12 +735,17 @@ JS;
 		else {
 			// Open this row
 			row.child('<div id="detail'+row.data().{$widget->get_meta_object()->get_uid_alias()}+'"></div>').show();
-			$.get('{$this->get_ajax_url()}&action={$widget->get_row_details_action()}&resource={$this->get_page_id()}&element={$widget->get_row_details_container()->get_id()}&prefill={"meta_object_id":"{$widget->get_meta_object_id()}","rows":[{"{$widget->get_meta_object()->get_uid_alias()}":' + row.data().{$widget->get_meta_object()->get_uid_alias()} + '}]}'+'&exfrid='+row.data().{$widget->get_meta_object()->get_uid_alias()}, 
-				function(data){
+			$.ajax({
+				url: '{$this->get_ajax_url()}&action={$widget->get_row_details_action()}&resource={$this->get_page_id()}&element={$widget->get_row_details_container()->get_id()}&prefill={"meta_object_id":"{$widget->get_meta_object_id()}","rows":[{"{$widget->get_meta_object()->get_uid_alias()}":' + row.data().{$widget->get_meta_object()->get_uid_alias()} + '}]}'+'&exfrid='+row.data().{$widget->get_meta_object()->get_uid_alias()}, 
+				dataType: "html",
+				success: function(data){
 					$('#detail'+row.data().{$widget->get_meta_object()->get_uid_alias()}).append(data);
 					{$this->get_id()}_table.columns.adjust();
-				}
-			);
+				},
+				error: function(jqXHR, textStatus, errorThrown ){
+					{$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
+				}	
+			});
 			tr.next().addClass('detailRow unselectable');
 			tr.addClass('shown');
 			tr.find('.{$this->row_details_expand_icon}').removeClass('{$this->row_details_expand_icon}').addClass('{$this->row_details_collapse_icon}');
