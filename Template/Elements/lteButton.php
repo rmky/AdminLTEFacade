@@ -21,14 +21,6 @@ class lteButton extends lteAbstractElement {
 		$hotkey_handlers = array();
 		$action = $this->get_action();
 		
-		// If the button has an action, make some action specific HTML depending on the action
-		if ($action){
-			if ($action->implements_interface('iShowDialog')){
-				$dialog_widget = $action->get_dialog_widget();
-				$output .= "$('" . str_replace(array("'", "\r", "\n"), array("\'", "", ""), $this->get_template()->generate_html($dialog_widget)) . "').modal({show:false}).appendTo('body');";
-			}
-		}
-		
 		// Get the java script required for the action itself
 		if ($action){
 			// Actions with template scripts may contain some helper functions or global variables.
