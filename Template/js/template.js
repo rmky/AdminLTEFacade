@@ -1,11 +1,13 @@
 $( document ).ready(function() {
 	pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');
 	
+	// Remove the JS loaded with ajax dialogs when the corresponding dialog is closed
 	$(document).on('hidden.bs.modal', '#ajax-dialogs>.modal', function (event) {
 		$(this).next('script').remove();
 		$(this).remove();
 	});
 	
+	// Stack modals (bootstrap tweak)
 	$(document).on('show.bs.modal', '.modal', function (event) {
 		$('.modal:visible').removeClass('modal-stack').not(this).addClass('modal-stack');
         var zIndex = 1040 + (10 * $('.modal:visible').length);
@@ -15,7 +17,13 @@ $( document ).ready(function() {
         }, 0);
     });
 	
+	// Refresh ObjectBasekt and favorites counter
 	$(document).on('exface.Core.ObjectBasketAdd.action.performed', function(e){pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');});
+	
+	// Remove row from object basket table, when the object is removed
+	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, data){
+		$('#object_basket').find('.dataTables_scrollBody>table.dataTable').DataTable().rows({selected: true}).remove().draw();
+	});
 });
 
 function pinnedObjectsRefresh(containerSelector, counterSelector){

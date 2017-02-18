@@ -98,7 +98,7 @@ class lteButton extends lteAbstractElement {
                        			}
 		                       	$('#ajax-dialogs').append(data);
 		                       	$('#ajax-dialogs').children('.modal').last().modal('show');
-                       			$(document).trigger('" . $action->get_alias_with_namespace() . ".action.performed');
+                       			$(document).trigger('" . $action->get_alias_with_namespace() . ".action.performed', [requestData]);
                        			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "']);
 		                       	"
 								// Make sure, the input widget of the button is always refreshed, once the dialog is closed again
