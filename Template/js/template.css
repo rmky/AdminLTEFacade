@@ -6,6 +6,7 @@
 ul.dropdown-menu li {padding: 4px 0;}
 .tab-content>.tab-pane {height: initial !important;}
 .exf_input>.form-group {margin-bottom: initial;}
+.modal-body-content-wrapper>.nav-tabs-custom {margin-top: -15px;margin-bottom: -15px}
 
 /* DataTables customization */
 table.dataTable tr.detailRow table {width: initial;}
@@ -13,7 +14,7 @@ table.dataTable .detailRow table {width:initial; margin: initial;}
 table.dataTable thead th {text-align: center;}
 table.dataTable tfoot th.dt-body-right {padding-right: 10px;}
 /* Fix useless checkboxes being shown above and below body data breaking scrolling */
-.dataTables_scrollBody table.dataTable th.select-checkbox:before {display:none !important}
+.dataTables_scrollBody table.dataTable th.select-checkbox:before, .dataTables_scrollBody table.dataTable th.select-checkbox:after {display:none !important}
 /* Cell coloring */
 table.dataTable td.ok{background-color: green;}
 table.dataTable td.warning{background-color: yellow;}

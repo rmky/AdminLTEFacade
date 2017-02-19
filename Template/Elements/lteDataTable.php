@@ -2,6 +2,8 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Widgets\DataTable;
 use exface\Core\Interfaces\Actions\ActionInterface;
+use exface\Core\Widgets\Dashboard;
+use exface\Core\Widgets\Tab;
 
 /**
  * 
@@ -33,7 +35,7 @@ class lteDataTable extends lteAbstractElement {
 		
 		// Extra column for the multiselect-checkbox
 		if ($widget->get_multi_select()){
-			$checkbox_header = '<th onclick="javascript: if(!$(this).parent().hasClass(\'selected\')) {' . $this->get_id() . '_table.rows().select(); $(this).parent().addClass(\'selected\');} else{' . $this->get_id() . '_table.rows().deselect(); $(this).parent().removeClass(\'selected\');}"></th>';
+			$checkbox_header = '<th onclick="javascript: if(!$(this).parent().hasClass(\'selected\')) {' . $this->get_id() . '_table.rows().select(); $(\'#' . $this->get_id() . '_wrapper\').find(\'th.select-checkbox\').parent().addClass(\'selected\');} else{' . $this->get_id() . '_table.rows().deselect(); $(\'#' . $this->get_id() . '_wrapper\').find(\'th.select-checkbox\').parent().removeClass(\'selected\');}"></th>';
 			$thead = $checkbox_header . $thead;
 			if ($tfoot){
 				$tfoot = $checkbox_header . $tfoot;
@@ -91,31 +93,34 @@ class lteDataTable extends lteAbstractElement {
 		// output the html code
 		// TODO replace "stripe" class by a custom css class
 		$output = <<<HTML
-
-<div class="{$this->get_width_classes()} exf_grid_item">
-	<div class="box">
-		<div class="box-header">
-			{$top_toolbar}
-		</div><!-- /.box-header -->
-		<div class="box-body no-padding">
-			<table id="{$this->get_id()}" class="table table-striped table-hover" cellspacing="0" width="100%">
-				<thead>
-					{$thead}
-				</thead>
-				{$tfoot}
-			</table>
-		</div>
-		<div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
-			<div class="row">
-				{$bottom_toolbar}
-			</div>
+	<div class="box-header">
+		{$top_toolbar}
+	</div><!-- /.box-header -->
+	<div class="box-body no-padding">
+		<table id="{$this->get_id()}" class="table table-striped table-hover" cellspacing="0" width="100%">
+			<thead>
+				{$thead}
+			</thead>
+			{$tfoot}
+		</table>
+	</div>
+	<div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
+		<div class="row">
+			{$bottom_toolbar}
 		</div>
 	</div>
 	{$this->build_html_table_customizer()}
-</div>
 HTML;
 		
-		return $output;
+		return $this->build_html_wrapper($output);
+	}
+	
+	protected function build_html_wrapper($html){
+		$result = $html;
+		if (!$this->get_widget()->get_parent() || $this->get_widget()->get_parent() instanceof Dashboard){
+			$result = '<div class="box">' . $result . '</div>';
+		}
+		return '<div class="' . $this->get_width_classes() .' exf_grid_item">' . $result . '</div>';
 	}
 	
 	function generate_js(){
@@ -166,7 +171,7 @@ HTML;
 			foreach ($widget->get_columns() as $nr => $col){
 				if ($col->get_attribute_alias() == $sorter->attribute_alias){
 					$column_exists = true;
-					$default_sorters .= '[ ' . ($widget->has_row_details() ? $nr+1 : $nr) . ', "' . $sorter->direction . '" ], ';
+					$default_sorters .= '[ ' . ($nr+$column_number_offset) . ', "' . $sorter->direction . '" ], ';
 				}
 			}
 			if (!$column_exists){
@@ -361,6 +366,8 @@ function {$this->build_js_function_prefix()}Init(){
 	{$this->build_js_row_selection()}
 	
 	{$this->build_js_row_details()}
+	
+	{$this->build_js_fixes()}
 	
 	$('#{$this->get_id()}_popup_columnList').sortable();
 	context.init({preventDoubleContext: false});
@@ -711,6 +718,31 @@ JS;
 	});
 JS;
 		return $output;
+	}
+	
+	/**
+	 * Generates JS fixes for various template-specific issues.
+	 * 
+	 * @return string
+	 */
+	protected function build_js_fixes(){
+		// If the table is in a tab, recalculate column width once the tab is opened
+		if ($this->get_widget()->get_parent() instanceof Tab){
+			$js = <<<JS
+$('a[href="#' + $('#{$this->get_id()}').parents('.tab-pane').first().attr('id') + '"]').on('shown.bs.tab', function (e) {
+	{$this->get_id()}_table.columns.adjust();
+})		
+JS;
+		}
+		// If the table is in a dialog, recalculate column width once the tab is opened
+		elseif ($this->get_widget()->get_parent() instanceof Dialog){
+			$js = <<<JS
+$('a[href="#' + $('#{$this->get_id()}').parents('.modal').first().attr('id') + '"]').on('shown.bs.modal', function (e) {
+	{$this->get_id()}_table.columns.adjust();
+})
+JS;
+		}
+		return $js;
 	}
 	
 	protected function build_js_row_details(){
