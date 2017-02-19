@@ -19,6 +19,7 @@ $( document ).ready(function() {
 	
 	// Refresh ObjectBasekt and favorites counter
 	$(document).on('exface.Core.ObjectBasketAdd.action.performed', function(e){pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');});
+	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e){pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');});
 	
 	// Remove row from object basket table, when the object is removed
 	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, data){
@@ -55,7 +56,7 @@ function pinnedObjectsBaseUrl(){
 function pinnedObjectsMenu(data, containerSelector, counterSelector){
 	var total = 0;
 	for (var i=0; i<data.length; i++){
-		var rowObjCount = Object.keys(data[i]['instances']).length;
+		var rowObjCount = data[i]['instance_counter'];
 		total = total + rowObjCount;
 		var btnRemove = '<a class="pull-left" href="javascript:pinnedObjectsRemoveObject(\'' + data[i]['object_id'] + '\',\'' + containerSelector + '\',\'' + counterSelector + '\');"><i class="fa fa-times" aria-hidden="true"></i></a>';
 		var row = $('<li><span class="menu-actions pull-right">'+btnRemove+'</span><a href="#">' + rowObjCount + 'x ' + data[i]['object_name'] + '</a></li>');
