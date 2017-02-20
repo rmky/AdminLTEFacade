@@ -284,6 +284,9 @@ JS;
 		// Selection
 		if ($this->get_widget()->get_multi_select()){
 			$select_options = 'style: "multi"';
+			if ($this->get_widget()->get_multi_select_all_initially()){
+				$initial_row_selection = $this->get_id() . '_table.rows().select(); $(\'#' . $this->get_id() . '_wrapper\').find(\'th.select-checkbox\').parent().addClass(\'selected\');'; 
+			}
 		} else {
 			$select_options = 'style: "single"';
 		}
@@ -359,11 +362,11 @@ function {$this->build_js_function_prefix()}Init(){
 		{$rightclick_script}
 	});
 	
+	{$initial_row_selection}
+	
 	{$this->build_js_pagination()}
 	
 	{$this->build_js_quicksearch()}
-	
-	{$this->build_js_row_selection()}
 	
 	{$this->build_js_row_details()}
 	
@@ -576,39 +579,6 @@ JS;
 		//$includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/jquery.contextmenu.js"></script>';
 		
 		return $includes;
-	}
-	
-	/**
-	 * Renders javascript event handlers for tapping on rows. A single tap (or click) selects a row, while a longtap opens the
-	 * context menu for the row if one is defined. The long tap also selects the row.
-	 */
-	protected function build_js_row_selection(){
-		$output = '';		
-		/*if ($this->get_widget()->get_multi_select()){
-			$output .= "
-					$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
-						if (event.which !== 1) return;
-				        $(this).toggleClass('selected bg-aqua');
-				    } );
-					";
-		} else {			
-			// Select a row on tap. Make sure no other row is selected
-			$output .= "
-					$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
-						if(!(!event.detail || event.detail==1)) return;
-					        
-						if ($(this).hasClass('unselectable')) return;
-				        if ( $(this).hasClass('selected bg-aqua') ) {
-				            $(this).removeClass('selected bg-aqua');
-				        }
-				        else {
-				            {$this->get_id()}_table.$('tr.selected').removeClass('selected bg-aqua');
-				             $(this).addClass('selected bg-aqua');
-				        }
-				    } );
-					";
-		}*/
-		return $output;
 	}
 	
 	protected function build_html_top_toolbar(){
