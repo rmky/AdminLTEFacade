@@ -7,6 +7,7 @@ ul.dropdown-menu li {padding: 4px 0;}
 .tab-content>.tab-pane {height: initial !important;}
 .exf_input>.form-group {margin-bottom: initial;}
 .modal-body-content-wrapper>.nav-tabs-custom {margin-top: -15px;margin-bottom: -15px}
+.dropdown-menu {z-index: 2000}
 
 /* DataTables customization */
 table.dataTable tr.detailRow table {width: initial;}

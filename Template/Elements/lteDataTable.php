@@ -302,11 +302,6 @@ JS;
 var {$this->get_id()}_table;
 $.fn.dataTable.ext.errMode = 'throw';
 
-/*
-$(document).ready(function() {
-	{$this->build_js_function_prefix()}Init();
-});
-*/
 {$this->build_js_function_prefix()}Init();
 
 function {$this->build_js_function_prefix()}Init(){
@@ -373,6 +368,7 @@ function {$this->build_js_function_prefix()}Init(){
 	{$this->build_js_fixes()}
 	
 	$('#{$this->get_id()}_popup_columnList').sortable();
+	
 	context.init({preventDoubleContext: false});
 }
 	
