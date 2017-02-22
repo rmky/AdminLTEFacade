@@ -10,15 +10,16 @@ class lteComboTable extends lteInput {
 	private $min_chars_to_search = 1;
 
 	function generate_html(){
+		$value = $this->escape_string($this->get_value_with_defaults());
 		$output = '
 						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
 						<input type="hidden"
 								id="' . $this->get_id() . '" 
 								name="' . $this->get_widget()->get_attribute_alias() . '"
-								value="' . $this->escape_string($this->get_value_with_defaults()) . '" />
+								value="' . $value . '" />
 						<input class="form-control"
 								id="' . $this->get_id() . '_ms"
-								' . ($this->get_widget()->get_value() ? "value='[\"" . $this->escape_string($this->get_value_with_defaults()) . "\"]' " : '') . '/>
+								' . ($value ? "value='[\"" . $value . "\"]' " : '') . '/>
 					';
 		return $this->build_html_wrapper($output);
 	}
@@ -70,11 +71,12 @@ $(document).ready(function() {
    {$initial_value_script}
     
     $(ms).on('selectionchange', function(e,m){
-	  $('#{$this->get_id()}').val(ms.getValue()).trigger('change');
+		$('#{$this->get_id()}').val(m.getValue()).trigger('change');
+		{$this->get_on_change_script()}
 	});
 	  		
-	$(ms).on('load', function(e,ms){
-		delete ms.getDataUrlParams()["fltr00_{$widget->get_value_column()->get_data_column_name()}"];
+	$(ms).on('load', function(e,m){
+		delete m.getDataUrlParams()["fltr00_{$widget->get_value_column()->get_data_column_name()}"];
   	});
 });		
 JS;
@@ -91,6 +93,30 @@ JS;
 		$headers[] = '<link href="exface/vendor/bower-asset/magicsuggest/magicsuggest-min.css" rel="stylesheet">';
 		$headers[] = '<script src="exface/vendor/bower-asset/magicsuggest/magicsuggest-min.js"></script>';
 		return $headers;
+	}
+	
+	function build_js_value_getter($column = null, $row = null){
+		if ($this->get_widget()->get_multi_select() || is_null($column) || $column === ''){
+			$output = '$("#' . $this->get_id() . '_ms").magicSuggest().getValue().join()';
+		} else {
+			$output = '(function() {
+					var row = $("#' . $this->get_id() . '_ms").magicSuggest().getSelection();
+					if (row.length > 0) { return row[0]["' . $column . '"]; } else { return ""; }
+				})()';
+		}
+		
+		return $output;
+	}
+	
+	function build_js_value_setter($value){
+		$output = '
+				var ' . $this->get_id() . '_ms = $("#' . $this->get_id() . '_ms").magicSuggest();
+				var value = ' . $value . ';
+				if (value) { value = value.split(","); } else { value = []; }
+				' . $this->get_id() . '_ms.clear();
+				' . $this->get_id() . '_ms.setValue(value);';
+		
+		return $output;
 	}
 	
 }

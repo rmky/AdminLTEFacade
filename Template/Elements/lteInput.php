@@ -1,12 +1,19 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Interfaces\Actions\ActionInterface;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryInputReferenceTrait;
 
 class lteInput extends lteText {
+	
+	use JqueryInputReferenceTrait;
 	
 	protected function init(){
 		parent::init();
 		$this->set_element_type('text');
+		// If the input's value is bound to another element via an expression, we need to make sure, that other element will
+		// change the input's value every time it changes itself. This needs to be done on init() to make sure, the other element
+		// has not generated it's JS code yet!
+		$this->register_live_reference_at_linked_element();
 	}
 	
 	function generate_html(){
@@ -49,6 +56,7 @@ class lteInput extends lteText {
 		if ($this->get_widget()->is_required()) {
 			$output .= $this->build_js_required();
 		}
+		$output .= $this->build_js_on_change_handler();
 		
 		return $output;
 	}
@@ -86,5 +94,30 @@ class lteInput extends lteText {
 			return parent::build_js_data_getter($action);
 		}
 	}
+	
+	protected function build_js_on_change_handler(){
+		if ($this->get_on_change_script()){
+			// verknuepfter Wert wird initialisiert, bei Aenderungen aktualisiert
+			$output = '
+					' . $this->get_on_change_script() . '
+					$("#' . $this->get_id() . '").on("input change", function() {
+						' . $this->get_on_change_script() . '
+					});';
+		} else {
+			$output = '';
+		}
+		
+		return $output;
+	}
+	
+	function build_js_value_setter($value){
+		$output = '
+				var ' . $this->get_id() . ' = $("#' . $this->get_id() . '");
+				' . $this->get_id() . '.val(' . $value . ');
+				' . $this->get_id() . '.trigger("change");';
+		
+		return $output;
+	}
+	
 }
 ?>
