@@ -383,5 +383,37 @@ JS;
 		}
 		return "{oId: '" . $this->get_widget()->get_meta_object_id() . "', rows: " . $rows . "}";
 	}
+	
+	/**
+	 * Renders javascript event handlers for tapping on rows. A single tap (or click) selects a row, while a longtap opens the
+	 * context menu for the row if one is defined. The long tap also selects the row.
+	 */
+	protected function build_js_row_selection(){
+		$output = '';
+		if ($this->get_widget()->get_multi_select()){
+			$output .= "
+				$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
+					if (event.which !== 1) return;
+						$(this).toggleClass('selected bg-aqua');
+					} );
+				";
+		} else {
+			// Select a row on tap. Make sure no other row is selected
+			$output .= "
+				$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
+					if(!(!event.detail || event.detail==1)) return;
+				 	if ($(this).hasClass('unselectable')) return;
+					
+					if ( $(this).hasClass('selected bg-aqua') ) {
+						$(this).removeClass('selected bg-aqua');
+					} else {
+						{$this->get_id()}_table.$('tr.selected').removeClass('selected bg-aqua');
+						$(this).addClass('selected bg-aqua');
+					}
+				} );
+			";
+		}
+		return $output;
+	}
 }
 ?>
