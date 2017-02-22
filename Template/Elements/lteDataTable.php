@@ -284,7 +284,7 @@ JS;
 		// Selection
 		if ($this->get_widget()->get_multi_select()){
 			$select_options = 'style: "multi"';
-			if ($this->get_widget()->get_multi_select_all_initially()){
+			if ($this->get_widget()->get_multi_select_all_selected()){
 				$initial_row_selection = $this->get_id() . '_table.rows().select(); $(\'#' . $this->get_id() . '_wrapper\').find(\'th.select-checkbox\').parent().addClass(\'selected\');'; 
 			}
 		} else {

@@ -363,7 +363,6 @@ function {$this->build_js_function_prefix()}load(keep_page_pos, replace_data){
 
 function {$this->get_id()}_drawPagination(){
 	var pages = {$this->get_id()}_pages;
-	console.log(pages);
 	if (pages.page == 0) {
 		$('#{$this->get_id()}_prevPage').attr('disabled', 'disabled');
 	} else {
