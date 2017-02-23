@@ -26,7 +26,13 @@ $( document ).ready(function() {
 	
 	// Remove row from object basket table, when the object is removed
 	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, data){
-		$('#object_basket').find('.dataTables_scrollBody>table.dataTable').DataTable().rows({selected: true}).remove().draw();
+		var table = $('#object_basket').find('.dataTables_scrollBody>table.dataTable').DataTable();
+		table.rows({selected: true}).remove();
+		if (table.rows().count() == 0){
+			$('#object_basket').modal('hide');
+		} else {
+			table.draw();
+		}
 	});
 });
 
