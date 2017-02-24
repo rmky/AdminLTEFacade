@@ -1,5 +1,5 @@
 {
-	"name" : "ExFace/AdminLteTemplate",
+	"name" : "exface/AdminLteTemplate",
 	"description" : "UI template for ExFace based on the AdminLTE skin for Bootstrap",
 	"type" : "library",
 	"license" : "GPL-3.0+",
