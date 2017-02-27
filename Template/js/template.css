@@ -11,6 +11,7 @@ ul.dropdown-menu li {padding: 4px 0;}
 
 /* AdminLTE customization */
 .user-menu .user-image i {font-size: 25px;}
+.user-menu .dropdown-menu .user-header i {color: #4b646f; font-size: 90px;}
 .user-panel .image i {color: #4b646f; font-size: 45px;}
 
 /* DataTables customization */
