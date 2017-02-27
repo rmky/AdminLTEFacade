@@ -1,5 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+use exface\Core\Factories\ExpressionFactory;
+
 /**
  * In jQuery Mobile a ComboTable is represented by a filterable UL-list. The code is based on the JQM-example below.
  * jqm example: http://demos.jquerymobile.com/1.4.5/listview-autocomplete-remote/
@@ -32,7 +34,7 @@ class lteComboTable extends lteInput {
 		$other_options = (!$widget->get_multi_select() ? ',maxSelection: 1' : '') . ($widget->is_disabled() ? ',disabled: true' : '');
 		
 		// Set initial value
-		if ($widget->get_value()){
+		/*if ($widget->get_value()){
 			if ($widget->get_value_text()){
 				// If we have value and text, we simply populate the widget programmatically
 				$initial_value_script = " ms.setSelection([{'" . $widget->get_text_column()->get_data_column_name() . "': '" . $widget->get_value_text() . "', '" . $widget->get_value_column()->get_data_column_name() . "': '" . $widget->get_value() . "'}]);";
@@ -42,7 +44,25 @@ class lteComboTable extends lteInput {
 				// is always within the first server request. It also makes the first request much faster as only one row needs to be selected.
 				$initial_value_filter = ', fltr00_' . $widget->get_value_column()->get_data_column_name() . ': "' . $widget->get_value() . '"';
 			}
+		}*/
+		
+		$fltrId = 0;
+		foreach ($widget->get_options_data_sheet()->get_filters()->get_conditions() as $condition) {
+			$test0 = $condition->get_attribute_alias();
+			$valueExpression = ExpressionFactory::create_from_string($this->get_workbench(), $condition->get_value());
+			if ($valueExpression->is_reference()) {
+				
+				
+				$test = $valueExpression->get_widget_link()->get_widget_id();
+				$test2 = $valueExpression->get_widget_link()->get_column_id();
+				$test3 = $valueExpression->get_widget_link()->get_widget();
+				$test4 = $this->get_template()->get_element($test3)->build_js_value_getter();
+				$initial_value_filter = ', fltr' . sprintf('%02d', $fltrId) . '_' . $widget->get_value_column()->get_data_column_name() . ': "' . $widget->get_value() . '"';
+			}
 		}
+		
+		
+		$initial_value_filter =
 		
 		$output = <<<JS
 		
@@ -132,10 +152,34 @@ JS;
 		$widget = $this->get_widget();
 		
 		$output = '
-				var ' . $this->get_id() . '_ms = $("#' . $this->get_id() . '_ms").magicSuggest();
+				var ' . $this->get_id() . '_ms = $("#' . $this->get_id() . '_ms").magicSuggest();';
+		foreach ($widget->get_options_data_sheet()->get_filters()->get_conditions() as $condition) {
+			$valueExpression = ExpressionFactory::create_from_string($this->get_workbench(), $condition->get_value());
+			if ($valueExpression->is_reference()) {
+				$test = $valueExpression->get_widget_link()->get_widget_id();
+				$test2 = $valueExpression->get_widget_link()->get_column_id();
+			}
+		}
+		
+		$output .= '
 				' . $this->get_id() . '_ms.getDataUrlParams().fltr00_' . $widget->get_value_column()->get_data_column_name() . ' = ' . $value . ';
-				' . $this->get_id() . '_ms.getDataUrlParams().liveReferenceUpdate = true;
+				' . $this->get_id() . '_ms.getDataUrlParams().jsValueSetterUpdate = true;
 				' . $this->get_id() . '_ms.setData("' . $this->get_ajax_url() . '");';
+		/*$output = '
+				var ' . $this->get_id() . '_ms = $("#' . $this->get_id() . '_ms").magicSuggest();
+				var value = ' . $value . ', valueArray;
+				if (value) { valueArray = $.map(value.split(","), $.trim); } else { valueArray = []; }
+				' . $this->get_id() . '_ms.clear();';
+		
+		if ($this->get_widget()->get_multi_select()) {
+			$output .= '
+				m.setValue(valueArray);';
+		} else {
+			$output .= '
+				if (valueArray.length == 1) {
+					m.setValue(valueArray);
+				}';
+		}*/
 		
 		return $output;
 	}
@@ -173,8 +217,8 @@ JS;
 	function build_js_on_load_live_reference() {
 		$widget = $this->get_widget();
 		
-		$output = '
-				if (m.getDataUrlParams().liveReferenceUpdate) {
+		/*$output = '
+				if (m.getDataUrlParams().jsValueSetterUpdate) {
 					var value = m.getDataUrlParams().fltr00_' . $this->get_widget()->get_value_column()->get_data_column_name() . ', valueArray;
 					if (value) {
 						valueArray = $.map(value.split(","), $.trim);
@@ -196,8 +240,9 @@ JS;
 		
 		$output .= '
 					
-					delete m.getDataUrlParams().liveReferenceUpdate;
-				}';
+					delete m.getDataUrlParams().jsValueSetterUpdate;
+				}';*/
+		$output = '';
 		
 		return $output;
 	}

@@ -27,7 +27,7 @@ class lteInputHidden extends lteInput {
 	 * {@inheritDoc}
 	 * @see \exface\AdminLteTemplate\Template\Elements\lteInput::build_js_value_setter()
 	 */
-	function build_js_value_setter($value){
+	/*function build_js_value_setter($value){
 		$output = '
 				var ' . $this->get_id() . ' = $("#' . $this->get_id() . '");
 				var value = ' . $value . ', valueArray;
@@ -44,6 +44,6 @@ class lteInputHidden extends lteInput {
 				' . $this->get_id() . '.trigger("change");';
 		
 		return $output;
-	}
+	}*/
 	
 }
