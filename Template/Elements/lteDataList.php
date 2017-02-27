@@ -1,8 +1,6 @@
 <?php namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DataColumn;
-use exface\Core\Widgets\DataColumnGroup;
-use exface\Core\Interfaces\Actions\ActionInputInterface;
 use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
@@ -242,7 +240,21 @@ HTML;
 		}
 		
 		$output = <<<JS
-
+		
+var {$this->get_id()}_pages = {
+	page: 0, 
+	pages: 1, 
+	end: 0,
+	previous: function(){
+		if (this.page == 0) return;
+		this.page--;
+	},
+	next: function(){
+		if (this.page == this.pages) return;
+		this.page++;
+	}
+	
+};
 $(document).ready(function() {
 	$('#{$this->get_id()}').masonry({
 		columnWidth: '#{$this->get_id()}_sizer', 
@@ -282,11 +294,10 @@ function {$this->build_js_function_prefix()}getSelection(){
 		row[$(element).data('field')] = $(element).text();
 	});
 	data.push(row);
-	console.log(data);
 	return data;
 }
 
-function {$this->build_js_function_prefix()}load(replace_data){
+function {$this->build_js_function_prefix()}load(keep_page_pos, replace_data){
 	if ($('#{$this->get_id()}').data('loading')) return;
 	{$this->build_js_busy_icon_show()}
 	$('#{$this->get_id()}').data('loading', 1);
@@ -300,6 +311,14 @@ function {$this->build_js_function_prefix()}load(replace_data){
 	data.element = "{$widget->get_id()}";
 	data.object = "{$this->get_widget()->get_meta_object()->get_id()}";
 	{$filters_ajax}
+	if ({$this->get_id()}_pages.length) {
+		data.start = {$this->get_id()}_pages.page * {$this->get_id()}_pages.length;
+		data.length = {$this->get_id()}_pages.length;
+	}
+	
+	if (!keep_page_pos){
+		{$this->get_id()}_pages.page = 0;
+	}
     
     $.post("{$this->get_ajax_url()}", data, function(json){
     	try {
@@ -325,6 +344,17 @@ function {$this->build_js_function_prefix()}load(replace_data){
         	$('#{$this->get_id()}').data('loading', 0);
         	{$this->build_js_busy_icon_hide()}
         }
+        if (data.recordsFiltered){
+        	if (!{$this->get_id()}_pages.length){
+        		{$this->get_id()}_pages.length = data.data.length;
+        	}
+        	{$this->get_id()}_pages = $.extend({$this->get_id()}_pages, {
+        		recordsDisplay: parseInt(data.recordsFiltered),
+        		end: ({$this->get_id()}_pages.page * {$this->get_id()}_pages.length) + data.data.length,
+        		pages: Math.ceil(data.recordsFiltered/{$this->get_id()}_pages.length)
+        	});
+        	{$this->get_id()}_drawPagination();
+        }
 	}).fail(function(){
 		{$this->build_js_busy_icon_hide()}
 		{$this->build_js_show_message_error('"Sorry, your request could not be processed correctly. Please contact an administrator!"', '"Server error"')};
@@ -332,7 +362,7 @@ function {$this->build_js_function_prefix()}load(replace_data){
 }
 
 function {$this->get_id()}_drawPagination(){
-	var pages = {$this->get_id()}_table.page.info();
+	var pages = {$this->get_id()}_pages;
 	if (pages.page == 0) {
 		$('#{$this->get_id()}_prevPage').attr('disabled', 'disabled');
 	} else {
@@ -366,7 +396,7 @@ JS;
 	}
 	
 	public function build_js_refresh($keep_pagination_position = false){
-		return $this->build_js_function_prefix() . "load();";
+		return $this->build_js_function_prefix() . "load(" . ($keep_pagination_position ? 1 : 0) .");";
 	}
 	
 	public function generate_headers(){
@@ -382,6 +412,54 @@ JS;
 			$rows = $this->build_js_function_prefix() . "getSelection()";
 		}
 		return "{oId: '" . $this->get_widget()->get_meta_object_id() . "', rows: " . $rows . "}";
+	}
+	
+	/**
+	 * Renders javascript event handlers for tapping on rows. A single tap (or click) selects a row, while a longtap opens the
+	 * context menu for the row if one is defined. The long tap also selects the row.
+	 */
+	protected function build_js_row_selection(){
+		$output = '';
+		if ($this->get_widget()->get_multi_select()){
+			$output .= "
+				$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
+					if (event.which !== 1) return;
+						$(this).toggleClass('selected bg-aqua');
+					} );
+				";
+		} else {
+			// Select a row on tap. Make sure no other row is selected
+			$output .= "
+				$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
+					if(!(!event.detail || event.detail==1)) return;
+				 	if ($(this).hasClass('unselectable')) return;
+					
+					if ( $(this).hasClass('selected bg-aqua') ) {
+						$(this).removeClass('selected bg-aqua');
+					} else {
+						{$this->get_id()}_table.$('tr.selected').removeClass('selected bg-aqua');
+						$(this).addClass('selected bg-aqua');
+					}
+				} );
+			";
+		}
+		return $output;
+	}
+	
+	protected function build_js_pagination(){
+		$output = <<<JS
+	$('#{$this->get_id()}_prevPage').on('click', function(){{$this->get_id()}_pages.previous(); {$this->build_js_refresh(true)}});
+	$('#{$this->get_id()}_nextPage').on('click', function(){{$this->get_id()}_pages.next(); {$this->build_js_refresh(true)}});
+	
+	$('#{$this->get_id()}_pageInfo').on('click', function(){
+		$('#{$this->get_id()}_pageInput').val({$this->get_id()}_table.page()+1);
+	});
+	
+	$('#{$this->get_id()}_pageControls').on('hidden.bs.dropdown', function(){
+		{$this->get_id()}_table.page(parseInt($('#{$this->get_id()}_pageSlider').val())-1).draw(false);
+	});
+JS;
+			return $output;
 	}
 }
 ?>

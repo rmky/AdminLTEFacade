@@ -16,6 +16,9 @@ $( document ).ready(function() {
             $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
         }, 0);
     });
+	$(document).on('hidden.bs.modal', '.modal', function () {
+	    $('.modal:visible').length && $(document.body).addClass('modal-open');
+	});
 	
 	// Refresh ObjectBasekt and favorites counter
 	$(document).on('exface.Core.ObjectBasketAdd.action.performed', function(e){pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');});
@@ -23,7 +26,13 @@ $( document ).ready(function() {
 	
 	// Remove row from object basket table, when the object is removed
 	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, data){
-		$('#object_basket').find('.dataTables_scrollBody>table.dataTable').DataTable().rows({selected: true}).remove().draw();
+		var table = $('#object_basket').find('.dataTables_scrollBody>table.dataTable').DataTable();
+		table.rows({selected: true}).remove();
+		if (table.rows().count() == 0){
+			$('#object_basket').modal('hide');
+		} else {
+			table.draw();
+		}
 	});
 });
 
