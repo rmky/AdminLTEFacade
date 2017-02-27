@@ -1,6 +1,5 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
-use exface\Core\Factories\ExpressionFactory;
 
 /**
  * In jQuery Mobile a ComboTable is represented by a filterable UL-list. The code is based on the JQM-example below.
@@ -34,35 +33,42 @@ class lteComboTable extends lteInput {
 		$other_options = (!$widget->get_multi_select() ? ',maxSelection: 1' : '') . ($widget->is_disabled() ? ',disabled: true' : '');
 		
 		// Set initial value
-		/*if ($widget->get_value()){
+		$filters = [];
+		if ($widget->get_value_expression() && $widget->get_value_expression()->is_reference()){
+			//widget has a live reference value
+			$link = $widget->get_value_expression()->get_widget_link();
+			$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
 			if ($widget->get_value_text()){
-				// If we have value and text, we simply populate the widget programmatically
-				$initial_value_script = " ms.setSelection([{'" . $widget->get_text_column()->get_data_column_name() . "': '" . $widget->get_value_text() . "', '" . $widget->get_value_column()->get_data_column_name() . "': '" . $widget->get_value() . "'}]);";
+				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": ' . $linked_element->build_js_value_getter() . '}]);';
 			} else {
-				// If we only have a value and no text, add a special filter on the value column to just select this one value from the sere
-				// This filter will get removed after the first data set is received from the server. This ensures, that the selected value
-				// is always within the first server request. It also makes the first request much faster as only one row needs to be selected.
-				$initial_value_filter = ', fltr00_' . $widget->get_value_column()->get_data_column_name() . ': "' . $widget->get_value() . '"';
+				//$initial_value_script = 'ms.setValue([' . $linked_element->build_js_value_getter() . '])';
+				$filters[] = 'fltr' . str_pad(count($filters), 2, 0, STR_PAD_LEFT) . '_' . $widget->get_value_column()->get_data_column_name() . ': ' . $linked_element->build_js_value_getter();
 			}
-		}*/
-		
-		$fltrId = 0;
-		foreach ($widget->get_options_data_sheet()->get_filters()->get_conditions() as $condition) {
-			$test0 = $condition->get_attribute_alias();
-			$valueExpression = ExpressionFactory::create_from_string($this->get_workbench(), $condition->get_value());
-			if ($valueExpression->is_reference()) {
-				
-				
-				$test = $valueExpression->get_widget_link()->get_widget_id();
-				$test2 = $valueExpression->get_widget_link()->get_column_id();
-				$test3 = $valueExpression->get_widget_link()->get_widget();
-				$test4 = $this->get_template()->get_element($test3)->build_js_value_getter();
-				$initial_value_filter = ', fltr' . sprintf('%02d', $fltrId) . '_' . $widget->get_value_column()->get_data_column_name() . ': "' . $widget->get_value() . '"';
+		} else {
+			//widget has a static value
+			if ($widget->get_value_text()){
+				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": "' . $widget->get_value() . '"}]);';
+			} else {
+				//$initial_value_script = 'ms.setValue([' . $widget->get_value() . '])';
+				$filters[] = 'fltr' . str_pad(count($filters), 2, 0, STR_PAD_LEFT) . '_' . $widget->get_value_column()->get_data_column_name() . ': "' . $widget->get_value() . '"';
 			}
 		}
 		
-		
-		$initial_value_filter =
+		// Add initial filters
+		if ($widget->get_table()->has_filters()){
+			foreach ($widget->get_table()->get_filters() as $fltr){
+				if ($fltr->get_value_expression() && $fltr->get_value_expression()->is_reference()){
+					//filter is a live reference
+					$link = $fltr->get_value_expression()->get_widget_link();
+					$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
+					$filters[] = 'fltr' . str_pad(count($filters), 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ': ' . $linked_element->build_js_value_getter($link->get_column_id());
+				} else {
+					//filter has a static value
+					$filters[] = 'fltr' . str_pad(count($filters), 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ': "' . $fltr->get_value() . '"'; 
+				}
+			}
+		}
+		$initial_value_filter = implode(",\n\t\t\t", $filters);
 		
 		$output = <<<JS
 		
@@ -76,7 +82,7 @@ $(document).ready(function() {
 			object: "{$widget->get_table()->get_meta_object()->get_id()}",
 			action: "{$widget->get_lazy_loading_action()}",
 			length: {$widget->get_max_suggestions()},
-			start: 0
+			start: 0,
 			{$initial_value_filter}
         },
         queryParam: 'q',
@@ -91,9 +97,12 @@ $(document).ready(function() {
 	{$initial_value_script}
 	
 	$(ms).on("selectionchange", function(e,m){
-		{$this->build_js_on_selectionchange_live_reference()}
 		$("#{$this->get_id()}").val(m.getValue()).trigger("change");
 		{$this->get_on_change_script()}
+	});
+	
+	$(ms).on("beforeload", function(e,m){
+		{$this->build_js_on_beforeload_live_reference()}
 	});
 	
 	$(ms).on("load", function(e,m){	
@@ -117,11 +126,10 @@ JS;
 	}
 	
 	/**
-	 * Erzeugung einer JavaScript-Funktion zum Auslesen des Wertes (z.B. bei Live-Referenz).
-	 * Die zurueckgegebenen Werte sind per MagicSuggest valueField definiert. Sind mehrere
-	 * Werte ausgewaehlt wird eine Komma-separierte Liste dieser Werte zurueckgegeben, ist
-	 * eine spezifische Spalte ausgewaehlt wird statt dem valueField der Wert dieser Spalte
-	 * zurueckgegeben.
+	 * Erzeugung einer JavaScript-Funktion zum Auslesen des Wertes. Die zurueckgegebenen
+	 * Werte sind per MagicSuggest valueField definiert. Sind mehrere Werte ausgewaehlt
+	 * wird eine Komma-separierte Liste dieser Werte zurueckgegeben. Ist eine spezifische
+	 * Spalte ausgewaehlt, wird statt dem valueField der Wert dieser Spalte zurueckgegeben.
 	 * 
 	 * {@inheritDoc}
 	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_value_getter()
@@ -140,10 +148,10 @@ JS;
 	}
 	
 	/**
-	 * Erzeugung einer JavaScript-Funktion zum Setzen des Wertes (z.B. bei Live-Referenz).
-	 * Die Werte werden gesetzt, indem ein Filter gesetzt wird und per setData der Inhalt
-	 * des MagicSuggest neu geladen wird. Die eigentliche Auswahl der Werte geschieht erst
-	 * nach dem Laden (on load, siehe build_js_on_load_live_reference()).
+	 * Erzeugung einer JavaScript-Funktion zum Setzen des Wertes. Ist multiselect false
+	 * wird der Wert nur gesetzt wenn genau ein Wert uebergeben wird. Anschliessend wird
+	 * der Inhalt des MagicSuggest neu geladen (um ordentliche Label anzuzeigen falls
+	 * auch ein entsprechender Filter gesetzt ist).
 	 * 
 	 * {@inheritDoc}
 	 * @see \exface\AdminLteTemplate\Template\Elements\lteInput::build_js_value_setter()
@@ -152,20 +160,6 @@ JS;
 		$widget = $this->get_widget();
 		
 		$output = '
-				var ' . $this->get_id() . '_ms = $("#' . $this->get_id() . '_ms").magicSuggest();';
-		foreach ($widget->get_options_data_sheet()->get_filters()->get_conditions() as $condition) {
-			$valueExpression = ExpressionFactory::create_from_string($this->get_workbench(), $condition->get_value());
-			if ($valueExpression->is_reference()) {
-				$test = $valueExpression->get_widget_link()->get_widget_id();
-				$test2 = $valueExpression->get_widget_link()->get_column_id();
-			}
-		}
-		
-		$output .= '
-				' . $this->get_id() . '_ms.getDataUrlParams().fltr00_' . $widget->get_value_column()->get_data_column_name() . ' = ' . $value . ';
-				' . $this->get_id() . '_ms.getDataUrlParams().jsValueSetterUpdate = true;
-				' . $this->get_id() . '_ms.setData("' . $this->get_ajax_url() . '");';
-		/*$output = '
 				var ' . $this->get_id() . '_ms = $("#' . $this->get_id() . '_ms").magicSuggest();
 				var value = ' . $value . ', valueArray;
 				if (value) { valueArray = $.map(value.split(","), $.trim); } else { valueArray = []; }
@@ -173,76 +167,79 @@ JS;
 		
 		if ($this->get_widget()->get_multi_select()) {
 			$output .= '
-				m.setValue(valueArray);';
+				' . $this->get_id() . '_ms.setValue(valueArray);';
 		} else {
 			$output .= '
 				if (valueArray.length == 1) {
-					m.setValue(valueArray);
+					' . $this->get_id() . '_ms.setValue(valueArray);
 				}';
-		}*/
+		}
+		
+		$output .= '
+				' . $this->get_id() . '_ms.getDataUrlParams().jsValueSetterUpdate = true;
+				' . $this->get_id() . '_ms.setData("' . $this->get_ajax_url() . '");';
 		
 		return $output;
 	}
 	
 	/**
-	 * Erzeugt den JavaScript-Code welcher bei Aenderung der Auswahl des MagicSuggest
-	 * ausgefuehrt wird. Ist kein Wert mehr definiert werden gesetzte Filter geloescht,
-	 * d.h. danach sind wieder alle Werte in zugaenglich.
+	 * Erzeugt den JavaScript-Code welcher vor dem Laden des MagicSuggest-Inhalts
+	 * ausgefuehrt wird. Es werden die gesetzten Filter den dataUrlParams hinzuge-
+	 * fuegt (werden nach dem Laden wieder entfernt, da sich die Werte durch Live-
+	 * Referenzen aendern koennen).
 	 * 
 	 * @return string
 	 */
-	function build_js_on_selectionchange_live_reference() {
+	function build_js_on_beforeload_live_reference() {
 		$widget = $this->get_widget();
 		
-		$output = '
-				if (m.getValue().length == 0) {
-					delete m.getDataUrlParams().fltr00_' . $widget->get_value_column()->get_data_column_name() . ';
-				}';
+		$output = '';
+		if ($widget->get_table()->has_filters()){
+			foreach ($widget->get_table()->get_filters() as $fnr => $fltr){
+				if ($fltr->get_value_expression() && $fltr->get_value_expression()->is_reference()){
+					//filter is a live reference
+					$link = $fltr->get_value_expression()->get_widget_link();
+					$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
+					$output .= '
+				m.getDataUrlParams().fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $linked_element->build_js_value_getter($link->get_column_id()) . ';';
+				} else {
+					//filter has a static value
+					$output .= '
+				m.getDataUrlParams().fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = "' . $fltr->get_value() . '";';
+				}
+			}
+		}
 		
 		return $output;
 	}
 	
 	/**
 	 * Erzeugt den JavaScript-Code welcher nach dem Laden des MagicSuggest-Inhalts
-	 * ausgefuehrt wird. Nach einem Live-Reference-Update werden auch die ausgewaehlten
-	 * Werte angepasst. Die Werte werden aus dem gesetzten Filter gelesen. Es wird
-	 * erwartet, dass ein oder mehrere numerische Werte (Oids) uebergeben werden
-	 * (mehrere als Komma-separierte Liste). Ist multiselect deaktiviert erfolgt eine
-	 * Selektion nur wenn genau ein Wert vorhanden ist. Sind mehr Werte vorhanden muss
-	 * der Benutzer den passenden Wert manuell aus dem Dropdown selektieren (welcher
-	 * durch den Filter eingeschraenkt ist). 
+	 * ausgefuehrt wird. Der Wert wird neu gesetzt um das Label ordentlich anzu-
+	 * zeigen. Ausserdem werden gesetzten Filter nach dem Laden wieder entfernt,
+	 * da sich die Werte durch Live-Referenzen aendern koennen (werden vor dem
+	 * naechsten Laden wieder hinzugefuegt).
 	 * 
 	 * @return string
 	 */
 	function build_js_on_load_live_reference() {
 		$widget = $this->get_widget();
 		
-		/*$output = '
+		$output = '
 				if (m.getDataUrlParams().jsValueSetterUpdate) {
-					var value = m.getDataUrlParams().fltr00_' . $this->get_widget()->get_value_column()->get_data_column_name() . ', valueArray;
-					if (value) {
-						valueArray = $.map(value.split(","), $.trim);
-					} else {
-						valueArray = [];
-						delete m.getDataUrlParams().fltr00_' . $widget->get_value_column()->get_data_column_name() . ';
-					}
-					m.clear();';
-		
-		if ($this->get_widget()->get_multi_select()) {
-			$output .= '
-					m.setValue(valueArray);';
-		} else {
-			$output .= '
-					if (valueArray.length == 1) {
-						m.setValue(valueArray);
-					}';
-		}
-		
-		$output .= '
+					// Nach dem Laden wird der Wert neu gesetzt um ordentliche Label anzuzeigen
+					var value = m.getValue();
+					m.clear();
+					m.setValue(value);
 					
+					// dataUrlParams aufraeumen
 					delete m.getDataUrlParams().jsValueSetterUpdate;
-				}';*/
-		$output = '';
+					for (key in m.getDataUrlParams()) {
+						if (key.substring(0, 4) == "fltr") {
+							delete m.getDataUrlParams()[key];
+						}
+					}
+				}';
 		
 		return $output;
 	}
