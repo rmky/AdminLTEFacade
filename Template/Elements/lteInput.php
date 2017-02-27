@@ -1,11 +1,11 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Interfaces\Actions\ActionInterface;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryInputReferenceTrait;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryLiveReferenceTrait;
 
 class lteInput extends lteText {
 	
-	use JqueryInputReferenceTrait;
+	use JqueryLiveReferenceTrait;
 	
 	protected function init(){
 		parent::init();
