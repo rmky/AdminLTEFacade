@@ -96,8 +96,8 @@ class lteButton extends lteAbstractElement {
 		                       	if ($('#ajax-dialogs').length < 1){
 		                       		$('body').append('<div id=\"ajax-dialogs\"></div>');
                        			}
-		                       	$('#ajax-dialogs').append(data);
-		                       	$('#ajax-dialogs').children('.modal').last().modal('show');
+		                       	$('#ajax-dialogs').append('<div class=\"ajax-wrapper\">'+data+'</div>');
+		                       	$('#ajax-dialogs').children().last().children('.modal').last().modal('show');
                        			$(document).trigger('" . $action->get_alias_with_namespace() . ".action.performed', [requestData]);
                        			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "']);
 		                       	"
