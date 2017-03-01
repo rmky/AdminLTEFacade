@@ -44,7 +44,7 @@ class lteComboTable extends lteInput {
 				//$initial_value_script = 'ms.setValue([' . $linked_element->build_js_value_getter() . '])';
 				$filters[] = 'fltr' . str_pad(count($filters), 2, 0, STR_PAD_LEFT) . '_' . $widget->get_value_column()->get_data_column_name() . ': ' . $linked_element->build_js_value_getter();
 			}
-		} else {
+		} elseif ($widget->get_value()) {
 			//widget has a static value
 			if ($widget->get_value_text()){
 				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": "' . $widget->get_value() . '"}]);';
@@ -69,6 +69,7 @@ class lteComboTable extends lteInput {
 			}
 		}
 		$initial_value_filter = implode(",\n\t\t\t", $filters);
+		$initial_value_filter = $initial_value_filter ? ', '.  $initial_value_filter : '';
 		
 		$output = <<<JS
 		
@@ -82,7 +83,7 @@ $(document).ready(function() {
 			object: "{$widget->get_table()->get_meta_object()->get_id()}",
 			action: "{$widget->get_lazy_loading_action()}",
 			length: {$widget->get_max_suggestions()},
-			start: 0,
+			start: 0
 			{$initial_value_filter}
         },
         queryParam: 'q',
