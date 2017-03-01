@@ -180,3 +180,11 @@ ol li.highlight i.icon-move {}
 #sf-resetcontent {width: auto !important;} 
 #sf-resetcontent h1 {display: none;} 
 h2.block_exception.clear_fix {margin: 0}
+
+/* Bootstrap-Notify */
+[data-notify="title"] {
+	font-weight: bold;
+}
+[data-notify="message"] {
+	padding-left: 10px;
+}
