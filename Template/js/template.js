@@ -1,10 +1,10 @@
 $( document ).ready(function() {
 	pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');
+	pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');
 	
 	// Remove the JS loaded with ajax dialogs when the corresponding dialog is closed
-	$(document).on('hidden.bs.modal', '#ajax-dialogs>.modal', function (event) {
-		$(this).next('script').remove();
-		$(this).remove();
+	$(document).on('hidden.bs.modal', '#ajax-dialogs>.ajax-wrapper>.modal', function (event) {
+		$(this).parent().remove();
 	});
 	
 	// Stack modals (bootstrap tweak)
@@ -26,12 +26,15 @@ $( document ).ready(function() {
 	
 	// Remove row from object basket table, when the object is removed
 	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, data){
-		var table = $('#object_basket').find('.dataTables_scrollBody>table.dataTable').DataTable();
-		table.rows({selected: true}).remove();
-		if (table.rows().count() == 0){
+		// FIXME for some reason finding the table by jquery does not work after another dialog was open 
+		// (e.g. a dialog of one of the basket buttons)
+		//var dt = $('#object_basket').find('.dataTables_scrollBody>table.dataTable').first().DataTable();
+		var dt = object_basket_DataTable_table;
+		dt.rows({selected: true}).remove();
+		if (dt.rows().count() == 0){
 			$('#object_basket').modal('hide');
 		} else {
-			table.draw();
+			dt.draw();
 		}
 	});
 });
@@ -69,7 +72,6 @@ function pinnedObjectsMenu(data, containerSelector, counterSelector){
 		total = total + rowObjCount;
 		var btnRemove = '<a class="pull-left" href="javascript:pinnedObjectsRemoveObject(\'' + data[i]['object_id'] + '\',\'' + containerSelector + '\',\'' + counterSelector + '\');"><i class="fa fa-times" aria-hidden="true"></i></a>';
 		var row = $('<li><span class="menu-actions pull-right">'+btnRemove+'</span><a href="#">' + rowObjCount + 'x ' + data[i]['object_name'] + '</a></li>');
-		//row.children('a').click({object: data[i]}, function(e){pinnedObjectsModalShow($('#pinned-modal'), e.data.object)});
 		row.children('a').click({object: data[i]}, function(e){
 			$.ajax({
 				type: 'POST',
@@ -85,8 +87,8 @@ function pinnedObjectsMenu(data, containerSelector, counterSelector){
 	               	if ($('#ajax-dialogs').length < 1){
 	               		$('body').append('<div id=\"ajax-dialogs\"></div>');
 	       			}
-	               	$('#ajax-dialogs').append(data);
-	               	$('#ajax-dialogs').find('.modal').first().modal('show');
+	               	$('#ajax-dialogs').append('<div class=\"ajax-wrapper\">'+data+'</div>');
+                   	$('#ajax-dialogs').children().last().children('.modal').last().modal('show');
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					adminLteCreateDialog($("body"), "error", jqXHR.responseText, jqXHR.status + " " + jqXHR.statusText);

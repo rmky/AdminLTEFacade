@@ -19,12 +19,12 @@ class lteDialogButton extends lteButton {
 			if ($input_widget instanceof iContainOtherWidgets){
 					foreach ($input_element->get_widget()->get_input_widgets() as $child) {
 					if ($child->is_required() && !$child->is_hidden()) {
-						$childDataGetter = $this->get_template()->get_element($child)->build_js_value_getter($action);
+						$childValueGetter = $this->get_template()->get_element($child)->build_js_value_getter();
 						if (!$alias = $child->get_caption()) {
 							$alias = method_exists($child, 'get_attribute_alias') ? $child->get_attribute_alias() : $child->get_meta_object()->get_alias_with_namespace();
 						}
 						$output .= "
-						if(!{$childDataGetter}) { invalidElements.push('" . $alias . "'); }";
+						if(!{$childValueGetter}) { invalidElements.push('" . $alias . "'); }";
 					}
 				}
 			}
