@@ -29,12 +29,34 @@ class lteComboTable extends lteInput {
 		/* @var $widget \exface\Core\Widgets\ComboTable */
 		$widget = $this->get_widget();
 		
+		// Add initial value
+		if ($widget->get_value_expression() && $widget->get_value_expression()->is_reference()){
+			//widget has a live reference value
+			$link = $widget->get_value_expression()->get_widget_link();
+			$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
+			if ($widget->get_value_text()){
+				$initial_value_script= 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": ' . $linked_element->build_js_value_getter($link->get_column_id()) . '}]);';
+			} else {
+				$initial_value_script = 'ms.setValue([' . $linked_element->build_js_value_getter($link->get_column_id()) . '])';
+				$initial_filter_script = ', fltr00_' . $widget->get_value_column()->get_data_column_name() . ': ' . $linked_element->build_js_value_getter($link->get_column_id());
+			}
+		} elseif ($widget->get_value()) {
+			//widget has a static value
+			if ($widget->get_value_text()){
+				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": "' . $widget->get_value() . '"}]);';
+			} else {
+				$initial_value_script = 'ms.setValue([' . $widget->get_value() . '])';
+				$initial_filter_script = ', fltr00_' . $widget->get_value_column()->get_data_column_name() . ': ' . $widget->get_value();
+			}
+		}
+		
 		// Add other options
 		$options = [];
 		if (!$widget->get_multi_select()) {$options[] = 'maxSelection: 1'; }
 		if ($widget->is_disabled()) { $options[] = 'disabled: true'; }
 		$other_options = implode(",\n\t\t", $options);
 		$other_options = $other_options ? ', ' . $other_options : '';
+		
 		
 		$output = <<<JS
 		
@@ -48,8 +70,8 @@ $(document).ready(function() {
 			object: "{$widget->get_table()->get_meta_object()->get_id()}",
 			action: "{$widget->get_lazy_loading_action()}",
 			length: {$widget->get_max_suggestions()},
-			start: 0,
-			initialLoad: true
+			start: 0
+			{$initial_filter_script}
 		},
 		queryParam: 'q',
 		resultsField: 'data',
@@ -58,6 +80,8 @@ $(document).ready(function() {
 		allowFreeEntries: false
 		{$other_options}
 	});
+	
+	{$initial_value_script}
 	
 	$(ms).on("selectionchange", function(e,m){
 		$("#{$this->get_id()}").val(m.getValue().join()).trigger("change");
@@ -223,27 +247,6 @@ JS;
 	 * @return string
 	 */
 	function build_js_on_load_live_reference() {
-		$widget = $this->get_widget();
-		
-		// Add initial value
-		if ($widget->get_value_expression() && $widget->get_value_expression()->is_reference()){
-			//widget has a live reference value
-			$link = $widget->get_value_expression()->get_widget_link();
-			$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
-			if ($widget->get_value_text()){
-				$initial_value_script= 'm.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": ' . $linked_element->build_js_value_getter($link->get_column_id()) . '}]);';
-			} else {
-				$initial_value_script = 'm.setValue([' . $linked_element->build_js_value_getter($link->get_column_id()) . '])';
-			}
-		} elseif ($widget->get_value()) {
-			//widget has a static value
-			if ($widget->get_value_text()){
-				$initial_value_script = 'm.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": "' . $widget->get_value() . '"}]);';
-			} else {
-				$initial_value_script = 'm.setValue([' . $widget->get_value() . '])';
-			}
-		}
-		
 		$output = '
 				var dataUrlParams = m.getDataUrlParams();
 				
@@ -259,13 +262,6 @@ JS;
 					m.setValue(value);
 					
 					delete dataUrlParams.jsValueSetterUpdate;
-				}
-				
-				if (dataUrlParams.initialLoad) {
-					' . $initial_value_script . '
-					delete dataUrlParams.initialLoad;
-					dataUrlParams.jsValueSetterUpdate = true;
-					m.setData("' . $this->get_ajax_url() . '");
 				}';
 		
 		return $output;
