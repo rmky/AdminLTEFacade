@@ -48,8 +48,32 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_show_message_success()
 	 */
 	public function build_js_show_message_success($message_body_js, $title = null){
-		// TODO use some library to show toast notificactions
-		return '';
+		$title = !is_null($title) ? $title : '"' . $this->translate('MESSAGE.SUCCESS_TITLE') . '"';
+		return '$.notify({
+					title: ' . $title . ',
+					message: ' . $message_body_js . ',
+				}, {
+					type: "success",
+					placement: {
+						from: "bottom",
+						align: "right"
+					},
+					animate: {
+						enter: "animated fadeInUp",
+						exit: "animated fadeOutDown"
+					},
+					mouse_over: "pause",
+					template: "<div data-notify=\"container\" class=\"col-xs-11 col-sm-3 alert alert-{0}\" role=\"alert\">" +
+						"<button type=\"button\" aria-hidden=\"true\" class=\"close\" data-notify=\"dismiss\">×</button>" +
+						"<div data-notify=\"icon\"></div> " +
+						"<div data-notify=\"title\">{1}</div> " +
+						"<div data-notify=\"message\">{2}</div>" +
+						"<div class=\"progress\" data-notify=\"progressbar\">" +
+							"<div class=\"progress-bar progress-bar-{0}\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"></div>" +
+						"</div>" +
+						"<a href=\"{3}\" target=\"{4}\" data-notify=\"url\"></a>" +
+					"</div>"
+				});';
 	}
 	
 	/**

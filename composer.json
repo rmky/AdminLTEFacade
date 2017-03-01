@@ -33,6 +33,8 @@
 		"bower-asset/jScrollPane" : "~2.0.23",
 		"bower-asset/font-awesome" : "~4.6.3",
 		"bower-asset/ionicons" : "~2.0.1",
+		"bower-asset/remarkable-bootstrap-notify" : "~3.1.3",
+		"bower-asset/animate.css" : "~3.5.2",
 		"npm-asset/flot-charts" : "~0.8"
 	}
 }
