@@ -95,6 +95,18 @@ $(document).ready(function() {
 	$(ms).on("load", function(e,m){
 		{$this->build_js_on_load_live_reference()}
 	});
+	
+	//notwendig fuer Eingabe mit BarcodeScanner
+	var {$this->get_id()}_typingTimer;
+	var {$this->get_id()}_input = $("#{$this->get_id()}_ms .ms-sel-ctn input");
+	{$this->get_id()}_input.on("keyup", function() {
+		clearTimeout({$this->get_id()}_typingTimer);
+		if ({$this->get_id()}_input.val()) {
+			{$this->get_id()}_typingTimer = setTimeout(function() {
+				$("#{$this->get_id()}_ms").magicSuggest().expand();
+			}, 400);
+		}
+	});
 });		
 JS;
 		
