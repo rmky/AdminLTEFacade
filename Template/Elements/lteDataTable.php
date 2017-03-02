@@ -534,7 +534,7 @@ JS;
 		} else {
 			// TODO
 		}
-		return $output . "['" . $column . "']";
+		return $output . "[0]['" . $column . "']";
 	}
 	
 	public function build_js_data_getter(ActionInterface $action = null){		
