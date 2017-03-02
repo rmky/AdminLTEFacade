@@ -26,7 +26,7 @@ class lteDialog extends lteForm {
 			$output = <<<HTML
 <div class="modal" id="{$this->get_id()}">
 	<div class="modal-dialog" style="width:{$this->get_width()};">
-		<div class="modal-content">
+		<div class="modal-content box">
 			<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">{$this->get_widget()->get_caption()}</h4>
@@ -53,5 +53,7 @@ HTML;
 		}
 		return parent::get_width();
 	}
+	
+	
 }
 ?>
