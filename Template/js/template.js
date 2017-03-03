@@ -2,11 +2,6 @@ $( document ).ready(function() {
 	pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');
 	pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');
 	
-	// Remove the JS loaded with ajax dialogs when the corresponding dialog is closed
-	$(document).on('hidden.bs.modal', '#ajax-dialogs>.ajax-wrapper>.modal', function (event) {
-		$(this).parent().remove();
-	});
-	
 	// Stack modals (bootstrap tweak)
 	$(document).on('show.bs.modal', '.modal', function (event) {
 		$('.modal:visible').removeClass('modal-stack').not(this).addClass('modal-stack');
@@ -16,7 +11,23 @@ $( document ).ready(function() {
             $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
         }, 0);
     });
-	$(document).on('hidden.bs.modal', '.modal', function () {
+	$(document).on('hidden.bs.modal', '.modal', function (e) {
+		// Remove the JS loaded with ajax dialogs when the corresponding dialog is closed
+		// All this magic with the "reopen" class is due to the issue, that closing the config dialog of a DataTable
+		// located in a dialog, would fire the hidden event on that dialog too - probably some kind of bug.
+		if($(this).is('.modal:visible')){
+			$(this).addClass('reopen');
+			e.stopPropagation();
+			return false;
+		}
+		if ($(this).parent('.ajax-wrapper').length == 1){
+			if ($(this).hasClass('reopen')){
+				$(this).removeClass('reopen').modal('show');
+			} else {
+				$(this).parent('.ajax-wrapper').remove();
+			}
+		}
+		// Tell the page, that a dialog is still open
 	    $('.modal:visible').length && $(document.body).addClass('modal-open');
 	});
 	
@@ -108,7 +119,7 @@ function adminLteCreateDialog(parentElement, id, title, content){
 	var dialog = $(' \
 		<div class="modal" id="'+id+'"> \
 			<div class="modal-dialog modal-lg"> \
-				<div class="modal-content"> \
+				<div class="modal-content box"> \
 					<div class="modal-header"> \
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> \
 						<h4 class="modal-title">'+title+'</h4> \
