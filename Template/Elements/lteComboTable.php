@@ -177,7 +177,20 @@ JS;
 				var ' . $this->get_id() . '_ms = $("#' . $this->get_id() . '_ms");
 				var value = ' . $value . ', valueArray;
 				if (' . $this->get_id() . '_ms.data("magicSuggest")) {
-					if (value) { valueArray = $.map(value.split(","), $.trim); } else { valueArray = []; }
+					if (value) {
+						switch ($.type(value)) {
+							case "number":
+								valueArray = [value]; break;
+							case "string":
+								valueArray = $.map(value.split(","), $.trim); break;
+							case "array":
+								valueArray = value; break;
+							default:
+								valueArray = [];
+						}
+					} else {
+						valueArray = [];
+					}
 					' . $this->get_id() . '_ms.magicSuggest().clear();';
 		
 		if ($this->get_widget()->get_multi_select()) {
