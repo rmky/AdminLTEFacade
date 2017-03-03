@@ -23,5 +23,6 @@
 	"ICON_CLASSES.CAMERA": "fa fa-camera",
 	"ICON_CLASSES.SEARCH": "fa fa-search",
 	"ICON_CLASSES.STAR": "fa fa-star",
-	"ICON_CLASSES.BASKET": "fa fa-shopping-basket"
+	"ICON_CLASSES.BASKET": "fa fa-shopping-basket",
+	"ICON_CLASSES.PRINT": "fa fa-print"
 }
