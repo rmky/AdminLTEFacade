@@ -64,18 +64,18 @@ class lteInput extends lteText {
 	function build_js_required() {
 		$output = '
 					// checks if a value is set when the element is created
-					if ($(\'#' .$this->get_id() . '\')[0].value) {
-						$(\'#' .$this->get_id() . '\')[0].parentElement.classList.remove(\'invalid\');
+					if ($(\'#' .$this->get_id() . '\').first().val()) {
+						$(\'#' .$this->get_id() . '\').first().parent().removeClass(\'invalid\');
 					} else {
-						$(\'#' .$this->get_id() . '\')[0].parentElement.classList.add(\'invalid\');
+						$(\'#' .$this->get_id() . '\').first().parent().addClass(\'invalid\');
 					};
 					
 					// checks if a value is set when the element is changed
 					$(\'#' .$this->get_id() . '\').on(\'input change\', function() {
 						if (this.value) {
-							this.parentElement.classList.remove(\'invalid\');
+							$(this).parent().removeClass(\'invalid\');
 						} else {
-							this.parentElement.classList.add(\'invalid\');
+							$(this).parent().addClass(\'invalid\');
 						}
 					});';
 		
