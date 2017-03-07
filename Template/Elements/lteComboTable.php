@@ -35,7 +35,7 @@ class lteComboTable extends lteInput {
 			$link = $widget->get_value_expression()->get_widget_link();
 			$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
 			if ($widget->get_value_text()){
-				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": ' . $linked_element->build_js_value_getter($link->get_column_id()) . '}]);';
+				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . preg_replace( "/\r|\n/", "", $widget->get_value_text()) . '", "' . $widget->get_value_column()->get_data_column_name() . '": ' . $linked_element->build_js_value_getter($link->get_column_id()) . '}]);';
 			} else {
 				$initial_value_script = $this->build_js_value_setter($linked_element->build_js_value_getter($link->get_column_id()));
 				$initial_filter_script = ', fltr00_' . $widget->get_value_column()->get_data_column_name() . ': ' . $linked_element->build_js_value_getter($link->get_column_id());
@@ -43,7 +43,7 @@ class lteComboTable extends lteInput {
 		} elseif ($widget->get_value()) {
 			//widget has a static value
 			if ($widget->get_value_text()){
-				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . $widget->get_value_text() . '", "' . $widget->get_value_column()->get_data_column_name() . '": "' . $widget->get_value() . '"}]);';
+				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . preg_replace( "/\r|\n/", "", $widget->get_value_text()) . '", "' . $widget->get_value_column()->get_data_column_name() . '": "' . $widget->get_value() . '"}]);';
 			} else {
 				$initial_value_script = $this->build_js_value_setter($widget->get_value());
 				$initial_filter_script = ', fltr00_' . $widget->get_value_column()->get_data_column_name() . ': ' . $widget->get_value();
