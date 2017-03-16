@@ -88,7 +88,7 @@ class lteInput extends lteText {
 	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::build_js_data_getter($action, $custom_body_js)
 	 */
 	public function build_js_data_getter(ActionInterface $action = null){
-		if ($this->get_widget()->is_readonly()){
+		if ($this->get_widget()->is_display_only()){
 			return '{}';
 		} else {
 			return parent::build_js_data_getter($action);
