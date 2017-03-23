@@ -320,45 +320,52 @@ function {$this->build_js_function_prefix()}load(keep_page_pos, replace_data){
 		{$this->get_id()}_pages.page = 0;
 	}
     
-    $.post("{$this->get_ajax_url()}", data, function(json){
-    	try {
-			var data = $.parseJSON(json);
-		} catch (err) {
-			{$this->build_js_busy_icon_hide()}
-		}
-		if (data.data.length > 0) {
-			var template = Handlebars.compile($('#{$this->get_id()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
-	        var elements = $(template(data));
-	        $('#{$this->get_id()}')
-	        	.hide()
-	        	.append(elements)
-	        	.imagesLoaded( function(){ 
-	        		$('#{$this->get_id()} .placeholder').hide();
-	        		$('#{$this->get_id()}').show().masonry('appended', elements);
-	        		$('#{$this->get_id()}').closest('.exf_grid_item').trigger('resize');
-			        {$this->build_js_busy_icon_hide()}
-			        $('#{$this->get_id()}').data('loading', 0);
+	$.ajax({
+       url: "{$this->get_ajax_url()}",
+       data: data,
+       method: 'POST',
+       success: function(json){
+			try {
+				var data = $.parseJSON(json);
+			} catch (err) {
+				{$this->build_js_busy_icon_hide()}
+			}
+			if (data.data.length > 0) {
+				var template = Handlebars.compile($('#{$this->get_id()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
+				var elements = $(template(data));
+		        $('#{$this->get_id()}')
+		           .hide()
+		           .append(elements)
+		           .imagesLoaded( function(){ 
+		              $('#{$this->get_id()} .placeholder').hide();
+		              $('#{$this->get_id()}').show().masonry('appended', elements);
+		              $('#{$this->get_id()}').closest('.exf_grid_item').trigger('resize');
+		              {$this->build_js_busy_icon_hide()}
+		              $('#{$this->get_id()}').data('loading', 0);
+		         });
+			} else {
+				$('#{$this->get_id()} .placeholder').show();
+				$('#{$this->get_id()}').data('loading', 0);
+				{$this->build_js_busy_icon_hide()}
+			}
+			if (data.recordsFiltered){
+				if (!{$this->get_id()}_pages.length){
+					{$this->get_id()}_pages.length = data.data.length;
+				}
+				{$this->get_id()}_pages = $.extend({$this->get_id()}_pages, {
+					recordsDisplay: parseInt(data.recordsFiltered),
+					end: ({$this->get_id()}_pages.page * {$this->get_id()}_pages.length) + data.data.length,
+					pages: Math.ceil(data.recordsFiltered/{$this->get_id()}_pages.length)
 				});
-        } else {
-        	$('#{$this->get_id()} .placeholder').show();
-        	$('#{$this->get_id()}').data('loading', 0);
-        	{$this->build_js_busy_icon_hide()}
-        }
-        if (data.recordsFiltered){
-        	if (!{$this->get_id()}_pages.length){
-        		{$this->get_id()}_pages.length = data.data.length;
-        	}
-        	{$this->get_id()}_pages = $.extend({$this->get_id()}_pages, {
-        		recordsDisplay: parseInt(data.recordsFiltered),
-        		end: ({$this->get_id()}_pages.page * {$this->get_id()}_pages.length) + data.data.length,
-        		pages: Math.ceil(data.recordsFiltered/{$this->get_id()}_pages.length)
-        	});
-        	{$this->get_id()}_drawPagination();
-        }
-	}).fail(function(){
-		{$this->build_js_busy_icon_hide()}
-		{$this->build_js_show_message_error('"Sorry, your request could not be processed correctly. Please contact an administrator!"', '"Server error"')};
+				{$this->get_id()}_drawPagination();
+			}
+		},
+		error: function(jqXHR, textStatus,errorThrown){
+		   {$this->build_js_busy_icon_hide()}
+		   {$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
+		}
 	});
+	
 }
 
 function {$this->get_id()}_drawPagination(){
