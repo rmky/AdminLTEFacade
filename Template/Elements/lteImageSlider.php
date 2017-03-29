@@ -199,16 +199,29 @@ function {$this->build_js_function_prefix()}load(){
 	data.object = "{$this->get_widget()->get_meta_object()->get_id()}";
 	{$filters_ajax}
     
-    $.post("{$this->get_ajax_url()}", data, function(json){
-		var data = $.parseJSON(json);
-		if (data.data.length > 0) {
-			var template = Handlebars.compile($('#{$this->get_id()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
-	        var elements = $(template(data));
-	        $('#{$this->get_id()} .slides').append(elements);
-	        {$this->build_js_function_prefix()}startSlider();
-        }
-        {$this->build_js_busy_icon_hide()}
-        $('#{$this->get_id()}').data('loading', 0);
+	$.ajax({
+       url: "{$this->get_ajax_url()}",
+       data: data,
+       method: 'POST',
+       success: function(json){
+			try {
+				var data = $.parseJSON(json);
+				if (data.data.length > 0) {
+					var template = Handlebars.compile($('#{$this->get_id()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
+			        var elements = $(template(data));
+			        $('#{$this->get_id()} .slides').append(elements);
+			        {$this->build_js_function_prefix()}startSlider();
+		        }
+		        {$this->build_js_busy_icon_hide()}
+		        $('#{$this->get_id()}').data('loading', 0);
+			} catch (err) {
+				{$this->build_js_busy_icon_hide()}
+			}
+		},
+		error: function(jqXHR, textStatus,errorThrown){
+		   {$this->build_js_busy_icon_hide()}
+		   {$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
+		}
 	});
 }
 
