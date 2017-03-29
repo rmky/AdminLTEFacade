@@ -3,6 +3,13 @@
 use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
 use exface\AdminLteTemplate\Template\AdminLteTemplate;
 
+/**
+ *
+ * @method AdminLteTemplate get_template()
+ *
+ * @author Andrej Kabachnik
+ *
+ */
 abstract class lteAbstractElement extends AbstractJqueryElement {
 	
 	public function build_js_init_options(){
@@ -74,16 +81,6 @@ abstract class lteAbstractElement extends AbstractJqueryElement {
 						"<a href=\"{3}\" target=\"{4}\" data-notify=\"url\"></a>" +
 					"</div>"
 				});';
-	}
-	
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::get_template()
-	 * @return AdminLteTemplate
-	 */
-	public function get_template(){
-		return parent::get_template();
 	}
 	
 	public function escape_string($string){
