@@ -20,7 +20,7 @@ class lteInputSelect extends lteInput {
 			if ($this->get_widget()->get_multi_select() && count($this->get_widget()->get_values()) > 1){
 				$selected = in_array($value, $this->get_widget()->get_values());
 			} else {
-				$selected = $this->get_value_with_defaults() == $value ? true : false;
+				$selected = strcasecmp($this->get_value_with_defaults(), $value) == 0 ? true : false;
 			}
 			$options .= '
 					<option value="' . $value . '"' . ($selected ? ' selected="selected"' : '') . '>' . $text . '</option>';
