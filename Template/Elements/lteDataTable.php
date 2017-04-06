@@ -1,9 +1,12 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
+
 use exface\Core\Widgets\DataTable;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Widgets\Dashboard;
 use exface\Core\Widgets\Tab;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTablesTrait;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTableTrait;
 
 /**
  * 
@@ -13,11 +16,19 @@ use exface\Core\Widgets\Tab;
  *
  */
 class lteDataTable extends lteAbstractElement {
+	
+	use JqueryDataTableTrait;
+	use JqueryDataTablesTrait;
+	
 	private $on_load_success = '';
-	private $row_details_expand_icon = 'fa-plus-square-o';
-	private $row_details_collapse_icon = 'fa-minus-square-o';
 	private $editable = false;
 	private $editors = array();
+	
+	protected function init(){
+		parent::init();
+		$this->set_row_details_expand_icon('fa-plus-square-o');
+		$this->set_row_details_collapse_icon('fa-minus-square-o');
+	}
 	
 	function generate_html(){
 		$widget = $this->get_widget();
@@ -709,49 +720,6 @@ $('a[href="#' + $('#{$this->get_id()}').parents('.modal').first().attr('id') + '
 JS;
 		}
 		return $js;
-	}
-	
-	protected function build_js_row_details(){
-		$output = '';
-		/* @var $widget \exface\Core\Widgets\DataTable */
-		$widget = $this->get_widget();
-		if ($widget->has_row_details()){
-			$output = <<<JS
-	// Add event listener for opening and closing details
-	$('#{$this->get_id()} tbody').on('click', 'td.details-control', function () {
-		var tr = $(this).closest('tr');
-		var row = {$this->get_id()}_table.row( tr );
-		
-		if ( row.child.isShown() ) {
-			// This row is already open - close it
-			row.child.hide();
-			tr.removeClass('shown');
-			tr.find('.{$this->row_details_collapse_icon}').removeClass('{$this->row_details_collapse_icon}').addClass('{$this->row_details_expand_icon}');
-			$('#detail'+row.data().id).remove();
-			{$this->get_id()}_table.columns.adjust();
-		}
-		else {
-			// Open this row
-			row.child('<div id="detail'+row.data().{$widget->get_meta_object()->get_uid_alias()}+'"></div>').show();
-			$.ajax({
-				url: '{$this->get_ajax_url()}&action={$widget->get_row_details_action()}&resource={$this->get_page_id()}&element={$widget->get_row_details_container()->get_id()}&prefill={"meta_object_id":"{$widget->get_meta_object_id()}","rows":[{"{$widget->get_meta_object()->get_uid_alias()}":' + row.data().{$widget->get_meta_object()->get_uid_alias()} + '}]}'+'&exfrid='+row.data().{$widget->get_meta_object()->get_uid_alias()}, 
-				dataType: "html",
-				success: function(data){
-					$('#detail'+row.data().{$widget->get_meta_object()->get_uid_alias()}).append(data);
-					{$this->get_id()}_table.columns.adjust();
-				},
-				error: function(jqXHR, textStatus, errorThrown ){
-					{$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
-				}	
-			});
-			tr.next().addClass('detailRow unselectable');
-			tr.addClass('shown');
-			tr.find('.{$this->row_details_expand_icon}').removeClass('{$this->row_details_expand_icon}').addClass('{$this->row_details_collapse_icon}');
-		}
-	} );
-JS;
-		}
-		return $output;
 	}
 	
 	/**
