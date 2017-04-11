@@ -7,5 +7,9 @@ class lteSplitPanel extends ltePanel {
 		// layouts are important for forms, so this needs to be fixed. Remove this method from lteForm when done.
 		return $this->build_js_for_children();
 	}
+	
+	public function get_width_classes(){
+		return '';
+	}
 }
 ?>
