@@ -311,7 +311,9 @@ JS;
 		
 		$output = <<<JS
 var {$this->get_id()}_table;
-$.fn.dataTable.ext.errMode = 'throw';
+if ($.fn.dataTable != undefined){
+	$.fn.dataTable.ext.errMode = 'throw';
+}
 
 {$this->build_js_function_prefix()}Init();
 
