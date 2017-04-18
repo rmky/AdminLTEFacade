@@ -3,6 +3,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
 use exface\Core\Interfaces\Widgets\iContainOtherWidgets;
+use exface\Core\Interfaces\Widgets\iShowSingleAttribute;
 
 /**
  * generates jEasyUI-Buttons for ExFace dialogs
@@ -21,7 +22,7 @@ class lteDialogButton extends lteButton {
 					if ($child->is_required() && !$child->is_hidden()) {
 						$childValueGetter = $this->get_template()->get_element($child)->build_js_value_getter();
 						if (!$alias = $child->get_caption()) {
-							$alias = method_exists($child, 'get_attribute_alias') ? $child->get_attribute_alias() : $child->get_meta_object()->get_alias_with_namespace();
+							$alias = $child instanceof iShowSingleAttribute ? $child->get_attribute_alias() : $child->get_meta_object()->get_alias_with_namespace();
 						}
 						$output .= "
 						if(!{$childValueGetter}) { invalidElements.push('" . $alias . "'); }";
