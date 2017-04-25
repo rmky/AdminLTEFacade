@@ -30,7 +30,7 @@ class lteMenuButton extends lteAbstractElement {
 			$disabled_class = $b->is_disabled() ? ' disabled' : '';
 			$buttons_html .= '
 					<li class="' . $disabled_class . '">
-						<a data-target="#"' . ($b->is_disabled() ? '' : ' onclick="' . $this->build_js_button_function_name($b) . '();"') . '>
+						<a id="' . $this->get_template()->get_element($b)->get_id() . '" data-target="#"' . ($b->is_disabled() ? '' : ' onclick="' . $this->build_js_button_function_name($b) . '();"') . '>
 							<i class="' . $this->build_css_icon_class($b->get_icon_name()) . '"></i>'
 												. $b->get_caption() . '
 						</a>
