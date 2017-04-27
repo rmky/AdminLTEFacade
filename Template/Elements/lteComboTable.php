@@ -30,7 +30,7 @@ class lteComboTable extends lteInput {
 		$widget = $this->get_widget();
 		
 		// Add initial value
-		if ($link = $widget()->get_value_widget_link()){
+		if ($link = $widget->get_value_widget_link()){
 			//widget has a live reference value
 			$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
 			if ($widget->get_value_text()){
