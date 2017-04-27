@@ -30,9 +30,8 @@ class lteComboTable extends lteInput {
 		$widget = $this->get_widget();
 		
 		// Add initial value
-		if ($widget->get_value_expression() && $widget->get_value_expression()->is_reference()){
+		if ($link = $widget()->get_value_widget_link()){
 			//widget has a live reference value
-			$link = $widget->get_value_expression()->get_widget_link();
 			$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
 			if ($widget->get_value_text()){
 				$initial_value_script = 'ms.setSelection([{"' . $widget->get_text_column()->get_data_column_name() . '": "' . preg_replace( "/\r|\n/", "", $widget->get_value_text()) . '", "' . $widget->get_value_column()->get_data_column_name() . '": ' . $linked_element->build_js_value_getter($link->get_column_id()) . '}]);';
@@ -232,9 +231,8 @@ JS;
 		$filters = [];
 		if ($widget->get_table()->has_filters()){
 			foreach ($widget->get_table()->get_filters() as $fltr){
-				if ($fltr->get_value_expression() && $fltr->get_value_expression()->is_reference()){
+				if ($link = $fltr->get_value_widget_link()){
 					//filter is a live reference
-					$link = $fltr->get_value_expression()->get_widget_link();
 					$linked_element = $this->get_template()->get_element_by_widget_id($link->get_widget_id(), $this->get_page_id());
 					$filters[] = 'dataUrlParams.fltr' . str_pad($fltrId++, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $linked_element->build_js_value_getter($link->get_column_id()) . ';';
 				} else {
