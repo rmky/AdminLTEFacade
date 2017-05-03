@@ -76,40 +76,50 @@ class lteButton extends lteAbstractElement {
 	protected function build_js_click_show_dialog(ActionInterface $action, AbstractJqueryElement $input_element){
 		$widget = $this->get_widget();
 		
+		/* @var $prefill_link \exface\Core\CommonLogic\WidgetLink */
+		$prefill = '';
+		if ($prefill_link = $this->get_action()->get_prefill_with_data_from_widget_link()){
+			if ($prefill_link->get_page_id() == $widget->get_page_id()){
+				$prefill = ", prefill: " . $this->get_template()->get_element($prefill_link->get_widget())->build_js_data_getter($this->get_action());
+			}
+		}
+		
+		$js_on_close_dialog = ($this->build_js_input_refresh($widget, $input_element) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "");
 		$output = $this->build_js_request_data_collector($action, $input_element);
-		$output .= "
-						" . $this->build_js_busy_icon_show() . "
+		$output .= <<<JS
+						{$this->build_js_busy_icon_show()}
 						$.ajax({
 							type: 'POST',
-							url: '" . $this->get_ajax_url() ."',
+							url: '{$this->get_ajax_url()}',
 							dataType: 'html',
 							data: {
-								action: '".$widget->get_action_alias()."',
-								resource: '" . $widget->get_page_id() . "',
-								element: '" . $widget->get_id() . "',
+								action: '{$widget->get_action_alias()}',
+								resource: '{$widget->get_page_id()}',
+								element: '{$widget->get_id()}',
 								data: requestData
+								{$prefill}
 							},
 							success: function(data, textStatus, jqXHR) {
-								" . $this->build_js_close_dialog($widget, $input_element) . "
-								" . $this->build_js_input_refresh($widget, $input_element) . "
-		                       	" . $this->build_js_busy_icon_hide() . "
+								{$this->build_js_close_dialog($widget, $input_element)}
+								{$this->build_js_input_refresh($widget, $input_element)}
+		                       	{$this->build_js_busy_icon_hide()}
 		                       	if ($('#ajax-dialogs').length < 1){
 		                       		$('body').append('<div id=\"ajax-dialogs\"></div>');
                        			}
 		                       	$('#ajax-dialogs').append('<div class=\"ajax-wrapper\">'+data+'</div>');
 		                       	$('#ajax-dialogs').children().last().children('.modal').last().modal('show');
-                       			$(document).trigger('" . $action->get_alias_with_namespace() . ".action.performed', [requestData]);
-                       			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['" . $this->get_template()->get_element($action->get_dialog_widget())->get_id() . "']);
-		                       	"
+                       			$(document).trigger('{$action->get_alias_with_namespace()}.action.performed', [requestData]);
+                       			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['{$this->get_template()->get_element($action->get_dialog_widget())->get_id()}']);
+		                  		
 								// Make sure, the input widget of the button is always refreshed, once the dialog is closed again
-								. ($this->build_js_input_refresh($widget, $input_element) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "") . "
+								{$js_on_close_dialog}
 							},
 							error: function(jqXHR, textStatus, errorThrown){
-								" . $this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText') . "
-								" . $this->build_js_busy_icon_hide() . "
+								{$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
+								{$this->build_js_busy_icon_hide()}
 							}
 						});
-					";
+JS;
 		
 		return $output;
 	}
