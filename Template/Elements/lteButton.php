@@ -139,5 +139,16 @@ class lteButton extends lteAbstractElement {
 			else { $align_class = ''; }
 		return $align_class;
 	}
+	
+	/**
+	 * In AdminLTE the button does not need any extra headers, as all headers needed for whatever the button loads will
+	 * come with the AJAX-request.
+	 * 
+	 * {@inheritDoc}
+	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generate_headers()
+	 */
+	public function generate_headers(){
+		return array();
+	}
 }
 ?>
