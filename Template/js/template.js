@@ -48,6 +48,13 @@ $( document ).ready(function() {
 			dt.draw();
 		}
 	});
+	
+	// Make sure masonry is relayouted when the sidebar is toggled
+	$(document).on('click', "a[data-toggle='offcanvas']", function(){
+		window.setTimeout(function(){
+			$('.masonry').masonry('layout');
+		},350);
+	});
 });
 
 function pinnedObjectsRefresh(containerSelector, counterSelector){

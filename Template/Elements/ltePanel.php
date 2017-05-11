@@ -4,7 +4,7 @@ class ltePanel extends lteContainer {
 	
 	function generate_html(){
 		return '
-				<div id="' . $this->get_id() . '" class="' . $this->get_width_classes() . ' exf_grid">
+				<div id="' . $this->get_id() . '" class="' . $this->get_width_classes() . ' exf_grid masonry">
 					' . $this->build_html_for_children() . '
 					<div class="col-xs-1" id="' . $this->get_id() . '_sizer" style=""></div>
 				</div>';

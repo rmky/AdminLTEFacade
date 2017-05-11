@@ -76,7 +76,7 @@ class lteDataList extends lteDataTable {
 			{$top_toolbar}
 		</div><!-- /.box-header -->
 		<div class="box-body no-padding">
-			<div id="{$this->get_id()}" class="exf-datalist">
+			<div id="{$this->get_id()}" class="exf-datalist masonry">
 				<div class="placeholder dataTables_empty">{$widget->get_empty_text()}</div>
 				<div class="col-xs-1" id="{$this->get_id()}_sizer"></div>
 			</div>

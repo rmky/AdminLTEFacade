@@ -407,9 +407,6 @@ HTML;
 		if ($this->is_pie_chart()){
 			$includes[] = '<script type="text/javascript" src="exface/vendor/npm-asset/flot-charts/jquery.flot.pie.js"></script>';
 		}
-		
-		// masonry for proper filter alignment
-		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/masonry/dist/masonry.pkgd.min.js"></script>';
 		return $includes;
 	}
 	
