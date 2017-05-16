@@ -6,6 +6,7 @@ class AdminLteTemplate extends AbstractAjaxTemplate {
 	protected $request_columns = array();
 	
 	public function init(){
+		parent::init();
 		$this->set_class_prefix('lte');
 		$this->set_class_namespace(__NAMESPACE__);
 	}
