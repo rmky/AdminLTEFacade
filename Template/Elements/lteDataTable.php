@@ -466,11 +466,12 @@ JS;
 JS;
 		} else {
 			// Data embedded in the code of the DataGrid
-			if ($widget->get_prefill_data() && $widget->get_prefill_data()->get_meta_object()->is($widget->get_meta_object())){
-				$data = $widget->prepare_data_sheet_to_read($widget->get_prefill_data());
-			} else {
-				$data = $widget->prepare_data_sheet_to_read();
+			if ($widget->get_values_data_sheet() && !$widget->get_values_data_sheet()->is_empty()){
+				$data = $widget->get_values_data_sheet();
 			}
+			
+			$data = $widget->prepare_data_sheet_to_read($data ? $data : null);
+						
 			if (!$data->is_fresh()){
 				$data->data_read();
 			}
