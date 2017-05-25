@@ -6,7 +6,7 @@ use exface\AbstractAjaxTemplate\Template\Elements\JqueryButtonTrait;
 
 /**
  * generates jQuery Mobile buttons for ExFace
- * 
+ *
  * @author Andrej Kabachnik
  *        
  */
@@ -36,15 +36,12 @@ class lteMenuButton extends lteAbstractElement
             $disabled_class = $b->isDisabled() ? ' disabled' : '';
             $buttons_html .= '
 					<li class="' . $disabled_class . '">
-						<a id="' . $this->getTemplate()
-                ->getElement($b)
-                ->getId() . '" data-target="#"' . ($b->isDisabled() ? '' : ' onclick="' . $this->buildJsButtonFunctionName($b) . '();"') . '>
+						<a id="' . $this->getTemplate()->getElement($b)->getId() . '" data-target="#"' . ($b->isDisabled() ? '' : ' onclick="' . $this->buildJsButtonFunctionName($b) . '();"') . '>
 							<i class="' . $this->buildCssIconClass($b->getIconName()) . '"></i>' . $b->getCaption() . '
 						</a>
 					</li>';
         }
-        $icon = ($this->getWidget()->getIconName() ? '<i class="' . $this->buildCssIconClass($this->getWidget()
-            ->getIconName()) . '"></i> ' : '');
+        $icon = ($this->getWidget()->getIconName() ? '<i class="' . $this->buildCssIconClass($this->getWidget()->getIconName()) . '"></i> ' : '');
         
         $button_class = $this->getWidget()->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? ' btn-primary' : ' btn-default';
         $align_class = $this->getAlignClass();
@@ -64,16 +61,14 @@ HTML;
 
     /**
      * (non-PHPdoc)
-     * 
+     *
      * @see \exface\AdminLteTemplate\Template\Elements\jqmAbstractElement::generateJs()
      */
     function generateJs()
     {
         $output = '';
         foreach ($this->getWidget()->getButtons() as $b) {
-            if ($js_click_function = $this->getTemplate()
-                ->getElement($b)
-                ->buildJsClickFunction()) {
+            if ($js_click_function = $this->getTemplate()->getElement($b)->buildJsClickFunction()) {
                 $output .= "
 					function " . $this->buildJsButtonFunctionName($b) . "(){
 						" . $js_click_function . "
@@ -86,9 +81,7 @@ HTML;
 
     function buildJsButtonFunctionName(Button $button)
     {
-        return $this->getTemplate()
-            ->getElement($button)
-            ->buildJsClickFunctionName();
+        return $this->getTemplate()->getElement($button)->buildJsClickFunctionName();
     }
 
     function getAlignClass()

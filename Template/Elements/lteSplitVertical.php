@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Exceptions\Templates\TemplateUnsupportedWidgetPropertyWarning;
@@ -29,9 +28,7 @@ class lteSplitVertical extends lteContainer
             $panels_html .= '
 					<div class="row">
 						<div class="col-xs-12">
-							' . $this->getTemplate()
-                ->getElement($panel)
-                ->generateHtml() . '
+							' . $this->getTemplate()->getElement($panel)->generateHtml() . '
 						</div>
 					</div>';
         }

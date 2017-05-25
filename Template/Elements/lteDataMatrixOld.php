@@ -28,9 +28,7 @@ class lteDataMatrixOld extends lteDataTable
         $headers = array();
         foreach ($this->getWidget()->getColumns() as $col) {
             if ($col->getId() == $this->getWidget()->getDataColumnId()) {
-                $headers[1] .= '<th colspan="' . sizeof($this->label_values) . '">' . $this->getWidget()
-                    ->getDataColumn()
-                    ->getCaption() . '</th>';
+                $headers[1] .= '<th colspan="' . sizeof($this->label_values) . '">' . $this->getWidget()->getDataColumn()->getCaption() . '</th>';
                 $headers[2] .= '<th>' . implode('</th><th>', $this->label_values) . '</th>';
             } elseif ($col->getId() == $this->getWidget()->getLabelColumnId()) {
                 // Skip the label column
@@ -56,7 +54,7 @@ class lteDataMatrixOld extends lteDataTable
      * This special data source renderer fetches data according to the filters an reorganizes the rows and column to fit the matrix.
      * It basically transposes the data column (data_column_id) using values of the label column (label_column_id) as new column headers.
      * The other columns remain untouched.
-     * 
+     *
      * @see \exface\Templates\jeasyui\Widgets\grid::buildJsDataSource()
      */
     public function buildJsDataSource($js_filters = '')

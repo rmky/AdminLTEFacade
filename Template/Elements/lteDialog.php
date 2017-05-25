@@ -53,9 +53,7 @@ HTML;
 
     function getWidth()
     {
-        if ($this->getWidget()
-            ->getWidth()
-            ->isUndefined()) {
+        if ($this->getWidget()->getWidth()->isUndefined()) {
             $this->getWidget()->setWidth((2 * $this->getWidthRelativeUnit() + 35) . 'px');
         }
         return parent::getWidth();

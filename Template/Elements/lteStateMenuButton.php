@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template\Elements;
 
 /**
@@ -26,9 +25,7 @@ class lteStateMenuButton extends lteMenuButton
             $b->setCaption($widget->getCaption());
             $b->setAlign($widget->getAlign());
             $b->setVisibility($widget->getVisibility());
-            $output = $this->getTemplate()
-                ->getElement($b)
-                ->generateHtml();
+            $output = $this->getTemplate()->getElement($b)->generateHtml();
         } elseif ($button_no > 1) {
             $output = parent::generateHtml();
         }

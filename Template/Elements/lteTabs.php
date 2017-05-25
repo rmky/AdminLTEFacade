@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template\Elements;
 
 class lteTabs extends lteContainer
@@ -10,13 +9,9 @@ class lteTabs extends lteContainer
         $header_html = '';
         $content_html = '';
         foreach ($this->getWidget()->getChildren() as $tab) {
-            $header_html .= $this->getTemplate()
-                ->getElement($tab)
-                ->generateHtmlHeader();
+            $header_html .= $this->getTemplate()->getElement($tab)->generateHtmlHeader();
             ;
-            $content_html .= $this->getTemplate()
-                ->getElement($tab)
-                ->generateHtmlContent();
+            $content_html .= $this->getTemplate()->getElement($tab)->generateHtmlContent();
         }
         
         $output = '

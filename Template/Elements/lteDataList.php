@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DataColumn;
@@ -61,9 +60,7 @@ class lteDataList extends lteDataTable
             }
         }
         if ($more_buttons_menu) {
-            $button_html .= $this->getTemplate()
-                ->getElement($more_buttons_menu)
-                ->generateHtml();
+            $button_html .= $this->getTemplate()->getElement($more_buttons_menu)->generateHtml();
         }
         
         foreach ($widget->getColumns() as $column) {
@@ -250,22 +247,16 @@ HTML;
         // Click actions
         // Single click. Currently only supports one double click action - the first one in the list of buttons
         if ($leftclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_LEFT_CLICK)[0]) {
-            $leftclick_script = $this->getTemplate()
-                ->getElement($leftclick_button)
-                ->buildJsClickFunctionName() . '()';
+            $leftclick_script = $this->getTemplate()->getElement($leftclick_button)->buildJsClickFunctionName() . '()';
         }
         // Double click. Currently only supports one double click action - the first one in the list of buttons
         if ($dblclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_DOUBLE_CLICK)[0]) {
-            $dblclick_script = $this->getTemplate()
-                ->getElement($dblclick_button)
-                ->buildJsClickFunctionName() . '()';
+            $dblclick_script = $this->getTemplate()->getElement($dblclick_button)->buildJsClickFunctionName() . '()';
         }
         
         // Double click. Currently only supports one double click action - the first one in the list of buttons
         if ($leftclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_LEFT_CLICK)[0]) {
-            $leftclick_script = $this->getTemplate()
-                ->getElement($leftclick_button)
-                ->buildJsClickFunctionName() . '()';
+            $leftclick_script = $this->getTemplate()->getElement($leftclick_button)->buildJsClickFunctionName() . '()';
         }
         
         // configure pagination

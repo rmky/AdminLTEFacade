@@ -102,9 +102,7 @@ class lteDataTable extends lteAbstractElement
         }
         
         if ($more_buttons_menu) {
-            $button_html .= $this->getTemplate()
-                ->getElement($more_buttons_menu)
-                ->generateHtml();
+            $button_html .= $this->getTemplate()->getElement($more_buttons_menu)->generateHtml();
         }
         $footer_style = $widget->getHideToolbarBottom() ? 'display: none;' : '';
         $bottom_toolbar = $this->buildHtmlBottomToolbar($button_html);
@@ -294,22 +292,16 @@ JS;
         // Click actions
         // Single click. Currently only supports one double click action - the first one in the list of buttons
         if ($leftclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_LEFT_CLICK)[0]) {
-            $leftclick_script = $this->getTemplate()
-                ->getElement($leftclick_button)
-                ->buildJsClickFunctionName() . '()';
+            $leftclick_script = $this->getTemplate()->getElement($leftclick_button)->buildJsClickFunctionName() . '()';
         }
         // Double click. Currently only supports one double click action - the first one in the list of buttons
         if ($dblclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_DOUBLE_CLICK)[0]) {
-            $dblclick_script = $this->getTemplate()
-                ->getElement($dblclick_button)
-                ->buildJsClickFunctionName() . '()';
+            $dblclick_script = $this->getTemplate()->getElement($dblclick_button)->buildJsClickFunctionName() . '()';
         }
         
         // Double click. Currently only supports one double click action - the first one in the list of buttons
         if ($rightclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_RIGHT_CLICK)[0]) {
-            $rightclick_script = $this->getTemplate()
-                ->getElement($rightclick_button)
-                ->buildJsClickFunctionName() . '()';
+            $rightclick_script = $this->getTemplate()->getElement($rightclick_button)->buildJsClickFunctionName() . '()';
         }
         
         // Selection
@@ -526,7 +518,7 @@ JS;
     /**
      * Returns a list of CSS classes to be used for the specified column: e.g.
      * alignment, etc.
-     * 
+     *
      * @param \exface\Core\Widgets\DataColumn $col            
      * @return string
      */
@@ -573,9 +565,7 @@ JS;
             // TODO
         }
         if (is_null($column)) {
-            $column = $this->getWidget()
-                ->getMetaObject()
-                ->getUidAlias();
+            $column = $this->getWidget()->getMetaObject()->getUidAlias();
         } else {
             // TODO
         }
@@ -629,12 +619,7 @@ JS;
     {
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         
-        $quick_search_fields = $this->getWidget()
-            ->getMetaObject()
-            ->getLabelAttribute() ? $this->getWidget()
-            ->getMetaObject()
-            ->getLabelAttribute()
-            ->getName() : '';
+        $quick_search_fields = $this->getWidget()->getMetaObject()->getLabelAttribute() ? $this->getWidget()->getMetaObject()->getLabelAttribute()->getName() : '';
         foreach ($this->getWidget()->getQuickSearchFilters() as $qfltr) {
             $quick_search_fields .= ($quick_search_fields ? ', ' : '') . $qfltr->getCaption();
         }
@@ -758,8 +743,8 @@ $('a[href="#' + $('#{$this->getId()}').parents('.tab-pane').first().attr('id') +
 	{$this->getId()}_table.columns.adjust();
 })		
 JS;
-        }        // If the table is in a dialog, recalculate column width once the tab is opened
-        elseif ($this->getWidget()->getParent() instanceof Dialog) {
+        } // If the table is in a dialog, recalculate column width once the tab is opened
+elseif ($this->getWidget()->getParent() instanceof Dialog) {
             $js = <<<JS
 $('a[href="#' + $('#{$this->getId()}').parents('.modal').first().attr('id') + '"]').on('shown.bs.modal', function (e) {
 	{$this->getId()}_table.columns.adjust();
@@ -773,7 +758,7 @@ JS;
      * Generates JS to disable text selection on the rows of the table.
      * If not done so, every time you longtap a row, something gets selected along
      * with the context menu being displayed. It look awful.
-     * 
+     *
      * @return string
      */
     protected function buildJsDisableTextSelection()

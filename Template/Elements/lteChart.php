@@ -48,11 +48,7 @@ class lteChart extends lteDataTable
                     // TODO do not create the more actions menu if all buttons are promoted!
                     if (! $button->isHidden()) {
                         if (! $more_buttons_menu) {
-                            $more_buttons_menu = $this->getTemplate()
-                                ->getWorkbench()
-                                ->ui()
-                                ->getPageCurrent()
-                                ->createWidget('MenuButton', $this->getWidget());
+                            $more_buttons_menu = $this->getTemplate()->getWorkbench()->ui()->getPageCurrent()->createWidget('MenuButton', $this->getWidget());
                             $more_buttons_menu->setIconName('more');
                             $more_buttons_menu->setCaption('');
                         }
@@ -61,9 +57,7 @@ class lteChart extends lteDataTable
                 }
             }
             if ($more_buttons_menu) {
-                $button_html .= $this->getTemplate()
-                    ->getElement($more_buttons_menu)
-                    ->generateHtml();
+                $button_html .= $this->getTemplate()->getElement($more_buttons_menu)->generateHtml();
             }
             
             $bottom_toolbar = $this->buildHtmlBottomToolbar($button_html);
@@ -114,22 +108,16 @@ HTML;
 					var ' . $series_id . ' = [];';
             
             if ($series->getChartType() == ChartSeries::CHART_TYPE_PIE) {
-                $series_data = $series_id . '[i] = { label: ds.data[i]["' . $series->getAxisX()
-                    ->getDataColumn()
-                    ->getDataColumnName() . '"], data: ds.data[i]["' . $series->getDataColumn()->getDataColumnName() . '"] }';
+                $series_data = $series_id . '[i] = { label: ds.data[i]["' . $series->getAxisX()->getDataColumn()->getDataColumnName() . '"], data: ds.data[i]["' . $series->getDataColumn()->getDataColumnName() . '"] }';
             } else {
                 // Prepare the code to transform the ajax data to flot data. It will later run in a for loop.
                 switch ($series->getChartType()) {
                     case ChartSeries::CHART_TYPE_BARS:
                         $data_key = $series->getDataColumn()->getDataColumnName();
-                        $data_value = $series->getAxisY()
-                            ->getDataColumn()
-                            ->getDataColumnName();
+                        $data_value = $series->getAxisY()->getDataColumn()->getDataColumnName();
                         break;
                     default:
-                        $data_key = $series->getAxisX()
-                            ->getDataColumn()
-                            ->getDataColumnName();
+                        $data_key = $series->getAxisX()->getDataColumn()->getDataColumnName();
                         $data_value = $series->getDataColumn()->getDataColumnName();
                 }
                 $series_data .= '
@@ -240,7 +228,7 @@ HTML;
     /**
      * Returns the definition of the function elementId_load(urlParams) which is used to fethc the data via AJAX
      * if the chart is not bound to another data widget (in that case, the data should be provided by that widget).
-     * 
+     *
      * @return string
      */
     protected function buildJsAjaxLoaderFunction()
@@ -449,7 +437,7 @@ HTML;
 
     /**
      * Makes sure, the Chart is always updated, once the linked data widget loads new data - of course, only if there is a data link defined!
-     * 
+     *
      * @return euiChart
      */
     protected function registerLiveReferenceAtLinkedElement()

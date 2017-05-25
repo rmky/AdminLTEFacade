@@ -90,9 +90,7 @@ class lteText extends lteAbstractElement
 
     public function getWidthClasses()
     {
-        if ($this->getWidget()
-            ->getWidth()
-            ->isUndefined()) {
+        if ($this->getWidget()->getWidth()->isUndefined()) {
             return 'col-xs-12';
         }
         return parent::getWidthClasses();

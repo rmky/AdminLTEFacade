@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template\Elements;
 
 class lteTab extends ltePanel
@@ -23,9 +22,7 @@ class lteTab extends ltePanel
     function generateHtmlHeader()
     {
         // der erste Tab ist aktiv
-        $active_class = $this->getWidget() === $this->getWidget()
-            ->getParent()
-            ->getChildren()[0] ? ' active' : '';
+        $active_class = $this->getWidget() === $this->getWidget()->getParent()->getChildren()[0] ? ' active' : '';
         
         $output = '
 	<li class="' . $active_class . '"><a href="#' . $this->getId() . '" data-toggle="tab">' . $this->getWidget()->getCaption() . '</a></li>';
@@ -35,9 +32,7 @@ class lteTab extends ltePanel
     function generateHtmlContent()
     {
         // der erste Tab ist aktiv
-        $active_class = $this->getWidget() === $this->getWidget()
-            ->getParent()
-            ->getChildren()[0] ? ' active' : '';
+        $active_class = $this->getWidget() === $this->getWidget()->getParent()->getChildren()[0] ? ' active' : '';
         
         $output = '<div class="tab-pane' . $active_class . '" id="' . $this->getId() . '">
 		<div class="tab-pane-content-wrapper row">

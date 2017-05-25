@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryContainerTrait;

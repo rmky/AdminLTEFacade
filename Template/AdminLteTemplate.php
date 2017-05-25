@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template;
 
 use exface\AbstractAjaxTemplate\Template\AbstractAjaxTemplate;

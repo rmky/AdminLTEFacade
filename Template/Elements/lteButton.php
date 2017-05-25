@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DialogButton;
@@ -87,9 +86,7 @@ class lteButton extends lteAbstractElement
         $prefill = '';
         if ($prefill_link = $this->getAction()->getPrefillWithDataFromWidgetLink()) {
             if ($prefill_link->getPageId() == $widget->getPageId()) {
-                $prefill = ", prefill: " . $this->getTemplate()
-                    ->getElement($prefill_link->getWidget())
-                    ->buildJsDataGetter($this->getAction());
+                $prefill = ", prefill: " . $this->getTemplate()->getElement($prefill_link->getWidget())->buildJsDataGetter($this->getAction());
             }
         }
         

@@ -8,7 +8,7 @@ use exface\Core\Interfaces\Widgets\iShowSingleAttribute;
 
 /**
  * generates jEasyUI-Buttons for ExFace dialogs
- * 
+ *
  * @author Andrej Kabachnik
  *        
  */
@@ -25,9 +25,7 @@ class lteDialogButton extends lteButton
         if ($input_widget instanceof iContainOtherWidgets) {
             foreach ($input_element->getWidget()->getInputWidgets() as $child) {
                 if ($child->isRequired() && ! $child->isHidden()) {
-                    $childValueGetter = $this->getTemplate()
-                        ->getElement($child)
-                        ->buildJsValueGetter();
+                    $childValueGetter = $this->getTemplate()->getElement($child)->buildJsValueGetter();
                     if (! $alias = $child->getCaption()) {
                         $alias = $child instanceof iShowSingleAttribute ? $child->getAttributeAlias() : $child->getMetaObject()->getAliasWithNamespace();
                     }

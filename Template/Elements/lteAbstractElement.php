@@ -1,5 +1,4 @@
 <?php
-
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
@@ -104,17 +103,13 @@ abstract class lteAbstractElement extends AbstractJqueryElement
     /**
      * Returns the css classes, that define the grid width for the element (e.g.
      * col-xs-12, etc.)
-     * 
+     *
      * @return string
      */
     public function getWidthClasses()
     {
-        if ($this->getWidget()
-            ->getWidth()
-            ->isRelative()) {
-            switch ($this->getWidget()
-                ->getWidth()
-                ->getValue()) {
+        if ($this->getWidget()->getWidth()->isRelative()) {
+            switch ($this->getWidget()->getWidth()->getValue()) {
                 case 1:
                     $width = 'col-xs-12 col-md-4';
                     break;
