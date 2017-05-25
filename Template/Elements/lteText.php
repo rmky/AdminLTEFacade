@@ -5,7 +5,7 @@ use exface\Core\Widgets\Text;
 
 /**
  *
- * @method Text get_widget()
+ * @method Text getWidget()
  *        
  * @author Andrej Kabachnik
  *        

@@ -10,7 +10,7 @@ use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTableTrait;
 
 /**
  *
- * @method DataTable get_widget()
+ * @method DataTable getWidget()
  *        
  * @author Andrej Kabachnik
  *        

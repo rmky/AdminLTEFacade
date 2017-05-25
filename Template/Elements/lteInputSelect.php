@@ -5,7 +5,7 @@ use exface\Core\Widgets\InputSelect;
 
 /**
  *
- * @method InputSelect get_widget()
+ * @method InputSelect getWidget()
  *        
  * @author Andrej Kabachnik
  *        

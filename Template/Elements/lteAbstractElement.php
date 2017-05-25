@@ -6,7 +6,7 @@ use exface\AdminLteTemplate\Template\AdminLteTemplate;
 
 /**
  *
- * @method AdminLteTemplate get_template()
+ * @method AdminLteTemplate getTemplate()
  *        
  * @author Andrej Kabachnik
  *        
@@ -137,7 +137,7 @@ abstract class lteAbstractElement extends AbstractJqueryElement
                     $formatter = new $class_name($y);
                 }
                 // See if the formatter returned more results, than there were rows. If so, it was also performed on
-                // the total rows. In this case, we need to slice them off and pass to set_column_values() separately.
+                // the total rows. In this case, we need to slice them off and pass to setColumnValues() separately.
                 // This only works, because evaluating an expression cannot change the number of data rows! This justifies
                 // the assumption, that any values after count_rows() must be total values.
                 $vals = $formatter->evaluate($data_sheet, $name);

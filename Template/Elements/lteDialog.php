@@ -5,7 +5,7 @@ use exface\Core\Widgets\Dialog;
 
 /**
  *
- * @method Dialog get_widget()
+ * @method Dialog getWidget()
  *        
  * @author aka
  *        
