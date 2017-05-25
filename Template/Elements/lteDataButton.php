@@ -1,5 +1,6 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
-class lteDataButton extends lteButton {
-	
+
+class lteDataButton extends lteButton
+{
 }

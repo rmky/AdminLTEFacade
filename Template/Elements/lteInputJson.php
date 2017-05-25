@@ -1,6 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
-class lteInputJson extends lteInputText {
-	
+
+class lteInputJson extends lteInputText
+{
 }
 ?>

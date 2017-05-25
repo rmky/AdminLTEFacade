@@ -1,84 +1,92 @@
-<?php namespace exface\AdminLteTemplate\Template\Elements;
+<?php
+
+namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DataColumn;
 use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
- * 
- * @author PATRIOT
  *
+ * @author PATRIOT
+ *        
  */
-class lteDataList extends lteDataTable {
-	
-	function init(){
-		parent::init();
-		// Make sure, the DataTable has a UID column. This method will create the column if it does not exist yet.
-		// It is important to call the method within init(), because at this point, the processing of the UXON is definitely
-		// finished while the creation of the template element has not started yet!
-		// FIXME Move this 
-		$this->get_widget()->get_uid_column();
-	}
-	
-	function generate_html(){
-		/* @var $widget \exface\Core\Widgets\DataList */
-		$widget = $this->get_widget();
-		$column_templates = '';
-		
-		// Add promoted filters above the panel. Other filters will be displayed in a popup via JS
-		if ($widget->has_filters()){
-			foreach ($widget->get_filters() as $fltr){
-				if ($fltr->get_visibility() !== EXF_WIDGET_VISIBILITY_PROMOTED) continue;
-				$filters_html .= $this->get_template()->generate_html($fltr);
-			}
-		}
-		
-		// Add buttons
-		/* @var $more_buttons_menu \exface\Core\Widgets\MenuButton */
-		$more_buttons_menu = null;
-		if ($widget->has_buttons()){
-			foreach ($widget->get_buttons() as $button){
-				// Make pomoted and regular buttons visible right in the bottom toolbar
-				// Hidden buttons also go here, because it does not make sense to put them into the menu
-				if ($button->get_visibility() !== EXF_WIDGET_VISIBILITY_OPTIONAL || $button->is_hidden()){
-					$button_html .= $this->get_template()->generate_html($button);
-				} 
-				// Put all visible buttons into "more actions" menu
-				// TODO do not create the more actions menu if all buttons are promoted!
-				if (!$button->is_hidden()){
-					if (!$more_buttons_menu){
-						$more_buttons_menu = $widget->get_page()->create_widget('MenuButton', $widget);
-						$more_buttons_menu->set_icon_name('more');
-						$more_buttons_menu->set_caption('');
-					}
-					$more_buttons_menu->add_button($button);
-				}
-			}
-		}
-		if ($more_buttons_menu){
-			$button_html .= $this->get_template()->get_element($more_buttons_menu)->generate_html();
-		}
-		
-		foreach ($widget->get_columns() as $column){
-			$column_templates .= $this->generate_column_template($column) . "\n";
-		}
-		
-		$footer_style = $widget->get_hide_toolbar_bottom() ? 'display: none;' : '';
-		$bottom_toolbar = $widget->get_hide_toolbar_bottom() ? '' : $this->build_html_bottom_toolbar($button_html);
-		$top_toolbar = $this->build_html_top_toolbar();
-		
-		// output the html code
-		// TODO replace "stripe" class by a custom css class
-		$output = <<<HTML
+class lteDataList extends lteDataTable
+{
 
-<div class="{$this->get_width_classes()} exf_grid_item">
+    function init()
+    {
+        parent::init();
+        // Make sure, the DataTable has a UID column. This method will create the column if it does not exist yet.
+        // It is important to call the method within init(), because at this point, the processing of the UXON is definitely
+        // finished while the creation of the template element has not started yet!
+        // FIXME Move this
+        $this->getWidget()->getUidColumn();
+    }
+
+    function generateHtml()
+    {
+        /* @var $widget \exface\Core\Widgets\DataList */
+        $widget = $this->getWidget();
+        $column_templates = '';
+        
+        // Add promoted filters above the panel. Other filters will be displayed in a popup via JS
+        if ($widget->hasFilters()) {
+            foreach ($widget->getFilters() as $fltr) {
+                if ($fltr->getVisibility() !== EXF_WIDGET_VISIBILITY_PROMOTED)
+                    continue;
+                $filters_html .= $this->getTemplate()->generateHtml($fltr);
+            }
+        }
+        
+        // Add buttons
+        /* @var $more_buttons_menu \exface\Core\Widgets\MenuButton */
+        $more_buttons_menu = null;
+        if ($widget->hasButtons()) {
+            foreach ($widget->getButtons() as $button) {
+                // Make pomoted and regular buttons visible right in the bottom toolbar
+                // Hidden buttons also go here, because it does not make sense to put them into the menu
+                if ($button->getVisibility() !== EXF_WIDGET_VISIBILITY_OPTIONAL || $button->isHidden()) {
+                    $button_html .= $this->getTemplate()->generateHtml($button);
+                }
+                // Put all visible buttons into "more actions" menu
+                // TODO do not create the more actions menu if all buttons are promoted!
+                if (! $button->isHidden()) {
+                    if (! $more_buttons_menu) {
+                        $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $widget);
+                        $more_buttons_menu->setIconName('more');
+                        $more_buttons_menu->setCaption('');
+                    }
+                    $more_buttons_menu->addButton($button);
+                }
+            }
+        }
+        if ($more_buttons_menu) {
+            $button_html .= $this->getTemplate()
+                ->getElement($more_buttons_menu)
+                ->generateHtml();
+        }
+        
+        foreach ($widget->getColumns() as $column) {
+            $column_templates .= $this->generateColumnTemplate($column) . "\n";
+        }
+        
+        $footer_style = $widget->getHideToolbarBottom() ? 'display: none;' : '';
+        $bottom_toolbar = $widget->getHideToolbarBottom() ? '' : $this->buildHtmlBottomToolbar($button_html);
+        $top_toolbar = $this->buildHtmlTopToolbar();
+        
+        // output the html code
+        // TODO replace "stripe" class by a custom css class
+        $output = <<<HTML
+
+<div class="{$this->getWidthClasses()} exf_grid_item">
 	<div class="box">
 		<div class="box-header">
 			{$top_toolbar}
 		</div><!-- /.box-header -->
 		<div class="box-body no-padding">
-			<div id="{$this->get_id()}" class="exf-datalist masonry">
-				<div class="placeholder dataTables_empty">{$widget->get_empty_text()}</div>
-				<div class="col-xs-1" id="{$this->get_id()}_sizer"></div>
+			<div id="{$this->getId()}" class="exf-datalist masonry">
+				<div class="placeholder dataTables_empty">{$widget->getEmptyText()}</div>
+				<div class="col-xs-1" id="{$this->getId()}_sizer"></div>
 			</div>
 		</div>
 		<div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
@@ -87,10 +95,10 @@ class lteDataList extends lteDataTable {
 			</div>
 		</div>
 	</div>
-	{$this->build_html_table_customizer()}
+	{$this->buildHtmlTableCustomizer()}
 </div>
 
-<script type="text/x-handlebars-template" id="{$this->get_id()}_tpl">
+<script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
 { {#data}}
     <div class="exf_grid_item col-lg-3 col-md-4 col-sm-5 col-xs-12">
     	<div class="box box-default box-solid">
@@ -103,145 +111,173 @@ class lteDataList extends lteDataTable {
 </script>
 	
 HTML;
-		
-		return $output;
-	}
-	
-	function generate_column_template(DataColumn $column){
-		$tpl = '';
-		if ($column->get_data_type()->is(EXF_DATA_TYPE_HTML)){
-			$tpl = '{ { {' . $column->get_data_column_name() . '}}}';
-		} elseif($column->get_data_type()->is(EXF_DATA_TYPE_IMAGE_URL)){ 
-			$tpl = '<img style="margin: 0 auto 5px auto;" class="img-responsive" src="{ {' . $column->get_data_column_name() . '}}" />';
-		} else {
-			$tpl = '{ {' . $column->get_data_column_name() . '}}';
-			
-			switch ($column->get_size()){
-				case EXF_TEXT_SIZE_BIG: $tpl = '<big>' . $tpl . '</big>'; break;
-				case EXF_TEXT_SIZE_SMALL: $tpl = '<small>' . $tpl . '</small>'; break;
-			}
-			
-			switch ($column->get_style()){
-				case EXF_TEXT_STYLE_BOLD: $tpl = '<strong>' . $tpl . '</strong>'; break;
-				case EXF_TEXT_STYLE_UNDERLINE: $tpl = '<ins>' . $tpl . '</ins>'; break;
-				case EXF_TEXT_STYLE_STRIKETHROUGH: $tpl = '<del>' . $tpl . '</del>'; break;
-			}
-			
-			$style = '';
-			switch ($column->get_align()){
-				case 'left': $style .= 'float: left;'; break;
-				case 'right': $style .= 'float: right;'; break;
-				case 'center': $style .= 'text-align: center;'; break;
-			}
-			
-			$tpl = '<div data-field="' . $column->get_data_column_name() . '" class="datalist-value"' . ($style ? ' style="' . $style . '"' : '') . '>' . $tpl . '</div>';
-		}
-		
-		if ($column->is_hidden()){
-			$tpl = '<div class="hidden">' . $tpl . '</div>';
-		}
-		
-		return $tpl;
-	}
-	
-	function generate_js(){
-		/* @var $widget \exface\Core\Widgets\DataList */
-		$widget = $this->get_widget();
-		$columns = array();
-		$column_number_offset = 0;
-		$filters_html = '';
-		$filters_js = '';
-		$filters_ajax = "data.q = $('#" . $this->get_id() . "_quickSearch').val();\n";
-		$buttons_js = '';
-		$footer_callback = '';
-		$default_sorters = '';
-		
-		// sorters
-		foreach ($widget->get_sorters() as $sorter){
-			$column_exists = false;
-			foreach ($widget->get_columns() as $nr => $col){
-				if ($col->get_attribute_alias() == $sorter->attribute_alias){
-					$column_exists = true;
-					$default_sorters .= '[ ' . $nr . ', "' . $sorter->direction . '" ], ';
-				}
-			}
-			if (!$column_exists){
-				// TODO add a hidden column
-			}
-		}
-		// Remove tailing comma
-		if ($default_sorters) $default_sorters = substr($default_sorters, 0, -2);
-		
-		// Filters defined in the UXON description
-		if ($widget->has_filters()){
-			foreach ($widget->get_filters() as $fnr => $fltr){
-				// Skip promoted filters, as they are displayed next to quick search
-				if ($fltr->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED) continue;
-				$fltr_element = $this->get_template()->get_element($fltr);
-				$filters_js .= $this->get_template()->generate_js($fltr, $this->get_id().'_popup_config');
-				$filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $fltr_element->build_js_value_getter() . ";\n";
-				
-				// Here we generate some JS make the filter visible by default, once it gets used.
-				// This code will be called when the table's config page gets closed.
-				if (!$fltr->is_hidden()){
-					$filters_js_promoted .= "
-							if (" . $fltr_element->build_js_value_getter() . " && $('#" . $fltr_element->get_id() . "').parents('#{$this->get_id()}_popup_config').length > 0){
-								var fltr = $('#" . $fltr_element->get_id() . "').parents('.exf_input');
-								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->get_id()}_filters_container');
+        
+        return $output;
+    }
+
+    function generateColumnTemplate(DataColumn $column)
+    {
+        $tpl = '';
+        if ($column->getDataType()->is(EXF_DATA_TYPE_HTML)) {
+            $tpl = '{ { {' . $column->getDataColumnName() . '}}}';
+        } elseif ($column->getDataType()->is(EXF_DATA_TYPE_IMAGE_URL)) {
+            $tpl = '<img style="margin: 0 auto 5px auto;" class="img-responsive" src="{ {' . $column->getDataColumnName() . '}}" />';
+        } else {
+            $tpl = '{ {' . $column->getDataColumnName() . '}}';
+            
+            switch ($column->getSize()) {
+                case EXF_TEXT_SIZE_BIG:
+                    $tpl = '<big>' . $tpl . '</big>';
+                    break;
+                case EXF_TEXT_SIZE_SMALL:
+                    $tpl = '<small>' . $tpl . '</small>';
+                    break;
+            }
+            
+            switch ($column->getStyle()) {
+                case EXF_TEXT_STYLE_BOLD:
+                    $tpl = '<strong>' . $tpl . '</strong>';
+                    break;
+                case EXF_TEXT_STYLE_UNDERLINE:
+                    $tpl = '<ins>' . $tpl . '</ins>';
+                    break;
+                case EXF_TEXT_STYLE_STRIKETHROUGH:
+                    $tpl = '<del>' . $tpl . '</del>';
+                    break;
+            }
+            
+            $style = '';
+            switch ($column->getAlign()) {
+                case 'left':
+                    $style .= 'float: left;';
+                    break;
+                case 'right':
+                    $style .= 'float: right;';
+                    break;
+                case 'center':
+                    $style .= 'text-align: center;';
+                    break;
+            }
+            
+            $tpl = '<div data-field="' . $column->getDataColumnName() . '" class="datalist-value"' . ($style ? ' style="' . $style . '"' : '') . '>' . $tpl . '</div>';
+        }
+        
+        if ($column->isHidden()) {
+            $tpl = '<div class="hidden">' . $tpl . '</div>';
+        }
+        
+        return $tpl;
+    }
+
+    function generateJs()
+    {
+        /* @var $widget \exface\Core\Widgets\DataList */
+        $widget = $this->getWidget();
+        $columns = array();
+        $column_number_offset = 0;
+        $filters_html = '';
+        $filters_js = '';
+        $filters_ajax = "data.q = $('#" . $this->getId() . "_quickSearch').val();\n";
+        $buttons_js = '';
+        $footer_callback = '';
+        $default_sorters = '';
+        
+        // sorters
+        foreach ($widget->getSorters() as $sorter) {
+            $column_exists = false;
+            foreach ($widget->getColumns() as $nr => $col) {
+                if ($col->getAttributeAlias() == $sorter->attribute_alias) {
+                    $column_exists = true;
+                    $default_sorters .= '[ ' . $nr . ', "' . $sorter->direction . '" ], ';
+                }
+            }
+            if (! $column_exists) {
+                // TODO add a hidden column
+            }
+        }
+        // Remove tailing comma
+        if ($default_sorters)
+            $default_sorters = substr($default_sorters, 0, - 2);
+        
+        // Filters defined in the UXON description
+        if ($widget->hasFilters()) {
+            foreach ($widget->getFilters() as $fnr => $fltr) {
+                // Skip promoted filters, as they are displayed next to quick search
+                if ($fltr->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED)
+                    continue;
+                $fltr_element = $this->getTemplate()->getElement($fltr);
+                $filters_js .= $this->getTemplate()->generateJs($fltr, $this->getId() . '_popup_config');
+                $filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . ' = ' . $fltr_element->buildJsValueGetter() . ";\n";
+                
+                // Here we generate some JS make the filter visible by default, once it gets used.
+                // This code will be called when the table's config page gets closed.
+                if (! $fltr->isHidden()) {
+                    $filters_js_promoted .= "
+							if (" . $fltr_element->buildJsValueGetter() . " && $('#" . $fltr_element->getId() . "').parents('#{$this->getId()}_popup_config').length > 0){
+								var fltr = $('#" . $fltr_element->getId() . "').parents('.exf_input');
+								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->getId()}_filters_container');
 								fltr.detach().appendTo(ui_block).trigger('resize');
-								$('#{$this->get_id()}_filters_container').show();
+								$('#{$this->getId()}_filters_container').show();
 							}
 					";
-					/*$filters_js_promoted .= "
-							if (" . $fltr_element->build_js_value_getter() . "){
-								var fltr = $('#" . $fltr_element->get_id() . "').parents('.exf_input');
-								var ui_block = $('<div></div>');
-								if ($('#{$this->get_id()}_filters_container').children('div').length % 2 == 0){
-									ui_block.addClass('ui-block-a');
-								} else {
-									ui_block.addClass('ui-block-b');
-								}
-								ui_block.appendTo('#{$this->get_id()}_filters_container');
-								fltr.detach().appendTo(ui_block);
-								fltr.addClass('ui-field-contain');
-							}
-							";*/
-				}
-			}
-		}
+                    /*
+                     * $filters_js_promoted .= "
+                     * if (" . $fltr_element->buildJsValueGetter() . "){
+                     * var fltr = $('#" . $fltr_element->getId() . "').parents('.exf_input');
+                     * var ui_block = $('<div></div>');
+                     * if ($('#{$this->getId()}_filters_container').children('div').length % 2 == 0){
+                     * ui_block.addClass('ui-block-a');
+                     * } else {
+                     * ui_block.addClass('ui-block-b');
+                     * }
+                     * ui_block.appendTo('#{$this->getId()}_filters_container');
+                     * fltr.detach().appendTo(ui_block);
+                     * fltr.addClass('ui-field-contain');
+                     * }
+                     * ";
+                     */
+                }
+            }
+        }
+        
+        // buttons
+        if ($widget->hasButtons()) {
+            foreach ($widget->getButtons() as $button) {
+                $buttons_js .= $this->getTemplate()->generateJs($button);
+            }
+        }
+        
+        // Click actions
+        // Single click. Currently only supports one double click action - the first one in the list of buttons
+        if ($leftclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_LEFT_CLICK)[0]) {
+            $leftclick_script = $this->getTemplate()
+                ->getElement($leftclick_button)
+                ->buildJsClickFunctionName() . '()';
+        }
+        // Double click. Currently only supports one double click action - the first one in the list of buttons
+        if ($dblclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_DOUBLE_CLICK)[0]) {
+            $dblclick_script = $this->getTemplate()
+                ->getElement($dblclick_button)
+                ->buildJsClickFunctionName() . '()';
+        }
+        
+        // Double click. Currently only supports one double click action - the first one in the list of buttons
+        if ($leftclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_LEFT_CLICK)[0]) {
+            $leftclick_script = $this->getTemplate()
+                ->getElement($leftclick_button)
+                ->buildJsClickFunctionName() . '()';
+        }
+        
+        // configure pagination
+        if ($widget->getPaginate()) {
+            $paging_options = '"pageLength": ' . $widget->getPaginateDefaultPageSize() . ',';
+        } else {
+            $paging_options = '"paging": false,';
+        }
+        
+        $output = <<<JS
 		
-		// buttons
-		if ($widget->has_buttons()){
-			foreach ($widget->get_buttons() as $button){
-				$buttons_js .= $this->get_template()->generate_js($button);
-			}
-		}
-		
-		// Click actions
-		// Single click. Currently only supports one double click action - the first one in the list of buttons
-		if ($leftclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_LEFT_CLICK)[0]){
-			$leftclick_script = $this->get_template()->get_element($leftclick_button)->build_js_click_function_name() .  '()';
-		}
-		// Double click. Currently only supports one double click action - the first one in the list of buttons
-		if ($dblclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_DOUBLE_CLICK)[0]){
-			$dblclick_script = $this->get_template()->get_element($dblclick_button)->build_js_click_function_name() .  '()';
-		}
-		
-		// Double click. Currently only supports one double click action - the first one in the list of buttons
-		if ($leftclick_button = $widget->get_buttons_bound_to_mouse_action(EXF_MOUSE_ACTION_LEFT_CLICK)[0]){
-			$leftclick_script = $this->get_template()->get_element($leftclick_button)->build_js_click_function_name() .  '()';
-		}
-		
-		// configure pagination
-		if ($widget->get_paginate()){
-			$paging_options = '"pageLength": ' . $widget->get_paginate_default_page_size() . ','; 
-		} else {
-			$paging_options = '"paging": false,';
-		}
-		
-		$output = <<<JS
-		
-var {$this->get_id()}_pages = {
+var {$this->getId()}_pages = {
 	page: 0, 
 	pages: 1, 
 	end: 0,
@@ -256,140 +292,140 @@ var {$this->get_id()}_pages = {
 	
 };
 $(document).ready(function() {
-	$('#{$this->get_id()}').masonry({
-		columnWidth: '#{$this->get_id()}_sizer', 
+	$('#{$this->getId()}').masonry({
+		columnWidth: '#{$this->getId()}_sizer', 
 		itemSelector: '.exf_grid_item'
 	});
 	
-	{$this->build_js_function_prefix()}load();
+	{$this->buildJsFunctionPrefix()}load();
 	
-	{$this->build_js_pagination()}
+	{$this->buildJsPagination()}
 	
-	{$this->build_js_quicksearch()}
+	{$this->buildJsQuicksearch()}
 	
-	{$this->build_js_row_selection()}
+	{$this->buildJsRowSelection()}
 	
-	$('#{$this->get_id()}').on('resize', $('#{$this->get_id()}').masonry('layout'));
+	$('#{$this->getId()}').on('resize', $('#{$this->getId()}').masonry('layout'));
 	
-	$(document).on('click', '#{$this->get_id()} .box', function(e){
-		$('#{$this->get_id()} .box').removeClass('box-primary').removeClass('selected');
+	$(document).on('click', '#{$this->getId()} .box', function(e){
+		$('#{$this->getId()} .box').removeClass('box-primary').removeClass('selected');
 		$(this).addClass('box-primary').addClass('selected');
 		{$leftclick_script}
 	});
 	
-	$(document).on('dblclick', '#{$this->get_id()} .box', function(e){
+	$(document).on('dblclick', '#{$this->getId()} .box', function(e){
 		{$dblclick_script}
 	});
 	
-	$(document).on('click', '#{$this->get_id()} .box', function(e){
+	$(document).on('click', '#{$this->getId()} .box', function(e){
 		{$leftclick_script}
 	});
 	
 });
 
-function {$this->build_js_function_prefix()}getSelection(){
+function {$this->buildJsFunctionPrefix()}getSelection(){
 	var data = [];
 	var row = {};
-	$('#{$this->get_id()} .box.selected .datalist-value').each(function(index, element){
+	$('#{$this->getId()} .box.selected .datalist-value').each(function(index, element){
 		row[$(element).data('field')] = $(element).text();
 	});
 	data.push(row);
 	return data;
 }
 
-function {$this->build_js_function_prefix()}load(keep_page_pos, replace_data){
-	if ($('#{$this->get_id()}').data('loading')) return;
-	{$this->build_js_busy_icon_show()}
-	$('#{$this->get_id()}').data('loading', 1);
+function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
+	if ($('#{$this->getId()}').data('loading')) return;
+	{$this->buildJsBusyIconShow()}
+	$('#{$this->getId()}').data('loading', 1);
 	if (replace_data !== false){
-		var currentItems = $('#{$this->get_id()}').children();
-		$('#{$this->get_id()}').masonry('remove', currentItems).masonry('layout');
+		var currentItems = $('#{$this->getId()}').children();
+		$('#{$this->getId()}').masonry('remove', currentItems).masonry('layout');
 	}
 	var data = {};
-    data.action = '{$widget->get_lazy_loading_action()}';
-	data.resource = "{$this->get_page_id()}";
-	data.element = "{$widget->get_id()}";
-	data.object = "{$this->get_widget()->get_meta_object()->get_id()}";
+    data.action = '{$widget->getLazyLoadingAction()}';
+	data.resource = "{$this->getPageId()}";
+	data.element = "{$widget->getId()}";
+	data.object = "{$this->getWidget()->getMetaObject()->getId()}";
 	{$filters_ajax}
-	if ({$this->get_id()}_pages.length) {
-		data.start = {$this->get_id()}_pages.page * {$this->get_id()}_pages.length;
-		data.length = {$this->get_id()}_pages.length;
+	if ({$this->getId()}_pages.length) {
+		data.start = {$this->getId()}_pages.page * {$this->getId()}_pages.length;
+		data.length = {$this->getId()}_pages.length;
 	}
 	
 	if (!keep_page_pos){
-		{$this->get_id()}_pages.page = 0;
+		{$this->getId()}_pages.page = 0;
 	}
     
 	$.ajax({
-       url: "{$this->get_ajax_url()}",
+       url: "{$this->getAjaxUrl()}",
        data: data,
        method: 'POST',
        success: function(json){
 			try {
 				var data = $.parseJSON(json);
 			} catch (err) {
-				{$this->build_js_busy_icon_hide()}
+				{$this->buildJsBusyIconHide()}
 			}
 			if (data.data.length > 0) {
-				var template = Handlebars.compile($('#{$this->get_id()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
+				var template = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
 				var elements = $(template(data));
-		        $('#{$this->get_id()}')
+		        $('#{$this->getId()}')
 		           .hide()
 		           .append(elements)
 		           .imagesLoaded( function(){ 
-		              $('#{$this->get_id()} .placeholder').hide();
-		              $('#{$this->get_id()}').show().masonry('appended', elements);
-		              $('#{$this->get_id()}').closest('.exf_grid_item').trigger('resize');
-		              {$this->build_js_busy_icon_hide()}
-		              $('#{$this->get_id()}').data('loading', 0);
+		              $('#{$this->getId()} .placeholder').hide();
+		              $('#{$this->getId()}').show().masonry('appended', elements);
+		              $('#{$this->getId()}').closest('.exf_grid_item').trigger('resize');
+		              {$this->buildJsBusyIconHide()}
+		              $('#{$this->getId()}').data('loading', 0);
 		         });
 			} else {
-				$('#{$this->get_id()} .placeholder').show();
-				$('#{$this->get_id()}').data('loading', 0);
-				{$this->build_js_busy_icon_hide()}
+				$('#{$this->getId()} .placeholder').show();
+				$('#{$this->getId()}').data('loading', 0);
+				{$this->buildJsBusyIconHide()}
 			}
 			if (data.recordsFiltered){
-				if (!{$this->get_id()}_pages.length){
-					{$this->get_id()}_pages.length = data.data.length;
+				if (!{$this->getId()}_pages.length){
+					{$this->getId()}_pages.length = data.data.length;
 				}
-				{$this->get_id()}_pages = $.extend({$this->get_id()}_pages, {
+				{$this->getId()}_pages = $.extend({$this->getId()}_pages, {
 					recordsDisplay: parseInt(data.recordsFiltered),
-					end: ({$this->get_id()}_pages.page * {$this->get_id()}_pages.length) + data.data.length,
-					pages: Math.ceil(data.recordsFiltered/{$this->get_id()}_pages.length)
+					end: ({$this->getId()}_pages.page * {$this->getId()}_pages.length) + data.data.length,
+					pages: Math.ceil(data.recordsFiltered/{$this->getId()}_pages.length)
 				});
-				{$this->get_id()}_drawPagination();
+				{$this->getId()}_drawPagination();
 			}
 		},
 		error: function(jqXHR, textStatus,errorThrown){
-		   {$this->build_js_busy_icon_hide()}
-		   {$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
+		   {$this->buildJsBusyIconHide()}
+		   {$this->buildJsShowError('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
 		}
 	});
 	
 }
 
-function {$this->get_id()}_drawPagination(){
-	var pages = {$this->get_id()}_pages;
+function {$this->getId()}_drawPagination(){
+	var pages = {$this->getId()}_pages;
 	if (pages.page == 0) {
-		$('#{$this->get_id()}_prevPage').attr('disabled', 'disabled');
+		$('#{$this->getId()}_prevPage').attr('disabled', 'disabled');
 	} else {
-		$('#{$this->get_id()}_prevPage').attr('disabled', false);
+		$('#{$this->getId()}_prevPage').attr('disabled', false);
 	}
 	if (pages.page == pages.pages-1 || pages.end == pages.recordsDisplay) {
-		$('#{$this->get_id()}_nextPage').attr('disabled', 'disabled');
+		$('#{$this->getId()}_nextPage').attr('disabled', 'disabled');
 	} else {
-		$('#{$this->get_id()}_nextPage').attr('disabled', false);	
+		$('#{$this->getId()}_nextPage').attr('disabled', false);	
 	}
-	$('#{$this->get_id()}_pageInfo').html(pages.page*pages.length+1 + ' - ' + (pages.recordsDisplay < (pages.page+1)*pages.length || pages.end == pages.recordsDisplay ? pages.recordsDisplay : (pages.page+1)*pages.length) + ' / ' + pages.recordsDisplay);
+	$('#{$this->getId()}_pageInfo').html(pages.page*pages.length+1 + ' - ' + (pages.recordsDisplay < (pages.page+1)*pages.length || pages.end == pages.recordsDisplay ? pages.recordsDisplay : (pages.page+1)*pages.length) + ' / ' + pages.recordsDisplay);
 	
 }
 
-function {$this->get_id()}_refreshPromotedFilters(){
+function {$this->getId()}_refreshPromotedFilters(){
 	{$filters_js_promoted}
 }
 
-$('#{$this->get_id()}_popup_config').on('hidden.bs.modal', function(e) {
-	{$this->get_id()}_refreshPromotedFilters();
+$('#{$this->getId()}_popup_config').on('hidden.bs.modal', function(e) {
+	{$this->getId()}_refreshPromotedFilters();
 });
 
 
@@ -398,75 +434,81 @@ $('#{$this->get_id()}_popup_config').on('hidden.bs.modal', function(e) {
 {$buttons_js}
 
 JS;
-		
-		return $output;
-	}
-	
-	public function build_js_refresh($keep_pagination_position = false){
-		return $this->build_js_function_prefix() . "load(" . ($keep_pagination_position ? 1 : 0) .");";
-	}
-	
-	public function generate_headers(){
-		$includes = parent::generate_headers();
-		$includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
-		return $includes;
-	}
-	
-	public function build_js_data_getter(ActionInterface $action = null){
-		if (is_null($action)){
-			// TODO
-		} else {
-			$rows = $this->build_js_function_prefix() . "getSelection()";
-		}
-		return "{oId: '" . $this->get_widget()->get_meta_object_id() . "', rows: " . $rows . "}";
-	}
-	
-	/**
-	 * Renders javascript event handlers for tapping on rows. A single tap (or click) selects a row, while a longtap opens the
-	 * context menu for the row if one is defined. The long tap also selects the row.
-	 */
-	protected function build_js_row_selection(){
-		$output = '';
-		if ($this->get_widget()->get_multi_select()){
-			$output .= "
-				$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
+        
+        return $output;
+    }
+
+    public function buildJsRefresh($keep_pagination_position = false)
+    {
+        return $this->buildJsFunctionPrefix() . "load(" . ($keep_pagination_position ? 1 : 0) . ");";
+    }
+
+    public function generateHeaders()
+    {
+        $includes = parent::generateHeaders();
+        $includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
+        return $includes;
+    }
+
+    public function buildJsDataGetter(ActionInterface $action = null)
+    {
+        if (is_null($action)) {
+            // TODO
+        } else {
+            $rows = $this->buildJsFunctionPrefix() . "getSelection()";
+        }
+        return "{oId: '" . $this->getWidget()->getMetaObjectId() . "', rows: " . $rows . "}";
+    }
+
+    /**
+     * Renders javascript event handlers for tapping on rows.
+     * A single tap (or click) selects a row, while a longtap opens the
+     * context menu for the row if one is defined. The long tap also selects the row.
+     */
+    protected function buildJsRowSelection()
+    {
+        $output = '';
+        if ($this->getWidget()->getMultiSelect()) {
+            $output .= "
+				$('#{$this->getId()} tbody').on( 'click', 'tr', function (event) {
 					if (event.which !== 1) return;
 						$(this).toggleClass('selected bg-aqua');
 					} );
 				";
-		} else {
-			// Select a row on tap. Make sure no other row is selected
-			$output .= "
-				$('#{$this->get_id()} tbody').on( 'click', 'tr', function (event) {
+        } else {
+            // Select a row on tap. Make sure no other row is selected
+            $output .= "
+				$('#{$this->getId()} tbody').on( 'click', 'tr', function (event) {
 					if(!(!event.detail || event.detail==1)) return;
 				 	if ($(this).hasClass('unselectable')) return;
 					
 					if ( $(this).hasClass('selected bg-aqua') ) {
 						$(this).removeClass('selected bg-aqua');
 					} else {
-						{$this->get_id()}_table.$('tr.selected').removeClass('selected bg-aqua');
+						{$this->getId()}_table.$('tr.selected').removeClass('selected bg-aqua');
 						$(this).addClass('selected bg-aqua');
 					}
 				} );
 			";
-		}
-		return $output;
-	}
+        }
+        return $output;
+    }
+
+    protected function buildJsPagination()
+    {
+        $output = <<<JS
+	$('#{$this->getId()}_prevPage').on('click', function(){{$this->getId()}_pages.previous(); {$this->buildJsRefresh(true)}});
+	$('#{$this->getId()}_nextPage').on('click', function(){{$this->getId()}_pages.next(); {$this->buildJsRefresh(true)}});
 	
-	protected function build_js_pagination(){
-		$output = <<<JS
-	$('#{$this->get_id()}_prevPage').on('click', function(){{$this->get_id()}_pages.previous(); {$this->build_js_refresh(true)}});
-	$('#{$this->get_id()}_nextPage').on('click', function(){{$this->get_id()}_pages.next(); {$this->build_js_refresh(true)}});
-	
-	$('#{$this->get_id()}_pageInfo').on('click', function(){
-		$('#{$this->get_id()}_pageInput').val({$this->get_id()}_table.page()+1);
+	$('#{$this->getId()}_pageInfo').on('click', function(){
+		$('#{$this->getId()}_pageInput').val({$this->getId()}_table.page()+1);
 	});
 	
-	$('#{$this->get_id()}_pageControls').on('hidden.bs.dropdown', function(){
-		{$this->get_id()}_table.page(parseInt($('#{$this->get_id()}_pageSlider').val())-1).draw(false);
+	$('#{$this->getId()}_pageControls').on('hidden.bs.dropdown', function(){
+		{$this->getId()}_table.page(parseInt($('#{$this->getId()}_pageSlider').val())-1).draw(false);
 	});
 JS;
-			return $output;
-	}
+        return $output;
+    }
 }
 ?>

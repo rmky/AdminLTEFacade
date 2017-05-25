@@ -1,34 +1,39 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
-class lteInputDate extends lteInput {
-	
-	protected function init(){
-		parent::init();
-		$this->set_element_type('datepicker');
-	}
-	
-	function generate_html(){
-		$output = '
-						<label for="' . $this->get_id() . '">' . $this->get_widget()->get_caption() . '</label>
+
+class lteInputDate extends lteInput
+{
+
+    protected function init()
+    {
+        parent::init();
+        $this->setElementType('datepicker');
+    }
+
+    function generateHtml()
+    {
+        $output = '
+						<label for="' . $this->getId() . '">' . $this->getWidget()->getCaption() . '</label>
 						<div class="form-group input-group date">
 							<div class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</div>
 							<input class="form-control pull-right"
 									type="text"
-									name="' . $this->get_widget()->get_attribute_alias() . '"
-									value="' . $this->escape_string($this->get_value_with_defaults()) . '" 
-									id="' . $this->get_id() . '"
-									' . ($this->get_widget()->is_required() ? 'required="true" ' : '') . '
-									' . ($this->get_widget()->is_disabled() ? 'disabled="disabled" ' : '') . '/>
+									name="' . $this->getWidget()->getAttributeAlias() . '"
+									value="' . $this->escapeString($this->getValueWithDefaults()) . '" 
+									id="' . $this->getId() . '"
+									' . ($this->getWidget()->isRequired() ? 'required="true" ' : '') . '
+									' . ($this->getWidget()->isDisabled() ? 'disabled="disabled" ' : '') . '/>
 						</div>
 					';
-		return $this->build_html_wrapper($output);
-	}
-	
-	function generate_js(){
-		$output = '
-				$(\'#' . $this->get_id() . '\').' . $this->get_element_type() . '({
+        return $this->buildHtmlWrapper($output);
+    }
+
+    function generateJs()
+    {
+        $output = '
+				$(\'#' . $this->getId() . '\').' . $this->getElementType() . '({
 					autoclose: true,
 					format: {
 						toDisplay: function (date, format, language) {
@@ -51,18 +56,19 @@ class lteInputDate extends lteInput {
 					},
 					todayHighlight: true
 				});';
-		
-		if ($this->get_widget()->is_required()) {
-			$output .= $this->build_js_required();
-		}
-		
-		return $output;
-	}
-	
-	public function generate_headers(){
-		$headers = parent::generate_headers();
-		$headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>';
-		$headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
-		return $headers;
-	}
+        
+        if ($this->getWidget()->isRequired()) {
+            $output .= $this->buildJsRequired();
+        }
+        
+        return $output;
+    }
+
+    public function generateHeaders()
+    {
+        $headers = parent::generateHeaders();
+        $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>';
+        $headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
+        return $headers;
+    }
 }

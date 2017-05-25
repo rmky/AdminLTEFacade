@@ -1,12 +1,14 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
-class lteTextHeading extends lteText {
-	
-	function generate_html(){
-		$output = '';
-		$output .= '<h' . $this->get_widget()->get_heading_level() . ' id="' . $this->get_id() . '">' . $this->get_widget()->get_text() . '</h' . $this->get_widget()->get_heading_level() . '>';
-		return $this->build_html_wrapper($output);
-	}
-	
+
+class lteTextHeading extends lteText
+{
+
+    function generateHtml()
+    {
+        $output = '';
+        $output .= '<h' . $this->getWidget()->getHeadingLevel() . ' id="' . $this->getId() . '">' . $this->getWidget()->getText() . '</h' . $this->getWidget()->getHeadingLevel() . '>';
+        return $this->buildHtmlWrapper($output);
+    }
 }
 ?>

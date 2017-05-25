@@ -1,4 +1,6 @@
-<?php namespace exface\AdminLteTemplate\Template\Elements;
+<?php
+
+namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DialogButton;
 use exface\Core\Interfaces\Actions\ActionInterface;
@@ -8,157 +10,174 @@ use exface\Core\Widgets\Button;
 
 /**
  * Generates jQuery Mobile buttons for ExFace
- * 
- * @author Andrej Kabachnik
  *
+ * @author Andrej Kabachnik
+ *        
  */
-class lteButton extends lteAbstractElement {
-	
-	use JqueryButtonTrait;
+class lteButton extends lteAbstractElement
+{
+    
+    use JqueryButtonTrait;
 
-	function generate_js(){
-		$output = '';
-		$hotkey_handlers = array();
-		$action = $this->get_action();
-		
-		// Get the java script required for the action itself
-		if ($action){
-			// Actions with template scripts may contain some helper functions or global variables.
-			// Print the here first.
-			if ($action && $action->implements_interface('iRunTemplateScript')){
-				$output .= $this->get_action()->print_helper_functions();
-			}
-		}
-		
-		if ($click = $this->build_js_click_function()) {
-			
-			// Generate the function to be called, when the button is clicked
-			$output .= "
-				function " . $this->build_js_click_function_name() . "(input){
+    function generateJs()
+    {
+        $output = '';
+        $hotkey_handlers = array();
+        $action = $this->getAction();
+        
+        // Get the java script required for the action itself
+        if ($action) {
+            // Actions with template scripts may contain some helper functions or global variables.
+            // Print the here first.
+            if ($action && $action->implementsInterface('iRunTemplateScript')) {
+                $output .= $this->getAction()->printHelperFunctions();
+            }
+        }
+        
+        if ($click = $this->buildJsClickFunction()) {
+            
+            // Generate the function to be called, when the button is clicked
+            $output .= "
+				function " . $this->buildJsClickFunctionName() . "(input){
 					" . $click . "
 				}
 				";
-			
-			// Handle hotkeys
-			if ($this->get_widget()->get_hotkey()){
-				$hotkey_handlers[$this->get_widget()->get_hotkey()][] = $this->build_js_click_function_name();
-			}
-		}
-		
-		foreach ($hotkey_handlers as $hotkey => $handlers){
-			// TODO add hotkey detection here
-		}
-		
-		return $output;
-	}
+            
+            // Handle hotkeys
+            if ($this->getWidget()->getHotkey()) {
+                $hotkey_handlers[$this->getWidget()->getHotkey()][] = $this->buildJsClickFunctionName();
+            }
+        }
+        
+        foreach ($hotkey_handlers as $hotkey => $handlers) {
+            // TODO add hotkey detection here
+        }
+        
+        return $output;
+    }
 
-	/**
-	 * @see \exface\Templates\jeasyui\Widgets\abstractWidget::generate_html()
-	 */
-	function generate_html(){
-		$output = '';
-		/* @var $widget \exface\Core\Widgets\Button */
-		$widget = $this->get_widget();
-		
-		// In any case, create a button
-		$button_class = $widget->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? ' btn-primary' : ' btn-default';
-		$icon_class = $widget->get_icon_name() && !$widget->get_hide_button_icon() ? ' ' . $this->build_css_icon_class($widget->get_icon_name()) : '';
-		$hidden_class = $widget->is_hidden() ? ' exfHidden' : '';
-		$disabled_class = $widget->is_disabled() ? ' disabled' : '';
-		$align_class = $this->get_align_class();
-		$output .= '
-				<button id="' . $this->get_id() . '" type="button" class="btn' . $button_class . $hidden_class . $disabled_class . $align_class . '"' . ($widget->is_disabled() ? '' : ' onclick="' . $this->build_js_click_function_name() . '();"') . '>
-						<i class="' . $icon_class . '"></i> ' . ($widget->get_caption() && !$widget->get_hide_button_text() ? $widget->get_caption() : '') . '
+    /**
+     *
+     * @see \exface\Templates\jeasyui\Widgets\abstractWidget::generateHtml()
+     */
+    function generateHtml()
+    {
+        $output = '';
+        /* @var $widget \exface\Core\Widgets\Button */
+        $widget = $this->getWidget();
+        
+        // In any case, create a button
+        $button_class = $widget->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? ' btn-primary' : ' btn-default';
+        $icon_class = $widget->getIconName() && ! $widget->getHideButtonIcon() ? ' ' . $this->buildCssIconClass($widget->getIconName()) : '';
+        $hidden_class = $widget->isHidden() ? ' exfHidden' : '';
+        $disabled_class = $widget->isDisabled() ? ' disabled' : '';
+        $align_class = $this->getAlignClass();
+        $output .= '
+				<button id="' . $this->getId() . '" type="button" class="btn' . $button_class . $hidden_class . $disabled_class . $align_class . '"' . ($widget->isDisabled() ? '' : ' onclick="' . $this->buildJsClickFunctionName() . '();"') . '>
+						<i class="' . $icon_class . '"></i> ' . ($widget->getCaption() && ! $widget->getHideButtonText() ? $widget->getCaption() : '') . '
 				</button>';
-		return $output;
-	}
-	
-	protected function build_js_click_show_dialog(ActionInterface $action, AbstractJqueryElement $input_element){
-		$widget = $this->get_widget();
-		
-		/* @var $prefill_link \exface\Core\CommonLogic\WidgetLink */
-		$prefill = '';
-		if ($prefill_link = $this->get_action()->get_prefill_with_data_from_widget_link()){
-			if ($prefill_link->get_page_id() == $widget->get_page_id()){
-				$prefill = ", prefill: " . $this->get_template()->get_element($prefill_link->get_widget())->build_js_data_getter($this->get_action());
-			}
-		}
-		
-		$js_on_close_dialog = ($this->build_js_input_refresh($widget, $input_element) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->build_js_input_refresh($widget, $input_element) . "});" : "");
-		$output = $this->build_js_request_data_collector($action, $input_element);
-		$output .= <<<JS
-						{$this->build_js_busy_icon_show()}
+        return $output;
+    }
+
+    protected function buildJsClickShowDialog(ActionInterface $action, AbstractJqueryElement $input_element)
+    {
+        $widget = $this->getWidget();
+        
+        /* @var $prefill_link \exface\Core\CommonLogic\WidgetLink */
+        $prefill = '';
+        if ($prefill_link = $this->getAction()->getPrefillWithDataFromWidgetLink()) {
+            if ($prefill_link->getPageId() == $widget->getPageId()) {
+                $prefill = ", prefill: " . $this->getTemplate()
+                    ->getElement($prefill_link->getWidget())
+                    ->buildJsDataGetter($this->getAction());
+            }
+        }
+        
+        $js_on_close_dialog = ($this->buildJsInputRefresh($widget, $input_element) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->buildJsInputRefresh($widget, $input_element) . "});" : "");
+        $output = $this->buildJsRequestDataCollector($action, $input_element);
+        $output .= <<<JS
+						{$this->buildJsBusyIconShow()}
 						$.ajax({
 							type: 'POST',
-							url: '{$this->get_ajax_url()}',
+							url: '{$this->getAjaxUrl()}',
 							dataType: 'html',
 							data: {
-								action: '{$widget->get_action_alias()}',
-								resource: '{$widget->get_page_id()}',
-								element: '{$widget->get_id()}',
+								action: '{$widget->getActionAlias()}',
+								resource: '{$widget->getPageId()}',
+								element: '{$widget->getId()}',
 								data: requestData
 								{$prefill}
 							},
 							success: function(data, textStatus, jqXHR) {
-								{$this->build_js_close_dialog($widget, $input_element)}
-								{$this->build_js_input_refresh($widget, $input_element)}
-		                       	{$this->build_js_busy_icon_hide()}
+								{$this->buildJsCloseDialog($widget, $input_element)}
+								{$this->buildJsInputRefresh($widget, $input_element)}
+		                       	{$this->buildJsBusyIconHide()}
 		                       	if ($('#ajax-dialogs').length < 1){
 		                       		$('body').append('<div id=\"ajax-dialogs\"></div>');
                        			}
 		                       	$('#ajax-dialogs').append('<div class=\"ajax-wrapper\">'+data+'</div>');
 		                       	$('#ajax-dialogs').children().last().children('.modal').last().modal('show');
-                       			$(document).trigger('{$action->get_alias_with_namespace()}.action.performed', [requestData]);
-                       			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['{$this->get_template()->get_element($action->get_dialog_widget())->get_id()}']);
+                       			$(document).trigger('{$action->getAliasWithNamespace()}.action.performed', [requestData]);
+                       			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['{$this->getTemplate()->getElement($action->getDialogWidget())->getId()}']);
 		                  		
 								// Make sure, the input widget of the button is always refreshed, once the dialog is closed again
 								{$js_on_close_dialog}
 							},
 							error: function(jqXHR, textStatus, errorThrown){
-								{$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
-								{$this->build_js_busy_icon_hide()}
+								{$this->buildJsShowError('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
+								{$this->buildJsBusyIconHide()}
 							}
 						});
 JS;
-		
-		return $output;
-	}
+        
+        return $output;
+    }
 
-	protected function build_js_close_dialog($widget, $input_element){
-		return ($widget->get_widget_type() == 'DialogButton' && $widget->get_close_dialog_after_action_succeeds() ? "$('#" . $input_element->get_id() . "').modal('hide');" : "" );
-	}
-	
-	/**
-	 * Returns javascript code with global variables and functions needed for certain button types
-	 */
-	protected function build_js_globals(){
-		$output = '';
-		/* Commented out because moved to generate_js()
-		// If the button reacts to any hotkey, we need to declare a global variable to collect keys pressed
-		if ($this->get_widget()->get_hotkey() == 'any'){
-			$output .= 'var exfHotkeys = [];';
-		}
-		*/
-		return $output;
-	}
-	
-	function get_align_class() {
-		$align = $this->get_widget()->get_align();
-		if ($align == 'left') { $align_class = ' pull-left'; }
-			elseif ($align == 'right') { $align_class = ' pull-right'; }
-			else { $align_class = ''; }
-		return $align_class;
-	}
-	
-	/**
-	 * In AdminLTE the button does not need any extra headers, as all headers needed for whatever the button loads will
-	 * come with the AJAX-request.
-	 * 
-	 * {@inheritDoc}
-	 * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generate_headers()
-	 */
-	public function generate_headers(){
-		return array();
-	}
+    protected function buildJsCloseDialog($widget, $input_element)
+    {
+        return ($widget->getWidgetType() == 'DialogButton' && $widget->getCloseDialogAfterActionSucceeds() ? "$('#" . $input_element->getId() . "').modal('hide');" : "");
+    }
+
+    /**
+     * Returns javascript code with global variables and functions needed for certain button types
+     */
+    protected function buildJsGlobals()
+    {
+        $output = '';
+        /*
+         * Commented out because moved to generate_js()
+         * // If the button reacts to any hotkey, we need to declare a global variable to collect keys pressed
+         * if ($this->getWidget()->getHotkey() == 'any'){
+         * $output .= 'var exfHotkeys = [];';
+         * }
+         */
+        return $output;
+    }
+
+    function getAlignClass()
+    {
+        $align = $this->getWidget()->getAlign();
+        if ($align == 'left') {
+            $align_class = ' pull-left';
+        } elseif ($align == 'right') {
+            $align_class = ' pull-right';
+        } else {
+            $align_class = '';
+        }
+        return $align_class;
+    }
+
+    /**
+     * In AdminLTE the button does not need any extra headers, as all headers needed for whatever the button loads will
+     * come with the AJAX-request.
+     *
+     * {@inheritdoc}
+     *
+     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generateHeaders()
+     */
+    public function generateHeaders()
+    {
+        return array();
+    }
 }
 ?>

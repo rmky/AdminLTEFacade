@@ -1,41 +1,50 @@
-<?php namespace exface\AdminLteTemplate\Template\Elements;
+<?php
 
-class lteTab extends ltePanel {
+namespace exface\AdminLteTemplate\Template\Elements;
 
-	function generate_html(){
-		$output = '
-	<div id="' . $this->get_id() . '" class="nav-tabs-custom">
+class lteTab extends ltePanel
+{
+
+    function generateHtml()
+    {
+        $output = '
+	<div id="' . $this->getId() . '" class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
-			' . $this->generate_html_header() . '
+			' . $this->generateHtmlHeader() . '
 		</ul>
 		<div class="tab-content">
-			' . $this->generate_html_content() . '
+			' . $this->generateHtmlContent() . '
 		</div>
 	</div>';
-		
-		return $output;
-	}
-	
-	function generate_html_header() {
-		//der erste Tab ist aktiv
-		$active_class = $this->get_widget() === $this->get_widget()->get_parent()->get_children()[0] ? ' active' : '';
-		
-		$output = '
-	<li class="' . $active_class . '"><a href="#' . $this->get_id() . '" data-toggle="tab">' . $this->get_widget()->get_caption() . '</a></li>';
-		return $output;
-	}
-	
-	function generate_html_content() {
-		//der erste Tab ist aktiv
-		$active_class = $this->get_widget() === $this->get_widget()->get_parent()->get_children()[0] ? ' active' : '';
-		
-		$output =
-	'<div class="tab-pane' . $active_class . '" id="' . $this->get_id() . '">
+        
+        return $output;
+    }
+
+    function generateHtmlHeader()
+    {
+        // der erste Tab ist aktiv
+        $active_class = $this->getWidget() === $this->getWidget()
+            ->getParent()
+            ->getChildren()[0] ? ' active' : '';
+        
+        $output = '
+	<li class="' . $active_class . '"><a href="#' . $this->getId() . '" data-toggle="tab">' . $this->getWidget()->getCaption() . '</a></li>';
+        return $output;
+    }
+
+    function generateHtmlContent()
+    {
+        // der erste Tab ist aktiv
+        $active_class = $this->getWidget() === $this->getWidget()
+            ->getParent()
+            ->getChildren()[0] ? ' active' : '';
+        
+        $output = '<div class="tab-pane' . $active_class . '" id="' . $this->getId() . '">
 		<div class="tab-pane-content-wrapper row">
-			' . $this->build_html_for_children() . '
+			' . $this->buildHtmlForChildren() . '
 		</div>
 	</div>';
-		return $output;
-	}
+        return $output;
+    }
 }
 ?>

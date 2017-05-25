@@ -1,20 +1,25 @@
-<?php namespace exface\AdminLteTemplate\Template\Elements;
+<?php
 
-class lteInputGroup extends ltePanel {
-	
-	public function generate_html(){
-		$children_html = $this->build_html_for_children();
-		
-		$output = '
+namespace exface\AdminLteTemplate\Template\Elements;
+
+class lteInputGroup extends ltePanel
+{
+
+    public function generateHtml()
+    {
+        $children_html = $this->buildHtmlForChildren();
+        
+        $output = '
 				<fieldset class="exface_inputgroup">
-					<legend>'.$this->get_widget()->get_caption().'</legend>
-					'.$children_html.'
+					<legend>' . $this->getWidget()->getCaption() . '</legend>
+					' . $children_html . '
 				</fieldset>';
-		return $output;
-	}
-	
-	public function generate_js() {
-		return $this->build_js_for_children();
-	}
+        return $output;
+    }
+
+    public function generateJs()
+    {
+        return $this->buildJsForChildren();
+    }
 }
 ?>

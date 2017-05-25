@@ -2,27 +2,29 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 
 /**
- * 
- * @author PATRIOT
  *
+ * @author PATRIOT
+ *        
  */
-class lteImageSlider extends lteDataList {
-	
-	function generate_html(){
-		/* @var $widget \exface\Core\Widgets\ImageGallery */
-		$widget = $this->get_widget();
-		$top_toolbar = $this->build_html_top_toolbar();
-		
-		// output the html code
-		$output = <<<HTML
+class lteImageSlider extends lteDataList
+{
 
-<div class="{$this->get_width_classes()} exf_grid_item">
+    function generateHtml()
+    {
+        /* @var $widget \exface\Core\Widgets\ImageGallery */
+        $widget = $this->getWidget();
+        $top_toolbar = $this->buildHtmlTopToolbar();
+        
+        // output the html code
+        $output = <<<HTML
+
+<div class="{$this->getWidthClasses()} exf_grid_item">
 	<div class="box" >
 		<div class="box-header">
 			{$top_toolbar}
 		</div><!-- /.box-header -->
 		<div class="box-body">
-			<div id="{$this->get_id()}" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 960px; height: calc({$this->get_height()} - 43px); overflow: hidden; visibility: hidden;">
+			<div id="{$this->getId()}" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 960px; height: calc({$this->getHeight()} - 43px); overflow: hidden; visibility: hidden;">
 		        <div data-u="slides" class="slides" style="cursor: default; position: relative; top: 0px; left: 240px; width: 720px; height: 400px; overflow: hidden;">
 		            <!-- Slides -->
 		        </div>
@@ -45,105 +47,109 @@ class lteImageSlider extends lteDataList {
 		    </div>
 		</div>
 	</div>
-	{$this->build_html_table_customizer()}
+	{$this->buildHtmlTableCustomizer()}
 </div>
 					
-<script type="text/x-handlebars-template" id="{$this->get_id()}_tpl">
+<script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
 { {#data}}
     <div data-p="150.00" style="display: none;">
 		<div data-u="image" class="img-wrap" >
-			<img src="{ {{$widget->get_image_url_column_id()}}}"/>
+			<img src="{ {{$widget->getImageUrlColumnId()}}}"/>
 		</div>
 		<div data-u="thumb" class="thumb-wrap">
-			<img src="{ {{$widget->get_image_url_column_id()}}}" />
+			<img src="{ {{$widget->getImageUrlColumnId()}}}" />
 		</div>
 	</div>
 { {/data}}
 </script>
 	
 HTML;
-		
-		return $output;
-	}
-	
-	public function get_height_default(){
-		return 12;
-	}
-	
-	function generate_js(){
-		/* @var $widget \exface\Core\Widgets\DataList */
-		$widget = $this->get_widget();
-		$columns = array();
-		$column_number_offset = 0;
-		$filters_html = '';
-		$filters_js = '';
-		$filters_ajax = "data.q = $('#" . $this->get_id() . "_quickSearch').val();\n";
-		$buttons_js = '';
-		$footer_callback = '';
-		$default_sorters = '';
-		
-		// sorters
-		foreach ($widget->get_sorters() as $sorter){
-			$column_exists = false;
-			foreach ($widget->get_columns() as $nr => $col){
-				if ($col->get_attribute_alias() == $sorter->attribute_alias){
-					$column_exists = true;
-					$default_sorters .= '[ ' . $nr . ', "' . $sorter->direction . '" ], ';
-				}
-			}
-			if (!$column_exists){
-				// TODO add a hidden column
-			}
-		}
-		// Remove tailing comma
-		if ($default_sorters) $default_sorters = substr($default_sorters, 0, -2);
-		
-		// Filters defined in the UXON description
-		if ($widget->has_filters()){
-			foreach ($widget->get_filters() as $fnr => $fltr){
-				// Skip promoted filters, as they are displayed next to quick search
-				if ($fltr->get_visibility() == EXF_WIDGET_VISIBILITY_PROMOTED) continue;
-				$fltr_element = $this->get_template()->get_element($fltr);
-				$filters_js .= $this->get_template()->generate_js($fltr);
-				$filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->get_attribute_alias() . ' = ' . $fltr_element->build_js_value_getter() . ";\n";
-				
-				// Here we generate some JS make the filter visible by default, once it gets used.
-				// This code will be called when the table's config page gets closed.
-				if (!$fltr->is_hidden()){
-					$filters_js_promoted .= "
-							if (" . $fltr_element->build_js_value_getter() . " && $('#" . $fltr_element->get_id() . "').parents('#{$this->get_id()}_popup_config').length > 0){
-								var fltr = $('#" . $fltr_element->get_id() . "').parents('.exf_input');
-								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->get_id()}_filters_container');
+        
+        return $output;
+    }
+
+    public function getHeightDefault()
+    {
+        return 12;
+    }
+
+    function generateJs()
+    {
+        /* @var $widget \exface\Core\Widgets\DataList */
+        $widget = $this->getWidget();
+        $columns = array();
+        $column_number_offset = 0;
+        $filters_html = '';
+        $filters_js = '';
+        $filters_ajax = "data.q = $('#" . $this->getId() . "_quickSearch').val();\n";
+        $buttons_js = '';
+        $footer_callback = '';
+        $default_sorters = '';
+        
+        // sorters
+        foreach ($widget->getSorters() as $sorter) {
+            $column_exists = false;
+            foreach ($widget->getColumns() as $nr => $col) {
+                if ($col->getAttributeAlias() == $sorter->attribute_alias) {
+                    $column_exists = true;
+                    $default_sorters .= '[ ' . $nr . ', "' . $sorter->direction . '" ], ';
+                }
+            }
+            if (! $column_exists) {
+                // TODO add a hidden column
+            }
+        }
+        // Remove tailing comma
+        if ($default_sorters)
+            $default_sorters = substr($default_sorters, 0, - 2);
+        
+        // Filters defined in the UXON description
+        if ($widget->hasFilters()) {
+            foreach ($widget->getFilters() as $fnr => $fltr) {
+                // Skip promoted filters, as they are displayed next to quick search
+                if ($fltr->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED)
+                    continue;
+                $fltr_element = $this->getTemplate()->getElement($fltr);
+                $filters_js .= $this->getTemplate()->generateJs($fltr);
+                $filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . ' = ' . $fltr_element->buildJsValueGetter() . ";\n";
+                
+                // Here we generate some JS make the filter visible by default, once it gets used.
+                // This code will be called when the table's config page gets closed.
+                if (! $fltr->isHidden()) {
+                    $filters_js_promoted .= "
+							if (" . $fltr_element->buildJsValueGetter() . " && $('#" . $fltr_element->getId() . "').parents('#{$this->getId()}_popup_config').length > 0){
+								var fltr = $('#" . $fltr_element->getId() . "').parents('.exf_input');
+								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->getId()}_filters_container');
 								fltr.detach().appendTo(ui_block).trigger('resize');
-								$('#{$this->get_id()}_filters_container').show();
+								$('#{$this->getId()}_filters_container').show();
 							}
 					";
-				}
-			}
-		}
-		
-		// buttons
-		if ($widget->has_buttons()){
-			foreach ($widget->get_buttons() as $button){
-				$buttons_js .= $this->get_template()->generate_js($button);
-			}
-		}
-		
-		$output = <<<JS
+                }
+            }
+        }
+        
+        // buttons
+        if ($widget->hasButtons()) {
+            foreach ($widget->getButtons() as $button) {
+                $buttons_js .= $this->getTemplate()->generateJs($button);
+            }
+        }
+        
+        $output = <<<JS
 
 $(document).ready(function() {
 	
-	{$this->build_js_function_prefix()}load();
+	{$this->buildJsFunctionPrefix()}load();
 	
-	{$this->build_js_pagination()}
+	{$this->buildJsPagination()}
 	
-	{$this->build_js_quicksearch()}
+	{$this->buildJsQuicksearch()}
 	
-	{$this->build_js_row_selection()}
+	{$this->buildJsRowSelection()}
 	
 });
 
-function {$this->build_js_function_prefix()}startSlider(){
+function {$this->buildJsFunctionPrefix()}startSlider(){
             
 var options = {
   \$AutoPlay: true,
@@ -165,16 +171,16 @@ var options = {
   }
 };
 
-var {$this->get_id()}slider = new \$JssorSlider$("{$this->get_id()}", options);
+var {$this->getId()}slider = new \$JssorSlider$("{$this->getId()}", options);
 
 //responsive code begin
 //you can remove responsive code if you don't want the slider scales while window resizing
 function ScaleSlider() {
-    var refSize = {$this->get_id()}slider.\$Elmt.parentNode.clientWidth;
+    var refSize = {$this->getId()}slider.\$Elmt.parentNode.clientWidth;
     if (refSize) {
         //refSize = Math.min(refSize, 960);
         //refSize = Math.max(refSize, 300);
-        {$this->get_id()}slider.\$ScaleWidth(refSize);
+        {$this->getId()}slider.\$ScaleWidth(refSize);
     }
     else {
         window.setTimeout(ScaleSlider, 30);
@@ -188,39 +194,39 @@ $(window).bind("orientationchange", ScaleSlider);
 
 }
 
-function {$this->build_js_function_prefix()}load(){
-	if ($('#{$this->get_id()}').data('loading')) return;
-	{$this->build_js_busy_icon_show()}
-	$('#{$this->get_id()}').data('loading', 1);
+function {$this->buildJsFunctionPrefix()}load(){
+	if ($('#{$this->getId()}').data('loading')) return;
+	{$this->buildJsBusyIconShow()}
+	$('#{$this->getId()}').data('loading', 1);
 	var data = {};
-    data.action = '{$widget->get_lazy_loading_action()}';
-	data.resource = "{$this->get_page_id()}";
-	data.element = "{$widget->get_id()}";
-	data.object = "{$this->get_widget()->get_meta_object()->get_id()}";
+    data.action = '{$widget->getLazyLoadingAction()}';
+	data.resource = "{$this->getPageId()}";
+	data.element = "{$widget->getId()}";
+	data.object = "{$this->getWidget()->getMetaObject()->getId()}";
 	{$filters_ajax}
     
 	$.ajax({
-       url: "{$this->get_ajax_url()}",
+       url: "{$this->getAjaxUrl()}",
        data: data,
        method: 'POST',
        success: function(json){
 			try {
 				var data = $.parseJSON(json);
 				if (data.data.length > 0) {
-					var template = Handlebars.compile($('#{$this->get_id()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
+					var template = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
 			        var elements = $(template(data));
-			        $('#{$this->get_id()} .slides').append(elements);
-			        {$this->build_js_function_prefix()}startSlider();
+			        $('#{$this->getId()} .slides').append(elements);
+			        {$this->buildJsFunctionPrefix()}startSlider();
 		        }
-		        {$this->build_js_busy_icon_hide()}
-		        $('#{$this->get_id()}').data('loading', 0);
+		        {$this->buildJsBusyIconHide()}
+		        $('#{$this->getId()}').data('loading', 0);
 			} catch (err) {
-				{$this->build_js_busy_icon_hide()}
+				{$this->buildJsBusyIconHide()}
 			}
 		},
 		error: function(jqXHR, textStatus,errorThrown){
-		   {$this->build_js_busy_icon_hide()}
-		   {$this->build_js_show_error('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
+		   {$this->buildJsBusyIconHide()}
+		   {$this->buildJsShowError('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
 		}
 	});
 }
@@ -228,19 +234,21 @@ function {$this->build_js_function_prefix()}load(){
 {$filters_js}
 
 JS;
-		
-		return $output;
-	}
-	
-	public function build_js_refresh($keep_pagination_position = false){
-		return $this->build_js_function_prefix() . "load();";
-	}
-	
-	public function generate_headers(){
-		$includes = parent::generate_headers();
-		$includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Template/js/jssor/skin.css">';
-		$includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
-		return $includes;
-	}
+        
+        return $output;
+    }
+
+    public function buildJsRefresh($keep_pagination_position = false)
+    {
+        return $this->buildJsFunctionPrefix() . "load();";
+    }
+
+    public function generateHeaders()
+    {
+        $includes = parent::generateHeaders();
+        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Template/js/jssor/skin.css">';
+        $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
+        return $includes;
+    }
 }
 ?>

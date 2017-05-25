@@ -1,17 +1,26 @@
-<?php namespace exface\AdminLteTemplate\Template\Elements;
+<?php
 
-class lteTabs extends lteContainer {
+namespace exface\AdminLteTemplate\Template\Elements;
 
-	function generate_html(){
-		$header_html = '';
-		$content_html = '';
-		foreach ($this->get_widget()->get_children() as $tab) {
-			$header_html .= $this->get_template()->get_element($tab)->generate_html_header();;
-			$content_html .= $this->get_template()->get_element($tab)->generate_html_content();
-		}
-		
-		$output = '
-	<div id="' . $this->get_id() . '" class="nav-tabs-custom">
+class lteTabs extends lteContainer
+{
+
+    function generateHtml()
+    {
+        $header_html = '';
+        $content_html = '';
+        foreach ($this->getWidget()->getChildren() as $tab) {
+            $header_html .= $this->getTemplate()
+                ->getElement($tab)
+                ->generateHtmlHeader();
+            ;
+            $content_html .= $this->getTemplate()
+                ->getElement($tab)
+                ->generateHtmlContent();
+        }
+        
+        $output = '
+	<div id="' . $this->getId() . '" class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
 			' . $header_html . '
 		</ul>
@@ -19,8 +28,8 @@ class lteTabs extends lteContainer {
 			' . $content_html . '
 		</div>
 	</div>';
-	
-		return $output;
-	}
+        
+        return $output;
+    }
 }
 ?>
