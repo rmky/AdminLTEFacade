@@ -634,7 +634,8 @@ JS;
             $output = <<<HTML
 	<h3 class="box-title">$table_caption</h3>
 	<div class="box-tools pull-right">
-		<button type="button" class="btn btn-box-tool" onclick="{$this->buildJsRefresh(false)} return false;"><i class="fa fa-refresh"></i></button>
+        <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#{$this->getId()}_popup_config" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-filter"></i></button>
+		<button type="button" class="btn btn-box-tool" onclick="{$this->buildJsRefresh(false)} return false;"  title="{$this->translate('WIDGET.REFRESH')}"><i class="fa fa-refresh"></i></button>
 	</div>
 HTML;
         } else {
@@ -688,8 +689,8 @@ HTML;
 							</li>
 					  	</ul>
 					</div>
-					<button type="button" data-target="#" class="btn btn-default" onclick="{$this->buildJsRefresh(true)} return false;"><i class="fa fa-refresh"></i></button>
-					<button type="button" data-target="#{$this->getId()}_popup_config" data-toggle="modal" class="btn btn-default"><i class="fa fa-gear"></i></button>
+					<button type="button" data-target="#" class="btn btn-default" onclick="{$this->buildJsRefresh(true)} return false;" title="{$this->translate('WIDGET.REFRESH')}"><i class="fa fa-refresh"></i></button>
+					<button type="button" data-target="#{$this->getId()}_popup_config" data-toggle="modal" class="btn btn-default" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-gear"></i></button>
 				</form>
 			</div>
 HTML;
