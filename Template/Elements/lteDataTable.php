@@ -241,8 +241,8 @@ JS;
                     continue;
                 $fltr_element = $this->getTemplate()->getElement($fltr);
                 $filters_js .= $this->getTemplate()->generateJs($fltr);
-                $filters_ajax .= 'd.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . ' = ' . $fltr_element->buildJsValueGetter() . ";\n";
-                $filters_ajax .= 'if(d.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . ') filtersOn = true;' . "\n";
+                $filters_ajax .= 'd["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"] = ' . $fltr_element->buildJsValueGetter() . ";\n";
+                $filters_ajax .= 'if(d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"]) {filtersOn = true; d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"] = "' . $fltr->getComparator() . '"+d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias(). '"];}' . "\n";
                 
                 // Here we generate some JS make the filter visible by default, once it gets used.
                 // This code will be called when the table's config page gets closed.
