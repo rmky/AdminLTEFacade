@@ -17,6 +17,9 @@ class lteInput extends lteText
         // change the input's value every time it changes itself. This needs to be done on init() to make sure, the other element
         // has not generated it's JS code yet!
         $this->registerLiveReferenceAtLinkedElement();
+        
+        // Register an onChange-Script on the element linked by a disable condition.
+        $this->registerDisableConditionAtLinkedElement();
     }
 
     function generateHtml()
@@ -64,6 +67,9 @@ class lteInput extends lteText
             $output .= $this->buildJsRequired();
         }
         $output .= $this->buildJsOnChangeHandler();
+
+        // Initialize the disabled state of the widget if a disabled condition is set.
+        $output .= $this->buildJsDisableConditionInitializer();
         
         return $output;
     }

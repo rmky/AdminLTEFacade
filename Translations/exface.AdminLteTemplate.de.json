@@ -10,5 +10,9 @@
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE": "Tabelleneinstellungen",
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.FILTERS": "Filter",
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.COLUMNS": "Spalten",
-	"WIDGET.DATATABLE.SETTINGS_DIALOG.SORTING": "Sortierung"
+	"WIDGET.DATATABLE.SETTINGS_DIALOG.SORTING": "Sortierung",
+	
+	"WIDGET.COMBOTABLE.NO_SUGGESTION": "Keine Resultate",
+	"WIDGET.COMBOTABLE.PLACEHOLDER": "Texteingabe oder hier klicken",
+	"WIDGET.COMBOTABLE.MAX_SELECTION": "Sie können nicht mehr als %number% Eintrag auswählen|Sie können nicht mehr als %number% Einträge auswählen"
 }
