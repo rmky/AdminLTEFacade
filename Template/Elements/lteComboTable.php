@@ -38,7 +38,7 @@ class lteComboTable extends lteInput
         // Add initial value
         if ($link = $widget->getValueWidgetLink()) {
             // widget has a live reference value
-            $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $this->getPageId());
+            $linked_element = $this->getTemplate()->getElement($link->getWidget());
             if ($widget->getValueText()) {
                 $initial_value_script = 'ms.setSelection([{"' . $widget->getTextColumn()->getDataColumnName() . '": "' . preg_replace("/\r|\n/", "", $widget->getValueText()) . '", "' . $widget->getValueColumn()->getDataColumnName() . '": ' . $linked_element->buildJsValueGetter($link->getColumnId()) . '}]);';
             } else {
