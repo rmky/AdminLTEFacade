@@ -155,19 +155,21 @@ HTML;
         $options = [];
         if (! $widget->getMultiSelect()) {
             $options[] = 'maxSelection: 1';
-            $options[] = 'maxSelectionRenderer: function() { return "' . $this->translate('WIDGET.COMBOTABLE.MAX_SELECTION', ['%number%' => 1], 1) . '"; }';
+            $options[] = 'maxSelectionRenderer: function() { return "' . $this->translate('WIDGET.COMBOTABLE.MAX_SELECTION', [
+                '%number%' => 1
+            ], 1) . '"; }';
         }
         if ($widget->isDisabled()) {
             $options[] = 'disabled: true';
+        }
+        if ($widget->isRequired()) {
+            $options[] = 'required: true';
         }
         $other_options = implode(",\n    ", $options);
         $other_options = $other_options ? ', ' . $other_options : '';
         
         // Debug-Funktionen
         $debug_function = ($this->getJsDebugLevel() > 0) ? $this->buildJsDebugDataToStringFunction() : '';
-        
-        // Required-Skript
-        $requiredSkript = $widget->isRequired() ? $this->buildJsRequired() : '';
         
         // Das entspricht dem urspruenglichen Verhalten. Filter-Referenzen werden beim Loeschen eines
         // Elements nicht geleert, sondern nur aktualisiert.
@@ -180,6 +182,10 @@ HTML;
         // nur einmal nach dem value-Setter update onLoadSuccess ausgefuehrt.
         ' . $this->getId() . '_jquery.data("_suppressFilterSetterUpdate", true);';
         
+        // Wird nur wenn das Widget in einer lazy-loading-group ist, um die Gruppe
+        // in einem konsistenten Zustand zu halten. Wuerde aber Probleme geben wenn
+        // das Widget multi_select ist, da dann nach der ersten Auswahl keine
+        // weiteren Optionen angezeigt werden.
         $reloadOnSelectSkript = $widget->getLazyLoadingGroupId() ? '
         // Update des eigenen Widgets.
         ' . $this->getId() . '_jquery.data("_filterSetterUpdate", true);
@@ -190,6 +196,7 @@ HTML;
 // Globale Variablen initialisieren.
 {$this->buildJsInitGlobalsFunction()}
 {$this->getId()}_initGlobals();
+
 // Debug-Funktionen hinzufuegen.
 {$debug_function}
 
@@ -226,6 +233,8 @@ window.{$this->getId()}_ms = $("#{$this->getId()}_ms").magicSuggest({
     {$other_options}
 });
 
+{$this->getId()}_initGlobals();
+
 {$initialValueScriptAfterMsInit}
 
 $({$this->getId()}_ms).on("selectionchange", function(e,m){
@@ -233,6 +242,7 @@ $({$this->getId()}_ms).on("selectionchange", function(e,m){
     {$this->getId()}_jquery.val({$this->getId()}_ms.getValue().join()).trigger("change");
     
     if (!{$this->getId()}_valueGetter()) {
+        // Wird ausgefuehrt wenn der Wert geloescht wurde.
         {$filterSetterUpdateScript}
     }
     
@@ -255,16 +265,16 @@ $({$this->getId()}_ms).on("load", function(e,m){
 });
 
 //notwendig fuer Eingabe mit BarcodeScanner
-//var {$this->getId()}_typingTimer;
-//var {$this->getId()}_input = $("#{$this->getId()}_ms .ms-sel-ctn input");
-//{$this->getId()}_input.on("keyup", function() {
-//  clearTimeout({$this->getId()}_typingTimer);
-//  if ({$this->getId()}_input.val()) {
-//      {$this->getId()}_typingTimer = setTimeout(function() {
-//          $("#{$this->getId()}_ms").magicSuggest().expand();
-//      }, 400);
-//  }
-//});
+var {$this->getId()}_typingTimer;
+var {$this->getId()}_input = $("#{$this->getId()}_ms .ms-sel-ctn input");
+{$this->getId()}_input.on("keyup", function() {
+  clearTimeout({$this->getId()}_typingTimer);
+  if ({$this->getId()}_input.val()) {
+      {$this->getId()}_typingTimer = setTimeout(function() {
+          $("#{$this->getId()}_ms").magicSuggest().expand();
+      }, 400);
+  }
+});
 JS;
         
         // Es werden JavaScript Value-Getter-/Setter- und OnChange-Funktionen fuer die ComboTable erzeugt,
@@ -291,10 +301,7 @@ JS;
         }
         
         // Ein Skript hinzufuegen, dass den required-Status des Widgets behandelt
-        $output .= <<<JS
-
-{$requiredSkript}
-JS;
+        $output .= $widget->isRequired() ? $this->buildJsRequired() : '';
         
         // Initialize the disabled state of the widget if a disabled condition is set.
         $output .= $this->buildJsDisableConditionInitializer();
@@ -335,12 +342,11 @@ JS;
 
     /**
      * Erzeugung einer JavaScript-Funktion zum Auslesen des Wertes.
-     * Die zurueckgegebenen
-     * Werte sind per MagicSuggest valueField definiert. Sind mehrere Werte ausgewaehlt
-     * wird eine Komma-separierte Liste dieser Werte zurueckgegeben. Ist eine spezifische
-     * Spalte ausgewaehlt, wird statt dem valueField der Wert dieser Spalte zurueckgegeben.
-     * Ist MagicSuggest noch nicht erzeugt wird stattdessen der Wert aus dem verknuepften
-     * InputHidden zurueckgegeben.
+     * Die zurueckgegebenen Werte sind per MagicSuggest valueField definiert. Sind
+     * mehrere Werte ausgewaehlt wird eine Komma-separierte Liste dieser Werte
+     * zurueckgegeben. Ist eine spezifische Spalte ausgewaehlt, wird statt dem valueField
+     * der Wert dieser Spalte zurueckgegeben. Ist MagicSuggest noch nicht erzeugt wird
+     * stattdessen der Wert aus dem verknuepften InputHidden zurueckgegeben.
      *
      * @return string
      */
@@ -412,7 +418,6 @@ JS;
     }
 
     /**
-     * The JS value setter for EasyUI combogrids is a custom function defined in euiComboTable::generateJs() - it only needs to be called here.
      *
      * {@inheritdoc}
      *
@@ -425,11 +430,11 @@ JS;
 
     /**
      * Erzeugung einer JavaScript-Funktion zum Setzen des Wertes.
-     * Ist multiselect false
-     * wird der Wert nur gesetzt wenn genau ein Wert uebergeben wird. Anschliessend wird
-     * der Inhalt des MagicSuggest neu geladen (um ordentliche Label anzuzeigen falls
-     * auch ein entsprechender Filter gesetzt ist). Ist MagicSuggest noch nicht erzeugt
-     * wird stattdessen der Wert im verknuepften InputHidden gesetzt.
+     * Ist multiselect false wird der Wert nur gesetzt wenn genau ein Wert uebergeben
+     * wird. Anschliessend wird der Inhalt des MagicSuggest neu geladen (um ordentliche
+     * Label anzuzeigen falls auch ein entsprechender Filter gesetzt ist). Ist
+     * MagicSuggest noch nicht erzeugt wird stattdessen der Wert im verknuepften
+     * InputHidden gesetzt.
      *
      * @return string
      */
@@ -440,7 +445,7 @@ JS;
         $valueSetter = <<<JS
 
                 {$this->getId()}_ms.clear(true);
-                // Bei setValue() wird selectionChange getriggert. Es soll aber werder
+                // Bei setValue() wird selectionChange getriggert. Es soll aber weder
                 // neu geladen werden, noch sollen andere Widgets geupdated werden.
                 {$this->getId()}_jquery.data("_suppressReloadOnSelect", true);
                 {$this->getId()}_jquery.data("_otherSuppressAllUpdates", true);
@@ -546,10 +551,10 @@ JS;
     /**
      * Erzeugt den JavaScript-Code welcher vor dem Laden des MagicSuggest-Inhalts
      * ausgefuehrt wird.
-     * Wurde programmatisch ein Wert gesetzt, wird als Filter
-     * nur dieser Wert hinzugefuegt, um das Label ordentlich anzuzeigen. Sonst werden
-     * die am Widget definierten Filter gesetzt. Die Filter werden nach dem Laden
-     * wieder entfernt, da sich die Werte durch Live-Referenzen aendern koennen.
+     * Wurde programmatisch ein Wert gesetzt, wird als Filter nur dieser Wert
+     * hinzugefuegt, um das Label ordentlich anzuzeigen. Sonst werden die am Widget
+     * definierten Filter gesetzt. Die Filter werden nach dem Laden wieder entfernt, da
+     * sich die Werte durch Live-Referenzen aendern koennen.
      *
      * @return string
      */
@@ -615,11 +620,10 @@ JS;
     /**
      * Erzeugt den JavaScript-Code welcher nach dem Laden des MagicSuggest-Inhalts
      * ausgefuehrt wird.
-     * Alle gesetzten Filter werden entfernt, da sich die Werte
-     * durch Live-Referenzen aendern koennen (werden vor dem naechsten Laden wieder
-     * hinzugefuegt). Wurde der Wert zuvor programmatisch gesetzt, wird er neu
-     * gesetzt um das Label ordentlich anzuzeigen. Nach der Erzeugung von MagicSuggest
-     * werden initiale Werte gesetzt und neu geladen.
+     * Alle gesetzten Filter werden entfernt, da sich die Werte durch Live-Referenzen
+     * aendern koennen (werden vor dem naechsten Laden wieder hinzugefuegt). Wurde der
+     * Wert zuvor programmatisch gesetzt, wird er neu gesetzt um das Label ordentlich
+     * anzuzeigen.
      *
      * @return string
      */
@@ -800,8 +804,7 @@ JS;
      * Creates a javascript-function, which returns a string representation of the content
      * of private variables which are stored in the data-object of the element and which
      * are important for the function of the object.
-     * It is required for debug-messages with
-     * a high detail-level.
+     * It is required for debug-messages with a high detail-level.
      *
      * @return string
      */
@@ -844,7 +847,7 @@ function {$this->getId()}_initGlobals() {
 JS;
         return $output;
     }
-    
+
     /**
      *
      * {@inheritdoc}
@@ -865,6 +868,58 @@ JS;
     function buildJsDisabler()
     {
         return $this->getId() . '_ms.disable()';
+    }
+
+    /**
+     *
+     * {@inheritdoc}
+     *
+     * @see \exface\AdminLteTemplate\Template\Elements\lteInput::buildJsValidator()
+     */
+    function buildJsValidator()
+    {
+        $widget = $this->getWidget();
+        
+        $must_be_validated = $widget->isRequired() && ! ($widget->isHidden() || $widget->isReadonly() || $widget->isDisabled() || $widget->isDisplayOnly());
+        if ($must_be_validated) {
+            $output = $this->getId() . '_ms.isValid()';
+        } else {
+            $output = 'true';
+        }
+        
+        return $output;
+    }
+
+    /**
+     *
+     * {@inheritdoc}
+     *
+     * @see \exface\AdminLteTemplate\Template\Elements\lteInput::buildJsRequired()
+     */
+    function buildJsRequired()
+    {
+        $output = <<<JS
+
+// checks for validity when the element is created
+if ({$this->buildJsValidator()}) {
+    {$this->getId()}_jquery.parent().removeClass("invalid");
+    {$this->getId()}_ms_jquery.removeClass("ms-inv");
+} else {
+    {$this->getId()}_jquery.parent().addClass("invalid");
+};
+
+// checks for validity when the element is changed
+{$this->getId()}_jquery.on("input change", function() {
+    if ({$this->buildJsValidator()}) {
+        {$this->getId()}_jquery.parent().removeClass("invalid");
+        {$this->getId()}_ms_jquery.removeClass("ms-inv");
+    } else {
+        {$this->getId()}_jquery.parent().addClass("invalid");
+    }
+});
+JS;
+        
+        return $output;
     }
 }
 ?>
