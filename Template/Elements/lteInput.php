@@ -17,29 +17,40 @@ class lteInput extends lteText
         // change the input's value every time it changes itself. This needs to be done on init() to make sure, the other element
         // has not generated it's JS code yet!
         $this->registerLiveReferenceAtLinkedElement();
+        
+        // Register an onChange-Script on the element linked by a disable condition.
+        $this->registerDisableConditionAtLinkedElement();
     }
 
     function generateHtml()
     {
-        $output = '
-						<label for="' . $this->getId() . '">' . $this->getWidget()->getCaption() . '</label>
-						<input class="form-control"
-								type="' . $this->getElementType() . '"
-								name="' . $this->getWidget()->getAttributeAlias() . '" 
-								value="' . $this->escapeString($this->getValueWithDefaults()) . '" 
-								id="' . $this->getId() . '"  
-								' . ($this->getWidget()->isRequired() ? 'required="true" ' : '') . '
-								' . ($this->getWidget()->isDisabled() ? 'disabled="disabled" ' : '') . '/>
-					';
+        $requiredScript = $this->getWidget()->isRequired() ? 'required="true" ' : '';
+        $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled" ' : '';
+        
+        $output = <<<HTML
+
+                        <label for="{$this->getId()}">{$this->getWidget()->getCaption()}</label>
+                        <input class="form-control"
+                            type="{$this->getElementType()}"
+                            name="{$this->getWidget()->getAttributeAlias()}" 
+                            value="{$this->escapeString($this->getValueWithDefaults())}" 
+                            id="{$this->getId()}"  
+                            {$requiredScript}
+                            {$disabledScript} />
+
+HTML;
         return $this->buildHtmlWrapper($output);
     }
 
     public function buildHtmlWrapper($inner_html)
     {
-        $output = '
-					<div class="fitem exf_input exf_grid_item ' . $this->getWidthClasses() . '" title="' . $this->buildHintText() . '">
-							' . $inner_html . '
-					</div>';
+        $output = <<<HTML
+
+                    <div class="fitem exf_input exf_grid_item {$this->getWidthClasses()}" title="{$this->buildHintText()}">
+                        {$inner_html}
+                    </div>
+HTML;
+        
         return $output;
     }
 
@@ -63,29 +74,41 @@ class lteInput extends lteText
         if ($this->getWidget()->isRequired()) {
             $output .= $this->buildJsRequired();
         }
+        
         $output .= $this->buildJsOnChangeHandler();
+        
+        // Initialize the disabled state of the widget if a disabled condition is set.
+        $output .= $this->buildJsDisableConditionInitializer();
         
         return $output;
     }
 
+    /**
+     * Returns a JavaScript-snippet, which highlights an invalid widget
+     * (similiar to the JEasyUi-Template).
+     *  
+     * @return string
+     */
     function buildJsRequired()
     {
-        $output = '
-					// checks if a value is set when the element is created
-					if ($(\'#' . $this->getId() . '\').first().val()) {
-						$(\'#' . $this->getId() . '\').first().parent().removeClass(\'invalid\');
-					} else {
-						$(\'#' . $this->getId() . '\').first().parent().addClass(\'invalid\');
-					};
-					
-					// checks if a value is set when the element is changed
-					$(\'#' . $this->getId() . '\').on(\'input change\', function() {
-						if (this.value) {
-							$(this).parent().removeClass(\'invalid\');
-						} else {
-							$(this).parent().addClass(\'invalid\');
-						}
-					});';
+        $output = <<<JS
+
+// checks for validity when the element is created
+if ({$this->buildJsValidator()}) {
+    $("#{$this->getId()}").parent().removeClass("invalid");
+} else {
+    $("#{$this->getId()}").parent().addClass("invalid");
+};
+
+// checks for validity when the element is changed
+$("#{$this->getId()}").on("input change", function() {
+    if ({$this->buildJsValidator()}) {
+        $("#{$this->getId()}").parent().removeClass("invalid");
+    } else {
+        $("#{$this->getId()}").parent().addClass("invalid");
+    }
+});
+JS;
         
         return $output;
     }
@@ -107,26 +130,44 @@ class lteInput extends lteText
 
     protected function buildJsOnChangeHandler()
     {
+        $output = '';
         if ($this->getOnChangeScript()) {
-            // verknuepfter Wert wird initialisiert, bei Aenderungen aktualisiert
-            $output = '
-					' . $this->getOnChangeScript() . '
-					$("#' . $this->getId() . '").on("input change", function() {
-						' . $this->getOnChangeScript() . '
-					});';
-        } else {
-            $output = '';
+            $output = <<<JS
+
+$("#{$this->getId()}").on("input change", function() {
+    {$this->getOnChangeScript()}
+});
+JS;
         }
         
         return $output;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::buildJsValueSetter()
+     */
     function buildJsValueSetter($value)
     {
-        $output = '
-				var ' . $this->getId() . ' = $("#' . $this->getId() . '");
-				' . $this->getId() . '.val(' . $value . ');
-				' . $this->getId() . '.trigger("change");';
+        return '$("#' . $this->getId() . '").val(' . $value . ').trigger("change")';
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::buildJsValidator()
+     */
+    function buildJsValidator()
+    {
+        $widget = $this->getWidget();
+        
+        $must_be_validated = $widget->isRequired() && ! ($widget->isHidden() || $widget->isReadonly() || $widget->isDisabled() || $widget->isDisplayOnly());
+        if ($must_be_validated) {
+            $output = 'Boolean($("#' . $this->getId() . '").val())';
+        } else {
+            $output = 'true';
+        }
         
         return $output;
     }

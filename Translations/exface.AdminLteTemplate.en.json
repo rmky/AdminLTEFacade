@@ -13,5 +13,9 @@
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.FILTERS": "Filters",
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.COLUMNS": "Columns",
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.SORTING": "Sorting",
-	"WIDGET.REFRESH": "Refresh"
+	"WIDGET.REFRESH": "Refresh",
+	
+	"WIDGET.COMBOTABLE.NO_SUGGESTION": "No suggestions",
+	"WIDGET.COMBOTABLE.PLACEHOLDER": "Type or click here",
+	"WIDGET.COMBOTABLE.MAX_SELECTION": "You cannot choose more than %number% item|You cannot choose more than %number% items"
 }
