@@ -60,7 +60,7 @@ HTML;
     }
 
     /**
-     * (non-PHPdoc)
+     * {@inheritdoc}
      *
      * @see \exface\AdminLteTemplate\Template\Elements\jqmAbstractElement::generateJs()
      */
