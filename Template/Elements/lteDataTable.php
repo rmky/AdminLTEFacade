@@ -502,15 +502,14 @@ JS;
 
     public function buildJsColumnDef(\exface\Core\Widgets\DataColumn $col)
     {
-        $editor = $this->editors[$col->getId()];
-        
         $output = '{
-							name: "' . $col->getDataColumnName() . '"' . ($col->getAttributeAlias() ? ', data: "' . $col->getDataColumnName() . '"' : '') . 
-        // . ($col->get_colspan() ? ', colspan: "' . intval($col->get_colspan()) . '"' : '')
-        // . ($col->get_rowspan() ? ', rowspan: "' . intval($col->get_rowspan()) . '"' : '')
-        ($col->isHidden() ? ', visible: false' : '') . 
-        // . ($editor ? ', editor: {type: "' . $editor->getElementType() . '"' . ($editor->buildJsInitOptions() ? ', options: {' . $editor->buildJsInitOptions() . '}' : '') . '}' : '')
-        ', className: "' . $this->getCssColumnClass($col) . '"' . ', orderable: ' . ($col->getSortable() ? 'true' : 'false') . '}';
+							name: "' . $col->getDataColumnName() . '"
+                            ' . ($col->getAttributeAlias() ? ', data: "' . $col->getDataColumnName() . '"' : '') . '
+                            ' . ($col->isHidden() ? ', visible: false' : '') . '
+                            ' . ($col->getWidth()->isTemplateSpecific() ? ', width: "' . $col->getWidth()->getValue() . '"': '') . '
+                            , className: "' . $this->getCssColumnClass($col) . '"' . '
+                            , orderable: ' . ($col->getSortable() ? 'true' : 'false') . '
+                    }';
         
         return $output;
     }
@@ -528,10 +527,13 @@ JS;
         switch ($col->getAlign()) {
             case EXF_ALIGN_LEFT:
                 $classes .= 'text-left';
+                break;
             case EXF_ALIGN_CENTER:
                 $classes .= 'text-center';
+                break;
             case EXF_ALIGN_RIGHT:
                 $classes .= 'text-right';
+                break;
         }
         return $classes;
     }
