@@ -182,6 +182,7 @@ ol li.highlight i.icon-move {}
 pre.sf-dump {background: none !important; border: none !important;}
 pre.sf-dump span.sf-dump-key {color: black !important;}
 pre.sf-dump span.sf-dump-str {color: black !important;}
+pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-protected {color: black !important; "}
 
 /* Bootstrap-Notify */
 [data-notify="title"] {
