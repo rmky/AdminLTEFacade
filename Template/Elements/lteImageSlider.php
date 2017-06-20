@@ -18,7 +18,7 @@ class lteImageSlider extends lteDataList
         // output the html code
         $output = <<<HTML
 
-<div class="{$this->getWidthClasses()} exf_grid_item">
+<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
 	<div class="box" >
 		<div class="box-header">
 			{$top_toolbar}

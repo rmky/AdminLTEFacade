@@ -3,6 +3,8 @@ namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
 use exface\AdminLteTemplate\Template\AdminLteTemplate;
+use exface\Core\Interfaces\Widgets\iFillEntireContainer;
+use exface\Core\Interfaces\Widgets\iLayoutWidgets;
 
 /**
  *
@@ -108,22 +110,58 @@ abstract class lteAbstractElement extends AbstractJqueryElement
      */
     public function getWidthClasses()
     {
-        if ($this->getWidget()->getWidth()->isRelative()) {
-            switch ($this->getWidget()->getWidth()->getValue()) {
-                case 1:
-                    $width = 'col-xs-12 col-md-4';
-                    break;
-                case 2:
-                    $width = 'col-xs-12 col-md-8';
-                    break;
-                case 3:
-                case 'max':
-                    $width = 'col-xs-12';
-            }
+        $widget = $this->getWidget();
+        
+        if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
+            $columnNumber = $this->getTemplate()->getElement($layoutWidget)->getNumberOfColumns();
+        } else {
+            $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
         }
-        return $width;
+        
+        $dimension = $widget->getWidth();
+        if ($dimension->isRelative()) {
+            $cols = $dimension->getValue();
+            if ($cols === 'max') {
+                $cols = $columnNumber;
+            }
+            if (is_numeric($cols)) {
+                if ($cols < 1) {
+                    $cols = 1;
+                } else if ($cols > $columnNumber) {
+                    $cols = $columnNumber;
+                }
+                
+                if ($cols == $columnNumber) {
+                    $output = 'col-xs-12';
+                } else {
+                    $output = 'col-xs-12 col-md-' . round($cols/$columnNumber*12);
+                }
+            } else {
+                $output = 'col-xs-12 col-md-' . round($this->getWidthDefault()/$columnNumber*12);
+            }
+        } elseif ($widget instanceof iFillEntireContainer) {
+            // Ein "grosses" Widget ohne angegebene Breite fuellt die gesamte Breite des
+            // Containers aus.
+            $output = 'col-xs-12';
+            if (is_null($widget->getParent()) || (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countVisibleWidgets() == 1))) {
+                $output = '';
+            }
+        } else {
+            // Ein "kleines" Widget ohne angegebene Breite hat ist widthDefault Spalten breit.
+            $output = 'col-xs-12 col-md-' . round($this->getWidthDefault()/$columnNumber*12);
+        }
+        return $output;
     }
-
+    
+    public function getColumnWidthClasses() {
+        if ($this->getWidget() instanceof iLayoutWidgets) {
+            $columnNumber = $this->getNumberOfColumns();
+        } else {
+            $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+        }
+        return 'col-xs-' . round(12/$columnNumber);
+    }
+    
     public function prepareData(\exface\Core\Interfaces\DataSheets\DataSheetInterface $data_sheet)
     {
         // apply the formatters

@@ -75,7 +75,7 @@ class lteDataList extends lteDataTable
         // TODO replace "stripe" class by a custom css class
         $output = <<<HTML
 
-<div class="{$this->getWidthClasses()} exf_grid_item">
+<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
 	<div class="box">
 		<div class="box-header">
 			{$top_toolbar}
@@ -97,7 +97,7 @@ class lteDataList extends lteDataTable
 
 <script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
 { {#data}}
-    <div class="exf_grid_item col-lg-3 col-md-4 col-sm-5 col-xs-12">
+    <div class="fitem {$this->getMasonryItemClass()} col-lg-3 col-md-4 col-sm-5 col-xs-12">
     	<div class="box box-default box-solid">
         	<div class="box-body" style="overflow: hidden;">
 				{$column_templates}
@@ -283,9 +283,9 @@ var {$this->getId()}_pages = {
 	
 };
 $(document).ready(function() {
-	$('#{$this->getId()}').masonry({
-		columnWidth: '#{$this->getId()}_sizer', 
-		itemSelector: '.exf_grid_item'
+	$("#{$this->getId()}").masonry({
+		columnWidth: "#{$this->getId()}_sizer", 
+		itemSelector: ".{$this->getId()}_masonry_fitem"
 	});
 	
 	{$this->buildJsFunctionPrefix()}load();
@@ -366,7 +366,7 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 		           .imagesLoaded( function(){ 
 		              $('#{$this->getId()} .placeholder').hide();
 		              $('#{$this->getId()}').show().masonry('appended', elements);
-		              $('#{$this->getId()}').closest('.exf_grid_item').trigger('resize');
+		              $('#{$this->getId()}').closest('.fitem').trigger('resize');
 		              {$this->buildJsBusyIconHide()}
 		              $('#{$this->getId()}').data('loading', 0);
 		         });

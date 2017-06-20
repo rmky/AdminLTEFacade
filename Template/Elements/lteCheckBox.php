@@ -6,18 +6,23 @@ class lteCheckBox extends lteAbstractElement
 
     function generateHtml()
     {
-        $output = '	<div class="fitem exf_input checkbox exf_grid_item ' . $this->getWidthClasses() . '" title="' . $this->buildHintText() . '">
-						<label>
-							<input type="checkbox" value="1" 
-									form="" 
-									id="' . $this->getWidget()->getId() . '_checkbox"
-									onchange="$(\'#' . $this->getWidget()->getId() . '\').val(this.checked);"' . '
-									' . ($this->getWidget()->getValue() ? 'checked="checked" ' : '') . '
-									' . ($this->getWidget()->isDisabled() ? 'disabled="disabled"' : '') . ' />
-							' . $this->getWidget()->getCaption() . '
-						</label>
-						<input type="hidden" name="' . $this->getWidget()->getAttributeAlias() . '" id="' . $this->getWidget()->getId() . '" value="' . $this->getWidget()->getValue() . '" />
-					</div>';
+        $checkedScript = $this->getWidget()->getValue() ? 'checked="checked"' : '';
+        $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled"' : '';
+        $output = <<<HTML
+
+                    <div class="exf_input fitem {$this->getMasonryItemClass()} checkbox {$this->getWidthClasses()}" title="{$this->buildHintText()}">
+                        <label>
+                            <input type="checkbox" value="1"
+                                    form=""
+                                    id="{$this->getWidget()->getId()}_checkbox"
+                                    onchange="$('#{$this->getWidget()->getId()}').val(this.checked);"
+                                    {$checkedScript}
+                                    {$disabledScript} />
+                            {$this->getWidget()->getCaption()}
+                        </label>
+                        <input type="hidden" name="{$this->getWidget()->getAttributeAlias()}" id="{$this->getWidget()->getId()}" value="{$this->getWidget()->getValue()}" />
+                    </div>
+HTML;
         return $output;
     }
 

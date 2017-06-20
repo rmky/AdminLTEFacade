@@ -136,10 +136,15 @@ HTML;
     protected function buildHtmlWrapper($html)
     {
         $result = $html;
-        if (! $this->getWidget()->getParent() || $this->getWidget()->getParent() instanceof Dashboard) {
-            $result = '<div class="box">' . $result . '</div>';
+        if (! $this->getWidget()->getParent() || $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) {
+            $result = <<<HTML
+<div class="box">{$result}</div>
+HTML;
         }
-        return '<div class="' . $this->getWidthClasses() . ' exf_grid_item">' . $result . '</div>';
+        $result = <<<HTML
+<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">{$result}</div>
+HTML;
+        return $result;
     }
 
     function generateJs()
@@ -358,7 +363,7 @@ function {$this->buildJsFunctionPrefix()}Init(){
 			$('#{$this->getId()} tbody tr').on('contextmenu', function(e){
 				{$this->getId()}_table.row($(e.target).closest('tr')).select();
 			});
-			$('#{$this->getId()}').closest('.exf_grid_item').trigger('resize');
+			$('#{$this->getId()}').closest('.{$this->getMasonryItemClass()}').trigger('resize');
 			context.attach('#{$this->getId()} tbody tr', [{$context_menu_js}]);
 			if({$this->getId()}_table){
 				{$this->getId()}_drawPagination();
