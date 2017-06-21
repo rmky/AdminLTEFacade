@@ -3,7 +3,6 @@ namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DataTable;
 use exface\Core\Interfaces\Actions\ActionInterface;
-use exface\Core\Widgets\Dashboard;
 use exface\Core\Widgets\Tab;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTablesTrait;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTableTrait;
@@ -26,6 +25,10 @@ class lteDataTable extends lteAbstractElement
     private $editable = false;
 
     private $editors = array();
+
+    private $number_of_columns = null;
+
+    private $searched_for_number_of_columns = false;
 
     protected function init()
     {
@@ -363,7 +366,7 @@ function {$this->buildJsFunctionPrefix()}Init(){
 			$('#{$this->getId()} tbody tr').on('contextmenu', function(e){
 				{$this->getId()}_table.row($(e.target).closest('tr')).select();
 			});
-			$('#{$this->getId()}').closest('.{$this->getMasonryItemClass()}').trigger('resize');
+			$('#{$this->getId()}').closest('.fitem').trigger('resize');
 			context.attach('#{$this->getId()} tbody tr', [{$context_menu_js}]);
 			if({$this->getId()}_table){
 				{$this->getId()}_drawPagination();
@@ -848,6 +851,32 @@ HTML;
     public function getEditors()
     {
         return $this->editors;
+    }
+
+    /**
+     * Determines the number of columns of a widget, based on the width of widget, the number
+     * of columns of the parent layout widget and the default number of columns of the widget.
+     *
+     * @return number
+     */
+    public function getNumberOfColumns()
+    {
+        if (! $this->searched_for_number_of_columns) {
+            $widget = $this->getWidget();
+            if (! is_null($widget->getNumberOfColumns())) {
+                $this->number_of_columns = $widget->getNumberOfColumns();
+            } elseif ($widget->getWidth()->isRelative() && !$widget->getWidth()->isMax()) {
+                $width = $widget->getWidth()->getValue();
+                if ($width < 1) {
+                    $width = 1;
+                }
+                $this->number_of_columns = $width;
+            } else {
+                $this->number_of_columns = $this->getTemplate()->getConfig()->getOption("WIDGET.DATATABLE.COLUMNS_BY_DEFAULT");
+            }
+            $this->searched_for_number_of_columns = true;
+        }
+        return $this->number_of_columns;
     }
 }
 ?>

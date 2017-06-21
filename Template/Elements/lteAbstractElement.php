@@ -103,6 +103,24 @@ abstract class lteAbstractElement extends AbstractJqueryElement
     }
 
     /**
+     * Returns the masonry-item class name of this widget.
+     *
+     * This class name is generated from the id of the layout-widget of this widget. Like this
+     * nested masonry layouts are possible, because each masonry-container only layout the
+     * widgets assigned to it.
+     *
+     * @return string
+     */
+    public function getMasonryItemClass()
+    {
+        $output = '';
+        if (($containerWidget = $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget instanceof iLayoutWidgets)) {
+            $output = $this->getTemplate()->getElement($containerWidget)->getId() . '_masonry_fitem';
+        }
+        return $output;
+    }
+
+    /**
      * Returns the css classes, that define the grid width for the element (e.g.
      * col-xs-12, etc.)
      *
@@ -120,24 +138,32 @@ abstract class lteAbstractElement extends AbstractJqueryElement
         
         $dimension = $widget->getWidth();
         if ($dimension->isRelative()) {
-            $cols = $dimension->getValue();
-            if ($cols === 'max') {
-                $cols = $columnNumber;
+            $width = $dimension->getValue();
+            if ($width === 'max') {
+                $width = $columnNumber;
             }
-            if (is_numeric($cols)) {
-                if ($cols < 1) {
-                    $cols = 1;
-                } else if ($cols > $columnNumber) {
-                    $cols = $columnNumber;
+            if (is_numeric($width)) {
+                if ($width < 1) {
+                    $width = 1;
+                } else if ($width > $columnNumber) {
+                    $width = $columnNumber;
                 }
                 
-                if ($cols == $columnNumber) {
+                if ($width == $columnNumber) {
                     $output = 'col-xs-12';
                 } else {
-                    $output = 'col-xs-12 col-md-' . round($cols/$columnNumber*12);
+                    $widthClass = floor($width / $columnNumber * 12);
+                    if ($widthClass < 1) {
+                        $widthClass = 1;
+                    }
+                    $output = 'col-xs-12 col-md-' . $widthClass;
                 }
             } else {
-                $output = 'col-xs-12 col-md-' . round($this->getWidthDefault()/$columnNumber*12);
+                $widthClass = floor($this->getWidthDefault() / $columnNumber * 12);
+                if ($widthClass < 1) {
+                    $widthClass = 1;
+                }
+                $output = 'col-xs-12 col-md-' . $widthClass;
             }
         } elseif ($widget instanceof iFillEntireContainer) {
             // Ein "grosses" Widget ohne angegebene Breite fuellt die gesamte Breite des
@@ -148,20 +174,25 @@ abstract class lteAbstractElement extends AbstractJqueryElement
             }
         } else {
             // Ein "kleines" Widget ohne angegebene Breite hat ist widthDefault Spalten breit.
-            $output = 'col-xs-12 col-md-' . round($this->getWidthDefault()/$columnNumber*12);
+            $widthClass = floor($this->getWidthDefault() / $columnNumber * 12);
+            if ($widthClass < 1) {
+                $widthClass = 1;
+            }
+            $output = 'col-xs-12 col-md-' . $widthClass;
         }
         return $output;
     }
-    
-    public function getColumnWidthClasses() {
+
+    public function getColumnWidthClasses()
+    {
         if ($this->getWidget() instanceof iLayoutWidgets) {
             $columnNumber = $this->getNumberOfColumns();
         } else {
             $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
         }
-        return 'col-xs-' . round(12/$columnNumber);
+        return 'col-xs-' . round(12 / $columnNumber);
     }
-    
+
     public function prepareData(\exface\Core\Interfaces\DataSheets\DataSheetInterface $data_sheet)
     {
         // apply the formatters

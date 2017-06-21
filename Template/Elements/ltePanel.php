@@ -4,15 +4,21 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class ltePanel extends lteContainer
 {
 
+    private $number_of_columns = null;
+
+    private $searched_for_number_of_columns = false;
+
     function generateHtml()
     {
+        $widget = $this->getWidget();
+        
         $children_html = <<<HTML
 
                                 {$this->buildHtmlForChildren()}
                                 <div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer"></div>
 HTML;
         
-        if ($this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) {
+        if (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countVisibleWidgets() > 1)) {
             if ($this->getWidget()->getCaption()) {
                 $header = <<<HTML
 
@@ -27,7 +33,9 @@ HTML;
                     <div class="box">
                         {$header}
                         <div class="box-body grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
-                            {$children_html}
+                            <div class="row">
+                                {$children_html}
+                            </div>
                         </div>
                     </div>
 HTML;
@@ -102,6 +110,39 @@ JS;
 JS;
         
         return $output;
+    }
+
+    /**
+     * Determines the number of columns of a widget, based on the width of widget, the number
+     * of columns of the parent layout widget and the default number of columns of the widget.
+     *
+     * @return number
+     */
+    public function getNumberOfColumns()
+    {
+        if (! $this->searched_for_number_of_columns) {
+            $widget = $this->getWidget();
+            if (! is_null($widget->getNumberOfColumns())) {
+                $this->number_of_columns = $widget->getNumberOfColumns();
+            } elseif ($widget->getWidth()->isRelative() && !$widget->getWidth()->isMax()) {
+                $width = $widget->getWidth()->getValue();
+                if ($width < 1) {
+                    $width = 1;
+                }
+                $this->number_of_columns = $width;
+            } else {
+                if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
+                    $parentColumnNumber = $this->getTemplate()->getElement($layoutWidget)->getNumberOfColumns();
+                }
+                if (! is_null($parentColumnNumber)) {
+                    $this->number_of_columns = $parentColumnNumber;
+                } else {
+                    $this->number_of_columns = $this->getTemplate()->getConfig()->getOption("WIDGET.PANEL.COLUMNS_BY_DEFAULT");
+                }
+            }
+            $this->searched_for_number_of_columns = true;
+        }
+        return $this->number_of_columns;
     }
 }
 ?>
