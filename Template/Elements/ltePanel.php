@@ -4,10 +4,6 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class ltePanel extends lteContainer
 {
 
-    private $number_of_columns = null;
-
-    private $searched_for_number_of_columns = false;
-
     function generateHtml()
     {
         $widget = $this->getWidget();
@@ -33,9 +29,9 @@ HTML;
                     <div class="box">
                         {$header}
                         <div class="box-body grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
-                            <div class="row">
+                            <!--div class="row"-->
                                 {$children_html}
-                            </div>
+                            <!--/div-->
                         </div>
                     </div>
 HTML;
@@ -43,7 +39,9 @@ HTML;
             $children_html = <<<HTML
 
                     <div class="grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
-                        {$children_html}
+                        <!--div class="row"-->
+                            {$children_html}
+                        <!--/div-->
                     </div>
 HTML;
         }
@@ -60,12 +58,11 @@ HTML;
 
     function generateJs()
     {
+        // Mit dem ResizeSensor kann ein onResize-Event fuer ein <div> abgefangen werden.
         $output = <<<JS
 
                 {$this->buildJsLayouterFunction()}
-                
-                {$this->buildJsLayouter()};
-                $("#{$this->getId()}").find(".{$this->getId()}_masonry_fitem").on("resize", function(event){
+                new ResizeSensor(document.getElementById("{$this->getId()}"), function() {
                     {$this->buildJsLayouter()};
                 });
 JS;
@@ -73,11 +70,35 @@ JS;
         return $output . $this->buildJsForChildren();
     }
 
+    /**
+     *
+     * {@inheritdoc}
+     *
+     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generateHeaders()
+     */
+    function generateHeaders()
+    {
+        $headers = parent::generateHeaders();
+        $headers[] = '<script src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
+        return $headers;
+    }
+
+    /**
+     * Returns an inline JavaScript-Snippet that layouts the element.
+     *
+     * @return string
+     */
     public function buildJsLayouter()
     {
         return $this->getId() . '_layouter()';
     }
 
+    /**
+     * Returns a JavaScript-Function that layouts the element, and which is called by the
+     * snippet returned by buildJsLayouter().
+     *
+     * @return string
+     */
     public function buildJsLayouterFunction()
     {
         $widget = $this->getWidget();
@@ -113,36 +134,24 @@ JS;
     }
 
     /**
-     * Determines the number of columns of a widget, based on the width of widget, the number
-     * of columns of the parent layout widget and the default number of columns of the widget.
+     * Returns the default number of columns to layout this widget.
      *
-     * @return number
+     * @return integer
      */
-    public function getNumberOfColumns()
+    public function getDefaultColumnNumber()
     {
-        if (! $this->searched_for_number_of_columns) {
-            $widget = $this->getWidget();
-            if (! is_null($widget->getNumberOfColumns())) {
-                $this->number_of_columns = $widget->getNumberOfColumns();
-            } elseif ($widget->getWidth()->isRelative() && !$widget->getWidth()->isMax()) {
-                $width = $widget->getWidth()->getValue();
-                if ($width < 1) {
-                    $width = 1;
-                }
-                $this->number_of_columns = $width;
-            } else {
-                if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
-                    $parentColumnNumber = $this->getTemplate()->getElement($layoutWidget)->getNumberOfColumns();
-                }
-                if (! is_null($parentColumnNumber)) {
-                    $this->number_of_columns = $parentColumnNumber;
-                } else {
-                    $this->number_of_columns = $this->getTemplate()->getConfig()->getOption("WIDGET.PANEL.COLUMNS_BY_DEFAULT");
-                }
-            }
-            $this->searched_for_number_of_columns = true;
-        }
-        return $this->number_of_columns;
+        return $this->getTemplate()->getConfig()->getOption("WIDGET.PANEL.COLUMNS_BY_DEFAULT");
+    }
+
+    /**
+     * Returns if the the number of columns of this widget depends on the number of columns
+     * of the parent layout widget.
+     *
+     * @return boolean
+     */
+    public function inheritsColumnNumber()
+    {
+        return true;
     }
 }
 ?>

@@ -2,6 +2,8 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\Dialog;
+use exface\Core\Interfaces\Widgets\iLayoutWidgets;
+use exface\Core\Widgets\AbstractWidget;
 
 /**
  *
@@ -13,10 +15,6 @@ use exface\Core\Widgets\Dialog;
 class lteDialog extends lteForm
 {
 
-    private $number_of_columns = null;
-
-    private $searched_for_number_of_columns = false;
-
     function generateJs()
     {
         $output = '';
@@ -24,6 +22,9 @@ class lteDialog extends lteForm
             $output .= $this->buildJsForWidgets();
         }
         $output .= $this->buildJsButtons();
+        // Layout-Funktionen hinzufuegen
+        $output .= $this->buildJsLayouterFunction();
+        $output .= $this->buildJsLayouterOnShownFunction();
         return $output;
     }
 
@@ -64,29 +65,80 @@ HTML;
     }
 
     /**
-     * Determines the number of columns of a widget, based on the width of widget, the number
-     * of columns of the parent layout widget and the default number of columns of the widget.
      *
-     * @return number
+     * {@inheritdoc}
+     *
+     * @see \exface\AdminLteTemplate\Template\Elements\ltePanel::buildJsLayouterFunction()
      */
-    public function getNumberOfColumns()
+    public function buildJsLayouterFunction()
     {
-        if (! $this->searched_for_number_of_columns) {
-            $widget = $this->getWidget();
-            if (! is_null($widget->getNumberOfColumns())) {
-                $this->number_of_columns = $widget->getNumberOfColumns();
-            } elseif ($widget->getWidth()->isRelative() && !$widget->getWidth()->isMax()) {
-                $width = $widget->getWidth()->getValue();
-                if ($width < 1) {
-                    $width = 1;
-                }
-                $this->number_of_columns = $width;
-            } else {
-                $this->number_of_columns = $this->getTemplate()->getConfig()->getOption("WIDGET.DIALOG.COLUMNS_BY_DEFAULT");
+        $output = <<<JS
+    
+    function {$this->getId()}_layouter() {}
+JS;
+        
+        return $output;
+    }
+
+    /**
+     * Returns a JavaScript-Function which layouts the dialog once it is visible.
+     * 
+     * @return string
+     */
+    public function buildJsLayouterOnShownFunction()
+    {
+        $output = <<<JS
+
+    function {$this->getId()}_layouterOnShown() {
+        {$this->getChildrenLayoutScript($this->getWidget())}
+    }
+JS;
+        
+        return $output;
+    }
+
+    /**
+     * Returns a JavaScript-Snippet which layouts the children of the dialog.
+     * 
+     * @param AbstractWidget $widget            
+     * @return string
+     */
+    protected function getChildrenLayoutScript(AbstractWidget $widget)
+    {
+        // Diese Funktion bewegt sich rekursiv durch den Baum und gibt Layout-Skripte fuer
+        // bestimmte Layout-Widgets zurueck. Sie sucht das letzte Layout-Widget, welches kein
+        // weiteres Layout-Widget beinhaltet und gibt dessen Layout-Skript zurueck.
+        // Uebergeordnete Layout-Widgets werden nicht beachtet, da ihre Layout-Skripte in den
+        // Layout-Skripten der untergeordneten Widgets am Ende sowieso aufgerufen werden.
+        foreach ($widget->getChildren() as $child) {
+            if ($child instanceof iLayoutWidgets) {
+                $childScript = $this->getLayoutElements($child);
+                $output .= $childScript ? $childScript : $this->getTemplate()->getElement($child)->buildJsLayouter() . ';';
             }
-            $this->searched_for_number_of_columns = true;
         }
-        return $this->number_of_columns;
+        return $output;
+    }
+
+    /**
+     *
+     * {@inheritdoc}
+     *
+     * @see \exface\AdminLteTemplate\Template\Elements\ltePanel::getDefaultColumnNumber()
+     */
+    public function getDefaultColumnNumber()
+    {
+        return $this->getTemplate()->getConfig()->getOption("WIDGET.DIALOG.COLUMNS_BY_DEFAULT");
+    }
+
+    /**
+     *
+     * {@inheritdoc}
+     *
+     * @see \exface\AdminLteTemplate\Template\Elements\ltePanel::inheritsColumnNumber()
+     */
+    public function inheritsColumnNumber()
+    {
+        return false;
     }
 }
 ?>

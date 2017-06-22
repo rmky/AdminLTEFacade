@@ -190,3 +190,11 @@ pre.sf-dump span.sf-dump-str {color: black !important;}
 [data-notify="message"] {
 	padding-left: 10px;
 }
+
+/* Masonry, wichtig fuer Masonry-Layout. box-body ist das masonry-grid, da so die Groesse
+   von Masonry angepasst wird. Padding (durch box-body) verringert jedoch die Groesse des
+   Masonry-Grids, so dass die Elemente vorzeitig umgebrochen werden. Deshalb wird padding
+   links/rechts hier auf 0 gesetzt. */
+.box-body.grid {
+	padding: 10px 0;
+}

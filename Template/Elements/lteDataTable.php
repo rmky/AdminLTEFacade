@@ -26,10 +26,6 @@ class lteDataTable extends lteAbstractElement
 
     private $editors = array();
 
-    private $number_of_columns = null;
-
-    private $searched_for_number_of_columns = false;
-
     protected function init()
     {
         parent::init();
@@ -71,8 +67,8 @@ class lteDataTable extends lteAbstractElement
         
         if ($tfoot)
             $tfoot = '<tfoot>' . $tfoot . '</tfoot>';
-        
-        // Add promoted filters above the panel. Other filters will be displayed in a popup via JS
+            
+            // Add promoted filters above the panel. Other filters will be displayed in a popup via JS
         if ($widget->hasFilters()) {
             foreach ($widget->getFilters() as $fltr) {
                 if ($fltr->getVisibility() !== EXF_WIDGET_VISIBILITY_PROMOTED)
@@ -208,8 +204,8 @@ HTML;
         // Remove tailing comma
         if ($default_sorters)
             $default_sorters = substr($default_sorters, 0, - 2);
-        
-        // columns
+            
+            // columns
         foreach ($widget->getColumns() as $nr => $col) {
             $columns[] = $this->buildJsColumnDef($col);
             $nr = $nr + $column_number_offset;
@@ -250,7 +246,7 @@ JS;
                 $fltr_element = $this->getTemplate()->getElement($fltr);
                 $filters_js .= $this->getTemplate()->generateJs($fltr);
                 $filters_ajax .= 'd["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"] = ' . $fltr_element->buildJsValueGetter() . ";\n";
-                $filters_ajax .= 'if(d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"]) {filtersOn = true; d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"] = "' . $fltr->getComparator() . '"+d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias(). '"];}' . "\n";
+                $filters_ajax .= 'if(d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"]) {filtersOn = true; d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"] = "' . $fltr->getComparator() . '"+d["fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . '"];}' . "\n";
                 
                 // Here we generate some JS make the filter visible by default, once it gets used.
                 // This code will be called when the table's config page gets closed.
@@ -324,9 +320,13 @@ JS;
         
         // configure pagination
         if ($widget->getPaginate()) {
-            $paging_options = '"pageLength": ' . (!is_null($widget->getPaginatePageSize()) ? $widget->getPaginatePageSize() : $this->getTemplate()->getConfig()->getOption('WIDGET.DATATABLE.PAGE_SIZE')) . ',';
+            $paging_options = '"pageLength": ' . (! is_null($widget->getPaginatePageSize()) ? $widget->getPaginatePageSize() : $this->getTemplate()->getConfig()->getOption('WIDGET.DATATABLE.PAGE_SIZE')) . ',';
         } else {
             $paging_options = '"paging": false,';
+        }
+        
+        if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
+            $layouterScript = $this->getTemplate()->getElement($layoutWidget)->buildJsLayouter() . ';';
         }
         
         $output = <<<JS
@@ -366,7 +366,7 @@ function {$this->buildJsFunctionPrefix()}Init(){
 			$('#{$this->getId()} tbody tr').on('contextmenu', function(e){
 				{$this->getId()}_table.row($(e.target).closest('tr')).select();
 			});
-			$('#{$this->getId()}').closest('.fitem').trigger('resize');
+			{$layouterScript}
 			context.attach('#{$this->getId()} tbody tr', [{$context_menu_js}]);
 			if({$this->getId()}_table){
 				{$this->getId()}_drawPagination();
@@ -442,6 +442,9 @@ $('#{$this->getId()}_popup_config').on('hidden.bs.modal', function(e) {
 
 {$buttons_js}
 
+// Layout-Funktion hinzufuegen
+{$this->buildJsLayouterFunction()}
+
 JS;
         
         return $output;
@@ -514,7 +517,7 @@ JS;
 							name: "' . $col->getDataColumnName() . '"
                             ' . ($col->getAttributeAlias() ? ', data: "' . $col->getDataColumnName() . '"' : '') . '
                             ' . ($col->isHidden() ? ', visible: false' : '') . '
-                            ' . ($col->getWidth()->isTemplateSpecific() ? ', width: "' . $col->getWidth()->getValue() . '"': '') . '
+                            ' . ($col->getWidth()->isTemplateSpecific() ? ', width: "' . $col->getWidth()->getValue() . '"' : '') . '
                             , className: "' . $this->getCssColumnClass($col) . '"' . '
                             , orderable: ' . ($col->getSortable() ? 'true' : 'false') . '
                     }';
@@ -854,29 +857,50 @@ HTML;
     }
 
     /**
-     * Determines the number of columns of a widget, based on the width of widget, the number
-     * of columns of the parent layout widget and the default number of columns of the widget.
+     * Returns an inline JavaScript-Snippet that layouts the element.
      *
-     * @return number
+     * @return string
      */
-    public function getNumberOfColumns()
+    public function buildJsLayouter()
     {
-        if (! $this->searched_for_number_of_columns) {
-            $widget = $this->getWidget();
-            if (! is_null($widget->getNumberOfColumns())) {
-                $this->number_of_columns = $widget->getNumberOfColumns();
-            } elseif ($widget->getWidth()->isRelative() && !$widget->getWidth()->isMax()) {
-                $width = $widget->getWidth()->getValue();
-                if ($width < 1) {
-                    $width = 1;
-                }
-                $this->number_of_columns = $width;
-            } else {
-                $this->number_of_columns = $this->getTemplate()->getConfig()->getOption("WIDGET.DATATABLE.COLUMNS_BY_DEFAULT");
-            }
-            $this->searched_for_number_of_columns = true;
-        }
-        return $this->number_of_columns;
+        return $this->getId() . '_layouter()';
+    }
+
+    /**
+     * Returns a JavaScript-Function that layouts the element, and which is called by the
+     * snippet returned by buildJsLayouter().
+     *
+     * @return string
+     */
+    public function buildJsLayouterFunction()
+    {
+        $output = <<<JS
+    
+    function {$this->getId()}_layouter() {}
+JS;
+        
+        return $output;
+    }
+
+    /**
+     * Returns the default number of columns to layout this widget.
+     * 
+     * @return integer
+     */
+    public function getDefaultColumnNumber()
+    {
+        return $this->getTemplate()->getConfig()->getOption("WIDGET.DATATABLE.COLUMNS_BY_DEFAULT");
+    }
+
+    /**
+     * Returns if the the number of columns of this widget depends on the number of columns
+     * of the parent layout widget.
+     * 
+     * @return boolean
+     */
+    public function inheritsColumnNumber()
+    {
+        return false;
     }
 }
 ?>

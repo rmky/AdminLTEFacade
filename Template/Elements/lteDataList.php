@@ -83,7 +83,7 @@ class lteDataList extends lteDataTable
 		<div class="box-body no-padding">
 			<div id="{$this->getId()}" class="exf-datalist masonry">
 				<div class="placeholder dataTables_empty">{$widget->getEmptyText()}</div>
-				<div class="col-xs-1" id="{$this->getId()}_sizer"></div>
+				<div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer"></div>
 			</div>
 		</div>
 		<div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">

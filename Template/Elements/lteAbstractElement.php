@@ -106,7 +106,7 @@ abstract class lteAbstractElement extends AbstractJqueryElement
      * Returns the masonry-item class name of this widget.
      *
      * This class name is generated from the id of the layout-widget of this widget. Like this
-     * nested masonry layouts are possible, because each masonry-container only layout the
+     * nested masonry layouts are possible, because each masonry-container only layouts the
      * widgets assigned to it.
      *
      * @return string
@@ -183,6 +183,15 @@ abstract class lteAbstractElement extends AbstractJqueryElement
         return $output;
     }
 
+    /**
+     * Returns the column-width of the masonry sizer-element.
+     *
+     * Masonry needs to know the column-width to calculate the layout. For this reason a
+     * id_sizer element is added to all masonry-containers, which defines the column-width.
+     * This function returns the css class, that defines the width for the sizer-element.
+     * 
+     * @return string
+     */
     public function getColumnWidthClasses()
     {
         if ($this->getWidget() instanceof iLayoutWidgets) {
@@ -190,7 +199,12 @@ abstract class lteAbstractElement extends AbstractJqueryElement
         } else {
             $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
         }
-        return 'col-xs-' . round(12 / $columnNumber);
+        
+        $col_no = floor(12 / $columnNumber);
+        if ($col_no < 1) {
+            $col_no = 1;
+        }
+        return 'col-xs-' . $col_no;
     }
 
     public function prepareData(\exface\Core\Interfaces\DataSheets\DataSheetInterface $data_sheet)
