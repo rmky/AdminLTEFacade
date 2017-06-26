@@ -82,7 +82,7 @@ JS;
 
     /**
      * Returns a JavaScript-Function which layouts the dialog once it is visible.
-     * 
+     *
      * @return string
      */
     public function buildJsLayouterOnShownFunction()
@@ -99,7 +99,7 @@ JS;
 
     /**
      * Returns a JavaScript-Snippet which layouts the children of the dialog.
-     * 
+     *
      * @param AbstractWidget $widget            
      * @return string
      */

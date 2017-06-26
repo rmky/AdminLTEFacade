@@ -1,8 +1,13 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-class ltePanel extends lteContainer
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryLayoutInterface;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryLayoutTrait;
+
+class ltePanel extends lteContainer implements JqueryLayoutInterface
 {
+    
+    use JqueryLayoutTrait;
 
     function generateHtml()
     {
@@ -14,7 +19,7 @@ class ltePanel extends lteContainer
                                 <div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer"></div>
 HTML;
         
-        if (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countVisibleWidgets() > 1)) {
+        if (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() > 1)) {
             if ($this->getWidget()->getCaption()) {
                 $header = <<<HTML
 
@@ -84,20 +89,10 @@ JS;
     }
 
     /**
-     * Returns an inline JavaScript-Snippet that layouts the element.
      *
-     * @return string
-     */
-    public function buildJsLayouter()
-    {
-        return $this->getId() . '_layouter()';
-    }
-
-    /**
-     * Returns a JavaScript-Function that layouts the element, and which is called by the
-     * snippet returned by buildJsLayouter().
+     * {@inheritdoc}
      *
-     * @return string
+     * @see \exface\AbstractAjaxTemplate\Template\Elements\JqueryLayoutInterface::buildJsLayouterFunction()
      */
     public function buildJsLayouterFunction()
     {

@@ -169,7 +169,7 @@ abstract class lteAbstractElement extends AbstractJqueryElement
             // Ein "grosses" Widget ohne angegebene Breite fuellt die gesamte Breite des
             // Containers aus.
             $output = 'col-xs-12';
-            if (is_null($widget->getParent()) || (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countVisibleWidgets() == 1))) {
+            if (is_null($widget->getParent()) || (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() == 1))) {
                 $output = '';
             }
         } else {

@@ -6,6 +6,8 @@ use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Widgets\Tab;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTablesTrait;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTableTrait;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryLayoutInterface;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryLayoutTrait;
 
 /**
  *
@@ -14,11 +16,12 @@ use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTableTrait;
  * @author Andrej Kabachnik
  *        
  */
-class lteDataTable extends lteAbstractElement
+class lteDataTable extends lteAbstractElement implements JqueryLayoutInterface
 {
     
     use JqueryDataTableTrait;
     use JqueryDataTablesTrait;
+    use JqueryLayoutTrait;
 
     private $on_load_success = '';
 
@@ -857,20 +860,10 @@ HTML;
     }
 
     /**
-     * Returns an inline JavaScript-Snippet that layouts the element.
      *
-     * @return string
-     */
-    public function buildJsLayouter()
-    {
-        return $this->getId() . '_layouter()';
-    }
-
-    /**
-     * Returns a JavaScript-Function that layouts the element, and which is called by the
-     * snippet returned by buildJsLayouter().
+     * {@inheritdoc}
      *
-     * @return string
+     * @see \exface\AbstractAjaxTemplate\Template\Elements\JqueryLayoutInterface::buildJsLayouterFunction()
      */
     public function buildJsLayouterFunction()
     {
@@ -884,7 +877,7 @@ JS;
 
     /**
      * Returns the default number of columns to layout this widget.
-     * 
+     *
      * @return integer
      */
     public function getDefaultColumnNumber()
@@ -895,7 +888,7 @@ JS;
     /**
      * Returns if the the number of columns of this widget depends on the number of columns
      * of the parent layout widget.
-     * 
+     *
      * @return boolean
      */
     public function inheritsColumnNumber()
