@@ -25,7 +25,11 @@ table.dataTable tfoot th.dt-body-right {padding-right: 10px;}
 table.dataTable td.ok{background-color: green;}
 table.dataTable td.warning{background-color: yellow;}
 table.dataTable td.error{background-color: red; color: white;}
-
+/* So wird der DataTable-Header entsprechend dem DataTable-Body gestaucht
+   wenn die SideBar geoeffnet wird. */
+.dataTables_scrollHeadInner, .dataTables_scrollHeadInner .table {
+	width: 100% !important;
+}
 
 /* jQuery NumPad */
 td.nmpd-target{border: 1px solid #d2d6de !important;}
@@ -182,6 +186,7 @@ ol li.highlight i.icon-move {}
 pre.sf-dump {background: none !important; border: none !important;}
 pre.sf-dump span.sf-dump-key {color: black !important;}
 pre.sf-dump span.sf-dump-str {color: black !important;}
+pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-protected {color: black !important; "}
 
 /* Bootstrap-Notify */
 [data-notify="title"] {
