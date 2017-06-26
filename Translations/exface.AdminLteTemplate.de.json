@@ -15,5 +15,5 @@
 	
 	"WIDGET.COMBOTABLE.NO_SUGGESTION": "Keine Resultate",
 	"WIDGET.COMBOTABLE.PLACEHOLDER": "Texteingabe oder hier klicken",
-	"WIDGET.COMBOTABLE.MAX_SELECTION": "Sie können nicht mehr als %number% Eintrag auswählen|Sie können nicht mehr als %number% Einträge auswählen"
+	"WIDGET.COMBOTABLE.MAX_SELECTION": " | "
 }
