@@ -112,7 +112,7 @@ JS;
         // Layout-Skripten der untergeordneten Widgets am Ende sowieso aufgerufen werden.
         foreach ($widget->getChildren() as $child) {
             if ($child instanceof iLayoutWidgets) {
-                $childScript = $this->getLayoutElements($child);
+                $childScript = $this->getChildrenLayoutScript($child);
                 $output .= $childScript ? $childScript : $this->getTemplate()->getElement($child)->buildJsLayouter() . ';';
             }
         }
