@@ -6,7 +6,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
  * @author PATRIOT
  *        
  */
-class lteImageSlider extends lteDataList
+class lteImageSlider extends lteDataCards
 {
 
     function generateHtml()
@@ -75,7 +75,7 @@ HTML;
 
     function generateJs()
     {
-        /* @var $widget \exface\Core\Widgets\DataList */
+        /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
         $columns = array();
         $column_number_offset = 0;

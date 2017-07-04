@@ -1,6 +1,6 @@
 $( document ).ready(function() {
-	pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');
-	pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');
+	
+	contextBarInit();
 	
 	// Stack modals (bootstrap tweak)
 	$(document).on('show.bs.modal', '.modal', function (event) {
@@ -31,10 +31,6 @@ $( document ).ready(function() {
 	    $('.modal:visible').length && $(document.body).addClass('modal-open');
 	});
 	
-	// Refresh ObjectBasekt and favorites counter
-	$(document).on('exface.Core.ObjectBasketAdd.action.performed', function(e){pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');});
-	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e){pinnedObjectsRefresh('#exf-pinned-list', '#exf-pinned-counter');});
-	
 	// Remove row from object basket table, when the object is removed
 	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, data){
 		// FIXME for some reason finding the table by jquery does not work after another dialog was open 
@@ -57,65 +53,67 @@ $( document ).ready(function() {
 	});
 });
 
-function pinnedObjectsRefresh(containerSelector, counterSelector){
-	$(containerSelector).empty();
-	$.post(
-			pinnedObjectsBaseUrl() + "&action=exface.Core.ObjectBasketFetch", 
-		function( data ) {
-			pinnedObjectsMenu(data, containerSelector, counterSelector);
-		},
-		'json'
-	);
+function contextBarInit(){
+	$(document).ajaxSuccess(function(event, jqXHR, ajaxOptions, data){
+		var extras = {};
+		if (jqXHR.responseJson){
+			extras = jqXHR.responseJson.extras;
+		} else {
+			try {
+				extras = $.parseJSON(jqXHR.responseText).extras;
+			} catch (err) {
+				extras = {};
+			}
+		}
+		if (extras.ContextBar){
+			contextBarRefresh(extras.ContextBar);
+		}
+	});
+	
+	setTimeout(function(){
+		console.log($('#contextBar .context-bar-spinner').length);
+		if ($('#contextBar .context-bar-spinner').length > 0){
+			contextBarRefresh({}); 
+		}
+	}, 3000);
 }
 
-function pinnedObjectsRemoveObject(objectId, containerSelector, counterSelector){
-	$(containerSelector).empty();
-	$.post(
-		pinnedObjectsBaseUrl() + "&action=exface.Core.ObjectBasketRemove&fetch=1&object=" + objectId + '&data={"oId": "' + objectId + '"}', 
-		function( data ) {
-			pinnedObjectsMenu(data, containerSelector, counterSelector);
-		},
-		'json'
-	);
-}
-
-function pinnedObjectsBaseUrl(){
-	return "exface/exface.php?exftpl=exface.AdminLteTemplate&resource="+getPageId();
-}
-
-function pinnedObjectsMenu(data, containerSelector, counterSelector){
-	var total = 0;
-	for (var i=0; i<data.length; i++){
-		var rowObjCount = data[i]['instance_counter'];
-		total = total + rowObjCount;
-		var btnRemove = '<a class="pull-left" href="javascript:pinnedObjectsRemoveObject(\'' + data[i]['object_id'] + '\',\'' + containerSelector + '\',\'' + counterSelector + '\');"><i class="fa fa-times" aria-hidden="true"></i></a>';
-		var row = $('<li><span class="menu-actions pull-right">'+btnRemove+'</span><a href="#">' + rowObjCount + 'x ' + data[i]['object_name'] + '</a></li>');
-		row.children('a').click({object: data[i]}, function(e){
-			$.ajax({
-				type: 'POST',
-				url: 'exface/exface.php?exftpl=exface.AdminLteTemplate',
-				dataType: 'html',
-				data: {
-					action: 'exface.Core.ObjectBasketFetch',
-					resource: getPageId(),
-					object: e.data.object.object_id,
-					output_type: 'DIALOG'
-				},
-				success: function(data, textStatus, jqXHR) {
-	               	if ($('#ajax-dialogs').length < 1){
-	               		$('body').append('<div id=\"ajax-dialogs\"></div>');
-	       			}
-	               	$('#ajax-dialogs').append('<div class=\"ajax-wrapper\">'+data+'</div>');
-                   	$('#ajax-dialogs').children().last().children('.modal').last().modal('show');
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					adminLteCreateDialog($("body"), "error", jqXHR.responseText, jqXHR.status + " " + jqXHR.statusText);
-				}
-			});
-		});
-		$(containerSelector).append( row );
+function contextBarRefresh(data){
+	$('#contextBar').children().not('.user-menu').remove();
+	for (var id in data){
+		var btn = $(' \
+				<!-- Object basket --> \
+					<li class="dropdown context-menu" id="'+id+'"> \
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="'+data[id].hint+'" onclick="contextShowMenu(\'#'+id+'\');"> \
+							<i class="'+data[id].icon+'"></i> \
+							<span class="label label-warning context-indicator">'+data[id].indicator+'</span> \
+						</a> \
+						<ul class="dropdown-menu"> \
+						</ul> \
+					</li>');
+		$('#contextBar').prepend(btn);
 	}
-	$(counterSelector).text(total);
+}
+
+function contextShowMenu(containerSelector){
+	$(containerSelector).find('.dropdown-menu').empty().append('<li class="header"><div class="overlay text-center"><i class="fa fa-refresh fa-spin"></i></div></li>');
+	$.ajax({
+		type: 'POST',
+		url: 'exface/exface.php?exftpl=exface.AdminLteTemplate',
+		dataType: 'html',
+		data: {
+			action: 'exface.Core.ShowContextPopup',
+			resource: getPageId(),
+			element: $(containerSelector).attr('id')
+		},
+		success: function(data, textStatus, jqXHR) {
+			var $data = $(data);
+			$(containerSelector).find('.dropdown-menu').empty().append('<li></li>').children('li:first-of-type').append($data);
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			adminLteCreateDialog($("body"), "error", jqXHR.responseText, jqXHR.status + " " + jqXHR.statusText);
+		}
+	});
 }
 
 function getPageId(){
@@ -144,7 +142,7 @@ function adminLteCreateDialog(parentElement, id, title, content){
 //compare arrays (http://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript)
 //Warn if overriding existing method
 if(Array.prototype.equals)
- console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+	console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
 //attach the .equals method to Array's prototype to call it on any array
 Array.prototype.equals = function (array) {
  // if the other array is a falsy value, return
