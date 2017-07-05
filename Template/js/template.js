@@ -31,20 +31,6 @@ $( document ).ready(function() {
 	    $('.modal:visible').length && $(document.body).addClass('modal-open');
 	});
 	
-	// Remove row from object basket table, when the object is removed
-	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, data){
-		// FIXME for some reason finding the table by jquery does not work after another dialog was open 
-		// (e.g. a dialog of one of the basket buttons)
-		//var dt = $('#object_basket').find('.dataTables_scrollBody>table.dataTable').first().DataTable();
-		var dt = object_basket_DataTable_table;
-		dt.rows({selected: true}).remove();
-		if (dt.rows().count() == 0){
-			$('#object_basket').modal('hide');
-		} else {
-			dt.draw();
-		}
-	});
-	
 	// Make sure masonry is relayouted when the sidebar is toggled
 	$(document).on('click', "a[data-toggle='offcanvas']", function(){
 		window.setTimeout(function(){
@@ -76,6 +62,18 @@ function contextBarInit(){
 			contextBarRefresh({}); 
 		}
 	}, 3000);
+	
+	// Remove row from object basket table, when the object is removed
+	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, requestData, inputElementId){
+		console.log(inputElementId);
+		var dt = $('#'+inputElementId).DataTable();
+		dt.rows({selected: true}).remove();
+		if (dt.rows().count() == 0){
+			$('#'+inputElementId).closest('.modal').modal('hide');
+		} else {
+			dt.draw();
+		}
+	});
 }
 
 function contextBarRefresh(data){
@@ -83,7 +81,7 @@ function contextBarRefresh(data){
 	for (var id in data){
 		var btn = $(' \
 				<!-- Object basket --> \
-					<li class="dropdown context-menu" id="'+id+'"> \
+					<li class="dropdown context-menu" id="'+id+'" data-widget="'+data[id].bar_widget_id+'"> \
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="'+data[id].hint+'" onclick="contextShowMenu(\'#'+id+'\');"> \
 							<i class="'+data[id].icon+'"></i> \
 							<span class="label label-warning context-indicator">'+data[id].indicator+'</span> \
@@ -104,7 +102,7 @@ function contextShowMenu(containerSelector){
 		data: {
 			action: 'exface.Core.ShowContextPopup',
 			resource: getPageId(),
-			element: $(containerSelector).attr('id')
+			element: $(containerSelector).data('widget')
 		},
 		success: function(data, textStatus, jqXHR) {
 			var $data = $(data);
