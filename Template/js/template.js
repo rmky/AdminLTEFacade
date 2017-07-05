@@ -74,12 +74,7 @@ function contextBarInit(){
 		}
 	});
 	
-	setTimeout(function(){
-		console.log($('#contextBar .context-bar-spinner').length);
-		if ($('#contextBar .context-bar-spinner').length > 0){
-			contextBarRefresh({}); 
-		}
-	}, 3000);
+	contextBarLoad();
 	
 	// Remove row from object basket table, when the object is removed
 	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, requestData, inputElementId){
@@ -92,6 +87,33 @@ function contextBarInit(){
 			dt.draw();
 		}
 	});
+}
+
+function contextBarLoad(delay){
+	if (delay == undefined) delay = 100;
+	
+	setTimeout(function(){
+		if ($.active == 0 && $('#contextBar .context-bar-spinner').length > 0){
+			$.ajax({
+				type: 'POST',
+				url: 'exface/exface.php?exftpl=exface.AdminLteTemplate',
+				dataType: 'json',
+				data: {
+					action: 'exface.Core.ShowWidget',
+					resource: getPageId(),
+					element: 'ContextBar'
+				},
+				success: function(data, textStatus, jqXHR) {
+					contextBarRefresh(data);
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					contextBarRefresh({});
+				}
+			});
+		} else {
+			contextBarLoad(delay*3);
+		}
+	}, delay);
 }
 
 function contextBarRefresh(data){
