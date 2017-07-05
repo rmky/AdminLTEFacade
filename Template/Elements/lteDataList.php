@@ -69,6 +69,7 @@ class lteDataList extends lteDataTable
             foreach ($widget->getValuesDataSheet()->getRows() as $row){
                 $row_content = '';
                 foreach ($widget->getColumns() as $col){
+                    $classes = '';
                     if ($col->isHidden()){
                         $classes = 'hidden';
                     }                    
