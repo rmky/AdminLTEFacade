@@ -8,6 +8,10 @@ ul.datalist li {padding: 4px 0;}
 .exf_input>.form-group {margin-bottom: initial;}
 .modal-body-content-wrapper>.nav-tabs-custom {margin-top: -15px;margin-bottom: -15px}
 .datalist {z-index: 2000}
+.dropdown {display: inline-block}
+.modal-footer .dropdown+.btn, .modal-footer .btn+.dropdown {
+    margin-left: 5px;
+}
 
 /* AdminLTE customization */
 .user-menu .user-image i {font-size: 25px;}

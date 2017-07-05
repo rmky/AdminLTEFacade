@@ -32,14 +32,20 @@ class lteMenuButton extends lteAbstractElement
                     $output .= $this->getTemplate()->generateHtml($dialog_widget);
                 }
             }
-            // In any case, create a menu entry
-            $disabled_class = $b->isDisabled() ? ' disabled' : '';
-            $buttons_html .= '
-					<li class="' . $disabled_class . '">
-						<a id="' . $this->getTemplate()->getElement($b)->getId() . '" data-target="#"' . ($b->isDisabled() ? '' : ' onclick="' . $this->buildJsButtonFunctionName($b) . '();"') . '>
-							<i class="' . $this->buildCssIconClass($b->getIconName()) . '"></i>' . $b->getCaption() . '
-						</a>
-					</li>';
+            
+            if (! $b->getCaption() && ! $b->getAction()){
+                // If there is neither a caption nor an action, treat the button as a separator
+                $buttons_html .= '<li role="separator" class="divider"></li>';
+            } else {
+                // If there is a caption or an action, create a menu entry
+                $disabled_class = $b->isDisabled() ? ' disabled' : '';
+                $buttons_html .= '
+    					<li class="' . $disabled_class . '">
+    						<a id="' . $this->getTemplate()->getElement($b)->getId() . '" data-target="#"' . ($b->isDisabled() ? '' : ' onclick="' . $this->buildJsButtonFunctionName($b) . '();"') . '>
+    							<i class="' . $this->buildCssIconClass($b->getIconName()) . '"></i>' . $b->getCaption() . '
+    						</a>
+    					</li>';
+            }
         }
         $icon = ($this->getWidget()->getIconName() ? '<i class="' . $this->buildCssIconClass($this->getWidget()->getIconName()) . '"></i> ' : '');
         
@@ -47,9 +53,9 @@ class lteMenuButton extends lteAbstractElement
         $align_class = $this->getAlignClass();
         
         $output .= <<<HTML
-
-<div class="btn-group dropup{$align_class}">
-	<button type="button" class="btn{$button_class}" data-toggle="dropdown">{$icon}{$this->getWidget()->getCaption()}</button>
+ 
+<div class="dropdown {$align_class}">
+<button type="button" class="btn dropdown-toggle{$button_class}" data-toggle="dropdown">{$icon}{$this->getWidget()->getCaption()} <span class="caret"></span></button>
 	<ul class="dropdown-menu" role="menu">
 		{$buttons_html}
 	</ul>
