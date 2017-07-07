@@ -16,6 +16,6 @@
 	"WIDGET.REFRESH": "Refresh",
 	
 	"WIDGET.COMBOTABLE.NO_SUGGESTION": "No suggestions",
-	"WIDGET.COMBOTABLE.PLACEHOLDER": "Type or click here",
+	"WIDGET.COMBOTABLE.PLACEHOLDER": "",
 	"WIDGET.COMBOTABLE.MAX_SELECTION": "You cannot choose more than %number% item|You cannot choose more than %number% items"
 }
