@@ -78,7 +78,6 @@ function contextBarInit(){
 	
 	// Remove row from object basket table, when the object is removed
 	$(document).on('exface.Core.ObjectBasketRemove.action.performed', function(e, requestData, inputElementId){
-		console.log(inputElementId);
 		var dt = $('#'+inputElementId).DataTable();
 		dt.rows({selected: true}).remove();
 		if (dt.rows().count() == 0){
@@ -120,7 +119,7 @@ function contextBarRefresh(data){
 	$('#contextBar').children().not('.user-menu').remove();
 	for (var id in data){
 		var btn = $(' \
-				<!-- Object basket --> \
+				<!-- '+data[id].hint+' --> \
 					<li class="dropdown context-menu" id="'+id+'" data-widget="'+data[id].bar_widget_id+'"> \
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="'+data[id].hint+'" onclick="contextShowMenu(\'#'+id+'\');"> \
 							<i class="'+data[id].icon+'"></i> \
