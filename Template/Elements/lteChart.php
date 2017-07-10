@@ -48,8 +48,7 @@ class lteChart extends lteDataTable
                     // TODO do not create the more actions menu if all buttons are promoted!
                     if (! $button->isHidden()) {
                         if (! $more_buttons_menu) {
-                            $more_buttons_menu = $this->getTemplate()->getWorkbench()->ui()->getPageCurrent()->createWidget('MenuButton', $this->getWidget());
-                            $more_buttons_menu->setIconName('more');
+                            $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $this->getWidget());
                             $more_buttons_menu->setCaption('');
                         }
                         $more_buttons_menu->addButton($button);

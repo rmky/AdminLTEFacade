@@ -2,6 +2,7 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\AdminLteTemplate\Template\Elements\lteAbstractElement;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryContextBarAjaxTrait;
 
 /**
  * The ContextBar widget is rendered by the template itself and is update via response extras.
@@ -14,15 +15,7 @@ use exface\AdminLteTemplate\Template\Elements\lteAbstractElement;
  * @author Andrej Kabachnik
  *
  */
-class lteContextBar extends lteAbstractElement {
-    
-    public function generateHtml()
-    {
-        return $this->getTemplate()->encodeData($this->getTemplate()->buildResponseExtraForContextBar(), false);
-    }
-    
-    public function generateJs()
-    {
-        return '';
-    }
+class lteContextBar extends lteAbstractElement 
+{
+    use JqueryContextBarAjaxTrait;
 }

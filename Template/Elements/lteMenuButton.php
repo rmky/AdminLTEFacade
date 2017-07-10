@@ -23,8 +23,13 @@ class lteMenuButton extends lteAbstractElement
     {
         $buttons_html = '';
         $output = '';
+        $last_parent = null;
         /* @var $b \exface\Core\Widgets\Button */
         foreach ($this->getWidget()->getButtons() as $b) {
+            if (is_null($last_parent)){
+                $last_parent = $b->getParent();
+            }
+            
             // If the button has an action, make some action specific HTML depending on the action
             if ($action = $b->getAction()) {
                 if ($action->implementsInterface('iShowDialog')) {
@@ -33,10 +38,14 @@ class lteMenuButton extends lteAbstractElement
                 }
             }
             
+            // Create a menu entry: a link for actions or a separator for empty buttons
             if (! $b->getCaption() && ! $b->getAction()){
-                // If there is neither a caption nor an action, treat the button as a separator
                 $buttons_html .= '<li role="separator" class="divider"></li>';
             } else {
+                if ($b->getParent() !== $last_parent){
+                    $buttons_html .= '<li role="separator" class="divider"></li>';
+                    $last_parent = $b->getParent();
+                }
                 // If there is a caption or an action, create a menu entry
                 $disabled_class = $b->isDisabled() ? ' disabled' : '';
                 $buttons_html .= '

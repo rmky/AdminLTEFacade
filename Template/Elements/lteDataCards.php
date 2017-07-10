@@ -52,7 +52,6 @@ class lteDataCards extends lteDataList
                 if (! $button->isHidden()) {
                     if (! $more_buttons_menu) {
                         $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $widget);
-                        $more_buttons_menu->setIconName('more');
                         $more_buttons_menu->setCaption('');
                     }
                     $more_buttons_menu->addButton($button);

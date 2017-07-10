@@ -80,28 +80,34 @@ class lteDataTable extends lteAbstractElement
         
         // add buttons
         /* @var $more_buttons_menu \exface\Core\Widgets\MenuButton */
-        $more_buttons_menu = null;
+        $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $widget);
+        //$more_buttons_menu->setIconName('more');
+        $more_buttons_menu->setCaption('');
+        
         if ($widget->hasButtons()) {
-            foreach ($widget->getButtons() as $button) {
+            foreach ($widget->getToolbarMain()->getButtonGroupMain()->getButtons() as $button) {
                 // Make pomoted and regular buttons visible right in the bottom toolbar
                 // Hidden buttons also go here, because it does not make sense to put them into the menu
                 if ($button->getVisibility() !== EXF_WIDGET_VISIBILITY_OPTIONAL || $button->isHidden()) {
                     $button_html .= $this->getTemplate()->generateHtml($button);
                 }
-                // Put all visible buttons into "more actions" menu
-                // TODO do not create the more actions menu if all buttons are promoted!
+                
+                // Put optional buttons in the menu
                 if ($button->getVisibility() == EXF_WIDGET_VISIBILITY_OPTIONAL && ! $button->isHidden()) {
-                    if (! $more_buttons_menu) {
-                        $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $widget);
-                        $more_buttons_menu->setIconName('more');
-                        $more_buttons_menu->setCaption('');
-                    }
                     $more_buttons_menu->addButton($button);
+                }
+            }
+            
+            foreach ($widget->getToolbars() as $toolbar){
+                foreach ($toolbar->getButtonGroups() as $btn_group){
+                    if ($btn_group !== $widget->getToolbarMain()->getButtonGroupMain()){
+                        $more_buttons_menu->getMenu()->addButtonGroup($btn_group);
+                    }
                 }
             }
         }
         
-        if ($more_buttons_menu) {
+        if ($more_buttons_menu->countButtonsVisible() > 0) {
             $button_html .= $this->getTemplate()->getElement($more_buttons_menu)->generateHtml();
         }
         $footer_style = $widget->getHideToolbarBottom() ? 'display: none;' : '';
