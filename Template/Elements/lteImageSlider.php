@@ -128,13 +128,6 @@ HTML;
             }
         }
         
-        // buttons
-        if ($widget->hasButtons()) {
-            foreach ($widget->getButtons() as $button) {
-                $buttons_js .= $this->getTemplate()->generateJs($button);
-            }
-        }
-        
         $output = <<<JS
 
 $(document).ready(function() {

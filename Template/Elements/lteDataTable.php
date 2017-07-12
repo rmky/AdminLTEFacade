@@ -7,6 +7,7 @@ use exface\Core\Widgets\Dashboard;
 use exface\Core\Widgets\Tab;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTablesTrait;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTableTrait;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
 
 /**
  *
@@ -20,6 +21,8 @@ class lteDataTable extends lteAbstractElement
     
     use JqueryDataTableTrait;
     use JqueryDataTablesTrait;
+    
+    use JqueryToolbarsTrait;
 
     private $on_load_success = '';
 
@@ -79,38 +82,9 @@ class lteDataTable extends lteAbstractElement
         }
         
         // add buttons
-        /* @var $more_buttons_menu \exface\Core\Widgets\MenuButton */
-        $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $widget);
-        //$more_buttons_menu->setIconName('more');
-        $more_buttons_menu->setCaption('');
+        $button_html = $this->buildHtmlButtons();
         
-        if ($widget->hasButtons()) {
-            foreach ($widget->getToolbarMain()->getButtonGroupMain()->getButtons() as $button) {
-                // Make pomoted and regular buttons visible right in the bottom toolbar
-                // Hidden buttons also go here, because it does not make sense to put them into the menu
-                if ($button->getVisibility() !== EXF_WIDGET_VISIBILITY_OPTIONAL || $button->isHidden()) {
-                    $button_html .= $this->getTemplate()->generateHtml($button);
-                }
-                
-                // Put optional buttons in the menu
-                if ($button->getVisibility() == EXF_WIDGET_VISIBILITY_OPTIONAL && ! $button->isHidden()) {
-                    $more_buttons_menu->addButton($button);
-                }
-            }
-            
-            foreach ($widget->getToolbars() as $toolbar){
-                foreach ($toolbar->getButtonGroups() as $btn_group){
-                    if ($btn_group !== $widget->getToolbarMain()->getButtonGroupMain()){
-                        $more_buttons_menu->getMenu()->addButtonGroup($btn_group);
-                    }
-                }
-            }
-        }
-        
-        if ($more_buttons_menu->countButtonsVisible() > 0) {
-            $button_html .= $this->getTemplate()->getElement($more_buttons_menu)->generateHtml();
-        }
-        $footer_style = $widget->getHideToolbarBottom() ? 'display: none;' : '';
+        $footer_style = $widget->getHideFooter() ? 'display: none;' : '';
         $bottom_toolbar = $this->buildHtmlBottomToolbar($button_html);
         $top_toolbar = $this->buildHtmlTopToolbar();
         
@@ -281,20 +255,6 @@ JS;
             }
         }
         
-        // buttons
-        if ($widget->hasButtons()) {
-            foreach ($widget->getButtons() as $button) {
-                /* @var $btn_element \exface\AdminLteTemplate\lteButton */
-                $btn_element = $this->getTemplate()->getElement($button);
-                $buttons_js .= $btn_element->generateJs();
-                if (! $button->isHidden() && (! $button->getAction() || $button->getAction()->getInputRowsMin() === 1)) {
-                    $icon = ($button->getIconName() ? '<i class=\'' . $btn_element->buildCssIconClass($button->getIconName()) . '\'></i> ' : '');
-                    $context_menu_js .= '{text: "' . $icon . $button->getCaption() . '", action: function(e){e.preventDefault(); ' . $btn_element->buildJsClickFunctionName() . '();}}, ';
-                }
-            }
-            $context_menu_js = $context_menu_js ? substr($context_menu_js, 0, - 2) : $context_menu_js;
-        }
-        
         // Click actions
         // Single click. Currently only supports one double click action - the first one in the list of buttons
         if ($leftclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_LEFT_CLICK)[0]) {
@@ -365,7 +325,7 @@ function {$this->buildJsFunctionPrefix()}Init(){
 				{$this->getId()}_table.row($(e.target).closest('tr')).select();
 			});
 			$('#{$this->getId()}').closest('.exf_grid_item').trigger('resize');
-			context.attach('#{$this->getId()} tbody tr', [{$context_menu_js}]);
+			context.attach('#{$this->getId()} tbody tr', [{$this->buildJsContextMenu()}]);
 			if({$this->getId()}_table){
 				{$this->getId()}_drawPagination();
 				{$this->getId()}_table.columns.adjust();
@@ -438,7 +398,7 @@ $('#{$this->getId()}_popup_config').on('hidden.bs.modal', function(e) {
 
 {$filters_js}
 
-{$buttons_js}
+{$this->buildJsButtons()}
 
 JS;
         
@@ -564,7 +524,7 @@ JS;
         return $this->on_load_success;
     }
 
-    public function buildJsValueGetter($row = null, $column = null)
+    public function buildJsValueGetter($column = null, $row = null)
     {
         $output = $this->getId() . "_table";
         if (is_null($row)) {
@@ -638,7 +598,7 @@ JS;
             $filter_button_disabled = ' disabled';
         }
         
-        if ($this->getWidget()->getHideToolbarTop()) {
+        if ($this->getWidget()->getHideHeader()) {
             $output = <<<HTML
 	<h3 class="box-title">$table_caption</h3>
 	<div class="box-tools pull-right">
@@ -849,6 +809,30 @@ HTML;
     public function getEditors()
     {
         return $this->editors;
+    }
+    
+    protected function buildJsContextMenu(){
+        $context_menu_js = '';
+        $widget = $this->getWidget();
+        if ($widget->hasButtons()) {
+            $last_parent = null;
+            foreach ($widget->getButtons() as $button) {
+                if ($button->isHidden()){
+                    continue;
+                }
+                if (!is_null($last_parent) && $button->getParent() !== $last_parent){
+                    $context_menu_js .= '{divider: true}, ';
+                }
+                $last_parent = $button->getParent();
+                
+                /* @var $btn_element \exface\AdminLteTemplate\lteButton */
+                $btn_element = $this->getTemplate()->getElement($button);
+                $icon = ($button->getIconName() ? '<i class=\'' . $btn_element->buildCssIconClass($button->getIconName()) . '\'></i> ' : '');
+                $context_menu_js .= '{text: "' . $icon . $button->getCaption() . '", action: function(e){e.preventDefault(); ' . $btn_element->buildJsClickFunctionName() . '();}}, ';
+            }
+            $context_menu_js = $context_menu_js ? substr($context_menu_js, 0, - 2) : $context_menu_js;
+        }
+        return $context_menu_js;
     }
 }
 ?>

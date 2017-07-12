@@ -2,7 +2,7 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DataColumn;
-use exface\Core\Interfaces\Actions\ActionInterface;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
 
 /**
  *
@@ -11,7 +11,8 @@ use exface\Core\Interfaces\Actions\ActionInterface;
  */
 class lteDataCards extends lteDataList
 {
-
+    use JqueryToolbarsTrait;
+    
     function init()
     {
         parent::init();
@@ -37,37 +38,12 @@ class lteDataCards extends lteDataList
             }
         }
         
-        // Add buttons
-        /* @var $more_buttons_menu \exface\Core\Widgets\MenuButton */
-        $more_buttons_menu = null;
-        if ($widget->hasButtons()) {
-            foreach ($widget->getButtons() as $button) {
-                // Make pomoted and regular buttons visible right in the bottom toolbar
-                // Hidden buttons also go here, because it does not make sense to put them into the menu
-                if ($button->getVisibility() !== EXF_WIDGET_VISIBILITY_OPTIONAL || $button->isHidden()) {
-                    $button_html .= $this->getTemplate()->generateHtml($button);
-                }
-                // Put all visible buttons into "more actions" menu
-                // TODO do not create the more actions menu if all buttons are promoted!
-                if (! $button->isHidden()) {
-                    if (! $more_buttons_menu) {
-                        $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $widget);
-                        $more_buttons_menu->setCaption('');
-                    }
-                    $more_buttons_menu->addButton($button);
-                }
-            }
-        }
-        if ($more_buttons_menu) {
-            $button_html .= $this->getTemplate()->getElement($more_buttons_menu)->generateHtml();
-        }
-        
         foreach ($widget->getColumns() as $column) {
             $column_templates .= $this->generateColumnTemplate($column) . "\n";
         }
         
-        $footer_style = $widget->getHideToolbarBottom() ? 'display: none;' : '';
-        $bottom_toolbar = $widget->getHideToolbarBottom() ? '' : $this->buildHtmlBottomToolbar($button_html);
+        $footer_style = $widget->getHideFooter() ? 'display: none;' : '';
+        $bottom_toolbar = $widget->getHideFooter() ? '' : $this->buildHtmlBottomToolbar($this->buildHtmlButtons());
         $top_toolbar = $this->buildHtmlTopToolbar();
         
         // output the html code
@@ -236,13 +212,6 @@ HTML;
             }
         }
         
-        // buttons
-        if ($widget->hasButtons()) {
-            foreach ($widget->getButtons() as $button) {
-                $buttons_js .= $this->getTemplate()->generateJs($button);
-            }
-        }
-        
         // configure pagination
         if ($widget->getPaginate()) {
             $paging_options = '"pageLength": ' . (!is_null($widget->getPaginatePageSize()) ? $widget->getPaginatePageSize() : $this->getTemplate()->getConfig()->getOption('WIDGET.DATALIST.PAGE_SIZE')) . ',';
@@ -386,7 +355,7 @@ $('#{$this->getId()}_popup_config').on('hidden.bs.modal', function(e) {
 
 {$filters_js}
 
-{$buttons_js}
+{$this->buildJsButtons()}
 
 JS;
         

@@ -37,31 +37,6 @@ class lteDataList extends lteDataTable
             }
         }
         
-        // Add buttons
-        /* @var $more_buttons_menu \exface\Core\Widgets\MenuButton */
-        $more_buttons_menu = null;
-        if ($widget->hasButtons()) {
-            foreach ($widget->getButtons() as $button) {
-                // Make pomoted and regular buttons visible right in the bottom toolbar
-                // Hidden buttons also go here, because it does not make sense to put them into the menu
-                if ($button->getVisibility() !== EXF_WIDGET_VISIBILITY_OPTIONAL || $button->isHidden()) {
-                    $button_html .= $this->getTemplate()->generateHtml($button);
-                }
-                // Put all visible buttons into "more actions" menu
-                // TODO do not create the more actions menu if all buttons are promoted!
-                if (! $button->isHidden()) {
-                    if (! $more_buttons_menu) {
-                        $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $widget);
-                        $more_buttons_menu->setCaption('');
-                    }
-                    $more_buttons_menu->addButton($button);
-                }
-            }
-        }
-        if ($more_buttons_menu) {
-            $button_html .= $this->getTemplate()->getElement($more_buttons_menu)->generateHtml();
-        }
-        
         // Contents
         $list_items = '';
         if ($widget->getValuesDataSheet() && ! $widget->getValuesDataSheet()->isEmpty()){
@@ -78,8 +53,17 @@ class lteDataList extends lteDataTable
             }
         }
         
-        $footer_style = $widget->getHideToolbarBottom() ? 'display: none;' : '';
-        //$bottom_toolbar = $widget->getHideToolbarBottom() ? '' : $this->buildHtmlBottomToolbar($button_html);
+        // Footer
+        if ($widget->hasButtons()){
+            $footer = <<<HTML
+    <li class="footer">
+		{$this->buildHtmlButtons()}
+	</li>
+HTML;
+        }
+        
+        $footer_style = $widget->getHideFooter() ? 'display: none;' : '';
+        //$bottom_toolbar = $widget->getHideFooter() ? '' : $this->buildHtmlBottomToolbar($button_html);
         
         // output the html code
         // TODO Use handlebars for lazy loading. Perhaps a common method with DataCards will be possible.
@@ -93,10 +77,7 @@ class lteDataList extends lteDataTable
             {$list_items}
     	</ul>
 	</li>
-    <li class="footer" style="{$footer_style}">
-        <a href="#">Remove all</a>
-        {$bottom_toolbar}{$this->buildHtmlTableCustomizer()}
-	</li>
+    {$footer}
 </ul>
 HTML;
         

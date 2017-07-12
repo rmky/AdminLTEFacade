@@ -3,10 +3,13 @@ namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\Button;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryButtonTrait;
+use exface\Core\Widgets\MenuButton;
 
 /**
  * generates jQuery Mobile buttons for ExFace
  *
+ * @method MenuButton getWidget()
+ * 
  * @author Andrej Kabachnik
  *        
  */
@@ -21,41 +24,8 @@ class lteMenuButton extends lteAbstractElement
      */
     function generateHtml()
     {
-        $buttons_html = '';
         $output = '';
-        $last_parent = null;
-        /* @var $b \exface\Core\Widgets\Button */
-        foreach ($this->getWidget()->getButtons() as $b) {
-            if (is_null($last_parent)){
-                $last_parent = $b->getParent();
-            }
-            
-            // If the button has an action, make some action specific HTML depending on the action
-            if ($action = $b->getAction()) {
-                if ($action->implementsInterface('iShowDialog')) {
-                    $dialog_widget = $action->getDialogWidget();
-                    $output .= $this->getTemplate()->generateHtml($dialog_widget);
-                }
-            }
-            
-            // Create a menu entry: a link for actions or a separator for empty buttons
-            if (! $b->getCaption() && ! $b->getAction()){
-                $buttons_html .= '<li role="separator" class="divider"></li>';
-            } else {
-                if ($b->getParent() !== $last_parent){
-                    $buttons_html .= '<li role="separator" class="divider"></li>';
-                    $last_parent = $b->getParent();
-                }
-                // If there is a caption or an action, create a menu entry
-                $disabled_class = $b->isDisabled() ? ' disabled' : '';
-                $buttons_html .= '
-    					<li class="' . $disabled_class . '">
-    						<a id="' . $this->getTemplate()->getElement($b)->getId() . '" data-target="#"' . ($b->isDisabled() ? '' : ' onclick="' . $this->buildJsButtonFunctionName($b) . '();"') . '>
-    							<i class="' . $this->buildCssIconClass($b->getIconName()) . '"></i>' . $b->getCaption() . '
-    						</a>
-    					</li>';
-            }
-        }
+        
         $icon = ($this->getWidget()->getIconName() ? '<i class="' . $this->buildCssIconClass($this->getWidget()->getIconName()) . '"></i> ' : '');
         
         $button_class = $this->getWidget()->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? ' btn-primary' : ' btn-default';
@@ -66,7 +36,7 @@ class lteMenuButton extends lteAbstractElement
 <div class="dropdown {$align_class}">
 <button type="button" class="btn dropdown-toggle{$button_class}" data-toggle="dropdown">{$icon}{$this->getWidget()->getCaption()} <span class="caret"></span></button>
 	<ul class="dropdown-menu" role="menu">
-		{$buttons_html}
+		{$this->getTemplate()->getElement($this->getWidget()->getMenu())->buildHtmlButtons()}
 	</ul>
 </div>
 HTML;
@@ -85,18 +55,13 @@ HTML;
         foreach ($this->getWidget()->getButtons() as $b) {
             if ($js_click_function = $this->getTemplate()->getElement($b)->buildJsClickFunction()) {
                 $output .= "
-					function " . $this->buildJsButtonFunctionName($b) . "(){
+					function " . $this->getTemplate()->getElement($b)->buildJsClickFunctionName(). "(){
 						" . $js_click_function . "
 					}
 					";
             }
         }
         return $output;
-    }
-
-    function buildJsButtonFunctionName(Button $button)
-    {
-        return $this->getTemplate()->getElement($button)->buildJsClickFunctionName();
     }
 
     function getAlignClass()

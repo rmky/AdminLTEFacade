@@ -5,9 +5,11 @@ use exface\Core\Widgets\ChartAxis;
 use exface\Core\Widgets\ChartSeries;
 use exface\Core\Widgets\Chart;
 use exface\Core\Exceptions\Templates\TemplateUnsupportedWidgetPropertyWarning;
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
 
 class lteChart extends lteDataTable
 {
+    use JqueryToolbarsTrait;
 
     public function init()
     {
@@ -34,33 +36,8 @@ class lteChart extends lteDataTable
                 }
             }
             
-            // add buttons
-            /* @var $more_buttons_menu \exface\Core\Widgets\MenuButton */
-            $more_buttons_menu = null;
-            if ($widget->hasButtons()) {
-                foreach ($widget->getButtons() as $button) {
-                    // Make pomoted and regular buttons visible right in the bottom toolbar
-                    // Hidden buttons also go here, because it does not make sense to put them into the menu
-                    if ($button->getVisibility() !== EXF_WIDGET_VISIBILITY_OPTIONAL || $button->isHidden()) {
-                        $button_html .= $this->getTemplate()->generateHtml($button);
-                    }
-                    // Put all visible buttons into "more actions" menu
-                    // TODO do not create the more actions menu if all buttons are promoted!
-                    if (! $button->isHidden()) {
-                        if (! $more_buttons_menu) {
-                            $more_buttons_menu = $widget->getPage()->createWidget('MenuButton', $this->getWidget());
-                            $more_buttons_menu->setCaption('');
-                        }
-                        $more_buttons_menu->addButton($button);
-                    }
-                }
-            }
-            if ($more_buttons_menu) {
-                $button_html .= $this->getTemplate()->getElement($more_buttons_menu)->generateHtml();
-            }
-            
-            $bottom_toolbar = $this->buildHtmlBottomToolbar($button_html);
-            $top_toolbar = $widget->getHideToolbarTop() ? '' : $this->buildHtmlTopToolbar();
+            $bottom_toolbar = $this->buildHtmlBottomToolbar($this->buildHtmlButtons());
+            $top_toolbar = $widget->getHideHeader() ? '' : $this->buildHtmlTopToolbar();
         }
         
         // Create the panel for the chart
