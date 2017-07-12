@@ -17,7 +17,7 @@ class lteText extends lteAbstractElement
     {
         $output = '';
         $widget = $this->getWidget();
-        $html = $widget->getText();
+        $html = nl2br($widget->getText());
         
         switch ($widget->getSize()) {
             case EXF_TEXT_SIZE_BIG:
