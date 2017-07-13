@@ -68,7 +68,7 @@ HTML;
         // output the html code
         // TODO Use handlebars for lazy loading. Perhaps a common method with DataCards will be possible.
         $output = <<<HTML
-<ul class="exf-datalist" id="{$this->getId()}">
+<ul class="exf-menu" id="{$this->getId()}">
     <li class="header">
 		{$widget->getCaption()}
 	</li>

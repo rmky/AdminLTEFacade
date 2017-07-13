@@ -30,10 +30,19 @@ class lteMenu extends lteAbstractElement
                 $align_style = '';
         }
         
+        if ($caption = $this->getWidget()->getCaption()){
+            $header = <<<HTML
+        <li class="header">
+            {$caption}
+        </li>
+HTML;
+        }
+        
         return <<<HTML
-<div id="{$this->getId()}" class="easyui-menu" style="{$align_style}">
+<ul id="{$this->getId()}" class="exf-menu" style="{$align_style}">
+    {$header}
     {$this->buildHtmlButtons()}
-</div>
+</ul>
 HTML;
     }
     
