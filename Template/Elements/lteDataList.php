@@ -26,38 +26,42 @@ class lteDataList extends lteDataTable
     {
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
-        $column_templates = '';
-        
-        // Add promoted filters above the panel. Other filters will be displayed in a popup via JS
-        if ($widget->hasFilters()) {
-            foreach ($widget->getFilters() as $fltr) {
-                if ($fltr->getVisibility() !== EXF_WIDGET_VISIBILITY_PROMOTED)
-                    continue;
-                $filters_html .= $this->getTemplate()->generateHtml($fltr);
-            }
-        }
         
         // Contents
         $list_items = '';
-        if ($widget->getValuesDataSheet() && ! $widget->getValuesDataSheet()->isEmpty()){
-            foreach ($widget->getValuesDataSheet()->getRows() as $row){
-                $row_content = '';
-                foreach ($widget->getColumns() as $col){
-                    $classes = '';
-                    if ($col->isHidden()){
-                        $classes = 'hidden';
-                    }                    
-                    $row_content .= '<span data-field="' . $col->getDataColumnName() . '" class="exf-data-value ' . $classes . '">' . $row[$col->getDataColumnName()] . '</span>';
+        
+        if (! $widget->getLazyLoading()){
+            if ($widget->getValuesDataSheet() && ! $widget->getValuesDataSheet()->isEmpty()) {
+                $data = $widget->getValuesDataSheet();
+            }
+            
+            $data = $widget->prepareDataSheetToRead($data ? $data : null);
+            
+            if (! $data->isFresh()) {
+                $data->dataRead();
+            }
+            
+            if (! $data->isEmpty()){
+                foreach ($data->getRows() as $row){
+                    $row_content = '';
+                    foreach ($widget->getColumns() as $col){
+                        $classes = '';
+                        if ($col->isHidden()){
+                            $classes = 'hidden';
+                        }                    
+                        $row_content .= '<span data-field="' . $col->getDataColumnName() . '" class="exf-data-value ' . $classes . '">' . $row[$col->getDataColumnName()] . '</span>';
+                    }
+                    $list_items .= "\n" . '<li class="exf-data-row"><a href="#">' . $row_content . '</a></li>';
                 }
-                $list_items .= "\n" . '<li class="exf-data-row"><a href="#">' . $row_content . '</a></li>';
             }
         }
         
         // Footer
+        $buttons = str_replace('class="btn', 'class="btn-xs btn', $this->buildHtmlButtons());
         if ($widget->hasButtons()){
             $footer = <<<HTML
     <li class="footer">
-		{$this->buildHtmlButtons()}
+		{$buttons}
 	</li>
 HTML;
         }

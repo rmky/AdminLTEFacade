@@ -69,7 +69,7 @@ function contextBarInit(){
 				extras = {};
 			}
 		}
-		if (extras.ContextBar){
+		if (extras && extras.ContextBar){
 			contextBarRefresh(extras.ContextBar);
 		}
 	});

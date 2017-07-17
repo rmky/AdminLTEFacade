@@ -249,7 +249,7 @@ pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-
   color: #444444;
   font-size: 14px;
 }
-.exf-menu > li.footer > a {
+.exf-menu > li.footer {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 4px;
@@ -259,7 +259,6 @@ pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-
   padding: 7px 10px;
   border-bottom: 1px solid #eeeeee;
   color: #444 !important;
-  text-align: center;
 }
 @media (max-width: 991px) {
   .exf-menu > li.footer > a {
