@@ -588,7 +588,7 @@ JS;
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         
         $quick_search_fields = $this->getWidget()->getMetaObject()->getLabelAttribute() ? $this->getWidget()->getMetaObject()->getLabelAttribute()->getName() : '';
-        foreach ($this->getWidget()->getQuickSearchFilters() as $qfltr) {
+        foreach ($this->getWidget()->getConfiguratorWidget()->getQuickSearchFilters() as $qfltr) {
             $quick_search_fields .= ($quick_search_fields ? ', ' : '') . $qfltr->getCaption();
         }
         if ($quick_search_fields)
