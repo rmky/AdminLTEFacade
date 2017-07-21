@@ -18,8 +18,9 @@ class lteInputSelect extends lteInput
         /* @var $widget \exface\Core\Widgets\InputSelect */
         $widget = $this->getWidget();
         $options = '';
+        $selected_cnt = count($this->getWidget()->getValues());
         foreach ($widget->getSelectableOptions() as $value => $text) {
-            if ($this->getWidget()->getMultiSelect() && count($this->getWidget()->getValues()) > 1) {
+            if ($this->getWidget()->getMultiSelect() && $selected_cnt > 1) {
                 $selected = in_array($value, $this->getWidget()->getValues());
             } else {
                 $selected = strcasecmp($this->getValueWithDefaults(), $value) == 0 ? true : false;
