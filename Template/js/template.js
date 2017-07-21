@@ -123,12 +123,13 @@ function contextBarLoad(delay){
 function contextBarRefresh(data){
 	$('#contextBar').children().not('.user-menu').remove();
 	for (var id in data){
+		var color = data[id].color ? 'background-color:'+data[id].color+' !important;' : '';
 		var btn = $(' \
 				<!-- '+data[id].hint+' --> \
 					<li class="dropdown context-menu" id="'+id+'" data-widget="'+data[id].bar_widget_id+'"> \
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="'+data[id].hint+'" onclick="contextShowMenu(\'#'+id+'\');"> \
 							<i class="'+data[id].icon+'"></i> \
-							<span class="label label-warning context-indicator">'+data[id].indicator+'</span> \
+							<span class="label label-warning context-indicator" style="'+color+'">'+data[id].indicator+'</span> \
 						</a> \
 						<ul class="dropdown-menu"> \
 						</ul> \
