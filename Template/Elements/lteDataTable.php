@@ -445,7 +445,7 @@ JS;
 JS;
         } else {
             // Data embedded in the code of the DataGrid
-            if ($widget->getValuesDataSheet() && ! $widget->getValuesDataSheet()->isEmpty()) {
+            if ($widget->getValuesDataSheet()) {
                 $data = $widget->getValuesDataSheet();
             }
             

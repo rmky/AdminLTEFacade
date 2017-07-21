@@ -31,7 +31,7 @@ class lteDataList extends lteDataTable
         $list_items = '';
         
         if (! $widget->getLazyLoading()){
-            if ($widget->getValuesDataSheet() && ! $widget->getValuesDataSheet()->isEmpty()) {
+            if ($widget->getValuesDataSheet()) {
                 $data = $widget->getValuesDataSheet();
             }
             
