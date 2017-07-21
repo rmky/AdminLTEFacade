@@ -9,7 +9,7 @@ ul.datalist li {padding: 4px 0;}
 .modal-body-content-wrapper>.nav-tabs-custom {margin-top: -15px;margin-bottom: -15px}
 .datalist {z-index: 2000}
 .dropdown {display: inline-block}
-.modal-footer .dropdown+.btn, .modal-footer .btn+.dropdown, .exf-btn-group+.dropdown {
+.modal-footer .dropdown+.btn, .modal-footer .btn+.dropdown {
     margin-left: 5px;
 }
 
@@ -48,7 +48,10 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 	border-color: #ffa8a8;
 	background-color: #fff3f3;
 }
-.ms-sel-ctn input, .ms-ctn input:focus {background-color: inherit !important};
+.ms-sel-ctn input, .ms-ctn input:focus {background-color: inherit !important;}
+
+/* Toolbars and buttons */
+.exf-btn-group+.dropdown {margin-left: 3px;}
 
 /* sortable */
 body.dragging, body.dragging * {
