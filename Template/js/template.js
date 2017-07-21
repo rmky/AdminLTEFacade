@@ -55,6 +55,8 @@ $( document ).ready(function() {
 			$('.masonry').masonry('layout');
 		},350);
 	});
+	
+	$('#navsearch').on('input', function(){searchNavMenu($('#navsearch').val())});
 });
 
 function contextBarInit(){
@@ -180,6 +182,26 @@ function adminLteCreateDialog(parentElement, id, title, content){
 		</div><!-- /.modal -->').resize();
 	parentElement.append(dialog);
 	$('#'+id).modal('show');
+}
+
+function searchNavMenu(value){
+    var filter = value.toUpperCase();
+    var lis = $('.sidebar-menu li').not('.header');
+    if (filter == ''){
+    		lis.css('display', 'list-item');
+			lis.find('.current').addClass('active').css('display', 'list-item');
+			lis.not('.current').removeClass('active');
+    } else {
+	    $.each(lis, function(){
+	    	var name = $(this).children('a').first().text();
+	    	var li = $(this);
+	    	if (name.toUpperCase().indexOf(filter) == 0){
+	            li.css('display', 'list-item').parents('li').css('display', 'list-item').addClass('active');
+	    	} else {
+	        	li.css('display', 'none');
+	    	}
+	    });
+    }
 }
 
 //compare arrays (http://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript)
