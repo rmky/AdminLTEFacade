@@ -361,6 +361,14 @@ function {$this->buildJsFunctionPrefix()}Init(){
 	$('#{$this->getId()}_popup_columnList').sortable();
 	
 	context.init({preventDoubleContext: false});
+    
+    // Code der bei DataTable onResize ausgefuehrt wird
+    new ResizeSensor(document.getElementById("{$this->getId()}"), function() {
+        // Die Spaltenbreiten in Header und Body werden synchronisiert. Die Ursache ist folg-
+        // endes aelteres Problem: https://datatables.net/forums/discussion/5771/row-headers-resize,
+        // und besteht scheinbar noch immer.
+        {$this->getId()}_table.columns.adjust();
+    });
 }
 	
 function setColumnVisibility(name, visible){
@@ -579,6 +587,9 @@ JS;
         $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Template/js/context.js/context.bootstrap.css">';
         $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/context.js/context.js"></script>';
         // $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/jquery.contextmenu.js"></script>';
+        
+        // Resize-Sensor
+        $includes[] = '<script src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
         
         return $includes;
     }
