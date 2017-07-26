@@ -6,6 +6,7 @@ use exface\Core\Widgets\ChartSeries;
 use exface\Core\Widgets\Chart;
 use exface\Core\Exceptions\Templates\TemplateUnsupportedWidgetPropertyWarning;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
+use exface\Core\CommonLogic\Constants\Icons;
 
 class lteChart extends lteDataTable
 {
@@ -19,25 +20,14 @@ class lteChart extends lteDataTable
         // TODO $this->registerLiveReferenceAtLinkedElement();
     }
 
-    function generateHtml()
+    public function generateHtml()
     {
         $output = '';
-        $toolbar = '';
         $widget = $this->getWidget();
         
         // Create the toolbar if the chart has it's own controls and is not bound to another data widget
-        if (! $widget->getDataWidgetLink()) {
-            // Add promoted filters above the panel. Other filters will be displayed in a popup via JS
-            if ($widget->getData()->hasFilters()) {
-                foreach ($widget->getData()->getFilters() as $fltr) {
-                    if ($fltr->getVisibility() !== EXF_WIDGET_VISIBILITY_PROMOTED)
-                        continue;
-                    $filters_html .= $this->getTemplate()->generateHtml($fltr);
-                }
-            }
-            
-            $bottom_toolbar = $this->buildHtmlBottomToolbar($this->buildHtmlButtons());
-            $top_toolbar = $widget->getHideHeader() ? '' : $this->buildHtmlTopToolbar();
+        if (! $widget->getDataWidgetLink()) {       
+            $header = $widget->getHideHeader() ? '' : $this->buildHtmlHeader();
         }
         
         // Create the panel for the chart
@@ -46,7 +36,7 @@ class lteChart extends lteDataTable
 <div class="{$this->getWidthClasses()} exf_grid_item">
 	<div class="box">
 		<div class="box-header">
-			{$top_toolbar}
+			{$header}
 		</div><!-- /.box-header -->
 		<div class="box-body">
 			<div id="{$this->getId()}" style="height: {$this->getHeight()}; width: calc(100% + 8px)"></div>
@@ -79,7 +69,7 @@ HTML;
         
         // Transform the input data to a flot dataset
         foreach ($widget->getSeries() as $series) {
-            $series_id = $this->generateSeriesId($series->getId());
+            $series_id = $this->sanitizeSeriesId($series->getId());
             $output .= '
 					var ' . $series_id . ' = [];';
             
@@ -102,7 +92,7 @@ HTML;
         }
         
         // Prepare other flot options
-        $series_config = $this->generateSeriesConfig();
+        $series_config = $this->buildJsSeriesConfig();
         
         foreach ($widget->getAxesX() as $axis) {
             if (! $axis->isHidden()) {
@@ -122,14 +112,14 @@ HTML;
 					}
 		
 					$.plot("#' . $this->getId() . '",
-						' . $this->generateSeriesData() . ',
+						' . $this->buildJsSeriesData() . ',
 						{
-							grid:  { ' . $this->generateGridOptions() . ' }
+							grid:  { ' . $this->buildJsGridOptions() . ' }
 							, crosshair: {mode: "xy"}
 							' . ($axis_y_init ? ', yaxes: [ ' . substr($axis_y_init, 2) . ' ]' : '') . '
 							' . ($axis_x_init ? ', xaxes: [ ' . substr($axis_x_init, 2) . ' ]' : '') . '
 							' . ($series_config ? ', series: { ' . $series_config . ' }' : '') . '
-							, legend: { ' . $this->generateLegendOptions() . ' }
+							, legend: { ' . $this->buildJsLegendOptions() . ' }
 						}
 					);
 								
@@ -138,12 +128,16 @@ HTML;
         
         // Create the load function to fetch the data via AJAX or from another widget
         $output .= $this->buildJsAjaxLoaderFunction();
+        // Initialize tooltips
         $output .= $this->buildJsTooltipInit();
-        
+        // Add JS code for the configurator
+        $output .= $this->getTemplate()->getElement($widget->getConfiguratorWidget())->generateJs();
+        // Add JS for all buttons
+        $output .= $this->buildJsButtons();
         return $output;
     }
 
-    protected function generateGridOptions()
+    protected function buildJsGridOptions()
     {
         return '
 											hoverable: true
@@ -152,7 +146,7 @@ HTML;
         									, tickColor: "#f3f3f3"';
     }
 
-    protected function generateLegendOptions()
+    protected function buildJsLegendOptions()
     {
         $output = '';
         if ($this->isPieChart()) {
@@ -172,7 +166,7 @@ HTML;
         }
     }
 
-    protected function generateSeriesData()
+    protected function buildJsSeriesData()
     {
         $output = '';
         if ($this->isPieChart()) {
@@ -180,16 +174,16 @@ HTML;
                 throw new TemplateUnsupportedWidgetPropertyWarning('The template "' . $this->getTemplate()->getAlias() . '" does not support pie charts with multiple series!');
             }
             
-            $output = $this->generateSeriesId($this->getWidget()->getSeries()[0]->getId());
+            $output = $this->sanitizeSeriesId($this->getWidget()->getSeries()[0]->getId());
         } else {
             foreach ($this->getWidget()->getSeries() as $series) {
                 if ($series->getChartType() == ChartSeries::CHART_TYPE_PIE) {
                     throw new TemplateUnsupportedWidgetPropertyWarning('The template "' . $this->getTemplate()->getAlias() . '" does not support pie charts with multiple series!');
                 }
-                $series_options = $this->generateSeriesOptions($series);
+                $series_options = $this->buildJsSeriesOptions($series);
                 $output .= ',
 								{
-									data: ' . $this->generateSeriesId($series->getId()) . ($series->getChartType() == ChartSeries::CHART_TYPE_BARS ? '.reverse()' : '') . '
+									data: ' . $this->sanitizeSeriesId($series->getId()) . ($series->getChartType() == ChartSeries::CHART_TYPE_BARS ? '.reverse()' : '') . '
 									, label: "' . $series->getCaption() . '"
 									, yaxis:' . $series->getAxisY()->getNumber() . '
 									, xaxis:' . $series->getAxisX()->getNumber() . '
@@ -213,13 +207,12 @@ HTML;
         $output = '';
         if (! $widget->getDataWidgetLink()) {
             
-            $url_params = '';
-            $url_params .= '&resource=' . $this->getPageId();
-            $url_params .= '&element=' . $widget->getData()->getId();
-            $url_params .= '&object=' . $widget->getMetaObject()->getId();
-            $url_params .= '&action=' . $widget->getLazyLoadingAction();
-            
-            $post_data = '';
+            $post_data = '
+                            data.resource = "' . $this->getPageId() . '";
+                            data.element = "' . $widget->getData()->getId(). '";
+                            data.object = "' . $widget->getMetaObject()->getId(). '";
+                            data.action = "' . $widget->getLazyLoadingAction(). '";
+            ';
             
             // send sort information
             if (count($widget->getData()->getSorters()) > 0) {
@@ -235,25 +228,16 @@ HTML;
                 $post_data .= 'data.length = ' . (!is_null($widget->getData()->getPaginatePageSize()) ? $widget->getData()->getPaginatePageSize() : $this->getTemplate()->getConfig()->getOption('WIDGET.CHART.PAGE_SIZE')) . ';';
             }
             
-            // send preset filters
-            if ($widget->getData()->hasFilters()) {
-                foreach ($widget->getData()->getFilters() as $fnr => $fltr) {
-                    if ($fltr->getValue()) {
-                        $fltr_element = $this->getTemplate()->getElement($fltr);
-                        $post_data .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . ' = ' . $fltr_element->buildJsValueGetter() . ";\n";
-                    }
-                }
-            }
-            
             // Loader function
             $output .= '
-				function ' . $this->buildJsFunctionPrefix() . 'load(urlParams){
+				function ' . $this->buildJsFunctionPrefix() . 'load(){
 					' . $this->buildJsBusyIconShow() . '
-					var data = {};
+					var data = { };
 					' . $post_data . '
-					if (!urlParams) urlParams = "";
+                    data.data = ' . $this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter() . '
 					$.ajax({
-						url: "' . $this->getAjaxUrl() . $url_params . '"+urlParams,
+						url: "' . $this->getAjaxUrl() . '",
+                        method: "POST",
 						data: data,
 						success: function(data){
 							' . $this->buildJsFunctionPrefix() . 'plot($.parseJSON(data));
@@ -266,26 +250,16 @@ HTML;
 					});
 				}';
             
-            // doSearch function with filters for the search button
-            $fltrs = array();
-            if ($widget->getData()->hasFilters()) {
-                foreach ($widget->getData()->getFilters() as $fnr => $fltr) {
-                    $fltr_impl = $this->getTemplate()->getElement($fltr, $this->getPageId());
-                    $output .= $fltr_impl->generateJs();
-                    $fltrs[] = "'&fltr" . str_pad($fnr, 2, 0, STR_PAD_LEFT) . "_" . urlencode($fltr->getAttributeAlias()) . "='+" . $fltr_impl->buildJsValueGetter();
-                }
-                // build JS for the search function
-                $output .= '
-						function ' . $this->buildJsFunctionPrefix() . 'doSearch(){
-							' . $this->buildJsFunctionPrefix() . "load(" . implode("+", $fltrs) . ');
-						}';
-            }
-            
             // Call the data loader to populate the Chart initially
-            $output .= $this->buildJsFunctionPrefix() . 'load();';
+            $output .= $this->buildJsRefresh();
         }
         
         return $output;
+    }
+    
+    public function buildJsRefresh()
+    {
+        return $this->buildJsFunctionPrefix() . 'load();';
     }
 
     protected function buildJsTooltipInit()
@@ -315,7 +289,7 @@ HTML;
         return $output;
     }
 
-    public function generateSeriesId($string)
+    public function sanitizeSeriesId($string)
     {
         return str_replace(array(
             '.',
@@ -327,7 +301,7 @@ HTML;
         ), '_', $string);
     }
 
-    public function generateSeriesOptions(ChartSeries $series)
+    public function buildJsSeriesOptions(ChartSeries $series)
     {
         $options = '';
         switch ($series->getChartType()) {
@@ -448,7 +422,7 @@ HTML;
         return parent::getWidget();
     }
 
-    protected function generateSeriesConfig()
+    protected function buildJsSeriesConfig()
     {
         $output = '';
         $config_array = array();
@@ -488,13 +462,8 @@ HTML;
 
     private function buildHtmlChartCustomizer()
     {
-        $filters_html = '';
         /* @var $widget \exface\Core\Widgets\Chart */
         $widget = $this->getWidget();
-        
-        foreach ($widget->getData()->getFilters() as $fltr) {
-            $filters_html .= $this->getTemplate()->generateHtml($fltr);
-        }
         
         $output = <<<HTML
 	
@@ -503,28 +472,14 @@ HTML;
 		<div class="modal-content">
 			<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Table settings</h4>
+				<h4 class="modal-title">{$this->translate('WIDGET.CHART.SETTINGS_DIALOG_TITLE')}</h4>
 			</div>
 			<div class="modal-body">
-				<div class="modal-body-content-wrapper">
-					<div role="tabpanel">
-		
-						<!-- Nav tabs -->
-						<ul class="nav nav-tabs" role="tablist">
-							<li role="presentation" class="active"><a href="#{$this->getId()}_popup_filters" aria-controls="{$this->getId()}_popup_filters" role="tab" data-toggle="tab">Filters</a></li>
-						</ul>
-						
-						<!-- Tab panes -->
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="{$this->getId()}_popup_filters">{$filters_html}</div>
-						</div>
-				
-					</div>
-				</div>
+				{$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->generateHtml()}
 			</div>
 			<div class="modal-footer">
-				<button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left">Cancel</button>
-				<button type="button" href="#" data-dismiss="modal" class="btn btn-primary" onclick="{$this->buildJsFunctionPrefix()}doSearch();">OK</button>
+				<button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left"><i class="{$this->buildCssIconClass(Icons::TIMES)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.SHOWDIALOG.CANCEL_BUTTON')}</button>
+				<button type="button" href="#" data-dismiss="modal" class="btn btn-primary pull-right" onclick="{$this->buildJsRefresh(false)}"><i class="{$this->buildCssIconClass(Icons::SEARCH)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.READDATA.SEARCH')}</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -534,7 +489,7 @@ HTML;
         return $output;
     }
 
-    protected function buildHtmlTopToolbar()
+    protected function buildHtmlHeader()
     {
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         
@@ -543,7 +498,7 @@ HTML;
 		<h3 class="box-title">$table_caption</h3>
 		<div class="box-tools pull-right">
 			<button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#{$this->getId()}_popup_config"><i class="fa fa-filter"></i></button>
-			<button type="button" class="btn btn-box-tool" onclick="{$this->buildJsFunctionPrefix()}doSearch(); return false;"><i class="fa fa-refresh"></i></button>
+			<button type="button" class="btn btn-box-tool" onclick="{$this->buildJsRefresh()} return false;"><i class="fa fa-refresh"></i></button>
 		</div>
 			
 HTML;

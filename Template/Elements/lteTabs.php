@@ -5,25 +5,34 @@ class lteTabs extends lteContainer
 {
 
     function generateHtml()
-    {
-        $header_html = '';
-        $content_html = '';
-        foreach ($this->getWidget()->getChildren() as $tab) {
-            $header_html .= $this->getTemplate()->getElement($tab)->generateHtmlHeader();
-            ;
-            $content_html .= $this->getTemplate()->getElement($tab)->generateHtmlContent();
-        }
-        
-        $output = '
-	<div id="' . $this->getId() . '" class="nav-tabs-custom">
+    {        
+        return <<<HTML
+	<div id="{$this->getId()}" class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
-			' . $header_html . '
+			{$this->buildHtmlTabHeaders()}
 		</ul>
 		<div class="tab-content">
-			' . $content_html . '
+			{$this->buildHtmlTabBodies()}
 		</div>
-	</div>';
-        
+	</div>
+HTML;
+    }
+    
+    protected function buildHtmlTabBodies()
+    {
+        $output = '';
+        foreach ($this->getWidget()->getChildren() as $tab) {
+            $output .= $this->getTemplate()->getElement($tab)->buildHtmlBody();
+        }
+        return $output;
+    }
+    
+    protected function buildHtmlTabHeaders()
+    {
+        $output = '';
+        foreach ($this->getWidget()->getChildren() as $tab) {
+            $output .= $this->getTemplate()->getElement($tab)->buildHtmlHeader();
+        }
         return $output;
     }
 }

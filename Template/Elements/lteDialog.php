@@ -41,7 +41,7 @@ class lteDialog extends lteForm
 				</div>
 			</div>
 			<div class="modal-footer">
-				{$this->buildHtmlButtons()}
+				{$this->buildHtmlToolbars()}
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

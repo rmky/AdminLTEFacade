@@ -1,10 +1,13 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
+
 class lteForm extends ltePanel
 {
+    use JqueryToolbarsTrait;
 
-    function generateHtml()
+    public function generateHtml()
     {
         $output = '';
         if ($this->getWidget()->getCaption()) {
@@ -19,7 +22,7 @@ class lteForm extends ltePanel
         return $output;
     }
 
-    function generateJs()
+    public function generateJs()
     {
         // FIXME had to override the generate_js() method of lteContainer here, because masonry broke the form for some reason. But masonry
         // layouts are important for forms, so this needs to be fixed. Remove this method from lteForm when done.

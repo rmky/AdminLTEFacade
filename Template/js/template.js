@@ -49,6 +49,14 @@ $( document ).ready(function() {
 	    $(this).removeClass("dropup");
 	});
 	
+	// Disable navigation for disabled tabs
+	$(".nav-tabs a[data-toggle=tab]").on("click", function(e) {
+		if ($(this).hasClass("disabled")) {
+			e.preventDefault();
+			return false;
+		}
+	});
+	
 	// Make sure masonry is relayouted when the sidebar is toggled
 	$(document).on('click', "a[data-toggle='offcanvas']", function(){
 		window.setTimeout(function(){
