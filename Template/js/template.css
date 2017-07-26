@@ -37,9 +37,7 @@ table.dataTable tfoot th.dt-body-right {padding-right: 10px;}
 table.dataTable td.ok{background-color: green;}
 table.dataTable td.warning{background-color: yellow;}
 table.dataTable td.error{background-color: red; color: white;}
-/* So wird der DataTable-Header entsprechend dem DataTable-Body gestaucht
-   wenn die SideBar geoeffnet wird. */
-.dataTables_scrollHeadInner, .dataTables_scrollHeadInner .table {width: 100% !important;}
+
 .btn-advanced-filtering .label {position: absolute; top: 15px; right: 5px; text-align: center; font-size: 9px; padding: 2px 3px; line-height: .9;}
 
 /* jQuery NumPad */
