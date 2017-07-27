@@ -1,6 +1,8 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryInputDateTrait;
+
 // Es waere wuenschenswert die Formatierung des Datums abhaengig vom Locale zu machen.
 // Das Problem dabei ist folgendes: Wird im DateFormatter das Datum von DateJs ent-
 // sprechend dem Locale formatiert, so muss der DateParser kompatibel sein. Es kommt
@@ -15,13 +17,12 @@ namespace exface\AdminLteTemplate\Template\Elements;
 // festgelegt. Dabei ist darauf zu achten, dass es kompatibel zum Parser ist, das
 // amerikanische Format MM/dd/yyyy ist deshalb nicht moeglich, da es vom Parser als
 // dd/MM/yyyy interpretiert wird.
-
 class lteInputDate extends lteInput
 {
+    
+    use JqueryInputDateTrait;
 
-    private $dateFormatScreen;
-
-    private $dateFormatInternal;
+    private $bootstrapDatepickerLocale;
 
     protected function init()
     {
@@ -55,6 +56,7 @@ HTML;
 
     function generateJs()
     {
+        $languageScript = $this->getBootstrapDatepickerLocale() ? 'language: "' . $this->getBootstrapDatepickerLocale() . '",' : '';
         $requiredScript = $this->getWidget()->isRequired() ? $this->buildJsRequired() : '';
         
         $output = <<<JS
@@ -68,6 +70,7 @@ HTML;
             toDisplay: {$this->getId()}_dateFormatter,
             toValue: {$this->getId()}_dateParser
         },
+        {$languageScript}
         // Markiert das heutige Datum.
         todayHighlight: true
     });
@@ -88,95 +91,56 @@ JS;
     public function generateHeaders()
     {
         $headers = parent::generateHeaders();
-        $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>';
-        if ($localeFilename = $this->getBootstrapDatepickerFileName()) {
-            $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/locales/' . $localeFilename . '"></script>';
+        $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>';
+        if ($locale = $this->getBootstrapDatepickerLocale()) {
+            $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/locales/bootstrap-datepicker.' . $locale . '.min.js"></script>';
         }
         $headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
-        $headers[] = '<script type="text/javascript" src="exface/vendor/npm-asset/datejs/build/production/' . $this->getDateJsFileName() . '"></script>';
+        $headers[] = '<script type="text/javascript" src="exface/vendor/npm-asset/datejs/build/production/' . $this->buildDateJsLocaleFilename() . '"></script>';
         return $headers;
     }
 
     /**
-     * Generates the Bootstrap Datepicker filename based on the locale provided by the
-     * translator.
+     * Generates the Bootstrap Datepicker Locale-name based on the Locale provided by
+     * the translator.
      *
      * @return string
      */
-    protected function getBootstrapDatepickerFileName()
+    protected function getBootstrapDatepickerLocale()
     {
-        $datepickerBasepath = MODX_BASE_PATH . 'exface' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bower-asset' . DIRECTORY_SEPARATOR . 'bootstrap-datepicker' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
-        
-        $locale = $this->getTemplate()->getApp()->getTranslator()->getLocale();
-        $filename = 'bootstrap-datepicker.' . str_replace("_", "-", $locale) . '.min.js';
-        if (file_exists($datepickerBasepath . $filename)) {
-            return $filename;
-        }
-        $filename = 'bootstrap-datepicker.' . substr($locale, 0, strpos($locale, '_')) . '.min.js';
-        if (file_exists($datepickerBasepath . $filename)) {
-            return $filename;
-        }
-        
-        $fallbackLocales = $this->getTemplate()->getApp()->getTranslator()->getFallbackLocales();
-        foreach ($fallbackLocales as $fallbackLocale) {
-            $filename = 'bootstrap-datepicker.' . str_replace("_", "-", $fallbackLocale) . '.min.js';
-            if (file_exists($datepickerBasepath . $filename)) {
-                return $filename;
+        if (is_null($this->bootstrapDatepickerLocale)) {
+            $datepickerBasepath = MODX_BASE_PATH . 'exface' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bower-asset' . DIRECTORY_SEPARATOR . 'bootstrap-datepicker' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
+            
+            $fullLocale = $this->getTemplate()->getApp()->getTranslator()->getLocale();
+            $locale = str_replace("_", "-", $fullLocale);
+            if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
+                return ($this->bootstrapDatepickerLocale = $locale);
             }
-            $filename = 'bootstrap-datepicker.' . substr($fallbackLocale, 0, strpos($fallbackLocale, '_')) . '.min.js';
-            if (file_exists($datepickerBasepath . $filename)) {
-                return $filename;
+            $locale = substr($fullLocale, 0, strpos($fullLocale, '_'));
+            if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
+                return ($this->bootstrapDatepickerLocale = $locale);
             }
-        }
-        
-        return null;
-    }
-
-    /**
-     * Generates the DateJs filename based on the locale provided by the translator.
-     *
-     * @return string
-     */
-    protected function getDateJsFileName()
-    {
-        $dateJsBasepath = MODX_BASE_PATH . 'exface' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'npm-asset' . DIRECTORY_SEPARATOR . 'datejs' . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'production' . DIRECTORY_SEPARATOR;
-        
-        $locale = $this->getTemplate()->getApp()->getTranslator()->getLocale();
-        $filename = 'date-' . str_replace("_", "-", $locale) . '.min.js';
-        if (file_exists($dateJsBasepath . $filename)) {
-            return $filename;
-        }
-        
-        $fallbackLocales = $this->getTemplate()->getApp()->getTranslator()->getFallbackLocales();
-        foreach ($fallbackLocales as $fallbackLocale) {
-            $filename = 'date-' . str_replace("_", "-", $fallbackLocale) . '.min.js';
-            if (file_exists($dateJsBasepath . $filename)) {
-                return $filename;
+            
+            $fallbackLocales = $this->getTemplate()->getApp()->getTranslator()->getFallbackLocales();
+            foreach ($fallbackLocales as $fallbackLocale) {
+                $locale = str_replace("_", "-", $fallbackLocale);
+                if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
+                    return ($this->bootstrapDatepickerLocale = $locale);
+                }
+                $locale = substr($fallbackLocale, 0, strpos($fallbackLocale, '_'));
+                if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
+                    return ($this->bootstrapDatepickerLocale = $locale);
+                }
             }
+            
+            $this->bootstrapDatepickerLocale = '';
         }
-        
-        return 'date.min.js';
+        return $this->bootstrapDatepickerLocale;
     }
 
     public function buildJsValueGetter()
     {
         return '$("#' . $this->getId() . '").data("_internalValue")';
-    }
-
-    protected function buildJsScreenDateFormat()
-    {
-        if (is_null($this->dateFormatScreen)) {
-            $this->dateFormatScreen = $this->translate("DATE.FORMAT.SCREEN");
-        }
-        return $this->dateFormatScreen;
-    }
-
-    protected function buildJsInternalDateFormat()
-    {
-        if (is_null($this->dateFormatInternal)) {
-            $this->dateFormatInternal = $this->translate("DATE.FORMAT.INTERNAL");
-        }
-        return $this->dateFormatInternal;
     }
 
     protected function buildJsDateParser()
@@ -188,7 +152,6 @@ JS;
         // setTimezoneOffset nimmt als Argument 1/100 h. Befindet man sich gerade in der
         // Zeitzone +0200 (MESZ) und uebergibt 200, wird die Zeit nicht veraendert.
         // Uebergibt man 0 werden 2 h abgezogen, uebergibt man 400 werden 2 h addiert.
-        
         $output = <<<JS
 
     function {$this->getId()}_dateParser(date, format, language) {
@@ -262,7 +225,7 @@ JS;
         // Ausgabe des geparsten Wertes
         if (dateParsed) {
             var output = new Date(yyyy, MM, dd);
-            {$this->getId()}_jquery.data("_internalValue", output.toString("{$this->buildJsInternalDateFormat()}"));
+            {$this->getId()}_jquery.data("_internalValue", output.toString("{$this->buildJsDateFormatInternal()}"));
             return output.setTimezoneOffset(0);
         }
         
@@ -309,7 +272,7 @@ JS;
         }
         // Ausgabe des geparsten Wertes
         if (dateParsed) {
-            {$this->getId()}_jquery.data("_internalValue", output.toString("{$this->buildJsInternalDateFormat()}"));
+            {$this->getId()}_jquery.data("_internalValue", output.toString("{$this->buildJsDateFormatInternal()}"));
             return output.setTimezoneOffset(0);
         } else {
             {$this->getId()}_jquery.data("_internalValue", "");
@@ -326,7 +289,6 @@ JS;
         // Der Hauptunterschied dieser Methode im Vergleich zum JEasyUi-Template ist,
         // dass der Bootstrap Datepicker das Datum in der UTC-Zeitzone zurueckgibt.
         // Daher date.clone().addMinutes(date.getTimezoneOffset()).
-        
         $output = <<<JS
 
     function {$this->getId()}_dateFormatter(date, format, language) {
@@ -342,7 +304,7 @@ JS;
         // kann deshalb nicht verwendet werden. Loesung waere den Parser anzupassen.
         
         // geht auch: date.clone().setTimezoneOffset(2*Number(date.getUTCOffset()))
-        return date.clone().addMinutes(date.getTimezoneOffset()).toString("{$this->buildJsScreenDateFormat()}");
+        return date.clone().addMinutes(date.getTimezoneOffset()).toString("{$this->buildJsDateFormatScreen()}");
     }
 JS;
         
