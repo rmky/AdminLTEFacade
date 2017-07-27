@@ -57,17 +57,14 @@ class lteDataList extends lteDataTable
         }
         
         // Footer
-        $buttons = str_replace('class="btn', 'class="btn-xs btn', $this->buildHtmlButtons());
         if ($widget->hasButtons()){
+            $buttons = str_replace('class="btn', 'class="btn-xs btn', $this->buildHtmlToolbars());
             $footer = <<<HTML
     <li class="footer">
 		{$buttons}
 	</li>
 HTML;
         }
-        
-        $footer_style = $widget->getHideFooter() ? 'display: none;' : '';
-        //$bottom_toolbar = $widget->getHideFooter() ? '' : $this->buildHtmlBottomToolbar($button_html);
         
         // output the html code
         // TODO Use handlebars for lazy loading. Perhaps a common method with DataCards will be possible.

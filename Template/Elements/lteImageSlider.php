@@ -13,7 +13,7 @@ class lteImageSlider extends lteDataCards
     {
         /* @var $widget \exface\Core\Widgets\ImageGallery */
         $widget = $this->getWidget();
-        $top_toolbar = $this->buildHtmlTopToolbar();
+        $top_toolbar = $this->buildHtmlHeader();
         
         // output the html code
         $output = <<<HTML

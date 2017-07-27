@@ -29,22 +29,13 @@ class lteDataCards extends lteDataList
         $widget = $this->getWidget();
         $column_templates = '';
         
-        // Add promoted filters above the panel. Other filters will be displayed in a popup via JS
-        if ($widget->hasFilters()) {
-            foreach ($widget->getFilters() as $fltr) {
-                if ($fltr->getVisibility() !== EXF_WIDGET_VISIBILITY_PROMOTED)
-                    continue;
-                $filters_html .= $this->getTemplate()->generateHtml($fltr);
-            }
-        }
-        
         foreach ($widget->getColumns() as $column) {
             $column_templates .= $this->generateColumnTemplate($column) . "\n";
         }
         
         $footer_style = $widget->getHideFooter() ? 'display: none;' : '';
-        $bottom_toolbar = $widget->getHideFooter() ? '' : $this->buildHtmlBottomToolbar($this->buildHtmlButtons());
-        $top_toolbar = $this->buildHtmlTopToolbar();
+        $bottom_toolbar = $widget->getHideFooter() ? '' : $this->buildHtmlFooter($this->buildHtmlToolbars());
+        $top_toolbar = $this->buildHtmlHeader();
         
         // output the html code
         // TODO replace "stripe" class by a custom css class
@@ -119,16 +110,18 @@ HTML;
             }
             
             $style = '';
-            switch ($column->getAlign()) {
-                case 'left':
-                    $style .= 'float: left;';
-                    break;
-                case 'right':
-                    $style .= 'float: right;';
-                    break;
-                case 'center':
-                    $style .= 'text-align: center;';
-                    break;
+            if ($column->getAlign()){
+                switch ($this->buildCssTextAlignValue()) {
+                    case 'left':
+                        $style .= 'float: left;';
+                        break;
+                    case 'right':
+                        $style .= 'float: right;';
+                        break;
+                    case 'center':
+                        $style .= 'text-align: center;';
+                        break;
+                }
             }
             
             $tpl = '<div data-field="' . $column->getDataColumnName() . '" class="exf-data-value"' . ($style ? ' style="' . $style . '"' : '') . '>' . $tpl . '</div>';
@@ -145,13 +138,8 @@ HTML;
     {
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
-        $columns = array();
-        $column_number_offset = 0;
-        $filters_html = '';
         $filters_js = '';
         $filters_ajax = "data.q = $('#" . $this->getId() . "_quickSearch').val();\n";
-        $buttons_js = '';
-        $footer_callback = '';
         $default_sorters = '';
         
         // sorters
@@ -168,55 +156,8 @@ HTML;
             }
         }
         // Remove tailing comma
-        if ($default_sorters)
+        if ($default_sorters){
             $default_sorters = substr($default_sorters, 0, - 2);
-        
-        // Filters defined in the UXON description
-        if ($widget->hasFilters()) {
-            foreach ($widget->getFilters() as $fnr => $fltr) {
-                // Skip promoted filters, as they are displayed next to quick search
-                if ($fltr->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED)
-                    continue;
-                $fltr_element = $this->getTemplate()->getElement($fltr);
-                $filters_js .= $this->getTemplate()->generateJs($fltr, $this->getId() . '_popup_config');
-                $filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . ' = ' . $fltr_element->buildJsValueGetter() . ";\n";
-                
-                // Here we generate some JS make the filter visible by default, once it gets used.
-                // This code will be called when the table's config page gets closed.
-                if (! $fltr->isHidden()) {
-                    $filters_js_promoted .= "
-							if (" . $fltr_element->buildJsValueGetter() . " && $('#" . $fltr_element->getId() . "').parents('#{$this->getId()}_popup_config').length > 0){
-								var fltr = $('#" . $fltr_element->getId() . "').parents('.exf_input');
-								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->getId()}_filters_container');
-								fltr.detach().appendTo(ui_block).trigger('resize');
-								$('#{$this->getId()}_filters_container').show();
-							}
-					";
-                    /*
-                     * $filters_js_promoted .= "
-                     * if (" . $fltr_element->buildJsValueGetter() . "){
-                     * var fltr = $('#" . $fltr_element->getId() . "').parents('.exf_input');
-                     * var ui_block = $('<div></div>');
-                     * if ($('#{$this->getId()}_filters_container').children('div').length % 2 == 0){
-                     * ui_block.addClass('ui-block-a');
-                     * } else {
-                     * ui_block.addClass('ui-block-b');
-                     * }
-                     * ui_block.appendTo('#{$this->getId()}_filters_container');
-                     * fltr.detach().appendTo(ui_block);
-                     * fltr.addClass('ui-field-contain');
-                     * }
-                     * ";
-                     */
-                }
-            }
-        }
-        
-        // configure pagination
-        if ($widget->getPaginate()) {
-            $paging_options = '"pageLength": ' . (!is_null($widget->getPaginatePageSize()) ? $widget->getPaginatePageSize() : $this->getTemplate()->getConfig()->getOption('WIDGET.DATALIST.PAGE_SIZE')) . ',';
-        } else {
-            $paging_options = '"paging": false,';
         }
         
         $output = <<<JS
@@ -270,7 +211,8 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 	data.resource = "{$this->getPageId()}";
 	data.element = "{$widget->getId()}";
 	data.object = "{$this->getWidget()->getMetaObject()->getId()}";
-	{$filters_ajax}
+    data.q = $('#{$this->getId()}_quickSearch').val();			
+	data.data = {$this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter()}
 	if ({$this->getId()}_pages.length) {
 		data.start = {$this->getId()}_pages.page * {$this->getId()}_pages.length;
 		data.length = {$this->getId()}_pages.length;
