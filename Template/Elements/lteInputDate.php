@@ -1,8 +1,28 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
+use exface\AbstractAjaxTemplate\Template\Elements\JqueryInputDateTrait;
+
+// Es waere wuenschenswert die Formatierung des Datums abhaengig vom Locale zu machen.
+// Das Problem dabei ist folgendes: Wird im DateFormatter das Datum von DateJs ent-
+// sprechend dem Locale formatiert, so muss der DateParser kompatibel sein. Es kommt
+// sonst z.B. beim amerikanischen Format zu Problemen. Der 5.11.2015 wird als 11/5/2015
+// formatiert, dann aber entsprechend den alexa RMS Formaten als 11.5.2015 geparst. Der
+// Parser von DateJs kommt hingegen leider nicht mit allen alexa RMS Formaten zurecht.
+
+// Eine Loesung waere fuer die verschiedenen Locales verschiedene eigene Parser zu
+// schreiben, dann koennte man aber auch gleich verschiedene eigene Formatter
+// hinzufuegen.
+// In der jetzt umgesetzten Loesung wird das Anzeigeformat in den Uebersetzungsdateien
+// festgelegt. Dabei ist darauf zu achten, dass es kompatibel zum Parser ist, das
+// amerikanische Format MM/dd/yyyy ist deshalb nicht moeglich, da es vom Parser als
+// dd/MM/yyyy interpretiert wird.
 class lteInputDate extends lteInput
 {
+    
+    use JqueryInputDateTrait;
+
+    private $bootstrapDatepickerLocale;
 
     protected function init()
     {
@@ -15,58 +35,58 @@ class lteInputDate extends lteInput
         $requiredScript = $this->getWidget()->isRequired() ? 'required="true" ' : '';
         $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled" ' : '';
         
-        $output = <<<JS
+        $output = <<<HTML
 
-                        <label for="{$this->getId()}">{$this->getWidget()->getCaption()}</label>
-                        <div class="form-group input-group date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input class="form-control pull-right"
-                                type="text"
-                                name="{$this->getWidget()->getAttributeAlias()}"
-                                value="{$this->escapeString($this->getValueWithDefaults())}" 
-                                id="{$this->getId()}"
-                                {$requiredScript}
-                                {$disabledScript} />
-                            </div>
-                        
-JS;
+                <label for="{$this->getId()}">{$this->getWidget()->getCaption()}</label>
+                <div class="form-group input-group date">
+                    <input class="form-control"
+                        type="text"
+                        name="{$this->getWidget()->getAttributeAlias()}"
+                        id="{$this->getId()}"
+                        {$requiredScript}
+                        {$disabledScript} />
+                    <div class="input-group-addon" onclick="$('#{$this->getId()}').{$this->getElementType()}('show');">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                </div>
+
+HTML;
         return $this->buildHtmlWrapper($output);
     }
 
     function generateJs()
     {
+        $languageScript = $this->getBootstrapDatepickerLocale() ? 'language: "' . $this->getBootstrapDatepickerLocale() . '",' : '';
+        $requiredScript = $this->getWidget()->isRequired() ? $this->buildJsRequired() : '';
+        
         $output = <<<JS
 
-                $("#{$this->getId()}").{$this->getElementType()}({
-                    autoclose: true,
-                    format: {
-                        toDisplay: function (date, format, language) {
-                            //date is a date-object and is parsed to a string
-                            //date is returned as yyyy-MM-dd
-                            var yyyy = date.getFullYear();
-                            var MM = (date.getMonth() < 9 ? "0" : "") + (date.getMonth() + 1); //pad with "0" if needed, months are zero based
-                            var dd = (date.getDate() < 10 ? "0" : "") + date.getDate(); //pad with "0" if needed
-                            return yyyy + "-" + MM + "-" + dd;
-                        },
-                        toValue: function (date, format, language) {
-                            //date is the input-string which is parsed to a date-object
-                            //date can be passed as yyyy-MM-dd and yyyy-MM-dd HH:mm:ss.S
-                            var match = /(\d{4})-(\d{2})-(\d{2})/.exec(date);
-                            var yyyy = Number(match[1]);
-                            var MM = Number(match[2]) - 1;
-                            var dd = Number(match[3]);
-                            return new Date(Date.UTC(yyyy, MM, dd));
-                        }
-                    },
-                    todayHighlight: true
-                });
+    $("#{$this->getId()}").{$this->getElementType()}({
+        // Bleibt geoeffnet wenn ein Datum selektiert wird. Gibt sonst Probleme, wenn
+        // eine Datumseingabe per Enter abgeschlossen wird und anschliessend eine neue
+        // Datumseingabe erfolgt.
+        autoclose: false,
+        format: {
+            toDisplay: {$this->getId()}_dateFormatter,
+            toValue: function(date, format, language) {
+                var output = {$this->getId()}_dateParser(date);
+                return output != null ? output.setTimezoneOffset(0) : output;
+            }
+        },
+        {$languageScript}
+        // Markiert das heutige Datum.
+        todayHighlight: true
+    });
+    
+    // Wird der uebergebene Wert per value="..." im HTML uebergeben, erscheint er
+    // unformatiert (z.B. "-1d"). Wird der Wert hier gesetzt, wird er formatiert.
+    $("#{$this->getId()}").{$this->getElementType()}("update", "{$this->escapeString($this->getValueWithDefaults())}");
+    
+    {$this->buildJsDateParser()}
+    {$this->buildJsDateFormatter()}
+    
+    {$requiredScript}
 JS;
-        
-        if ($this->getWidget()->isRequired()) {
-            $output .= $this->buildJsRequired();
-        }
         
         return $output;
     }
@@ -75,7 +95,81 @@ JS;
     {
         $headers = parent::generateHeaders();
         $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>';
+        if ($locale = $this->getBootstrapDatepickerLocale()) {
+            $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/locales/bootstrap-datepicker.' . $locale . '.min.js"></script>';
+        }
         $headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
+        $headers[] = '<script type="text/javascript" src="exface/vendor/npm-asset/datejs/build/production/' . $this->buildDateJsLocaleFilename() . '"></script>';
         return $headers;
+    }
+
+    /**
+     * Generates the Bootstrap Datepicker Locale-name based on the Locale provided by
+     * the translator.
+     *
+     * @return string
+     */
+    protected function getBootstrapDatepickerLocale()
+    {
+        if (is_null($this->bootstrapDatepickerLocale)) {
+            $datepickerBasepath = MODX_BASE_PATH . 'exface' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bower-asset' . DIRECTORY_SEPARATOR . 'bootstrap-datepicker' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
+            
+            $fullLocale = $this->getTemplate()->getApp()->getTranslator()->getLocale();
+            $locale = str_replace("_", "-", $fullLocale);
+            if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
+                return ($this->bootstrapDatepickerLocale = $locale);
+            }
+            $locale = substr($fullLocale, 0, strpos($fullLocale, '_'));
+            if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
+                return ($this->bootstrapDatepickerLocale = $locale);
+            }
+            
+            $fallbackLocales = $this->getTemplate()->getApp()->getTranslator()->getFallbackLocales();
+            foreach ($fallbackLocales as $fallbackLocale) {
+                $locale = str_replace("_", "-", $fallbackLocale);
+                if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
+                    return ($this->bootstrapDatepickerLocale = $locale);
+                }
+                $locale = substr($fallbackLocale, 0, strpos($fallbackLocale, '_'));
+                if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
+                    return ($this->bootstrapDatepickerLocale = $locale);
+                }
+            }
+            
+            $this->bootstrapDatepickerLocale = '';
+        }
+        return $this->bootstrapDatepickerLocale;
+    }
+
+    public function buildJsValueGetter()
+    {
+        return '$("#' . $this->getId() . '").data("_internalValue")';
+    }
+
+    protected function buildJsDateFormatter()
+    {
+        // Der Hauptunterschied dieser Methode im Vergleich zum JEasyUi-Template ist,
+        // dass der Bootstrap Datepicker das Datum in der UTC-Zeitzone zurueckgibt.
+        // Daher date.clone().addMinutes(date.getTimezoneOffset()).
+        // geht auch: date.clone().setTimezoneOffset(2*Number(date.getUTCOffset()))
+        
+        // Das Format in dateFormatScreen muss mit dem DateParser kompatibel sein. Das
+        // amerikanische Format MM/dd/yyyy wird vom Parser als dd/MM/yyyy interpretiert
+        // und kann deshalb nicht verwendet werden. Loesung waere den Parser anzupassen.
+        
+        // Auch moeglich: Verwendung des DateJs-Formatters:
+        // "d" entspricht CultureInfo shortDate Format Pattern, hierfuer muss das
+        // entsprechende locale DateJs eingebunden werden und ein kompatibler Parser ver-
+        // wendet werden
+        // return date.toString("d");
+        $output = <<<JS
+
+    function {$this->getId()}_dateFormatter(date, format, language) {
+        // date ist ein date-Objekt und wird zu einem String geparst
+        return date.clone().addMinutes(date.getTimezoneOffset()).toString("{$this->buildJsDateFormatScreen()}");
+    }
+JS;
+        
+        return $output;
     }
 }
