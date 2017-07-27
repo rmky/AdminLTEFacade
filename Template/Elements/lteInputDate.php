@@ -39,17 +39,17 @@ class lteInputDate extends lteInput
 
                 <label for="{$this->getId()}">{$this->getWidget()->getCaption()}</label>
                 <div class="form-group input-group date">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <input class="form-control pull-right"
+                    <input class="form-control"
                         type="text"
                         name="{$this->getWidget()->getAttributeAlias()}"
                         id="{$this->getId()}"
                         {$requiredScript}
                         {$disabledScript} />
+                    <div class="input-group-addon" onclick="$('#{$this->getId()}').{$this->getElementType()}('show');">
+                        <i class="fa fa-calendar"></i>
+                    </div>
                 </div>
-                        
+
 HTML;
         return $this->buildHtmlWrapper($output);
     }
@@ -68,7 +68,10 @@ HTML;
         autoclose: false,
         format: {
             toDisplay: {$this->getId()}_dateFormatter,
-            toValue: {$this->getId()}_dateParser
+            toValue: function(date, format, language) {
+                var output = {$this->getId()}_dateParser(date);
+                return output != null ? output.setTimezoneOffset(0) : output;
+            }
         },
         {$languageScript}
         // Markiert das heutige Datum.
@@ -143,167 +146,26 @@ JS;
         return '$("#' . $this->getId() . '").data("_internalValue")';
     }
 
-    protected function buildJsDateParser()
-    {
-        // Der Hauptunterschied dieser Methode im Vergleich zum JEasyUi-Template ist,
-        // dass der Bootstrap Datepicker das zurueckgegebene Datum in der UTC-Zeitzone
-        // erwartet. Daher output.setTimezoneOffset(0).
-        
-        // setTimezoneOffset nimmt als Argument 1/100 h. Befindet man sich gerade in der
-        // Zeitzone +0200 (MESZ) und uebergibt 200, wird die Zeit nicht veraendert.
-        // Uebergibt man 0 werden 2 h abgezogen, uebergibt man 400 werden 2 h addiert.
-        $output = <<<JS
-
-    function {$this->getId()}_dateParser(date, format, language) {
-        // date ist ein String und wird zu einem date-Objekt geparst
-        
-        // date wird entsprechend CultureInfo geparst, hierfuer muss das entsprechende locale
-        // DateJs eingebunden werden und ein kompatibler Formatter verwendet werden
-        //return Date.parse(date);
-        
-        // Variablen initialisieren
-        var {$this->getId()}_jquery = $("#{$this->getId()}");
-        var match = null;
-        var dateParsed = false;
-        
-        // dd.MM.yyyy, dd-MM-yyyy, dd/MM/yyyy, d.M.yyyy, d-M-yyyy, d/M/yyyy
-        if (!dateParsed && (match = /(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})/.exec(date)) != null) {
-            var yyyy = Number(match[3]);
-            var MM = Number(match[2]) - 1;
-            var dd = Number(match[1]);
-            dateParsed = Date.validateYear(yyyy) && Date.validateMonth(MM) && Date.validateDay(dd, yyyy, MM);
-        }
-        // yyyy.MM.dd, yyyy-MM-dd, yyyy/MM/dd, yyyy.M.d, yyyy-M-d, yyyy/M/d
-        if (!dateParsed && (match = /(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})/.exec(date)) != null) {
-            var yyyy = Number(match[1]);
-            var MM = Number(match[2]) - 1;
-            var dd = Number(match[3]);
-            dateParsed = Date.validateYear(yyyy) && Date.validateMonth(MM) && Date.validateDay(dd, yyyy, MM);
-        }
-        // dd.MM.yy, dd-MM-yy, dd/MM/yy, d.M.yy, d-M-yy, d/M/yy
-        if (!dateParsed && (match = /(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2})/.exec(date)) != null) {
-            var yyyy = 2000 + Number(match[3]);
-            var MM = Number(match[2]) - 1;
-            var dd = Number(match[1]);
-            dateParsed = Date.validateYear(yyyy) && Date.validateMonth(MM) && Date.validateDay(dd, yyyy, MM);
-        }
-        // yy.MM.dd, yy-MM-dd, yy/MM/dd, yy.M.d, yy-M-d, yy/M/d
-        if (!dateParsed && (match = /(\d{2})[.\-/](\d{1,2})[.\-/](\d{1,2})/.exec(date)) != null) {
-            var yyyy = 2000 + Number(match[1]);
-            var MM = Number(match[2]) - 1;
-            var dd = Number(match[3]);
-            dateParsed = Date.validateYear(yyyy) && Date.validateMonth(MM) && Date.validateDay(dd, yyyy, MM);
-        }
-        // dd.MM, dd-MM, dd/MM, d.M, d-M, d/M
-        if (!dateParsed && (match = /(\d{1,2})[.\-/](\d{1,2})/.exec(date)) != null) {
-            var yyyy = (new Date()).getFullYear();
-            var MM = Number(match[2]) - 1;
-            var dd = Number(match[1]);
-            dateParsed = Date.validateYear(yyyy) && Date.validateMonth(MM) && Date.validateDay(dd, yyyy, MM);
-        }
-        // ddMMyyyy
-        if (!dateParsed && (match = /^(\d{2})(\d{2})(\d{4})$/.exec(date)) != null) {
-            var yyyy = Number(match[3]);
-            var MM = Number(match[2]) - 1;
-            var dd = Number(match[1]);
-            dateParsed = Date.validateYear(yyyy) && Date.validateMonth(MM) && Date.validateDay(dd, yyyy, MM);
-        }
-        // ddMMyy
-        if (!dateParsed && (match = /^(\d{2})(\d{2})(\d{2})$/.exec(date)) != null) {
-            var yyyy = 2000 + Number(match[3]);
-            var MM = Number(match[2]) - 1;
-            var dd = Number(match[1]);
-            dateParsed = Date.validateYear(yyyy) && Date.validateMonth(MM) && Date.validateDay(dd, yyyy, MM);
-        }
-        // ddMM
-        if (!dateParsed && (match = /^(\d{2})(\d{2})$/.exec(date)) != null) {
-            var yyyy = (new Date()).getFullYear();
-            var MM = Number(match[2]) - 1;
-            var dd = Number(match[1]);
-            dateParsed = Date.validateYear(yyyy) && Date.validateMonth(MM) && Date.validateDay(dd, yyyy, MM);
-        }
-        // Ausgabe des geparsten Wertes
-        if (dateParsed) {
-            var output = new Date(yyyy, MM, dd);
-            {$this->getId()}_jquery.data("_internalValue", output.toString("{$this->buildJsDateFormatInternal()}"));
-            return output.setTimezoneOffset(0);
-        }
-        
-        // +/- ... T/D/W/M/J/Y
-        if (!dateParsed && (match = /^([+\-]?\d+)([TtDdWwMmJjYy])$/.exec(date)) != null) {
-            var output = Date.today();
-            switch (match[2].toUpperCase()) {
-                case "T":
-                case "D":
-                    output.addDays(Number(match[1]));
-                    break;
-                case "W":
-                    output.addWeeks(Number(match[1]));
-                    break;
-                case "M":
-                    output.addMonths(Number(match[1]));
-                    break;
-                case "J":
-                case "Y":
-                    output.addYears(Number(match[1]));
-            }
-            dateParsed = true;
-        }
-        // TODAY, HEUTE, NOW, JETZT, YESTERDAY, GESTERN, TOMORROW, MORGEN
-        if (!dateParsed) {
-            switch (date.toUpperCase()) {
-                case "TODAY":
-                case "HEUTE":
-                case "NOW":
-                case "JETZT":
-                    var output = Date.today();
-                    dateParsed = true;
-                    break;
-                case "YESTERDAY":
-                case "GESTERN":
-                    var output = Date.today().addDays(-1);
-                    dateParsed = true;
-                    break;
-                case "TOMORROW":
-                case "MORGEN":
-                    var output = Date.today().addDays(1);
-                    dateParsed = true;
-            }
-        }
-        // Ausgabe des geparsten Wertes
-        if (dateParsed) {
-            {$this->getId()}_jquery.data("_internalValue", output.toString("{$this->buildJsDateFormatInternal()}"));
-            return output.setTimezoneOffset(0);
-        } else {
-            {$this->getId()}_jquery.data("_internalValue", "");
-            return null;
-        }
-    }
-JS;
-        
-        return $output;
-    }
-
     protected function buildJsDateFormatter()
     {
         // Der Hauptunterschied dieser Methode im Vergleich zum JEasyUi-Template ist,
         // dass der Bootstrap Datepicker das Datum in der UTC-Zeitzone zurueckgibt.
         // Daher date.clone().addMinutes(date.getTimezoneOffset()).
+        // geht auch: date.clone().setTimezoneOffset(2*Number(date.getUTCOffset()))
+        
+        // Das Format in dateFormatScreen muss mit dem DateParser kompatibel sein. Das
+        // amerikanische Format MM/dd/yyyy wird vom Parser als dd/MM/yyyy interpretiert
+        // und kann deshalb nicht verwendet werden. Loesung waere den Parser anzupassen.
+        
+        // Auch moeglich: Verwendung des DateJs-Formatters:
+        // "d" entspricht CultureInfo shortDate Format Pattern, hierfuer muss das
+        // entsprechende locale DateJs eingebunden werden und ein kompatibler Parser ver-
+        // wendet werden
+        // return date.toString("d");
         $output = <<<JS
 
     function {$this->getId()}_dateFormatter(date, format, language) {
         // date ist ein date-Objekt und wird zu einem String geparst
-        
-        // "d" entspricht CultureInfo shortDate Format Pattern, hierfuer muss das
-        // entpsprechende locale DateJs eingebunden werden und ein kompatibler Parser ver-
-        // wendet werden
-        //return date.toString("d");
-        
-        // Das Format in dateFormatScreen muss mit dem DateParser kompatibel sein. Das
-        // amerikanische Format MM/dd/yyyy wird vom Parser als dd/MM/yyyy interpretiert und
-        // kann deshalb nicht verwendet werden. Loesung waere den Parser anzupassen.
-        
-        // geht auch: date.clone().setTimezoneOffset(2*Number(date.getUTCOffset()))
         return date.clone().addMinutes(date.getTimezoneOffset()).toString("{$this->buildJsDateFormatScreen()}");
     }
 JS;
