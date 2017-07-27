@@ -57,8 +57,8 @@ class lteDataList extends lteDataTable
         }
         
         // Footer
-        $buttons = str_replace('class="btn', 'class="btn-xs btn', $this->buildHtmlButtons());
         if ($widget->hasButtons()){
+            $buttons = str_replace('class="btn', 'class="btn-xs btn', $this->buildHtmlToolbars());
             $footer = <<<HTML
     <li class="footer">
 		{$buttons}
