@@ -17,5 +17,10 @@
 	
 	"WIDGET.COMBOTABLE.NO_SUGGESTION": "No suggestions",
 	"WIDGET.COMBOTABLE.PLACEHOLDER": "",
-	"WIDGET.COMBOTABLE.MAX_SELECTION": "You cannot choose more than %number% item|You cannot choose more than %number% items"
+	"WIDGET.COMBOTABLE.MAX_SELECTION": "You cannot choose more than %number% item|You cannot choose more than %number% items",
+	
+	"DATE.FORMAT.SCREEN": "yyyy-MM-dd",
+	"DATE.FORMAT.INTERNAL": "yyyy-MM-dd",
+	"DATETIME.FORMAT.SCREEN": "yyyy-MM-dd HH:mm:ss",
+	"DATETIME.FORMAT.INTERNAL": "yyyy-MM-dd HH:mm:ss"
 }
