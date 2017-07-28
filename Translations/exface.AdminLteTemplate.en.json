@@ -9,17 +9,19 @@
 	"MESSAGE.SUCCESS_TITLE": "",
 	"MESSAGE.FILL_REQUIRED_ATTRIBUTES": "Please fill in the required fields: ",
 	
-	"WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE": "Table Settings",
-    
-	"WIDGET.DATATABLE.SETTINGS_DIALOG.COLUMNS": "Columns",
-	"WIDGET.REFRESH": "Refresh",
+	"WIDGET.CHART.SETTINGS_DIALOG_TITLE": "Chart Settings",
 	
 	"WIDGET.COMBOTABLE.NO_SUGGESTION": "No suggestions",
 	"WIDGET.COMBOTABLE.PLACEHOLDER": "",
 	"WIDGET.COMBOTABLE.MAX_SELECTION": "You cannot choose more than %number% item|You cannot choose more than %number% items",
 	
+	"WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE": "Table Settings",
+	"WIDGET.DATATABLE.SETTINGS_DIALOG.COLUMNS": "Columns",
+	
 	"DATE.FORMAT.SCREEN": "yyyy-MM-dd",
 	"DATE.FORMAT.INTERNAL": "yyyy-MM-dd",
 	"DATETIME.FORMAT.SCREEN": "yyyy-MM-dd HH:mm:ss",
-	"DATETIME.FORMAT.INTERNAL": "yyyy-MM-dd HH:mm:ss"
+	"DATETIME.FORMAT.INTERNAL": "yyyy-MM-dd HH:mm:ss",
+	
+	"WIDGET.REFRESH": "Refresh"
 }
