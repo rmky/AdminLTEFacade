@@ -7,11 +7,19 @@ ul.datalist li {padding: 4px 0;}
 .tab-content>.tab-pane {height: initial !important;}
 .exf_input>.form-group {margin-bottom: initial;}
 .modal-body-content-wrapper>.nav-tabs-custom {margin-top: -15px;margin-bottom: -15px}
+.modal-footer {text-align: left}
 .datalist {z-index: 2000}
 .dropdown {display: inline-block}
 .modal-footer .dropdown+.btn, .modal-footer .btn+.dropdown {
-    margin-left: 5px;
+    margin-left: 3px;
 }
+
+/* Dialogs */
+.modal-body > .nav-tabs-custom {margin-bottom: 0; box-shadow: none;}
+.nav-tabs-custom>.nav-tabs>li:first-of-type.active>a {border-left-color: #f4f4f4;}
+
+/* Tabs */
+.nav-tabs a[data-toggle=tab].disabled {color: #999}
 
 /* AdminLTE customization */
 .user-menu .user-image i {font-size: 25px;}
@@ -29,11 +37,8 @@ table.dataTable tfoot th.dt-body-right {padding-right: 10px;}
 table.dataTable td.ok{background-color: green;}
 table.dataTable td.warning{background-color: yellow;}
 table.dataTable td.error{background-color: red; color: white;}
-/* So wird der DataTable-Header entsprechend dem DataTable-Body gestaucht
-   wenn die SideBar geoeffnet wird. */
-.dataTables_scrollHeadInner, .dataTables_scrollHeadInner .table {
-	width: 100% !important;
-}
+
+.btn-advanced-filtering .label {position: absolute; top: 15px; right: 5px; text-align: center; font-size: 9px; padding: 2px 3px; line-height: .9;}
 
 /* jQuery NumPad */
 td.nmpd-target{border: 1px solid #d2d6de !important;}
@@ -51,7 +56,8 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 .ms-sel-ctn input, .ms-ctn input:focus {background-color: inherit !important;}
 
 /* Toolbars and buttons */
-.exf-btn-group+.dropdown {margin-left: 3px;}
+.exf-btn-group {display: inline-block}
+.exf-btn-group+.dropdown, .exf-btn-group+.exf-btn-group {margin-left: 3px;}
 
 /* sortable */
 body.dragging, body.dragging * {

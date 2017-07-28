@@ -228,7 +228,12 @@ window.{$this->getId()}_ms = $("#{$this->getId()}_ms").magicSuggest({
     queryParam: "q",
     resultAsString: true, // Das Resultat wird als String, nicht als Tag, dargestellt.
     resultsField: "data",
-    toggleOnClick: true,  // Klappt auf egal wohin man klickt.
+    // Ist toggleOnClick true wird die ComboTable expandiert, egal wohin man klickt. Das gibt
+    // allerdings Probleme beim Loeschen von Lazy-Loading-Groups. Man klickt ins Feld um zu
+    // Loeschen, expandiert dadurch aber die ComboTable und loest eine Abfrage aus. Loescht
+    // man jetzt schnell das Feld, kommt die Anfrage spaeter zurueck, mit dem vorherigen
+    // Inhalt als einzigem Ergebnis, wodurch dieses wieder automatisch ausgewaehlt wird.
+    toggleOnClick: false,
     valueField: "{$widget->getValueColumn()->getDataColumnName()}"
     {$other_options}
 });

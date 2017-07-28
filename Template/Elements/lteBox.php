@@ -26,7 +26,7 @@ HTML;
         }
         
         // Does the box need a footer (for buttons)?
-        if ($buttons_html = $this->buildHtmlButtons()) {
+        if ($buttons_html = $this->buildHtmlToolbars()) {
             $footer = '	<div class="box-footer clearfix">' . $buttons_html . '</div>';
         }
         
