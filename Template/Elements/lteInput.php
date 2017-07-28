@@ -93,21 +93,20 @@ HTML;
     {
         $output = <<<JS
 
-// checks for validity when the element is created
-if ({$this->buildJsValidator()}) {
-    $("#{$this->getId()}").parent().removeClass("invalid");
-} else {
-    $("#{$this->getId()}").parent().addClass("invalid");
-};
-
-// checks for validity when the element is changed
-$("#{$this->getId()}").on("input change", function() {
-    if ({$this->buildJsValidator()}) {
-        $("#{$this->getId()}").parent().removeClass("invalid");
-    } else {
-        $("#{$this->getId()}").parent().addClass("invalid");
+    function {$this->getId()}_validate() {
+        if ({$this->buildJsValidator()}) {
+            $("#{$this->getId()}").parent().removeClass("invalid");
+        } else {
+            $("#{$this->getId()}").parent().addClass("invalid");
+        }
     }
-});
+    
+    // Ueberprueft die Validitaet wenn das Element erzeugt wird.
+    {$this->getId()}_validate();
+    // Ueberprueft die Validitaet wenn das Element geaendert wird.
+    $("#{$this->getId()}").on("input change", function() {
+        {$this->getId()}_validate();
+    });
 JS;
         
         return $output;

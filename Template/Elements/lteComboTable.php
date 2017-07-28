@@ -900,23 +900,21 @@ JS;
     {
         $output = <<<JS
 
-// checks for validity when the element is created
-if ({$this->buildJsValidator()}) {
-    {$this->getId()}_jquery.parent().removeClass("invalid");
-    {$this->getId()}_ms_jquery.removeClass("ms-inv");
-} else {
-    {$this->getId()}_jquery.parent().addClass("invalid");
-};
-
-// checks for validity when the element is changed
-{$this->getId()}_jquery.on("input change", function() {
-    if ({$this->buildJsValidator()}) {
-        {$this->getId()}_jquery.parent().removeClass("invalid");
-        {$this->getId()}_ms_jquery.removeClass("ms-inv");
-    } else {
-        {$this->getId()}_jquery.parent().addClass("invalid");
+    function {$this->getId()}_validate() {
+        if ({$this->buildJsValidator()}) {
+            {$this->getId()}_jquery.parent().removeClass("invalid");
+            {$this->getId()}_ms_jquery.removeClass("ms-inv");
+        } else {
+            {$this->getId()}_jquery.parent().addClass("invalid");
+        };
     }
-});
+    
+    // Ueberprueft die Validitaet wenn das Element erzeugt wird.
+    {$this->getId()}_validate();
+    // Ueberprueft die Validitaet wenn das Element geaendert wird.
+    $("#{$this->getId()}").on("input change", function() {
+        {$this->getId()}_validate();
+    });
 JS;
         
         return $output;
