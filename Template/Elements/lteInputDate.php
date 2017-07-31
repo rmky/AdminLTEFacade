@@ -86,6 +86,15 @@ HTML;
     // unformatiert (z.B. "-1d"). Wird der Wert hier gesetzt, wird er formatiert.
     $("#{$this->getId()}").{$this->getElementType()}("update", "{$this->escapeString($this->getValueWithDefaults())}");
     
+    // Bei leeren Werten, wird die toValue-Funktion nicht aufgerufen, und damit der
+    // interne Wert fuer die Rueckgabe des value-Getters nicht entfernt. Dies geschieht
+    // hier.
+    $("#{$this->getId()}").on("input change", function() {
+        if (!$("#{$this->getId()}").val()) {
+            $("#{$this->getId()}").data("_internalValue", "");
+        }
+    });
+    
     {$this->buildJsDateParser()}
     {$this->buildJsDateFormatter()}
     
