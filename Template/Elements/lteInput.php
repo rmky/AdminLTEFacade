@@ -93,7 +93,7 @@ HTML;
     {
         $output = <<<JS
 
-    function {$this->getId()}_validate() {
+    function {$this->buildJsFunctionPrefix()}validate() {
         if ({$this->buildJsValidator()}) {
             $("#{$this->getId()}").parent().removeClass("invalid");
         } else {
@@ -102,10 +102,10 @@ HTML;
     }
     
     // Ueberprueft die Validitaet wenn das Element erzeugt wird.
-    {$this->getId()}_validate();
+    {$this->buildJsFunctionPrefix()}validate();
     // Ueberprueft die Validitaet wenn das Element geaendert wird.
     $("#{$this->getId()}").on("input change", function() {
-        {$this->getId()}_validate();
+        {$this->buildJsFunctionPrefix()}validate();
     });
 JS;
         

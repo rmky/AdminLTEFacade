@@ -58,7 +58,7 @@ HTML;
     {
         $languageScript = $this->getBootstrapDatepickerLocale() ? 'language: "' . $this->getBootstrapDatepickerLocale() . '",' : '';
         if ($this->getWidget()->isRequired()) {
-            $validateScript = $this->getId() . '_validate();';
+            $validateScript = $this->buildJsFunctionPrefix() . 'validate();';
             $requiredScript = $this->buildJsRequired();
         }
         
@@ -70,9 +70,9 @@ HTML;
         // Datumseingabe erfolgt.
         autoclose: false,
         format: {
-            toDisplay: {$this->getId()}_dateFormatter,
+            toDisplay: {$this->buildJsFunctionPrefix()}dateFormatter,
             toValue: function(date, format, language) {
-                var output = {$this->getId()}_dateParser(date);
+                var output = {$this->buildJsFunctionPrefix()}dateParser(date);
                 {$validateScript}
                 return output != null ? output.setTimezoneOffset(0) : output;
             }
@@ -168,7 +168,7 @@ JS;
         // return date.toString("d");
         $output = <<<JS
 
-    function {$this->getId()}_dateFormatter(date, format, language) {
+    function {$this->buildJsFunctionPrefix()}dateFormatter(date, format, language) {
         // date ist ein date-Objekt und wird zu einem String geparst
         return date.clone().addMinutes(date.getTimezoneOffset()).toString("{$this->buildJsDateFormatScreen()}");
     }
@@ -186,7 +186,7 @@ JS;
     {
         $output = <<<JS
 
-    function {$this->getId()}_validate() {
+    function {$this->buildJsFunctionPrefix()}validate() {
         if ({$this->buildJsValidator()}) {
             $("#{$this->getId()}").parent().removeClass("invalid");
         } else {
@@ -198,13 +198,13 @@ JS;
     // Ueberprueft die Validitaet wenn das Element erzeugt wird.
     if (!$("#{$this->getId()}").val()) {
         $("#{$this->getId()}").data("_isValid", false);
-        {$this->getId()}_validate();
+        {$this->buildJsFunctionPrefix()}validate();
     }
     // Ueberprueft die Validitaet wenn das Element geaendert wird.
     $("#{$this->getId()}").on("input change", function() {
         if (!$("#{$this->getId()}").val()) {
             $("#{$this->getId()}").data("_isValid", false);
-            {$this->getId()}_validate();
+            {$this->buildJsFunctionPrefix()}validate();
         }
     });
 JS;
