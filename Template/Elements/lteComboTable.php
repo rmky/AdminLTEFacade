@@ -195,7 +195,7 @@ HTML;
 
 // Globale Variablen initialisieren.
 {$this->buildJsInitGlobalsFunction()}
-{$this->getId()}_initGlobals();
+{$this->buildJsFunctionPrefix()}initGlobals();
 
 // Debug-Funktionen hinzufuegen.
 {$debug_function}
@@ -238,7 +238,7 @@ window.{$this->getId()}_ms = $("#{$this->getId()}_ms").magicSuggest({
     {$other_options}
 });
 
-{$this->getId()}_initGlobals();
+{$this->buildJsFunctionPrefix()}initGlobals();
 
 {$initialValueScriptAfterMsInit}
 
@@ -246,12 +246,12 @@ $({$this->getId()}_ms).on("selectionchange", function(e,m){
     {$this->buildJsDebugMessage('onSelectionChange')}
     {$this->getId()}_jquery.val({$this->getId()}_ms.getValue().join()).trigger("change");
     
-    if (!{$this->getId()}_valueGetter()) {
+    if (!{$this->buildJsFunctionPrefix()}valueGetter()) {
         // Wird ausgefuehrt wenn der Wert geloescht wurde.
         {$filterSetterUpdateScript}
     }
     
-    {$this->getId()}_onChange();
+    {$this->buildJsFunctionPrefix()}onChange();
     
     if ({$this->getId()}_jquery.data("_suppressReloadOnSelect")) {
         // Verhindert das neu Laden onSelect, siehe onLoadSuccess (autoselectsinglesuggestion)
@@ -300,7 +300,7 @@ JS;
             foreach ($widget->getTable()->getFilters() as $fltr) {
                 $output .= <<<JS
 
-function {$this->getTemplate()->getElement($fltr->getWidget())->getId()}_valueSetter(value){}
+function {$this->getTemplate()->getElement($fltr->getWidget())->buildJsFunctionPrefix()}valueSetter(value){}
 JS;
             }
         }
@@ -342,7 +342,7 @@ JS;
         
         $params = $column ? '"' . $column . '"' : '';
         $params = $row ? ($params ? $params . ', ' . $row : $row) : $params;
-        return $this->getId() . '_valueGetter(' . $params . ')';
+        return $this->buildJsFunctionPrefix() . 'valueGetter(' . $params . ')';
     }
 
     /**
@@ -390,10 +390,10 @@ JS;
         
         $output = <<<JS
 
-function {$this->getId()}_valueGetter(column, row){
+function {$this->buildJsFunctionPrefix()}valueGetter(column, row){
     // Der value-Getter wird in manchen Faellen aufgerufen, bevor die globalen
     // Variablen definiert sind. Daher hier noch einmal initialisieren.
-    {$this->getId()}_initGlobals();
+    {$this->buildJsFunctionPrefix()}initGlobals();
     
     {$this->buildJsDebugMessage('valueGetter()')}
     
@@ -430,7 +430,7 @@ JS;
      */
     function buildJsValueSetter($value)
     {
-        return $this->getId() . '_valueSetter(' . $value . ')';
+        return $this->buildJsFunctionPrefix() . 'valueSetter(' . $value . ')';
     }
 
     /**
@@ -472,7 +472,7 @@ JS;
         
         $output = <<<JS
 
-function {$this->getId()}_valueSetter(value){
+function {$this->buildJsFunctionPrefix()}valueSetter(value){
     {$this->buildJsDebugMessage('valueSetter()')}
     var valueArray;
     if ({$this->getId()}_ms_jquery.data("magicSuggest")) {
@@ -517,7 +517,7 @@ JS;
         
         $output = <<<JS
 
-function {$this->getId()}_onChange(){
+function {$this->buildJsFunctionPrefix()}onChange(){
     {$this->buildJsDebugMessage('onChange()')}
     // Diese Werte koennen gesetzt werden damit, wenn der Wert der ComboTable
     // geaendert wird, nur ein Teil oder gar keine verlinkten Elemente aktualisiert
@@ -679,7 +679,7 @@ JS;
         // Ist der Wert leer wird selectionChange und damit onChange sonst nicht
         // getriggert.
         if (value.length == 0) {
-            {$this->getId()}_onChange();
+            {$this->buildJsFunctionPrefix()}onChange();
         }
     } else if ({$this->getId()}_jquery.data("_clearFilterSetterUpdate")) {
         // Leeren durch eine Filter-Referenz.
@@ -707,7 +707,7 @@ JS;
         // gesetzt ist, widerspricht der gesetzte Wert wahrscheinlich den gesetzten Filtern.
         // Deshalb wird der Wert der ComboTable geloescht und anschliessend neu geladen.
         var rows = {$this->getId()}_ms.getData();
-        if (rows.length == 0 && {$this->getId()}_valueGetter()) {
+        if (rows.length == 0 && {$this->buildJsFunctionPrefix()}valueGetter()) {
             {$this->getId()}_ms.clear(true);
             {$this->getId()}_ms.setData("{$this->getAjaxUrl()}");
         }
@@ -796,7 +796,7 @@ JS;
                 break;
             case 3:
                 $output = <<<JS
-if (window.console) { console.debug(Date.now() + "|{$this->getId()}.{$source}|" + {$this->getId()}_debugDataToString()); }
+if (window.console) { console.debug(Date.now() + "|{$this->getId()}.{$source}|" + {$this->buildJsFunctionPrefix()}debugDataToString()); }
 JS;
                 break;
             default:
@@ -817,7 +817,7 @@ JS;
     {
         $output = <<<JS
 
-function {$this->getId()}_debugDataToString() {
+function {$this->buildJsFunctionPrefix()}debugDataToString() {
     var currentValue = {$this->getId()}_ms_jquery.data("magicsuggest") ? {$this->getId()}_ms.getValue().join() : {$this->getId()}_jquery.val();
     var output =
         "_valueSetterUpdate: " + {$this->getId()}_jquery.data("_valueSetterUpdate") + ", " +
@@ -845,7 +845,7 @@ JS;
     {
         $output = <<<JS
 
-function {$this->getId()}_initGlobals() {
+function {$this->buildJsFunctionPrefix()}initGlobals() {
     window.{$this->getId()}_jquery = $("#{$this->getId()}");
     window.{$this->getId()}_ms_jquery = $("#{$this->getId()}_ms");
 }
@@ -905,23 +905,21 @@ JS;
     {
         $output = <<<JS
 
-// checks for validity when the element is created
-if ({$this->buildJsValidator()}) {
-    {$this->getId()}_jquery.parent().removeClass("invalid");
-    {$this->getId()}_ms_jquery.removeClass("ms-inv");
-} else {
-    {$this->getId()}_jquery.parent().addClass("invalid");
-};
-
-// checks for validity when the element is changed
-{$this->getId()}_jquery.on("input change", function() {
-    if ({$this->buildJsValidator()}) {
-        {$this->getId()}_jquery.parent().removeClass("invalid");
-        {$this->getId()}_ms_jquery.removeClass("ms-inv");
-    } else {
-        {$this->getId()}_jquery.parent().addClass("invalid");
+    function {$this->buildJsFunctionPrefix()}validate() {
+        if ({$this->buildJsValidator()}) {
+            {$this->getId()}_jquery.parent().removeClass("invalid");
+            {$this->getId()}_ms_jquery.removeClass("ms-inv");
+        } else {
+            {$this->getId()}_jquery.parent().addClass("invalid");
+        };
     }
-});
+    
+    // Ueberprueft die Validitaet wenn das Element erzeugt wird.
+    {$this->buildJsFunctionPrefix()}validate();
+    // Ueberprueft die Validitaet wenn das Element geaendert wird.
+    $("#{$this->getId()}").on("input change", function() {
+        {$this->buildJsFunctionPrefix()}validate();
+    });
 JS;
         
         return $output;

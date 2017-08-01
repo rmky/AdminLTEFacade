@@ -57,7 +57,10 @@ HTML;
     function generateJs()
     {
         $languageScript = $this->getBootstrapDatepickerLocale() ? 'language: "' . $this->getBootstrapDatepickerLocale() . '",' : '';
-        $requiredScript = $this->getWidget()->isRequired() ? $this->buildJsRequired() : '';
+        if ($this->getWidget()->isRequired()) {
+            $validateScript = $this->buildJsFunctionPrefix() . 'validate();';
+            $requiredScript = $this->buildJsRequired();
+        }
         
         $output = <<<JS
 
@@ -67,9 +70,10 @@ HTML;
         // Datumseingabe erfolgt.
         autoclose: false,
         format: {
-            toDisplay: {$this->getId()}_dateFormatter,
+            toDisplay: {$this->buildJsFunctionPrefix()}dateFormatter,
             toValue: function(date, format, language) {
-                var output = {$this->getId()}_dateParser(date);
+                var output = {$this->buildJsFunctionPrefix()}dateParser(date);
+                {$validateScript}
                 return output != null ? output.setTimezoneOffset(0) : output;
             }
         },
@@ -81,6 +85,15 @@ HTML;
     // Wird der uebergebene Wert per value="..." im HTML uebergeben, erscheint er
     // unformatiert (z.B. "-1d"). Wird der Wert hier gesetzt, wird er formatiert.
     $("#{$this->getId()}").{$this->getElementType()}("update", "{$this->escapeString($this->getValueWithDefaults())}");
+    
+    // Bei leeren Werten, wird die toValue-Funktion nicht aufgerufen, und damit der
+    // interne Wert fuer die Rueckgabe des value-Getters nicht entfernt. Dies geschieht
+    // hier.
+    $("#{$this->getId()}").on("input change", function() {
+        if (!$("#{$this->getId()}").val()) {
+            $("#{$this->getId()}").data("_internalValue", "");
+        }
+    });
     
     {$this->buildJsDateParser()}
     {$this->buildJsDateFormatter()}
@@ -164,11 +177,65 @@ JS;
         // return date.toString("d");
         $output = <<<JS
 
-    function {$this->getId()}_dateFormatter(date, format, language) {
+    function {$this->buildJsFunctionPrefix()}dateFormatter(date, format, language) {
         // date ist ein date-Objekt und wird zu einem String geparst
         return date.clone().addMinutes(date.getTimezoneOffset()).toString("{$this->buildJsDateFormatScreen()}");
     }
 JS;
+        
+        return $output;
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Template\Elements\lteInput::buildJsRequired()
+     */
+    function buildJsRequired()
+    {
+        $output = <<<JS
+
+    function {$this->buildJsFunctionPrefix()}validate() {
+        if ({$this->buildJsValidator()}) {
+            $("#{$this->getId()}").parent().removeClass("invalid");
+        } else {
+            $("#{$this->getId()}").parent().addClass("invalid");
+        }
+    }
+    
+    // Bei leeren Werten, wird die toValue-Funktion und damit der Validator nicht aufgerufen.
+    // Ueberprueft die Validitaet wenn das Element erzeugt wird.
+    if (!$("#{$this->getId()}").val()) {
+        $("#{$this->getId()}").data("_isValid", false);
+        {$this->buildJsFunctionPrefix()}validate();
+    }
+    // Ueberprueft die Validitaet wenn das Element geaendert wird.
+    $("#{$this->getId()}").on("input change", function() {
+        if (!$("#{$this->getId()}").val()) {
+            $("#{$this->getId()}").data("_isValid", false);
+            {$this->buildJsFunctionPrefix()}validate();
+        }
+    });
+JS;
+        
+        return $output;
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Template\Elements\lteInput::buildJsValidator()
+     */
+    function buildJsValidator()
+    {
+        $widget = $this->getWidget();
+        
+        $must_be_validated = $widget->isRequired() && ! ($widget->isHidden() || $widget->isReadonly() || $widget->isDisabled() || $widget->isDisplayOnly());
+        if ($must_be_validated) {
+            $output = '$("#' . $this->getId() . '").data("_isValid")';
+        } else {
+            $output = 'true';
+        }
         
         return $output;
     }
