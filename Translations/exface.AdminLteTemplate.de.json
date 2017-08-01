@@ -1,29 +1,27 @@
 {
-	"MESSAGE.SELECT_EXACTLY_X_ROWS": "Bitte genau %number% Zeile auswählen!|Bitte genau %number% Zeilen auswählen!",
-	"MESSAGE.SELECT_AT_MOST_X_ROWS": "Bitte maximal %number% Zeile auswählen!|Bitte maximal %number% Zeilen auswählen!",
-	"MESSAGE.SELECT_AT_LEAST_X_ROWS": "Bitte mindestens %number% Zeile auswählen!|Bitte mindestens %number% Zeilen auswählen!",
-	"MESSAGE.SELECT_X_TO_Y_ROWS": "Bitte %min% bis %max% Zeilen auswählen!",
+	"DATE.FORMAT.INTERNAL": "yyyy-MM-dd",
+	"DATE.FORMAT.SCREEN": "dd.MM.yyyy",
+	"DATETIME.FORMAT.INTERNAL": "yyyy-MM-dd HH:mm:ss",
+	"DATETIME.FORMAT.SCREEN": "dd.MM.yyyy HH:mm:ss",
+	
 	"MESSAGE.ERROR_TITLE": "Fehler",
-	"MESSAGE.SUCCESS_TITLE": "",
 	"MESSAGE.FILL_REQUIRED_ATTRIBUTES": "Bitte füllen Sie die benötigten Felder aus: ",
+	"MESSAGE.SELECT_AT_LEAST_X_ROWS": "Bitte mindestens %number% Zeile auswählen!|Bitte mindestens %number% Zeilen auswählen!",
+	"MESSAGE.SELECT_AT_MOST_X_ROWS": "Bitte maximal %number% Zeile auswählen!|Bitte maximal %number% Zeilen auswählen!",
+	"MESSAGE.SELECT_EXACTLY_X_ROWS": "Bitte genau %number% Zeile auswählen!|Bitte genau %number% Zeilen auswählen!",
+	"MESSAGE.SELECT_X_TO_Y_ROWS": "Bitte %min% bis %max% Zeilen auswählen!",
+	"MESSAGE.SUCCESS_TITLE": "",
+	
+	"REFRESH": "Aktualisieren",
 	
     "WIDGET.CHART.SETTINGS_DIALOG_TITLE": "Grafik-Einstellungen",
     
+    "WIDGET.COMBOTABLE.MAX_SELECTION": "Sie können nicht mehr als %number% Eintrag auswählen|Sie können nicht mehr als %number% Einträge auswählen",
     "WIDGET.COMBOTABLE.NO_SUGGESTION": "Keine Resultate",
     "WIDGET.COMBOTABLE.PLACEHOLDER": "",
-    "WIDGET.COMBOTABLE.MAX_SELECTION": "Sie können nicht mehr als %number% Eintrag auswählen|Sie können nicht mehr als %number% Einträge auswählen",
-
-	"WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE": "Tabelleneinstellungen",
+    
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.COLUMNS": "Spalten",
+	"WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE": "Tabelleneinstellungen",
 	
-	"WIDGET.COMBOTABLE.NO_SUGGESTION": "Keine Resultate",
-	"WIDGET.COMBOTABLE.PLACEHOLDER": "",
-	"WIDGET.COMBOTABLE.MAX_SELECTION": "Sie können nicht mehr als %number% Eintrag auswählen|Sie können nicht mehr als %number% Einträge auswählen",
-	
-	"DATE.FORMAT.SCREEN": "dd.MM.yyyy",
-	"DATE.FORMAT.INTERNAL": "yyyy-MM-dd",
-	"DATETIME.FORMAT.SCREEN": "dd.MM.yyyy HH:mm:ss",
-	"DATETIME.FORMAT.INTERNAL": "yyyy-MM-dd HH:mm:ss"
-
 	"WIDGET.REFRESH": "Aktualisieren"
 }
