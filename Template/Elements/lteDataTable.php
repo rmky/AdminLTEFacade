@@ -1,7 +1,6 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-use exface\Core\Widgets\Dashboard;
 use exface\Core\Widgets\Tab;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTablesTrait;
 use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTableTrait;
@@ -25,7 +24,7 @@ class lteDataTable extends lteAbstractElement
     use JqueryDataTablesTrait;
     
     use JqueryToolbarsTrait;
-    
+
     protected function init()
     {
         parent::init();
@@ -102,17 +101,22 @@ HTML;
     protected function buildHtmlWrapper($html)
     {
         $result = $html;
-        if (! $this->getWidget()->getParent() || $this->getWidget()->getParent() instanceof Dashboard) {
-            $result = '<div class="box">' . $result . '</div>';
+        if (! $this->getWidget()->getParent() || $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) {
+            $result = <<<HTML
+<div class="box">{$result}</div>
+HTML;
         }
-        return '<div class="' . $this->getWidthClasses() . ' exf_grid_item">' . $result . '</div>';
+        $result = <<<HTML
+<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">{$result}</div>
+HTML;
+        return $result;
     }
 
     function generateJs()
     {
         /* @var $widget \exface\Core\Widgets\DataTable */
         $widget = $this->getWidget();
-               
+        
         $output = <<<JS
 var {$this->getId()}_table;
 if ($.fn.dataTable != undefined){
@@ -346,17 +350,18 @@ JS;
 		
 HTML;
     }
-    
-    protected function buildJsContextMenu(){
+
+    protected function buildJsContextMenu()
+    {
         $context_menu_js = '';
         $widget = $this->getWidget();
         if ($widget->hasButtons()) {
             $last_parent = null;
             foreach ($widget->getButtons() as $button) {
-                if ($button->isHidden()){
+                if ($button->isHidden()) {
                     continue;
                 }
-                if (!is_null($last_parent) && $button->getParent() !== $last_parent){
+                if (! is_null($last_parent) && $button->getParent() !== $last_parent) {
                     $context_menu_js .= '{divider: true}, ';
                 }
                 $last_parent = $button->getParent();
@@ -370,13 +375,12 @@ HTML;
         }
         return $context_menu_js;
     }
-    
+
     protected function buildJsFilterIndicatorUpdater()
     {
         $filter_checks = '';
-        foreach ($this->getWidget()->getFilters() as $fltr){
+        foreach ($this->getWidget()->getFilters() as $fltr) {
             $filter_checks .= 'if(' . $this->getTemplate()->getElement($fltr)->buildJsValueGetter() . ") activeFilters++; \n";
-            
         }
         return <<<JS
                 var activeFilters = 0;

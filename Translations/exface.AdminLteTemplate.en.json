@@ -16,7 +16,7 @@
 	
 	"WIDGET.CHART.SETTINGS_DIALOG_TITLE": "Chart Settings",
 	
-	"WIDGET.COMBOTABLE.MAX_SELECTION": "You cannot choose more than %number% item|You cannot choose more than %number% items",
+	"WIDGET.COMBOTABLE.MAX_SELECTION": " | ",
 	"WIDGET.COMBOTABLE.NO_SUGGESTION": "No suggestions",
 	"WIDGET.COMBOTABLE.PLACEHOLDER": "",
 	

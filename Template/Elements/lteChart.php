@@ -26,14 +26,14 @@ class lteChart extends lteDataTable
         $widget = $this->getWidget();
         
         // Create the toolbar if the chart has it's own controls and is not bound to another data widget
-        if (! $widget->getDataWidgetLink()) {       
+        if (! $widget->getDataWidgetLink()) {
             $header = $widget->getHideHeader() ? '' : $this->buildHtmlHeader();
         }
         
         // Create the panel for the chart
         $output = <<<HTML
-		
-<div class="{$this->getWidthClasses()} exf_grid_item">
+
+<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
 	<div class="box">
 		<div class="box-header">
 			{$header}
@@ -209,9 +209,9 @@ HTML;
             
             $post_data = '
                             data.resource = "' . $this->getPageId() . '";
-                            data.element = "' . $widget->getData()->getId(). '";
-                            data.object = "' . $widget->getMetaObject()->getId(). '";
-                            data.action = "' . $widget->getLazyLoadingAction(). '";
+                            data.element = "' . $widget->getData()->getId() . '";
+                            data.object = "' . $widget->getMetaObject()->getId() . '";
+                            data.action = "' . $widget->getLazyLoadingAction() . '";
             ';
             
             // send sort information
@@ -225,7 +225,7 @@ HTML;
             // send pagination/limit information. Charts currently do not support real pagination, but just a TOP-X display.
             if ($widget->getData()->getPaginate()) {
                 $post_data .= 'data.start = 0;';
-                $post_data .= 'data.length = ' . (!is_null($widget->getData()->getPaginatePageSize()) ? $widget->getData()->getPaginatePageSize() : $this->getTemplate()->getConfig()->getOption('WIDGET.CHART.PAGE_SIZE')) . ';';
+                $post_data .= 'data.length = ' . (! is_null($widget->getData()->getPaginatePageSize()) ? $widget->getData()->getPaginatePageSize() : $this->getTemplate()->getConfig()->getOption('WIDGET.CHART.PAGE_SIZE')) . ';';
             }
             
             // Loader function
@@ -256,7 +256,7 @@ HTML;
         
         return $output;
     }
-    
+
     public function buildJsRefresh()
     {
         return $this->buildJsFunctionPrefix() . 'load();';

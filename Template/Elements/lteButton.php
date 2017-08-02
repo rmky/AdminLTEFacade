@@ -113,7 +113,11 @@ class lteButton extends lteAbstractElement
 		                       		$('body').append('<div id=\"ajax-dialogs\"></div>');
                        			}
 		                       	$('#ajax-dialogs').append('<div class=\"ajax-wrapper\">'+data+'</div>');
-		                       	$('#ajax-dialogs').children().last().children('.modal').last().modal('show');
+                                // Start masonry layout after dialog is shown and show dialog.
+                                var dialogId = $('#ajax-dialogs').children().last().children('.modal').last().attr('id');
+                                $('#' + dialogId).on('shown.bs.modal', function() {
+                                    window[dialogId + '_layouterOnShown']();
+                                }).modal('show');
                        			$(document).trigger('{$action->getAliasWithNamespace()}.action.performed', [requestData]);
                        			$(document).trigger('exface.AdminLteTemplate.Dialog.Complete', ['{$this->getTemplate()->getElement($action->getDialogWidget())->getId()}']);
 		                  		

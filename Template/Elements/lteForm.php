@@ -16,7 +16,7 @@ class lteForm extends ltePanel
         
         $output .= '<form class="form" id="' . $this->getWidget()->getId() . '">';
         $output .= $this->buildHtmlForWidgets();
-        $output .= '<div class="col-xs-12" id="' . $this->getId() . '_sizer" style=""></div>';
+        $output .= '<div class="' . $this->getColumnWidthClasses() . ' ' . $this->getId() . '_masonry_fitem" id="' . $this->getId() . '_sizer" style=""></div>';
         $output .= '</form>';
         
         return $output;

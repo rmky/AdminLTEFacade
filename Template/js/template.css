@@ -209,6 +209,14 @@ pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-
 	padding-left: 10px;
 }
 
+/* Masonry, wichtig fuer Masonry-Layout. box-body ist das masonry-grid, da so die Groesse
+   von Masonry angepasst wird. Padding (durch box-body) verringert jedoch die Groesse des
+   Masonry-Grids, so dass die Elemente vorzeitig umgebrochen werden. Deshalb wird padding
+   links/rechts hier auf 0 gesetzt. */
+.box-body.grid {
+	padding: 10px 0;
+}
+
 /* DataList & Menu */
 .exf-menu > li > a {
   color: #777;

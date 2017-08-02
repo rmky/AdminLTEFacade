@@ -67,10 +67,13 @@ class lteText extends lteAbstractElement
 
     public function buildHtmlWrapper($inner_html)
     {
-        $output = '
-					<div class="exf_grid_item ' . $this->getWidthClasses() . $this->buildCssClasses() . '" title="' . $this->buildHintText() . '">
-							' . $inner_html . '
-					</div>';
+        $output = <<<HTML
+
+                    <div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssClasses()}" title="{$this->buildHintText()}">
+                            {$inner_html}
+                    </div>
+HTML;
+        
         return $output;
     }
 
@@ -90,9 +93,9 @@ class lteText extends lteAbstractElement
 
     public function getWidthClasses()
     {
-        if ($this->getWidget()->getWidth()->isUndefined()) {
+        /*if ($this->getWidget()->getWidth()->isUndefined()) {
             return 'col-xs-12';
-        }
+        }*/
         return parent::getWidthClasses();
     }
 }
