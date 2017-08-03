@@ -34,15 +34,15 @@ class lteChart extends lteDataTable
         $output = <<<HTML
 
 <div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
-	<div class="box">
-		<div class="box-header">
-			{$header}
-		</div><!-- /.box-header -->
-		<div class="box-body">
-			<div id="{$this->getId()}" style="height: {$this->getHeight()}; width: calc(100% + 8px)"></div>
-		</div>
-	</div>
-	{$this->buildHtmlChartCustomizer()}
+    <div class="box">
+        <div class="box-header">
+            {$header}
+        </div><!-- /.box-header -->
+        <div class="box-body">
+            <div id="{$this->getId()}" style="height: {$this->getHeight()}; width: calc(100% + 8px)"></div>
+        </div>
+    </div>
+    {$this->buildHtmlChartCustomizer()}
 </div>
 
 HTML;
@@ -134,6 +134,16 @@ HTML;
         $output .= $this->getTemplate()->getElement($widget->getConfiguratorWidget())->generateJs();
         // Add JS for all buttons
         $output .= $this->buildJsButtons();
+        
+        // Starten des Layouters wenn der Konfigurator angezeigt wird.
+        $output .= <<<JS
+
+    {$this->buildJsTableCustomizerOnShownFunction()}
+    $("#{$this->getId()}_popup_config").on("shown.bs.modal", function() {
+        {$this->buildJsFunctionPrefix()}tableCustomizerOnShown();
+    });
+JS;
+        
         return $output;
     }
 
@@ -466,26 +476,40 @@ HTML;
         $widget = $this->getWidget();
         
         $output = <<<HTML
-	
+
 <div class="modal" id="{$this->getId()}_popup_config">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">{$this->translate('WIDGET.CHART.SETTINGS_DIALOG_TITLE')}</h4>
-			</div>
-			<div class="modal-body">
-				{$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->generateHtml()}
-			</div>
-			<div class="modal-footer">
-				<button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left"><i class="{$this->buildCssIconClass(Icons::TIMES)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.SHOWDIALOG.CANCEL_BUTTON')}</button>
-				<button type="button" href="#" data-dismiss="modal" class="btn btn-primary pull-right" onclick="{$this->buildJsRefresh(false)}"><i class="{$this->buildCssIconClass(Icons::SEARCH)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.READDATA.SEARCH')}</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{$this->translate('WIDGET.CHART.SETTINGS_DIALOG_TITLE')}</h4>
+            </div>
+            <div class="modal-body">
+                {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->generateHtml()}
+            </div>
+            <div class="modal-footer">
+                <button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left"><i class="{$this->buildCssIconClass(Icons::TIMES)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.SHOWDIALOG.CANCEL_BUTTON')}</button>
+                <button type="button" href="#" data-dismiss="modal" class="btn btn-primary pull-right" onclick="{$this->buildJsRefresh(false)}"><i class="{$this->buildCssIconClass(Icons::SEARCH)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.READDATA.SEARCH')}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-	
+
 HTML;
+        return $output;
+    }
+
+    protected function buildJsTableCustomizerOnShownFunction()
+    {
+        // Der 1. Tab ist der aktive wenn der Konfigurator angezeigt wird. Von diesem wird
+        // beim Anzeigen des Dialogs der Layouter gestartet.
+        $output = <<<JS
+
+    function {$this->buildJsFunctionPrefix()}chartCustomizerOnShown() {
+        {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget()->getChildren()[0])->buildJsLayouter()}
+    }
+JS;
+        
         return $output;
     }
 
@@ -494,13 +518,13 @@ HTML;
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         
         $output = <<<HTML
-		
-		<h3 class="box-title">$table_caption</h3>
-		<div class="box-tools pull-right">
-			<button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#{$this->getId()}_popup_config"><i class="fa fa-filter"></i></button>
-			<button type="button" class="btn btn-box-tool" onclick="{$this->buildJsRefresh()} return false;"><i class="fa fa-refresh"></i></button>
-		</div>
-			
+
+        <h3 class="box-title">$table_caption</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#{$this->getId()}_popup_config"><i class="fa fa-filter"></i></button>
+            <button type="button" class="btn btn-box-tool" onclick="{$this->buildJsRefresh()} return false;"><i class="fa fa-refresh"></i></button>
+        </div>
+
 HTML;
         return $output;
     }

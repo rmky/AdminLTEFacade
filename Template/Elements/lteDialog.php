@@ -26,6 +26,14 @@ class lteDialog extends lteForm
         // Layout-Funktionen hinzufuegen
         $output .= $this->buildJsLayouterFunction();
         $output .= $this->buildJsLayouterOnShownFunction();
+        // Masonry layout starten wenn der Dialog gezeigt wird
+        $output .= <<<JS
+
+    $("#{$this->getId()}").on("shown.bs.modal", function() {
+        {$this->buildJsFunctionPrefix()}layouterOnShown();
+    });
+JS;
+        
         return $output;
     }
 
@@ -34,23 +42,24 @@ class lteDialog extends lteForm
         $output = '';
         if (! $this->getWidget()->getLazyLoading()) {
             $output = <<<HTML
+
 <div class="modal" id="{$this->getId()}">
-	<div class="modal-dialog" style="width:{$this->getWidth()};">
-		<div class="modal-content box">
-			<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">{$this->getWidget()->getCaption()}</h4>
-			</div>
-			<div class="modal-body">
-				<div class="modal-body-content-wrapper row">
-					{$this->buildHtmlForWidgets()}
-				</div>
-			</div>
-			<div class="modal-footer">
-				{$this->buildHtmlToolbars()}
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+    <div class="modal-dialog" style="width:{$this->getWidth()};">
+        <div class="modal-content box">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{$this->getWidget()->getCaption()}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body-content-wrapper row">
+                    {$this->buildHtmlForWidgets()}
+                </div>
+            </div>
+            <div class="modal-footer">
+                {$this->buildHtmlToolbars()}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 HTML;
         }
@@ -107,17 +116,14 @@ JS;
     protected function getChildrenLayoutScript(AbstractWidget $widget)
     {
         // Diese Funktion bewegt sich rekursiv durch den Baum und gibt Layout-Skripte fuer
-        // bestimmte Layout-Widgets zurueck. Sie sucht das letzte Layout-Widget, welches kein
-        // weiteres Layout-Widget beinhaltet und gibt dessen Layout-Skript zurueck.
-        // Uebergeordnete Layout-Widgets werden nicht beachtet, da ihre Layout-Skripte in den
-        // Layout-Skripten der untergeordneten Widgets am Ende sowieso aufgerufen werden.
+        // alle Layout-Widgets zurueck.
         $output = '';
         if ($widget instanceof iContainOtherWidgets) {
             foreach ($widget->getWidgets() as $child) {
                 $output .= $this->getChildrenLayoutScript($child);
             }
         }
-        if (! $output && $widget instanceof iLayoutWidgets) {
+        if ($widget instanceof iLayoutWidgets) {
             $output .= $this->getTemplate()->getElement($widget)->buildJsLayouter() . ';';
         }
         return $output;
