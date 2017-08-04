@@ -90,13 +90,5 @@ HTML;
     {
         return '';
     }
-
-    public function getWidthClasses()
-    {
-        /*if ($this->getWidget()->getWidth()->isUndefined()) {
-            return 'col-xs-12';
-        }*/
-        return parent::getWidthClasses();
-    }
 }
 ?>

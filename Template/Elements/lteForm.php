@@ -9,24 +9,39 @@ class lteForm extends ltePanel
 
     public function generateHtml()
     {
-        $output = '';
-        if ($this->getWidget()->getCaption()) {
-            $output = '<div class="ftitle">' . $this->getWidget()->getCaption() . '</div>';
+        $widget = $this->getWidget();
+        
+        $children_html = <<<HTML
+
+                        {$this->buildHtmlForWidgets()}
+                        <div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer"></div>
+HTML;
+        
+        if ($widget->countWidgetsVisible() > 1) {
+            // Wrap children widgets with a grid for masonry layouting - but only if there is something to be layed out
+            $children_html = <<<HTML
+
+                    <div class="grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
+                        {$children_html}
+                    </div>
+HTML;
         }
         
-        $output .= '<form class="form" id="' . $this->getWidget()->getId() . '">';
-        $output .= $this->buildHtmlForWidgets();
-        $output .= '<div class="' . $this->getColumnWidthClasses() . ' ' . $this->getId() . '_masonry_fitem" id="' . $this->getId() . '_sizer" style=""></div>';
-        $output .= '</form>';
+        if ($widget->getCaption()) {
+            $header = <<<HTML
+<div class="ftitle">{$this->getWidget()->getCaption()}</div>
+HTML;
+        }
+        
+        $output = <<<HTML
+
+                {$header}
+                <form class="form" id="{$widget->getId()}">
+                    {$children_html}
+                </form>
+HTML;
         
         return $output;
-    }
-
-    public function generateJs()
-    {
-        // FIXME had to override the generate_js() method of lteContainer here, because masonry broke the form for some reason. But masonry
-        // layouts are important for forms, so this needs to be fixed. Remove this method from lteForm when done.
-        return $this->buildJsForChildren();
     }
 
     public function getMethod()
