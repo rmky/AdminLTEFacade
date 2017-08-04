@@ -22,18 +22,24 @@ class lteSplitHorizontal extends lteSplitVertical
         
         $panels_html = '';
         foreach ($panels as $panel) {
-            $panels_html .= '
-					<div class="col-xs-12 col-md-' . $col_width . '">
-						' . $this->getTemplate()->getElement($panel)->generateHtml() . '
-					</div>';
+            $panels_html .= <<<HTML
+
+                            <div class="col-xs-12 col-md-{$col_width}">
+                                {$this->getTemplate()->getElement($panel)->generateHtml()}
+                            </div>
+HTML;
         }
         if ($col_rest != 0) {
-            $panels_html .= '
-					<div class="hidden-xs col-md-' . $col_rest . '"></div>';
+            $panels_html .= <<<HTML
+
+                            <div class="hidden-xs col-md-{$col_rest}"></div>
+HTML;
         }
-        $panels_html = '<div class="row">
-							' . $panels_html . '
-						</div>';
+        $panels_html = <<<HTML
+                        <div class="row">
+                            {$panels_html}
+						</div>
+HTML;
         return $panels_html;
     }
 }

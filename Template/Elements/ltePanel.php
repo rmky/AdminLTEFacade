@@ -15,8 +15,8 @@ class ltePanel extends lteContainer implements JqueryLayoutInterface
         
         $children_html = <<<HTML
 
-                                {$this->buildHtmlForChildren()}
-                                <div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer"></div>
+                            {$this->buildHtmlForChildren()}
+                            <div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer"></div>
 HTML;
         
         if (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() > 1)) {
@@ -29,24 +29,36 @@ HTML;
 HTML;
             }
             
+            if ($widget->countWidgetsVisible() > 1) {
+                // Wrap children widgets with a grid for masonry layouting - but only if there is something to be layed out
+                $children_html = <<<HTML
+
+                        <div class="box-body grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
+                            {$children_html}
+                        </div>
+HTML;
+            } else {
+                $children_html = <<<HTML
+
+                        <div class="box-body grid">
+                            {$children_html}
+                        </div>
+HTML;
+            }
+            
             $children_html = <<<HTML
 
                     <div class="box">
                         {$header}
-                        <div class="box-body grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
-                            <!--div class="row"-->
-                                {$children_html}
-                            <!--/div-->
-                        </div>
+                        {$children_html}
                     </div>
 HTML;
-        } else {
+        } elseif ($widget->countWidgetsVisible() > 1) {
+            // Wrap children widgets with a grid for masonry layouting - but only if there is something to be layed out
             $children_html = <<<HTML
 
                     <div class="grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
-                        <!--div class="row"-->
-                            {$children_html}
-                        <!--/div-->
+                        {$children_html}
                     </div>
 HTML;
         }
