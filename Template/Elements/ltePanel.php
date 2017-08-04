@@ -82,6 +82,7 @@ HTML;
                 new ResizeSensor(document.getElementById("{$this->getId()}"), function() {
                     {$this->buildJsLayouter()};
                 });
+                {$this->buildJsLayouter()};
 JS;
         
         return $output . $this->buildJsForChildren();
@@ -121,7 +122,7 @@ JS;
         
         $output = <<<JS
 
-    function {$this->getId()}_layouter() {
+    function {$this->buildJsFunctionPrefix()}layouter() {
         if (!$("#{$this->getId()}_masonry_grid").data("masonry")) {
             if ($("#{$this->getId()}_masonry_grid").find(".{$this->getId()}_masonry_fitem").length > 0) {
                 $("#{$this->getId()}_masonry_grid").masonry({
