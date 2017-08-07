@@ -3,6 +3,8 @@ namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
 use exface\AdminLteTemplate\Template\AdminLteTemplate;
+use exface\Core\Interfaces\Widgets\iFillEntireContainer;
+use exface\Core\Interfaces\Widgets\iLayoutWidgets;
 
 /**
  *
@@ -101,6 +103,24 @@ abstract class lteAbstractElement extends AbstractJqueryElement
     }
 
     /**
+     * Returns the masonry-item class name of this widget.
+     *
+     * This class name is generated from the id of the layout-widget of this widget. Like this
+     * nested masonry layouts are possible, because each masonry-container only layouts the
+     * widgets assigned to it.
+     *
+     * @return string
+     */
+    public function getMasonryItemClass()
+    {
+        $output = '';
+        if (($containerWidget = $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget instanceof iLayoutWidgets)) {
+            $output = $this->getTemplate()->getElement($containerWidget)->getId() . '_masonry_fitem';
+        }
+        return $output;
+    }
+
+    /**
      * Returns the css classes, that define the grid width for the element (e.g.
      * col-xs-12, etc.)
      *
@@ -108,20 +128,83 @@ abstract class lteAbstractElement extends AbstractJqueryElement
      */
     public function getWidthClasses()
     {
-        if ($this->getWidget()->getWidth()->isRelative()) {
-            switch ($this->getWidget()->getWidth()->getValue()) {
-                case 1:
-                    $width = 'col-xs-12 col-md-4';
-                    break;
-                case 2:
-                    $width = 'col-xs-12 col-md-8';
-                    break;
-                case 3:
-                case 'max':
-                    $width = 'col-xs-12';
-            }
+        $widget = $this->getWidget();
+        
+        if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
+            $columnNumber = $this->getTemplate()->getElement($layoutWidget)->getNumberOfColumns();
+        } else {
+            $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
         }
-        return $width;
+        
+        $dimension = $widget->getWidth();
+        if ($dimension->isRelative()) {
+            $width = $dimension->getValue();
+            if ($width === 'max') {
+                $width = $columnNumber;
+            }
+            if (is_numeric($width)) {
+                if ($width < 1) {
+                    $width = 1;
+                } else if ($width > $columnNumber) {
+                    $width = $columnNumber;
+                }
+                
+                if ($width == $columnNumber) {
+                    $output = 'col-xs-12';
+                } else {
+                    $widthClass = floor($width / $columnNumber * 12);
+                    if ($widthClass < 1) {
+                        $widthClass = 1;
+                    }
+                    $output = 'col-xs-12 col-md-' . $widthClass;
+                }
+            } else {
+                $widthClass = floor($this->getWidthDefault() / $columnNumber * 12);
+                if ($widthClass < 1) {
+                    $widthClass = 1;
+                }
+                $output = 'col-xs-12 col-md-' . $widthClass;
+            }
+        } elseif ($widget instanceof iFillEntireContainer) {
+            // Ein "grosses" Widget ohne angegebene Breite fuellt die gesamte Breite des
+            // Containers aus.
+            $output = 'col-xs-12';
+            if (is_null($widget->getParent()) || (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() == 1))) {
+                $output = '';
+            }
+        } else {
+            // Ein "kleines" Widget ohne angegebene Breite hat ist widthDefault Spalten breit.
+            $widthClass = floor($this->getWidthDefault() / $columnNumber * 12);
+            if ($widthClass < 1) {
+                $widthClass = 1;
+            }
+            $output = 'col-xs-12 col-md-' . $widthClass;
+        }
+        return $output;
+    }
+
+    /**
+     * Returns the column-width of the masonry sizer-element.
+     *
+     * Masonry needs to know the column-width to calculate the layout. For this reason a
+     * id_sizer element is added to all masonry-containers, which defines the column-width.
+     * This function returns the css class, that defines the width for the sizer-element.
+     *
+     * @return string
+     */
+    public function getColumnWidthClasses()
+    {
+        if ($this->getWidget() instanceof iLayoutWidgets) {
+            $columnNumber = $this->getNumberOfColumns();
+        } else {
+            $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+        }
+        
+        $col_no = floor(12 / $columnNumber);
+        if ($col_no < 1) {
+            $col_no = 1;
+        }
+        return 'col-xs-' . $col_no;
     }
 
     public function prepareData(\exface\Core\Interfaces\DataSheets\DataSheetInterface $data_sheet)

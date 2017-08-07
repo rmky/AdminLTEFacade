@@ -1,7 +1,6 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-use exface\Core\Widgets\DataColumn;
 use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
@@ -30,7 +29,7 @@ class lteDataList extends lteDataTable
         // Contents
         $list_items = '';
         
-        if (! $widget->getLazyLoading()){
+        if (! $widget->getLazyLoading()) {
             if ($widget->getValuesDataSheet()) {
                 $data = $widget->getValuesDataSheet();
             }
@@ -41,14 +40,14 @@ class lteDataList extends lteDataTable
                 $data->dataRead();
             }
             
-            if (! $data->isEmpty()){
-                foreach ($data->getRows() as $row){
+            if (! $data->isEmpty()) {
+                foreach ($data->getRows() as $row) {
                     $row_content = '';
-                    foreach ($widget->getColumns() as $col){
+                    foreach ($widget->getColumns() as $col) {
                         $classes = '';
-                        if ($col->isHidden()){
+                        if ($col->isHidden()) {
                             $classes = 'hidden';
-                        }                    
+                        }
                         $row_content .= '<span data-field="' . $col->getDataColumnName() . '" class="exf-data-value ' . $classes . '">' . $row[$col->getDataColumnName()] . '</span>';
                     }
                     $list_items .= "\n" . '<li class="exf-data-row"><a href="#">' . $row_content . '</a></li>';
@@ -57,7 +56,7 @@ class lteDataList extends lteDataTable
         }
         
         // Footer
-        if ($widget->hasButtons()){
+        if ($widget->hasButtons()) {
             $buttons = str_replace('class="btn', 'class="btn-xs btn', $this->buildHtmlToolbars());
             $footer = <<<HTML
     <li class="footer">
@@ -110,7 +109,7 @@ JS;
         
         return $output;
     }
-    
+
     /**
      * Generates a JS function to be called by the data getter
      * @param string $data_field_selector
@@ -132,7 +131,7 @@ function {$this->buildJsFunctionPrefix()}getSelection(){
 
 JS;
     }
-    
+
     /**
      * Registers JS listeners for click actions on data rows/items.
      * 
@@ -143,7 +142,8 @@ JS;
      * @param string $highlight_css_class
      * @return string
      */
-    protected function buildJsClickFunctions($row_selector, $highlight_css_class){
+    protected function buildJsClickFunctions($row_selector, $highlight_css_class)
+    {
         $widget = $this->getWidget();
         // Click actions
         // Single click. Currently only supports one double click action - the first one in the list of buttons
@@ -242,8 +242,9 @@ JS;
 JS;
         return $output;
     }
-    
-    public function buildJsRefresh($keep_pagination_position = false){
+
+    public function buildJsRefresh($keep_pagination_position = false)
+    {
         return '';
     }
 }

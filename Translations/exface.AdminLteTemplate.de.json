@@ -16,7 +16,7 @@
 	
     "WIDGET.CHART.SETTINGS_DIALOG_TITLE": "Grafik-Einstellungen",
     
-    "WIDGET.COMBOTABLE.MAX_SELECTION": "Sie können nicht mehr als %number% Eintrag auswählen|Sie können nicht mehr als %number% Einträge auswählen",
+    "WIDGET.COMBOTABLE.MAX_SELECTION": " | ",
     "WIDGET.COMBOTABLE.NO_SUGGESTION": "Keine Resultate",
     "WIDGET.COMBOTABLE.PLACEHOLDER": "",
     

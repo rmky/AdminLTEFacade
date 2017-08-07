@@ -46,7 +46,7 @@ HTML;
     {
         $output = <<<HTML
 
-                    <div class="fitem exf_input exf_grid_item {$this->getWidthClasses()}" title="{$this->buildHintText()}">
+                    <div class="exf_input fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}" title="{$this->buildHintText()}">
                         {$inner_html}
                     </div>
 HTML;

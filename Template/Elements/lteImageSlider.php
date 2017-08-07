@@ -18,7 +18,7 @@ class lteImageSlider extends lteDataCards
         // output the html code
         $output = <<<HTML
 
-<div class="{$this->getWidthClasses()} exf_grid_item">
+<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
 	<div class="box" >
 		<div class="box-header">
 			{$top_toolbar}
@@ -102,8 +102,8 @@ HTML;
         // Remove tailing comma
         if ($default_sorters)
             $default_sorters = substr($default_sorters, 0, - 2);
-        
-        // Filters defined in the UXON description
+            
+            // Filters defined in the UXON description
         if ($widget->hasFilters()) {
             foreach ($widget->getFilters() as $fnr => $fltr) {
                 // Skip promoted filters, as they are displayed next to quick search
