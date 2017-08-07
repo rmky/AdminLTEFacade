@@ -56,9 +56,12 @@ abstract class lteAbstractElement extends AbstractJqueryElement
      */
     public function buildJsShowError($message_body_js, $title = null)
     {
-        return '
-			adminLteCreateDialog($("#ajax-dialogs").append(\'<div class="ajax-wrapper"></div>\').children(".ajax-wrapper").last(), "error", ' . ($title ? $title : '"' . $this->translate('MESSAGE.ERROR_TITLE') . '"') . ', ' . $message_body_js . ');
-			';
+        $titleScript = $title ? $title : '"' . $this->translate('MESSAGE.ERROR_TITLE') . '"';
+        
+        return <<<JS
+
+            adminLteCreateDialog($("#ajax-dialogs").append("<div class='ajax-wrapper'></div>").children(".ajax-wrapper").last(), "error", {$titleScript}, {$message_body_js}, "error_tab_layouter()");
+JS;
     }
 
     /**

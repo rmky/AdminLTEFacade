@@ -164,7 +164,7 @@ function contextShowMenu(containerSelector){
 			$(containerSelector).find('.dropdown-menu').empty().append('<li></li>').children('li:first-of-type').append($data);
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			adminLteCreateDialog($("body"), "error", jqXHR.responseText, jqXHR.status + " " + jqXHR.statusText);
+			adminLteCreateDialog($("body"), "error", jqXHR.responseText, jqXHR.status + " " + jqXHR.statusText, "error_tab_layouter()");
 		}
 	});
 }
@@ -173,7 +173,7 @@ function getPageId(){
 	return $("meta[name='page_id']").attr("content");
 }
 
-function adminLteCreateDialog(parentElement, id, title, content){
+function adminLteCreateDialog(parentElement, id, title, content, onShownFunction){
 	var dialog = $(' \
 		<div class="modal" id="'+id+'"> \
 			<div class="modal-dialog modal-lg"> \
@@ -187,7 +187,12 @@ function adminLteCreateDialog(parentElement, id, title, content){
 					</div> \
 				</div><!-- /.modal-content --> \
 			</div><!-- /.modal-dialog --> \
-		</div><!-- /.modal -->').resize();
+		</div><!-- /.modal --> \
+		<script type="text/javascript"> \
+			$("#'+id+'").on("shown.bs.modal", function() { \
+				' + onShownFunction + '; \
+			}); \
+		</script>').resize();
 	parentElement.append(dialog);
 	$('#'+id).modal('show');
 }
