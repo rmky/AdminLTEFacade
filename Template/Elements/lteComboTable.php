@@ -300,7 +300,7 @@ JS;
             foreach ($widget->getTable()->getFilters() as $fltr) {
                 $output .= <<<JS
 
-function {$this->getTemplate()->getElement($fltr->getWidget())->buildJsFunctionPrefix()}valueSetter(value){}
+function {$this->getTemplate()->getElement($fltr->getInputWidget())->buildJsFunctionPrefix()}valueSetter(value){}
 JS;
             }
         }
