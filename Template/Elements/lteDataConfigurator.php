@@ -12,9 +12,9 @@ use exface\Core\Widgets\DataConfigurator;
  *
  */
 class lteDataConfigurator extends lteTabs
-{    
+{
     use JqueryDataConfiguratorTrait;
-    
+
     /**
      * Returns the default number of columns to layout this widget.
      *
@@ -24,7 +24,17 @@ class lteDataConfigurator extends lteTabs
     {
         return $this->getTemplate()->getConfig()->getOption("WIDGET.DATACONFIGURATOR.COLUMNS_BY_DEFAULT");
     }
-    
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Template\Elements\lteTabs::inheritsColumnNumber()
+     */
+    public function inheritsColumnNumber()
+    {
+        return false;
+    }
+
     /**
      * 
      * {@inheritDoc}
@@ -34,7 +44,7 @@ class lteDataConfigurator extends lteTabs
     {
         $output = parent::buildHtmlTabHeaders();
         
-        if (!$this->needTableTabs()){
+        if (! $this->needTableTabs()) {
             return $output;
         }
         
@@ -47,7 +57,7 @@ class lteDataConfigurator extends lteTabs
 HTML;
         return $output;
     }
-    
+
     /**
      * 
      * {@inheritDoc}
@@ -57,7 +67,7 @@ HTML;
     {
         $output = parent::buildHtmlTabBodies();
         
-        if (!$this->needTableTabs()){
+        if (! $this->needTableTabs()) {
             return $output;
         }
         
@@ -65,7 +75,7 @@ HTML;
         $widget = $this->getWidget();
         
         foreach ($widget->getWidgetConfigured()->getColumns() as $col) {
-            if ($col->isHidden() && ! $this->getWorkbench()->context()->getScopeUser()->isUserAdmin()){
+            if ($col->isHidden() && ! $this->getWorkbench()->context()->getScopeUser()->isUserAdmin()) {
                 continue;
             }
             $columns_html .= '
@@ -78,7 +88,6 @@ HTML;
                                         </label>
                                     </div>
                                 </li>';
-            
         }
         $columns_html = '
                                 <ol id="' . $this->getId() . '_popup_columnList" class="sortable">
@@ -91,7 +100,7 @@ HTML;
         
         return $output;
     }
-    
+
     /**
      * 
      * {@inheritDoc}
@@ -107,7 +116,7 @@ HTML;
 JS;
         return $output;
     }
-    
+
     /**
      * Returns true, if the configured widget supports adding/removing columns
      * 
@@ -116,7 +125,7 @@ JS;
     protected function needTableTabs()
     {
         // Currently only the DataTable supports the column feature.
-        if ($this->getWidget()->getWidgetConfigured()->getWidgetType() == 'DataTable'){
+        if ($this->getWidget()->getWidgetConfigured()->getWidgetType() == 'DataTable') {
             return true;
         }
         return false;
