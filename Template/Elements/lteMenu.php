@@ -28,7 +28,7 @@ HTML;
         }
         
         return <<<HTML
-<ul id="{$this->getId()}" class="exf-menu" style="{$align_style}">
+<ul id="{$this->getId()}" class="exf-menu">
     {$header}
     {$this->buildHtmlButtons()}
 </ul>
