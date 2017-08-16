@@ -18,18 +18,7 @@ class lteMenu extends lteAbstractElement
      * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generateHtml()
      */
     public function generateHtml()
-    {
-        switch ($this->getWidget()->getAlign()) {
-            case EXF_ALIGN_LEFT:
-                $align_style = 'float: left;';
-                break;
-            case EXF_ALIGN_RIGHT:
-                $align_style = 'float: right;';
-                break;
-            default:
-                $align_style = '';
-        }
-        
+    {  
         if ($caption = $this->getWidget()->getCaption()){
             $header = <<<HTML
         <li class="header">
