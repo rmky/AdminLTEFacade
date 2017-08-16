@@ -1,7 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarTrait;
 
 /**
  * The AdminLTE implementation of the Toolbar widget

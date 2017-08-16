@@ -3,8 +3,8 @@ namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DialogButton;
 use exface\Core\Interfaces\Actions\ActionInterface;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryButtonTrait;
-use exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryButtonTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement;
 use exface\Core\Widgets\Button;
 
 /**
@@ -170,7 +170,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generateHeaders()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHeaders()
      */
     public function generateHeaders()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template;
 
-use exface\AbstractAjaxTemplate\Template\AbstractAjaxTemplate;
+use exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate;
 
 class AdminLteTemplate extends AbstractAjaxTemplate
 {
@@ -19,7 +19,7 @@ class AdminLteTemplate extends AbstractAjaxTemplate
      *
      * {@inheritdoc}
      *
-     * @see \exface\AbstractAjaxTemplate\Template\AbstractAjaxTemplate::processRequest($page_id=NULL, $widget_id=NULL, $action_alias=NULL, $disable_error_handling=false)
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate::processRequest($page_id=NULL, $widget_id=NULL, $action_alias=NULL, $disable_error_handling=false)
      */
     public function processRequest($page_id = NULL, $widget_id = NULL, $action_alias = NULL, $disable_error_handling = false)
     {

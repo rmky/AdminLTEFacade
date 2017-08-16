@@ -1,7 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryFilterTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryFilterTrait;
 
 class lteFilter extends lteAbstractElement
 {

@@ -2,9 +2,9 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\Tab;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTablesTrait;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataTableTrait;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataTablesTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataTableTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 use exface\Core\Widgets\Dialog;
 use exface\Core\Widgets\DataTable;
 use exface\Core\CommonLogic\Constants\Icons;

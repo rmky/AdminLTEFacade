@@ -1,7 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryButtonGroupTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryButtonGroupTrait;
 
 /**
  * The AdminLTE implementation of the ButtonGroup widget

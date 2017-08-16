@@ -2,7 +2,7 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\AdminLteTemplate\Template\Elements\lteAbstractElement;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryContextBarAjaxTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryContextBarAjaxTrait;
 
 /**
  * 

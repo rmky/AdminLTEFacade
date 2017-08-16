@@ -15,7 +15,7 @@ class lteMenu extends lteAbstractElement
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generateHtml()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHtml()
      */
     public function generateHtml()
     {  
@@ -74,7 +74,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generateJs()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateJs()
      */
     public function generateJs()
     {

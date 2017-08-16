@@ -2,7 +2,7 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DataColumn;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 
 /**
  *

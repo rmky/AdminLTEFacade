@@ -1,7 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryDataConfiguratorTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataConfiguratorTrait;
 use exface\Core\Widgets\DataConfigurator;
 
 /**
@@ -95,7 +95,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generateJs()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateJs()
      */
     public function generateJs()
     {

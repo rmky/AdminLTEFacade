@@ -318,7 +318,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::generateHeaders()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHeaders()
      */
     function generateHeaders()
     {
@@ -332,7 +332,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::buildJsValueGetter()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsValueGetter()
      */
     function buildJsValueGetter($column = null, $row = null)
     {
@@ -857,7 +857,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::buildJsEnabler()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsEnabler()
      */
     function buildJsEnabler()
     {
@@ -868,7 +868,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::buildJsDisabler()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsDisabler()
      */
     function buildJsDisabler()
     {

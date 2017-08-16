@@ -2,7 +2,7 @@
 namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Interfaces\Actions\ActionInterface;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryLiveReferenceTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLiveReferenceTrait;
 
 class lteInput extends lteText
 {
@@ -116,7 +116,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::buildJsDataGetter($action, $custom_body_js)
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsDataGetter($action, $custom_body_js)
      */
     public function buildJsDataGetter(ActionInterface $action = null)
     {
@@ -145,7 +145,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::buildJsValueSetter()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsValueSetter()
      */
     function buildJsValueSetter($value)
     {
@@ -155,7 +155,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AbstractAjaxTemplate\Template\Elements\AbstractJqueryElement::buildJsValidator()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsValidator()
      */
     function buildJsValidator()
     {

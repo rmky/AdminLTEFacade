@@ -1,7 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 
 class lteForm extends ltePanel
 {

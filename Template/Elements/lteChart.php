@@ -5,7 +5,7 @@ use exface\Core\Widgets\ChartAxis;
 use exface\Core\Widgets\ChartSeries;
 use exface\Core\Widgets\Chart;
 use exface\Core\Exceptions\Templates\TemplateUnsupportedWidgetPropertyWarning;
-use exface\AbstractAjaxTemplate\Template\Elements\JqueryToolbarsTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 use exface\Core\CommonLogic\Constants\Icons;
 
 class lteChart extends lteDataTable
