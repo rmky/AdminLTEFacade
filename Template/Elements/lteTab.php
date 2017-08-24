@@ -58,7 +58,7 @@ HTML;
         <div class="tab-pane-content-wrapper row">
             <div class="grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
                 {$this->buildHtmlForChildren()}
-                <div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer"></div>
+                <div class="{$this->getColumnWidthClasses()} {$this->buildCssLayoutItemClass()}" id="{$this->getId()}_sizer"></div>
             </div>
         </div>
     </div>

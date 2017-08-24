@@ -36,7 +36,7 @@ HTML;
 	<div class="box-body">
 		<div class="row" id="{$this->getId()}">
 			{$this->buildHtmlForWidgets()}
-			<div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer" style=""></div>
+			<div class="{$this->getColumnWidthClasses()} {$this->buildCssLayoutItemClass()}" id="{$this->getId()}_sizer" style=""></div>
 		</div>
 	</div>
 	{$footer}

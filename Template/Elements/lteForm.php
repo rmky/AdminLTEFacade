@@ -14,7 +14,7 @@ class lteForm extends ltePanel
         $children_html = <<<HTML
 
                         {$this->buildHtmlForWidgets()}
-                        <div class="{$this->getColumnWidthClasses()} {$this->getId()}_masonry_fitem" id="{$this->getId()}_sizer"></div>
+                        <div class="{$this->getColumnWidthClasses()} {$this->buildCssLayoutItemClass()}" id="{$this->getId()}_sizer"></div>
 HTML;
         
         if ($widget->countWidgetsVisible() > 1) {

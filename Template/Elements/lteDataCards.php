@@ -41,29 +41,28 @@ class lteDataCards extends lteDataList
         // TODO replace "stripe" class by a custom css class
         $output = <<<HTML
 
-<div class="{$this->getWidthClasses()} exf_grid_item">
-	<div class="box">
-		<div class="box-header">
-			{$top_toolbar}
-		</div><!-- /.box-header -->
-		<div class="box-body no-padding">
-			<div id="{$this->getId()}" class="exf-datacards masonry">
-				<div class="placeholder dataTables_empty">{$widget->getEmptyText()}</div>
-				<div class="col-xs-1" id="{$this->getId()}_sizer"></div>
-			</div>
-		</div>
-		<div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
-			<div class="row">
-				{$bottom_toolbar}
-			</div>
+<div class="box">
+	<div class="box-header">
+		{$top_toolbar}
+	</div><!-- /.box-header -->
+	<div class="box-body no-padding">
+		<div id="{$this->getId()}" class="exf-datacards masonry">
+			<div class="placeholder dataTables_empty">{$widget->getEmptyText()}</div>
+			<div class="col-xs-1" id="{$this->getId()}_sizer"></div>
 		</div>
 	</div>
-	{$this->buildHtmlTableCustomizer()}
+	<div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
+		<div class="row">
+			{$bottom_toolbar}
+		</div>
+	</div>
 </div>
+{$this->buildHtmlTableCustomizer()}
+
 
 <script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
 { {#data}}
-    <div class="exf_grid_item col-lg-3 col-md-4 col-sm-5 col-xs-12">
+    <div class="fitem col-lg-3 col-md-4 col-sm-5 col-xs-12">
     	<div class="box box-default box-solid">
         	<div class="box-body" style="overflow: hidden;">
 				{$column_templates}
@@ -75,7 +74,7 @@ class lteDataCards extends lteDataList
 	
 HTML;
         
-        return $output;
+        return $this->buildHtmlWrapper($output);
     }
 
     function generateColumnTemplate(DataColumn $column)
@@ -179,7 +178,7 @@ var {$this->getId()}_pages = {
 $(document).ready(function() {
 	$('#{$this->getId()}').masonry({
 		columnWidth: '#{$this->getId()}_sizer', 
-		itemSelector: '.exf_grid_item'
+		itemSelector: '.fitem'
 	});
 	
 	{$this->buildJsFunctionPrefix()}load();
@@ -241,7 +240,7 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 		           .imagesLoaded( function(){ 
 		              $('#{$this->getId()} .placeholder').hide();
 		              $('#{$this->getId()}').show().masonry('appended', elements);
-		              $('#{$this->getId()}').closest('.exf_grid_item').trigger('resize');
+		              $('#{$this->getId()}').closest('.fitem').trigger('resize');
 		              {$this->buildJsBusyIconHide()}
 		              $('#{$this->getId()}').data('loading', 0);
 		         });

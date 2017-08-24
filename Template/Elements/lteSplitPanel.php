@@ -6,6 +6,16 @@ use exface\Core\Widgets\SplitHorizontal;
 class lteSplitPanel extends ltePanel
 {
 
+    public function generateHtml(){
+        return <<<HTML
+
+<div id="{$this->getId()}">
+    {$this->buildHtmlChildrenWrapperPlain($this->buildHtmlForChildren())}
+</div>
+
+HTML;
+    }
+    
     public function getWidthClasses()
     {
         return '';
