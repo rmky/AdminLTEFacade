@@ -111,7 +111,7 @@ HTML;
             
             $style = '';
             if ($column->getAlign()){
-                switch ($this->buildCssTextAlignValue()) {
+                switch ($this->buildCssTextAlignValue($column->getAlign())) {
                     case 'left':
                         $style .= 'float: left;';
                         break;
