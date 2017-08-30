@@ -125,7 +125,7 @@ JS;
     protected function getBootstrapDatepickerLocale()
     {
         if (is_null($this->bootstrapDatepickerLocale)) {
-            $datepickerBasepath = MODX_BASE_PATH . 'exface' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bower-asset' . DIRECTORY_SEPARATOR . 'bootstrap-datepicker' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
+            $datepickerBasepath = $this->getWorkbench()->filemanager()->getPathToVendorFolder() . DIRECTORY_SEPARATOR . 'bower-asset' . DIRECTORY_SEPARATOR . 'bootstrap-datepicker' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
             
             $fullLocale = $this->getTemplate()->getApp()->getTranslator()->getLocale();
             $locale = str_replace("_", "-", $fullLocale);
