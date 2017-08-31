@@ -408,9 +408,9 @@ JS;
         /* @var $btn_element \exface\AdminLteTemplate\lteButton */
         $btn_element = $this->getTemplate()->getElement($button);
         
+        $icon = '<i class=\'' . $btn_element->buildCssIconClass($button->getIconName()) . '\'></i> ';
         
         if ($button instanceof MenuButton){
-            $icon = '<i class=\'' . $btn_element->buildCssIconClass(($button->getIconName() ? $button->getIconName() : Icons::CHEVRON_RIGHT)) . '\'></i> ';
             if ($button->getParent() instanceof ButtonGroup && $button === $this->getTemplate()->getElement($button->getParent())->getMoreButtonsMenu()){
                 $caption = $button->getCaption() ? $button->getCaption() : '...';
             } else {
@@ -423,7 +423,6 @@ JS;
     }
 JS;
         } else {
-            $icon = '<i class=\'' . $btn_element->buildCssIconClass($button->getIconName()) . '\'></i> ';
             $menu_item = <<<JS
     {
         text: "{$icon} {$button->getCaption()}", 

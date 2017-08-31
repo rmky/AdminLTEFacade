@@ -42,7 +42,6 @@ table.dataTable td.error{background-color: red; color: white;}
 
 /* Context menus */
 li > a > i.fa {width: 13px;}
-li.dropdown-submenu ul.dropdown-context-sub {top: calc(100% - 30px); left: 40px;}
 
 /* jQuery NumPad */
 td.nmpd-target{border: 1px solid #d2d6de !important;}
