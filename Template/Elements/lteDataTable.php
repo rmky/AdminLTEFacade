@@ -8,6 +8,10 @@ use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 use exface\Core\Widgets\Dialog;
 use exface\Core\Widgets\DataTable;
 use exface\Core\CommonLogic\Constants\Icons;
+use exface\Core\Widgets\Button;
+use exface\Core\Widgets\MenuButton;
+use exface\Core\Widgets\ButtonGroup;
+use exface\Core\DataTypes\JsonDataType;
 
 /**
  *
@@ -371,29 +375,63 @@ JS;
         return $output;
     }
 
-    protected function buildJsContextMenu()
+    /**
+     * 
+     * @param Button[] $buttons
+     * @return string
+     */
+    protected function buildJsContextMenu(array $buttons)
     {
         $context_menu_js = '';
         $widget = $this->getWidget();
-        if ($widget->hasButtons()) {
-            $last_parent = null;
-            foreach ($widget->getButtons() as $button) {
-                if ($button->isHidden()) {
-                    continue;
-                }
-                if (! is_null($last_parent) && $button->getParent() !== $last_parent) {
-                    $context_menu_js .= '{divider: true}, ';
-                }
-                $last_parent = $button->getParent();
-                
-                /* @var $btn_element \exface\AdminLteTemplate\lteButton */
-                $btn_element = $this->getTemplate()->getElement($button);
-                $icon = ($button->getIconName() ? '<i class=\'' . $btn_element->buildCssIconClass($button->getIconName()) . '\'></i> ' : '');
-                $context_menu_js .= '{text: "' . $icon . $button->getCaption() . '", action: function(e){e.preventDefault(); ' . $btn_element->buildJsClickFunctionName() . '();}}, ';
+        
+        $last_parent = null;
+        foreach ($buttons as $button) {
+            if ($button->isHidden()) {
+                continue;
             }
-            $context_menu_js = $context_menu_js ? substr($context_menu_js, 0, - 2) : $context_menu_js;
+            if (! is_null($last_parent) && $button->getParent() !== $last_parent) {
+                $context_menu_js .= ($context_menu_js ? ',' : '') . '{divider: true}';
+            }
+            $last_parent = $button->getParent();
+            
+            $context_menu_js .= ($context_menu_js ? ',' : '') . $this->buildJsContextMenuItem($button);
         }
-        return $context_menu_js;
+            
+        return '[' . $context_menu_js . ']';
+    }
+    
+    protected function buildJsContextMenuItem(Button $button)
+    {
+        $menu_item = '';
+        
+        /* @var $btn_element \exface\AdminLteTemplate\lteButton */
+        $btn_element = $this->getTemplate()->getElement($button);
+        
+        
+        if ($button instanceof MenuButton){
+            $icon = '<i class=\'' . $btn_element->buildCssIconClass(($button->getIconName() ? $button->getIconName() : Icons::CHEVRON_RIGHT)) . '\'></i> ';
+            if ($button->getParent() instanceof ButtonGroup && $button === $this->getTemplate()->getElement($button->getParent())->getMoreButtonsMenu()){
+                $caption = $button->getCaption() ? $button->getCaption() : '...';
+            } else {
+                $caption = $button->getCaption();
+            }
+            $menu_item = <<<JS
+    {
+        text: "{$icon} {$caption}", 
+        subMenu: {$this->buildJsContextMenu($button->getButtons())}
+    }
+JS;
+        } else {
+            $icon = '<i class=\'' . $btn_element->buildCssIconClass($button->getIconName()) . '\'></i> ';
+            $menu_item = <<<JS
+    {
+        text: "{$icon} {$button->getCaption()}", 
+        action: function(e){e.preventDefault(); {$btn_element->buildJsClickFunctionName()}();}
+    }
+JS;
+        }
+        return $menu_item;
     }
 
     protected function buildJsFilterIndicatorUpdater()

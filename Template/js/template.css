@@ -40,6 +40,10 @@ table.dataTable td.error{background-color: red; color: white;}
 
 .btn-advanced-filtering .label {position: absolute; top: 15px; right: 5px; text-align: center; font-size: 9px; padding: 2px 3px; line-height: .9;}
 
+/* Context menus */
+li > a > i.fa {width: 13px;}
+li.dropdown-submenu ul.dropdown-context-sub {top: calc(100% - 30px); left: 40px;}
+
 /* jQuery NumPad */
 td.nmpd-target{border: 1px solid #d2d6de !important;}
 
