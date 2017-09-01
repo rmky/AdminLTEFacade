@@ -47,7 +47,7 @@ class lteDataTable extends lteAbstractElement
         /* @var $col \exface\Core\Widgets\DataColumn */
         foreach ($widget->getColumns() as $col) {
             $thead .= '<th title="' . $col->getHint() . '">' . $col->getCaption() . '</th>';
-            if ($widget->hasFooter()) {
+            if ($widget->hasColumnFooters()) {
                 $tfoot .= '<th class="text-right"></th>';
             }
         }
