@@ -145,9 +145,9 @@ HTML;
         foreach ($widget->getSorters() as $sorter) {
             $column_exists = false;
             foreach ($widget->getColumns() as $nr => $col) {
-                if ($col->getAttributeAlias() == $sorter->attribute_alias) {
+                if ($col->getAttributeAlias() == $sorter->getProperty('attribute_alias')) {
                     $column_exists = true;
-                    $default_sorters .= '[ ' . $nr . ', "' . $sorter->direction . '" ], ';
+                    $default_sorters .= '[ ' . $nr . ', "' . $sorter->getProperty('direction') . '" ], ';
                 }
             }
             if (! $column_exists) {
