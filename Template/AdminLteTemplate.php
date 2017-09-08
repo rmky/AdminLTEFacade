@@ -19,16 +19,16 @@ class AdminLteTemplate extends AbstractAjaxTemplate
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate::processRequest($page_id=NULL, $widget_id=NULL, $action_alias=NULL, $disable_error_handling=false)
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate::processRequest($page_alias=NULL, $widget_id=NULL, $action_alias=NULL, $disable_error_handling=false)
      */
-    public function processRequest($page_id = NULL, $widget_id = NULL, $action_alias = NULL, $disable_error_handling = false)
+    public function processRequest($page_alias = NULL, $widget_id = NULL, $action_alias = NULL, $disable_error_handling = false)
     {
         $this->request_columns = $this->getWorkbench()->getRequestParams()['columns'];
         $this->getWorkbench()->removeRequestParam('columns');
         $this->getWorkbench()->removeRequestParam('search');
         $this->getWorkbench()->removeRequestParam('draw');
         $this->getWorkbench()->removeRequestParam('_');
-        return parent::processRequest($page_id, $widget_id, $action_alias, $disable_error_handling);
+        return parent::processRequest($page_alias, $widget_id, $action_alias, $disable_error_handling);
     }
 
     public function getRequestPagingOffset()
