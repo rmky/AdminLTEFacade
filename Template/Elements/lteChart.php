@@ -228,7 +228,7 @@ JS;
             if (count($widget->getData()->getSorters()) > 0) {
                 $post_data .= 'data.order = [];' . "\n";
                 foreach ($widget->getData()->getSorters() as $sorter) {
-                    $post_data .= 'data.order.push({attribute_alias: "' . $sorter->attribute_alias . '", dir: "' . $sorter->direction . '"});';
+                    $post_data .= 'data.order.push({attribute_alias: "' . $sorter->getProperty('attribute_alias') . '", dir: "' . $sorter->getProperty('direction') . '"});';
                 }
             }
             

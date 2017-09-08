@@ -189,7 +189,7 @@ JS;
         } else {
             $rows = $this->buildJsFunctionPrefix() . "getSelection()";
         }
-        return "{oId: '" . $this->getWidget()->getMetaObjectId() . "', rows: " . $rows . "}";
+        return "{oId: '" . $this->getWidget()->getMetaObject()->getId() . "', rows: " . $rows . "}";
     }
 
     /**

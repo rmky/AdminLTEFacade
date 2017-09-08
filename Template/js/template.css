@@ -25,6 +25,8 @@ ul.datalist li {padding: 4px 0;}
 .user-menu .user-image i {font-size: 25px;}
 .user-menu .exf-menu .user-header i {color: #4b646f; font-size: 90px;}
 .user-panel .image i {color: #4b646f; font-size: 45px;}
+.box .box, .dropdown .box, .tab-pane .box {border: 0; box-shadow: none; margin-bottom: 0;}
+.dropdown .fitem > .box {margin: 0 -15px 0 -15px; width: calc(100% + 30px);}
 
 /* DataTables customization */
 table.dataTable tr.detailRow table {width: initial;}
@@ -39,6 +41,9 @@ table.dataTable td.warning{background-color: yellow;}
 table.dataTable td.error{background-color: red; color: white;}
 
 .btn-advanced-filtering .label {position: absolute; top: 15px; right: 5px; text-align: center; font-size: 9px; padding: 2px 3px; line-height: .9;}
+
+/* Context menus */
+li > a > i.fa {width: 13px;}
 
 /* jQuery NumPad */
 td.nmpd-target{border: 1px solid #d2d6de !important;}
