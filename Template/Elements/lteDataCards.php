@@ -3,6 +3,8 @@ namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Widgets\DataColumn;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
+use exface\Core\DataTypes\HtmlDataType;
+use exface\Core\DataTypes\ImageUrlDataType;
 
 /**
  *
@@ -80,9 +82,9 @@ HTML;
     function generateColumnTemplate(DataColumn $column)
     {
         $tpl = '';
-        if ($column->getDataType()->is(EXF_DATA_TYPE_HTML)) {
+        if ($column->getDataType() instanceof HtmlDataType) {
             $tpl = '{ { {' . $column->getDataColumnName() . '}}}';
-        } elseif ($column->getDataType()->is(EXF_DATA_TYPE_IMAGE_URL)) {
+        } elseif ($column->getDataType() instanceof ImageUrlDataType) {
             $tpl = '<img style="margin: 0 auto 5px auto;" class="img-responsive" src="{ {' . $column->getDataColumnName() . '}}" />';
         } else {
             $tpl = '{ {' . $column->getDataColumnName() . '}}';
