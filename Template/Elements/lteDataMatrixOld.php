@@ -82,7 +82,7 @@ class lteDataMatrixOld extends lteDataTable
         }
         // add the sorters
         foreach ($widget->getSorters() as $sort) {
-            $ds->getSorters()->addFromString($sort->attribute_alias, $sort->direction);
+            $ds->getSorters()->addFromString($sort->getProperty('attribute_alias'), $sort->getProperty('direction'));
         }
         
         // get the data
