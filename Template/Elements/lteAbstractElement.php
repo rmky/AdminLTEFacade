@@ -242,5 +242,18 @@ JS;
         $data['footer'] = $data_sheet->getTotalsRows();
         return $data;
     }
+    
+    /**
+     * Returns the CSS class, that represents the visibility of the widget.
+     * @return string
+     */
+    public function buildCssVisibilityClass()
+    {
+        switch ($this->getWidget()->getVisibility()){
+            case EXF_WIDGET_VISIBILITY_HIDDEN:
+                return 'hidden';
+        }
+        return '';
+    }
 }
 ?>
