@@ -282,11 +282,17 @@ HTML;
 
     protected function buildHtmlFooter($buttons_html)
     {
+        $widget = $this->getWidget();
+        
+        $paginator_class = ! $widget->getPaginate() ? 'hidden' : '';
+        $refresh_button_class = ! $widget->getLazyLoading() ? 'hidden' : '';
+        $configurator_button_class = ! $widget->getLazyLoading() ? 'hidden': '';
+        
         $output = <<<HTML
             <div class="col-xs-12 col-sm-6" style="padding-top: 10px;">{$buttons_html}</div>
             <div class="col-xs-12 col-sm-6 text-right" style="padding-top: 10px;">
                 <form class="form-inline">
-                    <div class="btn-group dropup" role="group" id="#{$this->getId()}_pageControls">
+                    <div class="btn-group dropup {$paginator_class}" role="group" id="#{$this->getId()}_pageControls">
                         <button type="button" href="#" id="{$this->getId()}_prevPage" class="btn btn-default"><i class="fa fa-caret-left"></i></button>
                         <button type="button" href="#" id="{$this->getId()}_pageInfo" class="btn btn-default" data-toggle="dropdown">0 - 0 / 0</buton>
                         <button type="button" href="#" id="{$this->getId()}_nextPage" class="btn btn-default"><i class="fa fa-caret-right"></i></button>
@@ -303,8 +309,8 @@ HTML;
                             </li>
                         </ul>
                     </div>
-                    <button type="button" data-target="#" class="btn btn-default" onclick="{$this->buildJsRefresh(true)} return false;" title="{$this->translate('WIDGET.REFRESH')}"><i class="fa fa-refresh"></i></button>
-                    <button type="button" data-target="#{$this->getId()}_popup_config" data-toggle="modal" class="btn btn-default" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-gear"></i></button>
+                    <button type="button" data-target="#" class="btn btn-default {$refresh_button_class}" onclick="{$this->buildJsRefresh(true)} return false;" title="{$this->translate('WIDGET.REFRESH')}"><i class="fa fa-refresh"></i></button>
+                    <button type="button" data-target="#{$this->getId()}_popup_config" data-toggle="modal" class="btn btn-default {$configurator_button_class}" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-gear"></i></button>
                 </form>
             </div>
 HTML;
