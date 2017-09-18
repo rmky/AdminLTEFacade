@@ -117,7 +117,7 @@ class lteDataMatrixOld extends lteDataTable
         foreach ($result as $row) {
             $output .= '<tr>';
             foreach ($row as $fld => $val) {
-                $output .= '<td class="' . $this->buildCssColumnClass($widget->getColumn($fld) ? $widget->getColumn($fld) : $widget->getDataColumn()) . '">' . $val . '</td>';
+                $output .= '<td class="' . $this->buildCssColumnClass($widget->getColumnByDataColumnName($fld) ? $widget->getColumnByDataColumnName($fld) : $widget->getDataColumn()) . '">' . $val . '</td>';
             }
             $output = substr($output, 0, - 1);
             $output .= '</tr>';
