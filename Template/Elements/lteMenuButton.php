@@ -47,7 +47,7 @@ HTML;
     /**
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Template\Elements\jqmAbstractElement::generateJs()
+     * @see \exface\AdminLteTemplate\Template\Elements\lteAbstractElement::generateJs()
      */
     function generateJs()
     {

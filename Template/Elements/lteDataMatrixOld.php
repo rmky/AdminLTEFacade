@@ -8,7 +8,7 @@ class lteDataMatrixOld extends lteDataTable
 
     /**
      *
-     * @see \exface\AdminLteTemplate\Template\Elements\jqmAbstractElement::getWidget()
+     * @see \exface\AdminLteTemplate\Template\Elements\lteAbstractElement::getWidget()
      * @return \exface\Core\Widgets\DataMatrix
      */
     public function getWidget()
