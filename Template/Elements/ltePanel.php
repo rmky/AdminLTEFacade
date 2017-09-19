@@ -53,6 +53,21 @@ HTML;
      */
     protected function buildHtmlChildrenWrapperBox($contents_html)
     {
+        return <<<HTML
+
+                   <div class="box">
+                        {$this->buildHtmlCaption()}
+                        <div class="box-body grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
+                            {$contents_html}
+                            {$this->buildHtmlLayoutSizer()}
+                        </div>
+                    </div>
+
+HTML;
+    }
+                            
+    protected function buildHtmlCaption()
+    {
         if ($this->getWidget()->getCaption()) {
             $header = <<<HTML
                         <div class="box-header">
@@ -63,17 +78,7 @@ HTML;
             $header = '';
         }
         
-        return <<<HTML
-
-                   <div class="box">
-                        {$header}
-                        <div class="box-body grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
-                            {$contents_html}
-                            {$this->buildHtmlLayoutSizer()}
-                        </div>
-                    </div>
-
-HTML;
+        return $header;
     }
     
     /**
