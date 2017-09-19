@@ -40,38 +40,6 @@ class lteDataTable extends lteAbstractElement
     function generateHtml()
     {
         $widget = $this->getWidget();
-        $thead = '';
-        $tfoot = '';
-        
-        // Column headers
-        /* @var $col \exface\Core\Widgets\DataColumn */
-        foreach ($widget->getColumns() as $col) {
-            $thead .= '<th title="' . $col->getHint() . '">' . $col->getCaption() . '</th>';
-            if ($widget->hasColumnFooters()) {
-                $tfoot .= '<th class="text-right"></th>';
-            }
-        }
-        
-        // Extra column for the multiselect-checkbox
-        if ($widget->getMultiSelect()) {
-            $checkbox_header = '<th onclick="javascript: if(!$(this).parent().hasClass(\'selected\')) {' . $this->getId() . '_table.rows().select(); $(\'#' . $this->getId() . '_wrapper\').find(\'th.select-checkbox\').parent().addClass(\'selected\');} else{' . $this->getId() . '_table.rows().deselect(); $(\'#' . $this->getId() . '_wrapper\').find(\'th.select-checkbox\').parent().removeClass(\'selected\');}"></th>';
-            $thead = $checkbox_header . $thead;
-            if ($tfoot) {
-                $tfoot = $checkbox_header . $tfoot;
-            }
-        }
-        
-        // Extra column for expand-button if rows have details
-        if ($widget->hasRowDetails()) {
-            $thead = '<th></th>' . $thead;
-            if ($tfoot) {
-                $tfoot = '<th></th>' . $tfoot;
-            }
-        }
-        
-        if ($tfoot) {
-            $tfoot = '<tfoot>' . $tfoot . '</tfoot>';
-        }
         
         // Toolbars
         $footer_style = $widget->getHideFooter() ? 'display: none;' : '';
@@ -84,12 +52,7 @@ class lteDataTable extends lteAbstractElement
         {$header}
     </div><!-- /.box-header -->
     <div class="box-body no-padding">
-        <table id="{$this->getId()}" class="table table-striped table-hover" cellspacing="0" width="100%">
-            <thead>
-                {$thead}
-            </thead>
-            {$tfoot}
-        </table>
+        {$this->buildHtmlTable('table table-striped table-hover')}
     </div>
     <div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
         <div class="row">
@@ -381,12 +344,17 @@ JS;
         return $output;
     }
 
+    protected function buildJsContextMenu()
+    {
+        return "context.attach('#{$this->getId()} tbody tr', {$this->buildJsContextMenuLevel($this->getWidget()->getButtons())});";
+    }
+    
     /**
      * 
      * @param Button[] $buttons
      * @return string
      */
-    protected function buildJsContextMenu(array $buttons)
+    protected function buildJsContextMenuLevel(array $buttons)
     {
         $context_menu_js = '';
         $widget = $this->getWidget();
@@ -425,7 +393,7 @@ JS;
             $menu_item = <<<JS
     {
         text: "{$icon} {$caption}", 
-        subMenu: {$this->buildJsContextMenu($button->getButtons())}
+        subMenu: {$this->buildJsContextMenuLevel($button->getButtons())}
     }
 JS;
         } else {
