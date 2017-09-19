@@ -51,7 +51,7 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 /* DataCards */
 .exf-datacards .exf-data-value {margin: 2px 5px;}
 .exf-datacards .placeholder {padding: 8px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; background-color: #f9f9f9;}
-
+.exf-datacards .box {margin-bottom: 20px;}
 /* Inputs */
 .exface_inputgroup {border-width: 1px 0 0 0; padding: 10px 0 20px 0;}
 .invalid .form-control {
