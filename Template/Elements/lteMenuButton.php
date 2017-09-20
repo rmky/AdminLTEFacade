@@ -19,8 +19,9 @@ class lteMenuButton extends lteAbstractElement
     use JqueryButtonTrait;
 
     /**
-     *
-     * @see \exface\Templates\jeasyui\Widgets\abstractWidget::generateHtml()
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHtml()
      */
     function generateHtml()
     {
