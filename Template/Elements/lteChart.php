@@ -30,6 +30,15 @@ class lteChart extends lteDataTable
             $header = $widget->getHideHeader() ? '' : $this->buildHtmlHeader();
         }
         
+        $style = '';
+        if (! $this->getWidget()->getHeight()->isUndefined()){
+            $height = $this->getHeight();
+            if (! $this->hasFooter()){
+                $height = 'calc(' . $height . ' + 35px)';
+            }
+            $style .= 'height:' . $height . ';';
+        }
+        
         // Create the panel for the chart
         $output = <<<HTML
 
@@ -39,7 +48,7 @@ class lteChart extends lteDataTable
             {$header}
         </div><!-- /.box-header -->
         <div class="box-body">
-            <div id="{$this->getId()}" style="height: {$this->getHeight()}; width: calc(100% + 8px)"></div>
+            <div id="{$this->getId()}" style="{$style} width: calc(100% + 8px)"></div>
         </div>
     </div>
     {$this->buildHtmlChartCustomizer()}
@@ -527,6 +536,12 @@ JS;
 
 HTML;
         return $output;
+    }
+    
+    protected function hasFooter()
+    {
+        // TODO
+        return false;
     }
 }
 ?>

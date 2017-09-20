@@ -46,12 +46,17 @@ class lteDataTable extends lteAbstractElement
         $footer = $this->buildHtmlFooter($this->buildHtmlToolbars());
         $header = $this->buildHtmlHeader();
         
+        $style = '';
+        if (! $this->getWidget()->getHeight()->isUndefined()){
+            $style .= 'height:' . $this->getHeight();
+        }
+        
         // output the html code
         $output = <<<HTML
     <div class="box-header">
         {$header}
     </div><!-- /.box-header -->
-    <div class="box-body no-padding">
+    <div class="box-body no-padding" style="{$style}">
         {$this->buildHtmlTable('table table-striped table-hover')}
     </div>
     <div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
@@ -68,6 +73,7 @@ HTML;
     protected function buildHtmlWrapper($html)
     {
         $result = $html;
+        
         if (! $this->getWidget()->getParent() || $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) {
             $result = <<<HTML
 <div class="box">{$result}</div>
