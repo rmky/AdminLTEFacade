@@ -196,13 +196,6 @@ JS;
     {
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         
-        $quick_search_fields = $this->getWidget()->getMetaObject()->getLabelAttribute() ? $this->getWidget()->getMetaObject()->getLabelAttribute()->getName() : '';
-        foreach ($this->getWidget()->getConfiguratorWidget()->getQuickSearchFilters() as $qfltr) {
-            $quick_search_fields .= ($quick_search_fields ? ', ' : '') . $qfltr->getCaption();
-        }
-        if ($quick_search_fields)
-            $quick_search_fields = ': ' . $quick_search_fields;
-        
         if (! $this->getWidget()->getLazyLoading()) {
             $filter_button_disabled = ' disabled';
         }
@@ -228,7 +221,7 @@ HTML;
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default btn-advanced-filtering" data-toggle="modal"{$filter_button_disabled} data-target="#{$this->getId()}_popup_config"><i class="fa fa-filter"></i></button>
                     </span>
-                    <input id="{$this->getId()}_quickSearch" type="text" class="form-control" placeholder="Quick search{$quick_search_fields}" />
+                    <input id="{$this->getId()}_quickSearch" type="text" class="form-control" placeholder="{$this->getQuickSearchPlaceholder()}" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" onclick="{$this->buildJsRefresh(false)} return false;"><i class="fa fa-search"></i></button>
                     </span>
