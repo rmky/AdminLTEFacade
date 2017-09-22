@@ -251,8 +251,8 @@ HTML;
         $configurator_button_class = ! $widget->getLazyLoading() ? 'hidden': '';
         
         $output = <<<HTML
-            <div class="col-xs-12 col-sm-6" style="padding-top: 10px;">{$buttons_html}</div>
-            <div class="col-xs-12 col-sm-6 text-right" style="padding-top: 10px;">
+            <div class="col-xs-12 col-sm-8 col-md-9" style="padding-top: 10px;">{$buttons_html}</div>
+            <div class="col-xs-12 col-sm-4 col-md-3 text-right" style="padding-top: 10px; min-width: 240px;">
                 <form class="form-inline">
                     <div class="btn-group dropup {$paginator_class}" role="group" id="#{$this->getId()}_pageControls">
                         <button type="button" href="#" id="{$this->getId()}_prevPage" class="btn btn-default"><i class="fa fa-caret-left"></i></button>
