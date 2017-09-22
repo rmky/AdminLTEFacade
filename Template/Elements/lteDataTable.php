@@ -249,7 +249,7 @@ HTML;
         $configurator_button_class = ! $widget->getLazyLoading() ? 'hidden': '';
         
         $output = <<<HTML
-            <div class="pull-right text-right" style="padding-top: 10px; padding-bottom: 10px; min-width: 240px;">
+            <div class="pull-right text-right exf-toolbar" style="padding-top: 10px; min-width: 240px;">
                 <form class="form-inline">
                     <div class="btn-group dropup {$paginator_class}" role="group" id="#{$this->getId()}_pageControls">
                         <button type="button" href="#" id="{$this->getId()}_prevPage" class="btn btn-default"><i class="fa fa-caret-left"></i></button>
