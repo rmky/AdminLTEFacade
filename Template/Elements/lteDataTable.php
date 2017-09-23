@@ -59,7 +59,7 @@ class lteDataTable extends lteAbstractElement
     <div class="box-body no-padding" style="{$style}">
         {$this->buildHtmlTable('table table-striped table-hover')}
     </div>
-    <div class="box-footer clearfix" style="padding-bottom: 0px; {$footer_style}">
+    <div class="box-footer clearfix" style="padding-bottom: 0px; min-height: 55px; {$footer_style}">
         {$footer}
     </div>
     {$this->buildHtmlTableCustomizer()}
