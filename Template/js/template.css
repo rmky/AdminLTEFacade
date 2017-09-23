@@ -1,6 +1,6 @@
 /* misc */
 .dialogButtons{text-align: right;}
-.exfHidden{display:none !important};
+.exfHidden{display:none !important}
 
 /* Bootstrap customization */
 ul.datalist li {padding: 4px 0;}
@@ -98,8 +98,8 @@ ol.sortable i.handle {margin: 8px 5px;}
 
 ol.sortable li.placeholder {
 	position: relative;
-	margin: 5x;
-	padding: 5x;
+	margin: 5px;
+	padding: 5px;
 	border: 3px dashed #e6e7e8; 
 	height: 37px;
 }
