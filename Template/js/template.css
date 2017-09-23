@@ -61,6 +61,8 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 .ms-sel-ctn input, .ms-ctn input:focus {background-color: inherit !important;}
 
 /* Toolbars and buttons */
+.exf-toolbar {padding-bottom: 7px;}
+.exf-toolbar .btn {margin-bottom: 3px;}
 .exf-btn-group {display: inline-block}
 .exf-btn-group+.dropdown, .exf-btn-group+.exf-btn-group {margin-left: 3px;}
 

@@ -59,7 +59,7 @@ class lteDataTable extends lteAbstractElement
     <div class="box-body no-padding" style="{$style}">
         {$this->buildHtmlTable('table table-striped table-hover')}
     </div>
-    <div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
+    <div class="box-footer clearfix" style="padding-bottom: 0px; {$footer_style}">
         {$footer}
     </div>
     {$this->buildHtmlTableCustomizer()}
@@ -249,7 +249,7 @@ HTML;
         $configurator_button_class = ! $widget->getLazyLoading() ? 'hidden': '';
         
         $output = <<<HTML
-            <div class="pull-right text-right exf-toolbar" style="padding-top: 10px; min-width: 240px;">
+            <div class="pull-right text-right exf-toolbar" style="min-width: 240px;">
                 <form class="form-inline">
                     <div class="btn-group dropup {$paginator_class}" role="group" id="#{$this->getId()}_pageControls">
                         <button type="button" href="#" id="{$this->getId()}_prevPage" class="btn btn-default"><i class="fa fa-caret-left"></i></button>
@@ -272,7 +272,7 @@ HTML;
                     <button type="button" data-target="#{$this->getId()}_popup_config" data-toggle="modal" class="btn btn-default {$configurator_button_class}" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-gear"></i></button>
                 </form>
             </div>
-            <div class="" style="padding-top: 10px;">{$buttons_html}</div>
+            {$buttons_html}
             
 HTML;
         return $output;
