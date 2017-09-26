@@ -48,7 +48,7 @@ class lteDataTable extends lteAbstractElement
         
         $style = '';
         if (! $this->getWidget()->getHeight()->isUndefined()){
-            $style .= 'height:' . $this->getHeight();
+            $style .= 'height:' . $this->getHeight() . '; overflow-y: auto;';
         }
         
         // output the html code
