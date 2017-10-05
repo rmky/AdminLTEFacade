@@ -29,7 +29,7 @@ class lteButton extends lteAbstractElement
             // Actions with template scripts may contain some helper functions or global variables.
             // Print the here first.
             if ($action && $action->implementsInterface('iRunTemplateScript')) {
-                $output .= $this->getAction()->printHelperFunctions();
+                $output .= $this->getAction()->buildScriptHelperFunctions();
             }
         }
         
