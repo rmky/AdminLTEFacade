@@ -37,6 +37,8 @@ class lteChart extends lteDataTable
                 $height = 'calc(' . $height . ' + 35px)';
             }
             $style .= 'height:' . $height . ';';
+        } else {
+            $style .= 'min-height: ' . $this->getHeight() . ';';
         }
         
         // Create the panel for the chart
