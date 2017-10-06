@@ -14,7 +14,7 @@
 	},
 	"require" : {
 		"exface/core" : "~0.1",
-		"almasaeed2010/AdminLTE" : ">=2.3.9 <2.4",
+		"almasaeed2010/AdminLTE" : "^2.4",
 		"components/handlebars.js" : "^4",
 		"bower-asset/datatables.net" : "^1.10.12",
 		"bower-asset/datatables.net-bs" : "^1.10.12",
