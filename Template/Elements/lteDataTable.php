@@ -175,7 +175,7 @@ JS;
     {
         $includes = parent::generateHeaders();
         // DataTables
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/almasaeed2010/adminlte/plugins/datatables/dataTables.bootstrap.css">';
+        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-bs/css/dataTables.bootstrap.css">';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net/js/jquery.dataTables.min.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/DataTables.exface.helpers.js"></script>';
