@@ -386,7 +386,8 @@ JS;
 
     public function generateHeaders()
     {
-        $includes = parent::generateHeaders();
+        $includes = [];
+        
         // flot
         $includes[] = '<script type="text/javascript" src="exface/vendor/npm-asset/flot-charts/jquery.flot.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/npm-asset/flot-charts/jquery.flot.resize.js"></script>';
