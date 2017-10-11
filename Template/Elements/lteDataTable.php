@@ -48,7 +48,11 @@ class lteDataTable extends lteAbstractElement
         
         $style = '';
         if (! $this->getWidget()->getHeight()->isUndefined()){
-            $style .= 'height:' . $this->getHeight() . '; overflow-y: auto;';
+            $height = $this->getHeight();
+            if ($widget->getHideFooter()){
+                $height = 'calc(' . $height . ' + 55px)';
+            }
+            $style .= 'height:' . $height . '; overflow-y: auto;';
         }
         
         // output the html code
@@ -198,18 +202,28 @@ JS;
 
     protected function buildHtmlHeader()
     {
+        $widget = $this->getWidget();
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         
         if (! $this->getWidget()->getLazyLoading()) {
             $filter_button_disabled = ' disabled';
         }
         
-        if ($this->getWidget()->getHideHeader()) {
+        if ($widget->getHideHeader()) {
+            $header_pagination = '';
+            if ($widget->getHideFooter() && $widget->getPaginate()){
+                $header_pagination = <<<HTML
+        <button type="button" href="#" id="{$this->getId()}_prevPage" class="btn btn-box-tool"><i class="fa fa-caret-left"></i></button>
+        <button type="button" href="#" id="{$this->getId()}_nextPage" class="btn btn-box-tool"><i class="fa fa-caret-right"></i></button>
+HTML;
+            }
+            
             $output = <<<HTML
     <h3 class="box-title">$table_caption</h3>
     <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#{$this->getId()}_popup_config" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-filter"></i></button>
         <button type="button" class="btn btn-box-tool" onclick="{$this->buildJsRefresh(false)} return false;"  title="{$this->translate('WIDGET.REFRESH')}"><i class="fa fa-refresh"></i></button>
+        {$header_pagination}
     </div>
 HTML;
         } else {
