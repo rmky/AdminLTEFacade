@@ -35,6 +35,8 @@ table.dataTable thead th {text-align: center;}
 table.dataTable tfoot th.dt-body-right {padding-right: 10px;}
 /* Fix useless checkboxes being shown above and below body data breaking scrolling */
 .dataTables_scrollBody table.dataTable th.select-checkbox:before, .dataTables_scrollBody table.dataTable th.select-checkbox:after {display:none !important}
+/* Row groups */
+table.dataTable tr.group {cursor: pointer;}
 /* Cell coloring */
 table.dataTable td.ok{background-color: green;}
 table.dataTable td.warning{background-color: yellow;}

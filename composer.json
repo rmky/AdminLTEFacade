@@ -20,6 +20,8 @@
 		"bower-asset/datatables.net-bs" : "^1.10.12",
 		"bower-asset/datatables.net-select" : "^1.2.1",
 		"bower-asset/datatables.net-select-bs" : "^1.2.1",
+		"bower-asset/datatables.net-rowgroup" : "^1.0.2",
+		"bower-asset/datatables.net-rowgroup-bs" : "^1.0.2",
 		"bower-asset/jssor" : "^22",
 		"bower-asset/magicsuggest" : "^2.1",
 		"bower-asset/sortable.js" : "^1",

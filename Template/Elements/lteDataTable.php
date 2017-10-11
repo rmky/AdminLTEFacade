@@ -168,6 +168,8 @@ function {$this->getId()}_drawPagination(){
 
 {$this->getTemplate()->getElement($widget->getConfiguratorWidget())->generateJs()}
 
+{$this->buildJsRowGroupFunctions()}
+
 {$this->buildJsButtons()}
 
 JS;
@@ -185,6 +187,11 @@ JS;
         $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/DataTables.exface.helpers.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-select/js/dataTables.select.min.js"></script>';
         $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-select-bs/css/select.bootstrap.min.css">';
+        
+        if ($this->getWidget()->hasRowGroups()){
+            $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-rowgroup/js/dataTables.rowgroup.min.js"></script>';
+            $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-rowgroup-bs/css/rowGroup.bootstrap.min.css">';
+        }
         
         // Sortable plugin for column sorting in the table configuration popup
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jquery-sortable/source/js/jquery-sortable-min.js"></script>';
