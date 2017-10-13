@@ -43,6 +43,7 @@ class lteInputDate extends lteInput
                         type="text"
                         name="{$this->getWidget()->getAttributeAlias()}"
                         id="{$this->getId()}"
+                        value="{$this->getValueWithDefaults()}"
                         {$requiredScript}
                         {$disabledScript} />
                     <div class="input-group-addon" onclick="$('#{$this->getId()}').{$this->getElementType()}('show');">
@@ -81,7 +82,6 @@ HTML;
         // Markiert das heutige Datum.
         todayHighlight: true
     });
-    
     // Wird der uebergebene Wert per value="..." im HTML uebergeben, erscheint er
     // unformatiert (z.B. "-1d"). Wird der Wert hier gesetzt, wird er formatiert.
     $("#{$this->getId()}").{$this->getElementType()}("update", "{$this->escapeString($this->getValueWithDefaults())}");
@@ -156,7 +156,7 @@ JS;
 
     public function buildJsValueGetter()
     {
-        return '$("#' . $this->getId() . '").data("_internalValue")';
+        return '($("#' . $this->getId() . '").data("_internalValue") !== undefined ? $("#' . $this->getId() . '").data("_internalValue") : $("#' . $this->getId() . '").val())';
     }
 
     protected function buildJsDateFormatter()

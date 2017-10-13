@@ -1,10 +1,11 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
+use exface\Core\Exceptions\InvalidArgumentException;
+use exface\Core\Exceptions\Widgets\WidgetConfigurationError;
+
 /**
- * In jQuery Mobile a ComboTable is represented by a filterable UL-list.
- * The code is based on the JQM-example below.
- * jqm example: http://demos.jquerymobile.com/1.4.5/listview-autocomplete-remote/
+ * 
  *
  * @author Andrej Kabachnik
  */
@@ -637,7 +638,6 @@ JS;
         $widget = $this->getWidget();
         
         $uidColumnName = $widget->getTable()->getUidColumn()->getDataColumnName();
-        $textColumnName = $widget->getTextColumn()->getDataColumnName();
         
         $suppressLazyLoadingGroupUpdateScript = $widget->getLazyLoadingGroupId() ? '
                 // Ist das Widget in einer lazy-loading-group, werden keine Filter-Referenzen aktualisiert,
@@ -762,7 +762,7 @@ JS;
      * 0 = off, 1 = low, 2 = medium, 3 = high detail-level (default: 0)
      *
      * @param integer|string $value            
-     * @return \exface\JEasyUiTemplate\Template\Elements\euiComboTable
+     * @return lteComboTable
      */
     function setJsDebugLevel($value)
     {

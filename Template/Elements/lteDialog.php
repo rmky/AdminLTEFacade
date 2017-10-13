@@ -40,11 +40,18 @@ JS;
     public function generateHtml()
     {
         $output = '';
+        $style = '';
+        $widget = $this->getWidget();
+        
+        if ($widget->getWidth()->isRelative() || $widget->getWidth()->isPercentual()){
+            $style .= 'width: ' . $widget->getValue() . ';';
+        }
+        
         if (! $this->getWidget()->getLazyLoading()) {
             $output = <<<HTML
 
 <div class="modal" id="{$this->getId()}">
-    <div class="modal-dialog" style="width:{$this->getWidth()};">
+    <div class="modal-dialog {$this->getWidthClasses()}" style="{$style}">
         <div class="modal-content box">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -65,13 +72,20 @@ HTML;
         }
         return $output;
     }
-
-    function getWidth()
+    
+    public function getWidthClasses()
     {
-        if ($this->getWidget()->getWidth()->isUndefined()) {
-            $this->getWidget()->setWidth((2 * $this->getWidthRelativeUnit() + 35) . 'px');
+        $dim = $this->getWidget()->getWidth();   
+        if ($dim->isUndefined() || $dim->isMax()) {
+            return 'modal-lg';
+        } elseif ($dim->isRelative()){
+            if ($dim->getValue() >= 2){
+                return 'modal-lg';
+            } else {
+                return ''; 
+            }
         }
-        return parent::getWidth();
+        return '';
     }
 
     /**

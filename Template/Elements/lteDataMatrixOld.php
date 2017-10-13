@@ -8,7 +8,7 @@ class lteDataMatrixOld extends lteDataTable
 
     /**
      *
-     * @see \exface\AdminLteTemplate\Template\Elements\jqmAbstractElement::getWidget()
+     * @see \exface\AdminLteTemplate\Template\Elements\lteAbstractElement::getWidget()
      * @return \exface\Core\Widgets\DataMatrix
      */
     public function getWidget()
@@ -82,7 +82,7 @@ class lteDataMatrixOld extends lteDataTable
         }
         // add the sorters
         foreach ($widget->getSorters() as $sort) {
-            $ds->getSorters()->addFromString($sort->attribute_alias, $sort->direction);
+            $ds->getSorters()->addFromString($sort->getProperty('attribute_alias'), $sort->getProperty('direction'));
         }
         
         // get the data
@@ -117,7 +117,7 @@ class lteDataMatrixOld extends lteDataTable
         foreach ($result as $row) {
             $output .= '<tr>';
             foreach ($row as $fld => $val) {
-                $output .= '<td class="' . $this->buildCssColumnClass($widget->getColumn($fld) ? $widget->getColumn($fld) : $widget->getDataColumn()) . '">' . $val . '</td>';
+                $output .= '<td class="' . $this->buildCssColumnClass($widget->getColumnByDataColumnName($fld) ? $widget->getColumnByDataColumnName($fld) : $widget->getDataColumn()) . '">' . $val . '</td>';
             }
             $output = substr($output, 0, - 1);
             $output .= '</tr>';

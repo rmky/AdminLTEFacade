@@ -30,6 +30,17 @@ class lteChart extends lteDataTable
             $header = $widget->getHideHeader() ? '' : $this->buildHtmlHeader();
         }
         
+        $style = '';
+        if (! $this->getWidget()->getHeight()->isUndefined()){
+            $height = $this->getHeight();
+            if (! $this->hasFooter()){
+                $height = 'calc(' . $height . ' + 35px)';
+            }
+            $style .= 'height:' . $height . ';';
+        } else {
+            $style .= 'min-height: ' . $this->getHeight() . ';';
+        }
+        
         // Create the panel for the chart
         $output = <<<HTML
 
@@ -39,7 +50,7 @@ class lteChart extends lteDataTable
             {$header}
         </div><!-- /.box-header -->
         <div class="box-body">
-            <div id="{$this->getId()}" style="height: {$this->getHeight()}; width: calc(100% + 8px)"></div>
+            <div id="{$this->getId()}" style="{$style} width: calc(100% + 8px)"></div>
         </div>
     </div>
     {$this->buildHtmlChartCustomizer()}
@@ -285,7 +296,7 @@ JS;
 		    $("#' . $this->getId() . '").bind("plothover", function (event, pos, item) {
 		      if (item) {
 		        var x = new Date(item.datapoint[0]),
-		            y = item.datapoint[1].toFixed(2);
+		            y = isNaN(item.datapoint[1]) ? item.datapoint[1] : item.datapoint[1].toFixed(2);
 		
 		        $("#' . $this->getId() . '_tooltip").html(x.toLocaleDateString() + "<br/>" + item.series.label + ": " + y)
 		            .css({top: item.pageY + 5, left: item.pageX + 5})
@@ -375,7 +386,8 @@ JS;
 
     public function generateHeaders()
     {
-        $includes = parent::generateHeaders();
+        $includes = [];
+        
         // flot
         $includes[] = '<script type="text/javascript" src="exface/vendor/npm-asset/flot-charts/jquery.flot.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/npm-asset/flot-charts/jquery.flot.resize.js"></script>';
@@ -527,6 +539,12 @@ JS;
 
 HTML;
         return $output;
+    }
+    
+    protected function hasFooter()
+    {
+        // TODO
+        return false;
     }
 }
 ?>

@@ -40,61 +40,31 @@ class lteDataTable extends lteAbstractElement
     function generateHtml()
     {
         $widget = $this->getWidget();
-        $thead = '';
-        $tfoot = '';
-        
-        // Column headers
-        /* @var $col \exface\Core\Widgets\DataColumn */
-        foreach ($widget->getColumns() as $col) {
-            $thead .= '<th title="' . $col->getHint() . '">' . $col->getCaption() . '</th>';
-            if ($widget->hasColumnFooters()) {
-                $tfoot .= '<th class="text-right"></th>';
-            }
-        }
-        
-        // Extra column for the multiselect-checkbox
-        if ($widget->getMultiSelect()) {
-            $checkbox_header = '<th onclick="javascript: if(!$(this).parent().hasClass(\'selected\')) {' . $this->getId() . '_table.rows().select(); $(\'#' . $this->getId() . '_wrapper\').find(\'th.select-checkbox\').parent().addClass(\'selected\');} else{' . $this->getId() . '_table.rows().deselect(); $(\'#' . $this->getId() . '_wrapper\').find(\'th.select-checkbox\').parent().removeClass(\'selected\');}"></th>';
-            $thead = $checkbox_header . $thead;
-            if ($tfoot) {
-                $tfoot = $checkbox_header . $tfoot;
-            }
-        }
-        
-        // Extra column for expand-button if rows have details
-        if ($widget->hasRowDetails()) {
-            $thead = '<th></th>' . $thead;
-            if ($tfoot) {
-                $tfoot = '<th></th>' . $tfoot;
-            }
-        }
-        
-        if ($tfoot) {
-            $tfoot = '<tfoot>' . $tfoot . '</tfoot>';
-        }
         
         // Toolbars
         $footer_style = $widget->getHideFooter() ? 'display: none;' : '';
         $footer = $this->buildHtmlFooter($this->buildHtmlToolbars());
         $header = $this->buildHtmlHeader();
         
+        $style = '';
+        if (! $this->getWidget()->getHeight()->isUndefined()){
+            $height = $this->getHeight();
+            if ($widget->getHideFooter()){
+                $height = 'calc(' . $height . ' + 55px)';
+            }
+            $style .= 'height:' . $height . '; overflow-y: auto;';
+        }
+        
         // output the html code
         $output = <<<HTML
     <div class="box-header">
         {$header}
     </div><!-- /.box-header -->
-    <div class="box-body no-padding">
-        <table id="{$this->getId()}" class="table table-striped table-hover" cellspacing="0" width="100%">
-            <thead>
-                {$thead}
-            </thead>
-            {$tfoot}
-        </table>
+    <div class="box-body no-padding" style="{$style}">
+        {$this->buildHtmlTable('table table-striped table-hover')}
     </div>
-    <div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
-        <div class="row">
-            {$footer}
-        </div>
+    <div class="box-footer clearfix" style="padding-bottom: 0px; min-height: 55px; {$footer_style}">
+        {$footer}
     </div>
     {$this->buildHtmlTableCustomizer()}
 HTML;
@@ -105,6 +75,7 @@ HTML;
     protected function buildHtmlWrapper($html)
     {
         $result = $html;
+        
         if (! $this->getWidget()->getParent() || $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) {
             $result = <<<HTML
 <div class="box">{$result}</div>
@@ -197,6 +168,8 @@ function {$this->getId()}_drawPagination(){
 
 {$this->getTemplate()->getElement($widget->getConfiguratorWidget())->generateJs()}
 
+{$this->buildJsRowGroupFunctions()}
+
 {$this->buildJsButtons()}
 
 JS;
@@ -208,12 +181,17 @@ JS;
     {
         $includes = parent::generateHeaders();
         // DataTables
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/almasaeed2010/adminlte/plugins/datatables/dataTables.bootstrap.css">';
+        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-bs/css/dataTables.bootstrap.css">';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net/js/jquery.dataTables.min.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/DataTables.exface.helpers.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-select/js/dataTables.select.min.js"></script>';
         $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-select-bs/css/select.bootstrap.min.css">';
+        
+        if ($this->getWidget()->hasRowGroups()){
+            $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-rowgroup/js/dataTables.rowgroup.min.js"></script>';
+            $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-rowgroup-bs/css/rowGroup.bootstrap.min.css">';
+        }
         
         // Sortable plugin for column sorting in the table configuration popup
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jquery-sortable/source/js/jquery-sortable-min.js"></script>';
@@ -231,25 +209,28 @@ JS;
 
     protected function buildHtmlHeader()
     {
+        $widget = $this->getWidget();
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
-        
-        $quick_search_fields = $this->getWidget()->getMetaObject()->getLabelAttribute() ? $this->getWidget()->getMetaObject()->getLabelAttribute()->getName() : '';
-        foreach ($this->getWidget()->getConfiguratorWidget()->getQuickSearchFilters() as $qfltr) {
-            $quick_search_fields .= ($quick_search_fields ? ', ' : '') . $qfltr->getCaption();
-        }
-        if ($quick_search_fields)
-            $quick_search_fields = ': ' . $quick_search_fields;
         
         if (! $this->getWidget()->getLazyLoading()) {
             $filter_button_disabled = ' disabled';
         }
         
-        if ($this->getWidget()->getHideHeader()) {
+        if ($widget->getHideHeader()) {
+            $header_pagination = '';
+            if ($widget->getHideFooter() && $widget->getPaginate()){
+                $header_pagination = <<<HTML
+        <button type="button" href="#" id="{$this->getId()}_prevPage" class="btn btn-box-tool"><i class="fa fa-caret-left"></i></button>
+        <button type="button" href="#" id="{$this->getId()}_nextPage" class="btn btn-box-tool"><i class="fa fa-caret-right"></i></button>
+HTML;
+            }
+            
             $output = <<<HTML
     <h3 class="box-title">$table_caption</h3>
     <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#{$this->getId()}_popup_config" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-filter"></i></button>
         <button type="button" class="btn btn-box-tool" onclick="{$this->buildJsRefresh(false)} return false;"  title="{$this->translate('WIDGET.REFRESH')}"><i class="fa fa-refresh"></i></button>
+        {$header_pagination}
     </div>
 HTML;
         } else {
@@ -265,7 +246,7 @@ HTML;
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default btn-advanced-filtering" data-toggle="modal"{$filter_button_disabled} data-target="#{$this->getId()}_popup_config"><i class="fa fa-filter"></i></button>
                     </span>
-                    <input id="{$this->getId()}_quickSearch" type="text" class="form-control" placeholder="Quick search{$quick_search_fields}" />
+                    <input id="{$this->getId()}_quickSearch" type="text" class="form-control" placeholder="{$this->getQuickSearchPlaceholder()}" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" onclick="{$this->buildJsRefresh(false)} return false;"><i class="fa fa-search"></i></button>
                     </span>
@@ -282,11 +263,16 @@ HTML;
 
     protected function buildHtmlFooter($buttons_html)
     {
+        $widget = $this->getWidget();
+        
+        $paginator_class = ! $widget->getPaginate() ? 'hidden' : '';
+        $refresh_button_class = ! $widget->getLazyLoading() ? 'hidden' : '';
+        $configurator_button_class = ! $widget->getLazyLoading() ? 'hidden': '';
+        
         $output = <<<HTML
-            <div class="col-xs-12 col-sm-6" style="padding-top: 10px;">{$buttons_html}</div>
-            <div class="col-xs-12 col-sm-6 text-right" style="padding-top: 10px;">
+            <div class="pull-right text-right exf-toolbar" style="min-width: 240px;">
                 <form class="form-inline">
-                    <div class="btn-group dropup" role="group" id="#{$this->getId()}_pageControls">
+                    <div class="btn-group dropup {$paginator_class}" role="group" id="#{$this->getId()}_pageControls">
                         <button type="button" href="#" id="{$this->getId()}_prevPage" class="btn btn-default"><i class="fa fa-caret-left"></i></button>
                         <button type="button" href="#" id="{$this->getId()}_pageInfo" class="btn btn-default" data-toggle="dropdown">0 - 0 / 0</buton>
                         <button type="button" href="#" id="{$this->getId()}_nextPage" class="btn btn-default"><i class="fa fa-caret-right"></i></button>
@@ -303,10 +289,12 @@ HTML;
                             </li>
                         </ul>
                     </div>
-                    <button type="button" data-target="#" class="btn btn-default" onclick="{$this->buildJsRefresh(true)} return false;" title="{$this->translate('WIDGET.REFRESH')}"><i class="fa fa-refresh"></i></button>
-                    <button type="button" data-target="#{$this->getId()}_popup_config" data-toggle="modal" class="btn btn-default" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-gear"></i></button>
+                    <button type="button" data-target="#" class="btn btn-default {$refresh_button_class}" onclick="{$this->buildJsRefresh(true)} return false;" title="{$this->translate('WIDGET.REFRESH')}"><i class="fa fa-refresh"></i></button>
+                    <button type="button" data-target="#{$this->getId()}_popup_config" data-toggle="modal" class="btn btn-default {$configurator_button_class}" title="{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}"><i class="fa fa-gear"></i></button>
                 </form>
             </div>
+            {$buttons_html}
+            
 HTML;
         return $output;
     }
@@ -375,12 +363,17 @@ JS;
         return $output;
     }
 
+    protected function buildJsContextMenu()
+    {
+        return "context.attach('#{$this->getId()} tbody tr', {$this->buildJsContextMenuLevel($this->getWidget()->getButtons())});";
+    }
+    
     /**
      * 
      * @param Button[] $buttons
      * @return string
      */
-    protected function buildJsContextMenu(array $buttons)
+    protected function buildJsContextMenuLevel(array $buttons)
     {
         $context_menu_js = '';
         $widget = $this->getWidget();
@@ -419,7 +412,7 @@ JS;
             $menu_item = <<<JS
     {
         text: "{$icon} {$caption}", 
-        subMenu: {$this->buildJsContextMenu($button->getButtons())}
+        subMenu: {$this->buildJsContextMenuLevel($button->getButtons())}
     }
 JS;
         } else {
