@@ -31,7 +31,7 @@ class lteComboTable extends lteInput
         if ($widget->getTable()->hasFilters()) {
             foreach ($widget->getTable()->getFilters() as $fltr) {
                 if ($link = $fltr->getValueWidgetLink()) {
-                    $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $this->getPageAlias());
+                    $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $widget->getPage());
                     
                     $widget_lazy_loading_group_id = $widget->getLazyLoadingGroupId();
                     $linked_element_lazy_loading_group_id = method_exists($linked_element->getWidget(), 'getLazyLoadingGroupId') ? $linked_element->getWidget()->getLazyLoadingGroupId() : '';
@@ -215,7 +215,7 @@ window.{$this->getId()}_ms = $("#{$this->getId()}_ms").magicSuggest({
     },
     data: "{$this->getAjaxUrl()}",
     dataUrlParams: {
-        resource: "{$this->getPageAlias()}",
+        resource: "{$widget->getPage()->getAliasWithNamespace()}",
         element: "{$widget->getTable()->getId()}",
         object: "{$widget->getTable()->getMetaObject()->getId()}",
         action: "{$widget->getLazyLoadingAction()}",
@@ -575,7 +575,7 @@ JS;
             foreach ($widget->getTable()->getFilters() as $fltr) {
                 if ($link = $fltr->getValueWidgetLink()) {
                     // filter is a live reference
-                    $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $this->getPageAlias());
+                    $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $widget->getPage());
                     $filters[] = 'dataUrlParams.fltr' . str_pad($fltrId ++, 2, 0, STR_PAD_LEFT) . '_' . urlencode($fltr->getAttributeAlias()) . ' = "' . $fltr->getComparator() . '"+' . $linked_element->buildJsValueGetter($link->getColumnId()) . ';';
                 } else {
                     // filter has a static value

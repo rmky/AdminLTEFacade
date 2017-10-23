@@ -85,7 +85,7 @@ class lteButton extends lteAbstractElement
         /* @var $prefill_link \exface\Core\CommonLogic\WidgetLink */
         $prefill = '';
         if ($prefill_link = $this->getAction()->getPrefillWithDataFromWidgetLink()) {
-            if (strcasecmp($prefill_link->getPage()->getAliasWithNamespace(), $this->getPageAlias()) == 0) {
+            if ($prefill_link->getPage()->is($widget->getPage())) {
                 $prefill = ", prefill: " . $this->getTemplate()->getElement($prefill_link->getWidget())->buildJsDataGetter($this->getAction());
             }
         }
@@ -100,7 +100,7 @@ class lteButton extends lteAbstractElement
 							dataType: 'html',
 							data: {
 								action: '{$widget->getActionAlias()}',
-								resource: '{$this->getPageAlias()}',
+								resource: '{$widget->getPage()->getAliasWithNamespace()}',
 								element: '{$widget->getId()}',
 								data: requestData
 								{$prefill}
