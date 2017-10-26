@@ -209,7 +209,7 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 	}
 	var data = {};
     data.action = '{$widget->getLazyLoadingAction()}';
-	data.resource = "{$this->getPageId()}";
+	data.resource = "{$widget->getPage()->getAliasWithNamespace()}";
 	data.element = "{$widget->getId()}";
 	data.object = "{$this->getWidget()->getMetaObject()->getId()}";
     data.q = $('#{$this->getId()}_quickSearch').val();			

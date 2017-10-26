@@ -229,7 +229,7 @@ JS;
         if (! $widget->getDataWidgetLink()) {
             
             $post_data = '
-                            data.resource = "' . $this->getPageId() . '";
+                            data.resource = "' . $widget->getPage()->getAliasWithNamespace() . '";
                             data.element = "' . $widget->getData()->getId() . '";
                             data.object = "' . $widget->getMetaObject()->getId() . '";
                             data.action = "' . $widget->getLazyLoadingAction() . '";
@@ -416,7 +416,7 @@ JS;
     {
         if ($link = $this->getWidget()->getDataWidgetLink()) {
             /* @var $linked_element \exface\Templates\jEasyUI\Widgets\euiData */
-            $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $this->getPageId());
+            $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $this->getWidget()->getPage());
             if ($linked_element) {
                 $linked_element->addOnLoadSuccess($this->buildJsLiveRefrence());
             }
@@ -428,7 +428,7 @@ JS;
     {
         $output = '';
         if ($link = $this->getWidget()->getDataWidgetLink()) {
-            $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $this->getPageId());
+            $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $this->getWidget()->getPage());
             $output .= $this->buildJsFunctionPrefix() . 'plot(' . $linked_element->buildJsDataGetter() . ".rows);";
         }
         return $output;

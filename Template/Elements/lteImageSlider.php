@@ -193,7 +193,7 @@ function {$this->buildJsFunctionPrefix()}load(){
 	$('#{$this->getId()}').data('loading', 1);
 	var data = {};
     data.action = '{$widget->getLazyLoadingAction()}';
-	data.resource = "{$this->getPageId()}";
+	data.resource = "{$widget->getPage()->getAliasWithNamespace()}";
 	data.element = "{$widget->getId()}";
 	data.object = "{$this->getWidget()->getMetaObject()->getId()}";
 	{$filters_ajax}
