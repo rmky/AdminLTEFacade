@@ -35,7 +35,7 @@ HTML;
         // der erste Tab ist aktiv
         $active_class = $widget === $widget->getParent()->getChildren()[0] ? 'active' : '';
         $disabled_class = $widget->isDisabled() ? 'disabled' : '';
-        $icon = $widget->getIconName() ? '<i class="' . $this->buildCssIconClass($widget->getIconName()) . '"></i>' : '';
+        $icon = $widget->getIcon() ? '<i class="' . $this->buildCssIconClass($widget->getIcon()) . '"></i>' : '';
         
         $output = <<<HTML
 

@@ -63,7 +63,7 @@ HTML;
                 $buttons_html .= '
     					<li class="' . $disabled_class . '">
     						<a id="' . $this->getTemplate()->getElement($b)->getId() . '" data-target="#"' . ($b->isDisabled() ? '' : ' onclick="' . $this->getTemplate()->getElement($b)->buildJsClickFunctionName(). '();"') . '>
-    							<i class="' . $this->buildCssIconClass($b->getIconName()) . '"></i>' . $b->getCaption() . '
+    							<i class="' . $this->buildCssIconClass($b->getIcon()) . '"></i>' . $b->getCaption() . '
     						</a>
     					</li>';
             }

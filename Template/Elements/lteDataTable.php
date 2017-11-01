@@ -401,7 +401,7 @@ JS;
         /* @var $btn_element \exface\AdminLteTemplate\lteButton */
         $btn_element = $this->getTemplate()->getElement($button);
         
-        $icon = '<i class=\'' . $btn_element->buildCssIconClass($button->getIconName()) . '\'></i> ';
+        $icon = '<i class=\'' . $btn_element->buildCssIconClass($button->getIcon()) . '\'></i> ';
         
         if ($button instanceof MenuButton){
             if ($button->getParent() instanceof ButtonGroup && $button === $this->getTemplate()->getElement($button->getParent())->getMoreButtonsMenu()){

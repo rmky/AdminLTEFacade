@@ -67,7 +67,7 @@ class lteButton extends lteAbstractElement
         
         // In any case, create a button
         $button_class = $widget->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? ' btn-primary' : ' btn-default';
-        $icon_class = $widget->getIconName() && ! $widget->getHideButtonIcon() ? ' ' . $this->buildCssIconClass($widget->getIconName()) : '';
+        $icon_class = $widget->getIcon() && ! $widget->getHideButtonIcon() ? ' ' . $this->buildCssIconClass($widget->getIcon()) : '';
         $hidden_class = $widget->isHidden() ? ' exfHidden' : '';
         $disabled_class = $widget->isDisabled() ? ' disabled' : '';
         $align_class = $this->getAlignClass();

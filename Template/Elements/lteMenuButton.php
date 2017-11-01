@@ -27,7 +27,7 @@ class lteMenuButton extends lteAbstractElement
     {
         $output = '';
         
-        $icon = ($this->getWidget()->getIconName() ? '<i class="' . $this->buildCssIconClass($this->getWidget()->getIconName()) . '"></i> ' : '');
+        $icon = ($this->getWidget()->getIcon() ? '<i class="' . $this->buildCssIconClass($this->getWidget()->getIcon()) . '"></i> ' : '');
         
         $button_class = $this->getWidget()->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? ' btn-primary' : ' btn-default';
         $align_class = $this->getAlignClass();
