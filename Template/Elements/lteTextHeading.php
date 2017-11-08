@@ -8,7 +8,7 @@ class lteTextHeading extends lteText
     {
         $output = '';
         $output .= '<h' . $this->getWidget()->getHeadingLevel() . ' id="' . $this->getId() . '">' . $this->getWidget()->getText() . '</h' . $this->getWidget()->getHeadingLevel() . '>';
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 }
 ?>

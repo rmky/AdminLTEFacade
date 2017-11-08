@@ -15,9 +15,18 @@ class lteChart extends lteDataTable
     public function init()
     {
         parent::init();
-        $this->setHeightDefault('9');
         // Connect to an external data widget if a data link is specified for this chart
         // TODO $this->registerLiveReferenceAtLinkedElement();
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildCssHeightDefaultValue()
+     */
+    protected function buildCssHeightDefaultValue()
+    {
+        return ($this->getHeightRelativeUnit() * 9) . 'px'; 
     }
 
     public function generateHtml()
@@ -44,7 +53,7 @@ class lteChart extends lteDataTable
         // Create the panel for the chart
         $output = <<<HTML
 
-<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
     <div class="box">
         <div class="box-header">
             {$header}

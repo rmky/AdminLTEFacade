@@ -7,7 +7,7 @@ class lteBox extends lteForm
     public function generateHtml()
     {
         $output = <<<HTML
-<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
 	{$this->buildHtmlBox()}
 </div>
 HTML;

@@ -18,7 +18,7 @@ class lteImageSlider extends lteDataCards
         // output the html code
         $output = <<<HTML
 
-<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
 	<div class="box" >
 		<div class="box-header">
 			{$top_toolbar}
@@ -68,9 +68,9 @@ HTML;
         return $output;
     }
 
-    public function getHeightDefault()
+    protected function buildCssHeightDefaultValue()
     {
-        return 12;
+        return ($this->getHeightRelativeUnit() * 12) . 'px';
     }
 
     function generateJs()
@@ -118,7 +118,7 @@ HTML;
                 if (! $fltr->isHidden()) {
                     $filters_js_promoted .= "
 							if (" . $fltr_element->buildJsValueGetter() . " && $('#" . $fltr_element->getId() . "').parents('#{$this->getId()}_popup_config').length > 0){
-								var fltr = $('#" . $fltr_element->getId() . "').parents('.exf_input');
+								var fltr = $('#" . $fltr_element->getId() . "').parents('.exf-input');
 								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->getId()}_filters_container');
 								fltr.detach().appendTo(ui_block).trigger('resize');
 								$('#{$this->getId()}_filters_container').show();

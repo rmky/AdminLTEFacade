@@ -64,7 +64,7 @@ class lteDataCards extends lteDataList
 
 <script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
 { {#data}}
-    <div class="fitem col-lg-3 col-md-4 col-sm-5 col-xs-12">
+    <div class="exf-grid-item col-lg-3 col-md-4 col-sm-5 col-xs-12">
     	<div class="box box-default box-solid">
         	<div class="box-body" style="overflow: hidden;">
 				{$column_templates}
@@ -76,7 +76,7 @@ class lteDataCards extends lteDataList
 	
 HTML;
         
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 
     function generateColumnTemplate(DataColumn $column)
@@ -180,7 +180,7 @@ var {$this->getId()}_pages = {
 $(document).ready(function() {
 	$('#{$this->getId()}').masonry({
 		columnWidth: '#{$this->getId()}_sizer', 
-		itemSelector: '.fitem'
+		itemSelector: '.exf-grid-item'
 	});
 	
 	{$this->buildJsFunctionPrefix()}load();
@@ -242,7 +242,7 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 		           .imagesLoaded( function(){ 
 		              $('#{$this->getId()} .placeholder').hide();
 		              $('#{$this->getId()}').show().masonry('appended', elements);
-		              $('#{$this->getId()}').closest('.fitem').trigger('resize');
+		              $('#{$this->getId()}').closest('.exf-grid-item').trigger('resize');
 		              {$this->buildJsBusyIconHide()}
 		              $('#{$this->getId()}').data('loading', 0);
 		         });

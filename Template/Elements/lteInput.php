@@ -39,14 +39,14 @@ class lteInput extends lteText
                             {$disabledScript} />
 
 HTML;
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 
-    public function buildHtmlWrapper($inner_html)
+    public function buildHtmlGridItemWrapper($inner_html)
     {
         $output = <<<HTML
 
-                    <div class="exf_input fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}" title="{$this->buildHintText()}">
+                    <div class="exf-input exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}" title="{$this->buildHintText()}">
                         {$inner_html}
                     </div>
 HTML;

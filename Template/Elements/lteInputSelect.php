@@ -42,7 +42,7 @@ class lteInputSelect extends lteInput
 						</select>
 					';
         
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 }
 ?>

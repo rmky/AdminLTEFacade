@@ -20,7 +20,7 @@ class lteInputText extends lteInput
                                 {$disabledScript}>{$this->getValueWithDefaults()}</textarea>
 HTML;
         
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 
     function generateJs()

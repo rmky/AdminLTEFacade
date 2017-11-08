@@ -119,7 +119,7 @@ JS;
 								{$valueSkript} />
 HTML;
         
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 
     /**

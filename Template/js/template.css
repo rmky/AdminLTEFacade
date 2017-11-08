@@ -5,7 +5,7 @@
 /* Bootstrap customization */
 ul.datalist li {padding: 4px 0;}
 .tab-content>.tab-pane {height: initial !important;}
-.exf_input>.form-group {margin-bottom: initial;}
+.exf-input>.form-group {margin-bottom: initial;}
 .modal-body-content-wrapper>.nav-tabs-custom {margin-top: -15px;margin-bottom: -15px}
 .modal-footer {text-align: left}
 .datalist {z-index: 2000}
@@ -26,7 +26,7 @@ ul.datalist li {padding: 4px 0;}
 .user-menu .exf-menu .user-header i {color: #4b646f; font-size: 90px;}
 .user-panel .image i {color: #4b646f; font-size: 45px;}
 .box .box, .dropdown .box, .tab-pane .box {border: 0; box-shadow: none; margin-bottom: 0;}
-.dropdown .fitem > .box {margin: 0 -15px 0 -15px; width: calc(100% + 30px);}
+.dropdown .exf-grid-item > .box {margin: 0 -15px 0 -15px; width: calc(100% + 30px);}
 
 /* DataTables customization */
 table.dataTable tr.detailRow table {width: initial;}

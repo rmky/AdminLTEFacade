@@ -52,7 +52,7 @@ class lteInputDate extends lteInput
                 </div>
 
 HTML;
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 
     function generateJs()

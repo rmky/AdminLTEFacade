@@ -26,7 +26,7 @@ class ltePanel extends lteContainer implements JqueryLayoutInterface
             $children_html = $this->buildHtmlChildrenWrapperPlain($this->buildHtmlForChildren());
         }
         
-        return $this->buildHtmlWrapper($children_html);
+        return $this->buildHtmlGridItemWrapper($children_html);
     }
     
     /**
@@ -35,11 +35,11 @@ class ltePanel extends lteContainer implements JqueryLayoutInterface
      * @param string $contents_html
      * @return string
      */
-    protected function buildHtmlWrapper($contents_html)
+    protected function buildHtmlGridItemWrapper($contents_html)
     {
         return <<<HTML
         
-                <div id="{$this->getId()}" class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
+                <div id="{$this->getId()}" class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
                     {$contents_html}
                 </div>
 HTML;
@@ -196,7 +196,7 @@ JS;
      */
     protected function buildCssLayoutItemClass()
     {
-        return $this->getId() . '_masonry_fitem';
+        return $this->getId() . '_masonry_exf-grid-item';
     }
 
     /**

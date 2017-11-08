@@ -62,14 +62,14 @@ class lteText extends lteAbstractElement
         }
         
         $output .= '<p id="' . $this->getId() . '" class="exf-text-content" style="' . $style . '">' . $html . '</p>';
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 
-    public function buildHtmlWrapper($inner_html)
+    public function buildHtmlGridItemWrapper($inner_html)
     {
         $output = <<<HTML
 
-                    <div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssClasses()}" title="{$this->buildHintText()}">
+                    <div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssClasses()}" title="{$this->buildHintText()}">
                             {$inner_html}
                     </div>
 HTML;

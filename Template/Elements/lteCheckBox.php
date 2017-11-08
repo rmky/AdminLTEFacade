@@ -10,7 +10,7 @@ class lteCheckBox extends lteAbstractElement
         $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled"' : '';
         $output = <<<HTML
 
-                    <div class="exf_input fitem {$this->getMasonryItemClass()} checkbox {$this->getWidthClasses()}" title="{$this->buildHintText()}">
+                    <div class="exf-input exf-grid-item {$this->getMasonryItemClass()} checkbox {$this->getWidthClasses()}" title="{$this->buildHintText()}">
                         <label>
                             <input type="checkbox" value="1"
                                     form=""

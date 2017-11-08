@@ -118,7 +118,7 @@ JS;
     {
         $output = '';
         if (($containerWidget = $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget instanceof iLayoutWidgets)) {
-            $output = $this->getTemplate()->getElement($containerWidget)->getId() . '_masonry_fitem';
+            $output = $this->getTemplate()->getElement($containerWidget)->getId() . '_masonry_exf-grid-item';
         }
         return $output;
     }

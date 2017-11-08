@@ -69,10 +69,10 @@ class lteDataTable extends lteAbstractElement
     {$this->buildHtmlTableCustomizer()}
 HTML;
         
-        return $this->buildHtmlWrapper($output);
+        return $this->buildHtmlGridItemWrapper($output);
     }
 
-    protected function buildHtmlWrapper($html)
+    protected function buildHtmlGridItemWrapper($html)
     {
         $result = $html;
         
@@ -82,7 +82,7 @@ HTML;
 HTML;
         }
         $result = <<<HTML
-<div class="fitem {$this->getMasonryItemClass()} {$this->getWidthClasses()}">{$result}</div>
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">{$result}</div>
 HTML;
         return $result;
     }
