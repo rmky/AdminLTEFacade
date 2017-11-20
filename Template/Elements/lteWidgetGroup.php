@@ -1,7 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-class lteInputGroup extends ltePanel
+class lteWidgetGroup extends ltePanel
 {
     protected function buildHtmlCaption()
     {
