@@ -56,15 +56,7 @@ HTML;
 
     public function getValueWithDefaults()
     {
-        if ($this->getWidget()->getValueExpression() && $this->getWidget()->getValueExpression()->isReference()) {
-            $value = '';
-        } else {
-            $value = $this->getWidget()->getValue();
-        }
-        if (is_null($value) || $value === '') {
-            $value = $this->getWidget()->getDefaultValue();
-        }
-        return $value;
+        return $this->escapeString($this->getWidget()->getValueWithDefaults());
     }
 
     function generateJs()
