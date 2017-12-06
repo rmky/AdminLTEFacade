@@ -53,10 +53,8 @@ class lteDataCards extends lteDataList
 			<div class="col-xs-1" id="{$this->getId()}_sizer"></div>
 		</div>
 	</div>
-	<div class="box-footer clearfix" style="padding-top: 0px; {$footer_style}">
-		<div class="row">
-			{$bottom_toolbar}
-		</div>
+	<div class="box-footer clearfix" style="padding-bottom: 0px; min-height: 55px; {$footer_style}">
+		{$bottom_toolbar}
 	</div>
 </div>
 {$this->buildHtmlTableCustomizer()}
