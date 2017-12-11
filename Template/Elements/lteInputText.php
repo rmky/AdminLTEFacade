@@ -39,5 +39,15 @@ JS;
         
         return $output;
     }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildCssHeightDefaultValue()
+     */
+    protected function buildCssHeightDefaultValue()
+    {
+        return ($this->getHeightRelativeUnit() * 2) . 'px';
+    }
 }
 ?>
