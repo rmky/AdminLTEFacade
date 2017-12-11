@@ -44,20 +44,26 @@ class lteChart extends lteDataTable
         }
         
         $style = '';
-        if (! $this->getWidget()->getHeight()->isUndefined()){
+        if (! $widget->getHeight()->isUndefined()){
             $height = $this->getHeight();
             if (! $this->hasFooter()){
                 $height = 'calc(' . $height . ' + 35px)';
             }
             $style .= 'height:' . $height . ';';
-        } else {
-            $style .= 'min-height: ' . $this->getHeight() . ';';
+        } 
+        
+        if ($widget->getHeight()->isPercentual() || $widget->getHeight()->isUndefined()){
+            $style .= 'min-height: ' . $this->buildCssHeightDefaultValue() . ';';
+        }
+        
+        if (! $this->getWidthClasses()) {
+            $wrapper_style .= 'width: 100%';
         }
         
         // Create the panel for the chart
         $output = <<<HTML
 
-<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}" style="{$wrapper_style}">
     <div class="box">
         <div class="box-header">
             {$header}
