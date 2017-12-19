@@ -497,7 +497,7 @@ JS;
 
             $("#{$this->getId()}").closest(".box-body").append("\
                 <div id='{$this->getId()}_no_initial_load_message'\
-                     class='overlay no-initial-load-message-overlay'>\
+                     class='no-initial-load-message-overlay'>\
                     <table class='no-initial-load-message-overlay-table'>\
                         <tr>\
                             <td style='text-align:center;'>\

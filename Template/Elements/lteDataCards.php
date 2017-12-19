@@ -39,6 +39,14 @@ class lteDataCards extends lteDataList
         $bottom_toolbar = $widget->getHideFooter() ? '' : $this->buildHtmlFooter($this->buildHtmlToolbars());
         $top_toolbar = $this->buildHtmlHeader();
         
+        // autoload_data
+        if (! $widget->getAutoloadData() && $widget->getLazyLoading()) {
+            $aldMessageAppend = <<<HTML
+
+            <div id="{$this->getId()}_no_initial_load_message" class="placeholder dataTables_empty">{$widget->getTextNotLoaded()}</div>
+HTML;
+        }
+        
         // output the html code
         // TODO replace "stripe" class by a custom css class
         $output = <<<HTML
@@ -50,6 +58,7 @@ class lteDataCards extends lteDataList
 	<div class="box-body no-padding">
 		<div id="{$this->getId()}" class="exf-datacards masonry">
 			<div class="placeholder dataTables_empty">{$widget->getEmptyText()}</div>
+            {$aldMessageAppend}
 			<div class="col-xs-1" id="{$this->getId()}_sizer"></div>
 		</div>
 	</div>
@@ -159,6 +168,18 @@ HTML;
             $default_sorters = substr($default_sorters, 0, - 2);
         }
         
+        // autoload_data
+        if (! $widget->getAutoloadData() && $widget->getLazyLoading()) {
+            $aldSkipNextLoadSkript = <<<JS
+
+    $("#{$this->getId()}").data("_skipNextLoad", true);
+JS;
+            $aldMessageRemove = <<<JS
+
+            $("#{$this->getId()}_no_initial_load_message").remove();
+JS;
+        }
+        
         $output = <<<JS
 		
 var {$this->getId()}_pages = {
@@ -180,7 +201,9 @@ $(document).ready(function() {
 		columnWidth: '#{$this->getId()}_sizer', 
 		itemSelector: '.exf-grid-item'
 	});
-	
+    
+    {$aldSkipNextLoadSkript}
+    
 	{$this->buildJsFunctionPrefix()}load();
 	
 	{$this->buildJsPagination()}
@@ -260,11 +283,21 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 				});
 				{$this->getId()}_drawPagination();
 			}
+            {$aldMessageRemove}
 		},
 		error: function(jqXHR, textStatus,errorThrown){
 		   {$this->buildJsBusyIconHide()}
 		   {$this->buildJsShowError('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
-		}
+		},
+        beforeSend: function(jqXHR, settings) {
+            {$this->getId()}_jquery = $("#{$this->getId()}");
+            if ({$this->getId()}_jquery.data("_skipNextLoad") === true) {
+                {$this->getId()}_jquery.data("_skipNextLoad", false);
+                {$this->buildJsBusyIconHide()}
+                $('#{$this->getId()}').data('loading', 0);
+                return false;
+            }
+        }
 	});
 	
 }
