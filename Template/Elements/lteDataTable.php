@@ -212,7 +212,7 @@ JS;
         $widget = $this->getWidget();
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         
-        if (! $this->getWidget()->getLazyLoading()) {
+        if (! $this->isLazyLoading()) {
             $filter_button_disabled = ' disabled';
         }
         
@@ -266,8 +266,8 @@ HTML;
         $widget = $this->getWidget();
         
         $paginator_class = ! $widget->getPaginate() ? 'hidden' : '';
-        $refresh_button_class = ! $widget->getLazyLoading() ? 'hidden' : '';
-        $configurator_button_class = ! $widget->getLazyLoading() ? 'hidden': '';
+        $refresh_button_class = ! $this->isLazyLoading() ? 'hidden' : '';
+        $configurator_button_class = ! $this->isLazyLoading() ? 'hidden': '';
         
         $output = <<<HTML
             <div class="pull-right text-right exf-toolbar" style="min-width: 240px;">

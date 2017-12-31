@@ -218,7 +218,7 @@ window.{$this->getId()}_ms = $("#{$this->getId()}_ms").magicSuggest({
         resource: "{$widget->getPage()->getAliasWithNamespace()}",
         element: "{$widget->getTable()->getId()}",
         object: "{$widget->getTable()->getMetaObject()->getId()}",
-        action: "{$widget->getLazyLoadingAction()}",
+        action: "{$widget->getLazyLoadingActionAlias()}",
         length: {$widget->getMaxSuggestions()},
         start: 0
         {$initialFilterScript}

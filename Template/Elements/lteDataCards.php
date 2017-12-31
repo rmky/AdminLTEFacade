@@ -206,7 +206,7 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 		$('#{$this->getId()}').masonry('remove', currentItems).masonry('layout');
 	}
 	var data = {};
-    data.action = '{$widget->getLazyLoadingAction()}';
+    data.action = '{$widget->getLazyLoadingActionAlias()}';
 	data.resource = "{$widget->getPage()->getAliasWithNamespace()}";
 	data.element = "{$widget->getId()}";
 	data.object = "{$this->getWidget()->getMetaObject()->getId()}";

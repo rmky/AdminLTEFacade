@@ -20,6 +20,19 @@ class lteDataList extends lteDataTable
         // FIXME Move this
         $this->getWidget()->getUidColumn();
     }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    protected function isLazyLoading()
+    {
+        $widget_option = $this->getWidget()->getLazyLoading();
+        if (is_null($widget_option)) {
+            return true;
+        }
+        return $widget_option;
+    }
 
     function generateHtml()
     {
@@ -29,7 +42,7 @@ class lteDataList extends lteDataTable
         // Contents
         $list_items = '';
         
-        if (! $widget->getLazyLoading()) {
+        if (! $this->isLazyLoading()) {
             if ($widget->getValuesDataSheet()) {
                 $data = $widget->getValuesDataSheet();
             }

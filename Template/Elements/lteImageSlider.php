@@ -192,7 +192,7 @@ function {$this->buildJsFunctionPrefix()}load(){
 	{$this->buildJsBusyIconShow()}
 	$('#{$this->getId()}').data('loading', 1);
 	var data = {};
-    data.action = '{$widget->getLazyLoadingAction()}';
+    data.action = '{$widget->getLazyLoadingActionAlias()}';
 	data.resource = "{$widget->getPage()->getAliasWithNamespace()}";
 	data.element = "{$widget->getId()}";
 	data.object = "{$this->getWidget()->getMetaObject()->getId()}";

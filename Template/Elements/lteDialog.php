@@ -16,10 +16,23 @@ use exface\Core\Interfaces\Widgets\iContainOtherWidgets;
 class lteDialog extends lteForm
 {
 
+    /**
+     *
+     * @return boolean
+     */
+    protected function isLazyLoading()
+    {
+        $widget_option = $this->getWidget()->getLazyLoading();
+        if (is_null($widget_option)) {
+            return true;
+        }
+        return $widget_option;
+    }
+    
     function generateJs()
     {
         $output = '';
-        if (! $this->getWidget()->getLazyLoading()) {
+        if (! $this->isLazyLoading()) {
             $output .= $this->buildJsForWidgets();
         }
         $output .= $this->buildJsButtons();
@@ -47,7 +60,7 @@ JS;
             $style .= 'width: ' . $widget->getValue() . ';';
         }
         
-        if (! $this->getWidget()->getLazyLoading()) {
+        if (! $this->isLazyLoading()) {
             $output = <<<HTML
 
 <div class="modal" id="{$this->getId()}">
