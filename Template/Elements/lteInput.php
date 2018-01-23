@@ -4,7 +4,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLiveReferenceTrait;
 
-class lteInput extends lteText
+class lteInput extends lteValue
 {
     
     use JqueryLiveReferenceTrait;
@@ -40,18 +40,6 @@ class lteInput extends lteText
 
 HTML;
         return $this->buildHtmlGridItemWrapper($output);
-    }
-
-    public function buildHtmlGridItemWrapper($inner_html)
-    {
-        $output = <<<HTML
-
-                    <div class="exf-input exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}" title="{$this->buildHintText()}">
-                        {$inner_html}
-                    </div>
-HTML;
-        
-        return $output;
     }
 
     /**

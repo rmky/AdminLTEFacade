@@ -10,7 +10,7 @@ use exface\Core\Widgets\Text;
  * @author Andrej Kabachnik
  *        
  */
-class lteText extends lteAbstractElement
+class lteText extends lteValue
 {
 
     function generateHtml()
@@ -63,32 +63,6 @@ class lteText extends lteAbstractElement
         
         $output .= '<p id="' . $this->getId() . '" class="exf-text-content" style="' . $style . '">' . $html . '</p>';
         return $this->buildHtmlGridItemWrapper($output);
-    }
-
-    public function buildHtmlGridItemWrapper($inner_html)
-    {
-        $output = <<<HTML
-
-                    <div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssClasses()}" title="{$this->buildHintText()}">
-                            {$inner_html}
-                    </div>
-HTML;
-        
-        return $output;
-    }
-
-    public function buildCssClasses()
-    {
-        $classes = ' ';
-        if ($this->getWidget()->isHidden()) {
-            $classes .= 'hidden';
-        }
-        return $classes;
-    }
-
-    function generateJs()
-    {
-        return '';
     }
 }
 ?>
