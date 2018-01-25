@@ -1,0 +1,23 @@
+{
+    "id": "0xbec532def22011e7a9b9028037ec0200",
+    "alias_with_namespace": "exface.adminltetemplate.lteinputdatetest",
+    "menu_parent_page_alias": "exface.core.test",
+    "menu_index": "1",
+    "menu_visible": true,
+    "name": "lteInputDateTest",
+    "short_description": "",
+    "replaces_page_alias": null,
+    "contents": {
+        "widget_type": "Container",
+        "object_alias": "alexa.RMS.CONSUMER_COMPLAINT",
+        "widgets": [
+            {
+                "attribute_alias": "COMPLAINT_DATE",
+                "widget_type": "InputDate",
+                "id": "complaint_date",
+                "value": "-1d",
+                "required": false
+            }
+        ]
+    }
+}
