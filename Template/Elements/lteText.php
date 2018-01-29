@@ -10,7 +10,7 @@ use exface\Core\Widgets\Text;
  * @author Andrej Kabachnik
  *        
  */
-class lteText extends lteValue
+class lteText extends lteDisplay
 {
 
     function generateHtml()
@@ -53,15 +53,17 @@ class lteText extends lteValue
                 break;
         }
         
-        if ($this->getWidget()->getCaption() && ! $this->getWidget()->getHideCaption()) {
-            $output .= '<label for="' . $this->getId() . '" class="exf-text-label">' . $this->getWidget()->getCaption() . '</label>';
-        }
         
         if (! trim($html) && $this->getWidget()->getEmptyText()) {
             $html = $this->getWidget()->getEmptyText();
         }
         
-        $output .= '<p id="' . $this->getId() . '" class="exf-text-content" style="' . $style . '">' . $html . '</p>';
+        $output = <<<HTML
+            
+            {$this->buildHtmlLabel()}
+            <p id="{$this->getId()}" class="exf-control" style="{$style}">{$html}</p>
+
+HTML;
         return $this->buildHtmlGridItemWrapper($output);
     }
 }

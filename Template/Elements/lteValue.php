@@ -55,5 +55,13 @@ HTML;
     {
         return '';
     }
+    
+    protected function buildHtmlLabel()
+    {
+        if ($this->getWidget()->getCaption() && ! $this->getWidget()->getHideCaption()) {
+            return '<label for="' . $this->getId() . '" class="exf-text-label">' . $this->getWidget()->getCaption() . '</label>';
+        }
+        return '';
+    }
 }
 ?>
