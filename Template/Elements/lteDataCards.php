@@ -5,6 +5,7 @@ use exface\Core\Widgets\DataColumn;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 use exface\Core\DataTypes\HtmlDataType;
 use exface\Core\DataTypes\ImageUrlDataType;
+use exface\Core\Interfaces\Widgets\iShowText;
 
 /**
  *
@@ -80,6 +81,7 @@ HTML;
     function generateColumnTemplate(DataColumn $column)
     {
         $tpl = '';
+        // TODO use cell widgets to generate templates instead of taking the data type
         if ($column->getDataType() instanceof HtmlDataType) {
             $tpl = '{ { {' . $column->getDataColumnName() . '}}}';
         } elseif ($column->getDataType() instanceof ImageUrlDataType) {
@@ -87,25 +89,29 @@ HTML;
         } else {
             $tpl = '{ {' . $column->getDataColumnName() . '}}';
             
-            switch ($column->getSize()) {
-                case EXF_TEXT_SIZE_BIG:
-                    $tpl = '<big>' . $tpl . '</big>';
-                    break;
-                case EXF_TEXT_SIZE_SMALL:
-                    $tpl = '<small>' . $tpl . '</small>';
-                    break;
-            }
-            
-            switch ($column->getStyle()) {
-                case EXF_TEXT_STYLE_BOLD:
-                    $tpl = '<strong>' . $tpl . '</strong>';
-                    break;
-                case EXF_TEXT_STYLE_UNDERLINE:
-                    $tpl = '<ins>' . $tpl . '</ins>';
-                    break;
-                case EXF_TEXT_STYLE_STRIKETHROUGH:
-                    $tpl = '<del>' . $tpl . '</del>';
-                    break;
+            // TODO move styling to the respective cell widgets
+            $cellWidget = $column->getCellWidget();
+            if ($cellWidget instanceof iShowText) {
+                switch ($cellWidget->getSize()) {
+                    case EXF_TEXT_SIZE_BIG:
+                        $tpl = '<big>' . $tpl . '</big>';
+                        break;
+                    case EXF_TEXT_SIZE_SMALL:
+                        $tpl = '<small>' . $tpl . '</small>';
+                        break;
+                }
+                
+                switch ($cellWidget->getStyle()) {
+                    case EXF_TEXT_STYLE_BOLD:
+                        $tpl = '<strong>' . $tpl . '</strong>';
+                        break;
+                    case EXF_TEXT_STYLE_UNDERLINE:
+                        $tpl = '<ins>' . $tpl . '</ins>';
+                        break;
+                    case EXF_TEXT_STYLE_STRIKETHROUGH:
+                        $tpl = '<del>' . $tpl . '</del>';
+                        break;
+                }
             }
             
             $style = '';
