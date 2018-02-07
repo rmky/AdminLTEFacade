@@ -60,6 +60,7 @@ HTML;
             $output .= $this->buildJsRequired();
         }
         
+        $output .= $this->buildJsLiveReference();
         $output .= $this->buildJsOnChangeHandler();
         
         // Initialize the disabled state of the widget if a disabled condition is set.

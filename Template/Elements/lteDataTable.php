@@ -98,6 +98,8 @@ if ($.fn.dataTable != undefined){
     $.fn.dataTable.ext.errMode = 'throw';
 }
 
+{$this->getTemplate()->getElement($widget->getConfiguratorWidget())->generateJs()}
+
 {$this->buildJsFunctionPrefix()}Init();
 
 function {$this->buildJsFunctionPrefix()}Init(){
@@ -169,8 +171,6 @@ function {$this->getId()}_drawPagination(){
     $('#{$this->getId()}_pageInfo').html(pages.page*pages.length+1 + ' - ' + (pages.recordsDisplay < (pages.page+1)*pages.length || pages.end == pages.recordsDisplay ? pages.recordsDisplay : (pages.page+1)*pages.length) + ' / ' + pages.recordsDisplay);
     
 }
-
-{$this->getTemplate()->getElement($widget->getConfiguratorWidget())->generateJs()}
 
 {$this->buildJsRowGroupFunctions()}
 
