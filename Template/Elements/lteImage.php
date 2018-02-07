@@ -15,7 +15,7 @@ class lteImage extends lteText
 {
     use HtmlImageTrait;
     
-    protected function buildCssElementClass()
+    public function buildCssElementClass()
     {
         return 'img-responsive';
     }
