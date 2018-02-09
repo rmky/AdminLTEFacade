@@ -15,9 +15,7 @@ use exface\Core\Templates\AbstractAjaxTemplate\Formatters\JsBooleanFormatter;
  */
 class lteDisplay extends lteValue implements JsValueDecoratingInterface
 {
-    use JqueryDisplayTrait {
-        getFormatter as getFormatterViaTrait;
-    }
+    use JqueryDisplayTrait;
 
     /**
      * 
