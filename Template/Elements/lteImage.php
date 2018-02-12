@@ -11,11 +11,11 @@ use exface\Core\Templates\AbstractAjaxTemplate\Elements\HtmlImageTrait;
  * @author Andrej Kabachnik
  *        
  */
-class lteImage extends lteText
+class lteImage extends lteDisplay
 {
     use HtmlImageTrait;
     
-    protected function buildCssElementClass()
+    public function buildCssElementClass()
     {
         return 'img-responsive';
     }

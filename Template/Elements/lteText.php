@@ -10,7 +10,7 @@ use exface\Core\Widgets\Text;
  * @author Andrej Kabachnik
  *        
  */
-class lteText extends lteAbstractElement
+class lteText extends lteDisplay
 {
 
     function generateHtml()
@@ -53,42 +53,18 @@ class lteText extends lteAbstractElement
                 break;
         }
         
-        if ($this->getWidget()->getCaption() && ! $this->getWidget()->getHideCaption()) {
-            $output .= '<label for="' . $this->getId() . '" class="exf-text-label">' . $this->getWidget()->getCaption() . '</label>';
-        }
         
         if (! trim($html) && $this->getWidget()->getEmptyText()) {
             $html = $this->getWidget()->getEmptyText();
         }
         
-        $output .= '<p id="' . $this->getId() . '" class="exf-text-content" style="' . $style . '">' . $html . '</p>';
-        return $this->buildHtmlGridItemWrapper($output);
-    }
-
-    public function buildHtmlGridItemWrapper($inner_html)
-    {
         $output = <<<HTML
+            
+            {$this->buildHtmlLabel()}
+            <p id="{$this->getId()}" class="exf-control" style="{$style}">{$html}</p>
 
-                    <div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssClasses()}" title="{$this->buildHintText()}">
-                            {$inner_html}
-                    </div>
 HTML;
-        
-        return $output;
-    }
-
-    public function buildCssClasses()
-    {
-        $classes = ' ';
-        if ($this->getWidget()->isHidden()) {
-            $classes .= 'hidden';
-        }
-        return $classes;
-    }
-
-    function generateJs()
-    {
-        return '';
+        return $this->buildHtmlGridItemWrapper($output);
     }
 }
 ?>

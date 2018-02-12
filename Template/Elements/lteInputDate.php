@@ -19,7 +19,6 @@ use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryInputDateTrait;
 // dd/MM/yyyy interpretiert wird.
 class lteInputDate extends lteInput
 {
-    
     use JqueryInputDateTrait;
 
     private $bootstrapDatepickerLocale;
@@ -71,9 +70,21 @@ HTML;
         // Datumseingabe erfolgt.
         autoclose: false,
         format: {
-            toDisplay: {$this->buildJsFunctionPrefix()}dateFormatter,
+            toDisplay: function (date) {
+                // date ist ein date-Objekt und wird zu einem String geparst
+                return {$this->getDataTypeFormatter()->buildJsDateFormatter('date')};
+            },
             toValue: function(date, format, language) {
-                var output = {$this->buildJsFunctionPrefix()}dateParser(date);
+                var output = {$this->getDataTypeFormatter()->buildJsDateParserFunctionName()}(date);
+                if (output) {
+                    $('#{$this->getId()}')
+                        .data("_internalValue", {$this->getDataTypeFormatter()->buildJsDateStringifier('output')})
+                        .data("_isValid", true);
+                } else {
+                    $('#{$this->getId()}')
+                        .data("_internalValue", "")
+                        .data("_isValid", false);
+                }
                 {$validateScript}
                 return output != null ? output.setTimezoneOffset(0) : output;
             }
@@ -95,9 +106,6 @@ HTML;
         }
     });
     
-    {$this->buildJsDateParser()}
-    {$this->buildJsDateFormatter()}
-    
     {$requiredScript}
 JS;
         
@@ -112,7 +120,9 @@ JS;
             $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/locales/bootstrap-datepicker.' . $locale . '.min.js"></script>';
         }
         $headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
-        $headers[] = '<script type="text/javascript" src="exface/vendor/npm-asset/datejs/build/production/' . $this->buildDateJsLocaleFilename() . '"></script>';
+        
+        $formatter = $this->getDataTypeFormatter();
+        $headers = array_merge($headers, $formatter->buildHtmlHeadIncludes(), $formatter->buildHtmlBodyIncludes());
         return $headers;
     }
 
@@ -157,33 +167,6 @@ JS;
     public function buildJsValueGetter()
     {
         return '($("#' . $this->getId() . '").data("_internalValue") !== undefined ? $("#' . $this->getId() . '").data("_internalValue") : $("#' . $this->getId() . '").val())';
-    }
-
-    protected function buildJsDateFormatter()
-    {
-        // Der Hauptunterschied dieser Methode im Vergleich zum JEasyUi-Template ist,
-        // dass der Bootstrap Datepicker das Datum in der UTC-Zeitzone zurueckgibt.
-        // Daher date.clone().addMinutes(date.getTimezoneOffset()).
-        // geht auch: date.clone().setTimezoneOffset(2*Number(date.getUTCOffset()))
-        
-        // Das Format in dateFormatScreen muss mit dem DateParser kompatibel sein. Das
-        // amerikanische Format MM/dd/yyyy wird vom Parser als dd/MM/yyyy interpretiert
-        // und kann deshalb nicht verwendet werden. Loesung waere den Parser anzupassen.
-        
-        // Auch moeglich: Verwendung des DateJs-Formatters:
-        // "d" entspricht CultureInfo shortDate Format Pattern, hierfuer muss das
-        // entsprechende locale DateJs eingebunden werden und ein kompatibler Parser ver-
-        // wendet werden
-        // return date.toString("d");
-        $output = <<<JS
-
-    function {$this->buildJsFunctionPrefix()}dateFormatter(date, format, language) {
-        // date ist ein date-Objekt und wird zu einem String geparst
-        return date.clone().addMinutes(date.getTimezoneOffset()).toString("{$this->buildJsDateFormatScreen()}");
-    }
-JS;
-        
-        return $output;
     }
 
     /**

@@ -4,7 +4,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLiveReferenceTrait;
 
-class lteInput extends lteText
+class lteInput extends lteValue
 {
     
     use JqueryLiveReferenceTrait;
@@ -42,18 +42,6 @@ HTML;
         return $this->buildHtmlGridItemWrapper($output);
     }
 
-    public function buildHtmlGridItemWrapper($inner_html)
-    {
-        $output = <<<HTML
-
-                    <div class="exf-input exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}" title="{$this->buildHintText()}">
-                        {$inner_html}
-                    </div>
-HTML;
-        
-        return $output;
-    }
-
     /**
      * Returns the escaped and ready-to-use value of the widget including the default value (if applicable).
      * 
@@ -72,6 +60,7 @@ HTML;
             $output .= $this->buildJsRequired();
         }
         
+        $output .= $this->buildJsLiveReference();
         $output .= $this->buildJsOnChangeHandler();
         
         // Initialize the disabled state of the widget if a disabled condition is set.
