@@ -28,6 +28,7 @@ ul.datalist li {padding: 4px 0;}
 .user-panel .image i {color: #4b646f; font-size: 45px;}
 .box .box, .dropdown .box, .tab-pane .box {border: 0; box-shadow: none; margin-bottom: 0;}
 .dropdown .exf-grid-item > .box {margin: 0 -15px 0 -15px; width: calc(100% + 30px);}
+.small-box .inner h3, .small-box .inner p {overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 
 /* DataTables customization */
 table.dataTable tr.detailRow table {width: initial;}
