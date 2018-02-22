@@ -60,12 +60,18 @@ HTML;
             $output .= $this->buildJsRequired();
         }
         
+        $output .= $this->buildJsEventHandlers();
+        
+        return $output;
+    }
+    
+    protected function buildJsEventHandlers()
+    {
         $output .= $this->buildJsLiveReference();
         $output .= $this->buildJsOnChangeHandler();
         
         // Initialize the disabled state of the widget if a disabled condition is set.
         $output .= $this->buildJsDisableConditionInitializer();
-        
         return $output;
     }
 
@@ -150,6 +156,8 @@ JS;
         $must_be_validated = $widget->isRequired() && ! ($widget->isHidden() || $widget->isReadonly() || $widget->isDisabled() || $widget->isDisplayOnly());
         if ($must_be_validated) {
             $output = 'Boolean($("#' . $this->getId() . '").val())';
+        } elseif ($widget->isRequired()) {
+            $output = '(' . $this->buildJsValueGetter() . ' === "" ? false : true)';
         } else {
             $output = 'true';
         }

@@ -15,6 +15,6 @@ class lteInputHidden extends lteInput
 
     function generateJs()
     {
-        return '';
+        return $this->buildJsEventHandlers();
     }
 }
