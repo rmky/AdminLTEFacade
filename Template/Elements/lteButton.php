@@ -18,7 +18,7 @@ class lteButton extends lteAbstractElement
     
     use JqueryButtonTrait;
 
-    function generateJs()
+    function buildJs()
     {
         $output = '';
         $hotkey_handlers = array();
@@ -57,9 +57,9 @@ class lteButton extends lteAbstractElement
 
     /**
      *
-     * @see \exface\Templates\jeasyui\Widgets\abstractWidget::generateHtml()
+     * @see \exface\Templates\jeasyui\Widgets\abstractWidget::buildHtml()
      */
-    function generateHtml()
+    function buildHtml()
     {
         $output = '';
         /* @var $widget \exface\Core\Widgets\Button */
@@ -169,9 +169,9 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHeaders()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtmlHeadTags()
      */
-    public function generateHeaders()
+    public function buildHtmlHeadTags()
     {
         return array();
     }

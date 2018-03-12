@@ -4,7 +4,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteInputHidden extends lteInput
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         $output = '<input type="hidden"
 								name="' . $this->getWidget()->getAttributeAlias() . '"
@@ -13,7 +13,7 @@ class lteInputHidden extends lteInput
         return $output;
     }
 
-    function generateJs()
+    function buildJs()
     {
         return $this->buildJsEventHandlers();
     }

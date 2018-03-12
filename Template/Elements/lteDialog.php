@@ -25,7 +25,7 @@ class lteDialog extends lteForm
         return $this->getWidget()->getLazyLoading(false);
     }
     
-    function generateJs()
+    function buildJs()
     {
         $output = '';
         if (! $this->isLazyLoading()) {
@@ -46,7 +46,7 @@ JS;
         return $output;
     }
 
-    public function generateHtml()
+    public function buildHtml()
     {
         $output = '';
         $style = '';

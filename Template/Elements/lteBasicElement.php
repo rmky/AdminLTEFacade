@@ -4,12 +4,12 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteBasicElement extends lteAbstractElement
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         return '';
     }
 
-    function generateJs()
+    function buildJs()
     {
         return '';
     }

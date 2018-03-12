@@ -10,7 +10,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteTile extends lteButton
 {
     
-    function generateHtml()
+    function buildHtml()
     {
         $widget = $this->getWidget();
         

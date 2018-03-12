@@ -4,7 +4,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteTabs extends lteContainer
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         return <<<HTML
 

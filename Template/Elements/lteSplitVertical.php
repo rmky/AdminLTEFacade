@@ -6,7 +6,7 @@ use exface\Core\Exceptions\Templates\TemplateUnsupportedWidgetPropertyWarning;
 class lteSplitVertical extends lteContainer
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         $output = <<<HTML
 
@@ -31,7 +31,7 @@ HTML;
 
                     <div class="row">
                         <div class="col-xs-12">
-                            {$this->getTemplate()->getElement($panel)->generateHtml()}
+                            {$this->getTemplate()->getElement($panel)->buildHtml()}
                         </div>
                     </div>
 HTML;

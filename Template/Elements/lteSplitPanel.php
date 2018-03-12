@@ -6,7 +6,7 @@ use exface\Core\Widgets\SplitHorizontal;
 class lteSplitPanel extends ltePanel
 {
 
-    public function generateHtml(){
+    public function buildHtml(){
         return <<<HTML
 
 <div id="{$this->getId()}">

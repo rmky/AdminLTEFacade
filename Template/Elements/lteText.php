@@ -13,7 +13,7 @@ use exface\Core\Widgets\Text;
 class lteText extends lteDisplay
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         $output = '';
         $widget = $this->getWidget();

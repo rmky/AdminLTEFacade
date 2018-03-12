@@ -4,7 +4,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteBox extends lteForm
 {
 
-    public function generateHtml()
+    public function buildHtml()
     {
         $output = <<<HTML
 <div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">

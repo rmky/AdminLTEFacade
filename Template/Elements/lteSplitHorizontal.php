@@ -25,7 +25,7 @@ class lteSplitHorizontal extends lteSplitVertical
             $panels_html .= <<<HTML
 
                             <div class="col-xs-12 col-md-{$col_width}">
-                                {$this->getTemplate()->getElement($panel)->generateHtml()}
+                                {$this->getTemplate()->getElement($panel)->buildHtml()}
                             </div>
 HTML;
         }

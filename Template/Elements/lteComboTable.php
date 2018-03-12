@@ -97,9 +97,9 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Template\Elements\lteInput::generateHtml()
+     * @see \exface\AdminLteTemplate\Template\Elements\lteInput::buildHtml()
      */
-    function generateHtml()
+    function buildHtml()
     {
         /* @var $widget \exface\Core\Widgets\ComboTable */
         $widget = $this->getWidget();
@@ -126,9 +126,9 @@ HTML;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Template\Elements\lteInput::generateJs()
+     * @see \exface\AdminLteTemplate\Template\Elements\lteInput::buildJs()
      */
-    function generateJs()
+    function buildJs()
     {
         /* @var $widget \exface\Core\Widgets\ComboTable */
         $widget = $this->getWidget();
@@ -319,11 +319,11 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHeaders()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtmlHeadTags()
      */
-    function generateHeaders()
+    function buildHtmlHeadTags()
     {
-        $headers = parent::generateHeaders();
+        $headers = parent::buildHtmlHeadTags();
         $headers[] = '<link href="exface/vendor/bower-asset/magicsuggest/magicsuggest-min.css" rel="stylesheet">';
         $headers[] = '<script src="exface/vendor/bower-asset/magicsuggest/magicsuggest-min.js"></script>';
         return $headers;

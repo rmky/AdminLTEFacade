@@ -33,7 +33,7 @@ class lteChart extends lteDataTable
         return ($this->getHeightRelativeUnit() * 9) . 'px'; 
     }
 
-    public function generateHtml()
+    public function buildHtml()
     {
         $output = '';
         $widget = $this->getWidget();
@@ -80,7 +80,7 @@ HTML;
         return $output;
     }
 
-    function generateJs()
+    function buildJs()
     {
         /* @var $widget \exface\Core\Widgets\Chart */
         $widget = $this->getWidget();
@@ -89,7 +89,7 @@ HTML;
         $output .= $this->buildJsPlotFunction();
         
         // Add JS code for the configurator
-        $output .= $this->getTemplate()->getElement($widget->getConfiguratorWidget())->generateJs();
+        $output .= $this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJs();
         // Add JS for all buttons
         $output .= $this->buildJsButtons();
         
@@ -176,7 +176,7 @@ JS;
         return $output;
     }
     
-    public function generateHeaders()
+    public function buildHtmlHeadTags()
     {
         $includes = $this->generateHeadersByTrait();
         
@@ -206,7 +206,7 @@ JS;
                 <h4 class="modal-title">{$this->translate('WIDGET.CHART.SETTINGS_DIALOG_TITLE')}</h4>
             </div>
             <div class="modal-body">
-                {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->generateHtml()}
+                {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->buildHtml()}
             </div>
             <div class="modal-footer">
                 <button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left"><i class="{$this->buildCssIconClass(Icons::TIMES)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.SHOWDIALOG.CANCEL_BUTTON')}</button>

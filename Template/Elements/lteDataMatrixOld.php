@@ -16,13 +16,13 @@ class lteDataMatrixOld extends lteDataTable
         return parent::getWidget();
     }
 
-    function generateJs()
+    function buildJs()
     {
         $output = '';
         return $output;
     }
 
-    function generateHtml()
+    function buildHtml()
     {
         $rows_html = $this->buildJsDataSource();
         $headers = array();

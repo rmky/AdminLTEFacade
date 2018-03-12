@@ -4,7 +4,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteInputText extends lteInput
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         $requiredScript = $this->getWidget()->isRequired() ? 'required="true"' : '';
         $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled"' : '';
@@ -23,9 +23,9 @@ HTML;
         return $this->buildHtmlGridItemWrapper($output);
     }
 
-    function generateJs()
+    function buildJs()
     {
-        $output = parent::generateJs();
+        $output = parent::buildJs();
         
         // Das Layout des Containers wird erneuert wenn das InputText die Groesse veraendert.
         if ($layoutWidget = $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {

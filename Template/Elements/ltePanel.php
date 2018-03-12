@@ -13,9 +13,9 @@ class ltePanel extends lteContainer implements JqueryLayoutInterface
      * The HTML for a Panel is either a div or a box depending on where the panel is located.
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHtml()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
      */
-    public function generateHtml()
+    public function buildHtml()
     {
         $widget = $this->getWidget();
         
@@ -119,9 +119,9 @@ HTML;
      * and when one of the layout items is resized.
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateJs()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
      */
-    public function generateJs()
+    public function buildJs()
     {
         // Mit dem ResizeSensor kann ein onResize-Event fuer ein <div> abgefangen werden.
         $output = <<<JS
@@ -141,11 +141,11 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHeaders()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtmlHeadTags()
      */
-    function generateHeaders()
+    function buildHtmlHeadTags()
     {
-        $headers = parent::generateHeaders();
+        $headers = parent::buildHtmlHeadTags();
         $headers[] = '<script src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
         return $headers;
     }

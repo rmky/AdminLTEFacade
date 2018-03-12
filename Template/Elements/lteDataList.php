@@ -30,7 +30,7 @@ class lteDataList extends lteDataTable
         return $this->getWidget()->getLazyLoading(true);
     }
 
-    function generateHtml()
+    function buildHtml()
     {
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
@@ -93,7 +93,7 @@ HTML;
         return $output;
     }
 
-    function generateJs()
+    function buildJs()
     {
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
@@ -102,7 +102,7 @@ HTML;
         // buttons
         if ($widget->hasButtons()) {
             foreach ($widget->getButtons() as $button) {
-                $buttons_js .= $this->getTemplate()->generateJs($button);
+                $buttons_js .= $this->getTemplate()->buildJs($button);
             }
         }
         

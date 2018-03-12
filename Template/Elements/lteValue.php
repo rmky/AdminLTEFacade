@@ -13,7 +13,7 @@ use exface\Core\Widgets\Value;
 class lteValue extends lteAbstractElement
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         $output = '';
         $widget = $this->getWidget();
@@ -49,9 +49,9 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateJs()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
      */
-    function generateJs()
+    function buildJs()
     {
         return '';
     }

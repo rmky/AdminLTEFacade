@@ -29,7 +29,7 @@ class lteInputDate extends lteInput
         $this->setElementType('datepicker');
     }
 
-    function generateHtml()
+    function buildHtml()
     {
         $requiredScript = $this->getWidget()->isRequired() ? 'required="true" ' : '';
         $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled" ' : '';
@@ -54,7 +54,7 @@ HTML;
         return $this->buildHtmlGridItemWrapper($output);
     }
 
-    function generateJs()
+    function buildJs()
     {
         $languageScript = $this->getBootstrapDatepickerLocale() ? 'language: "' . $this->getBootstrapDatepickerLocale() . '",' : '';
         if ($this->getWidget()->isRequired()) {
@@ -112,9 +112,9 @@ JS;
         return $output;
     }
 
-    public function generateHeaders()
+    public function buildHtmlHeadTags()
     {
-        $headers = parent::generateHeaders();
+        $headers = parent::buildHtmlHeadTags();
         $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>';
         if ($locale = $this->getBootstrapDatepickerLocale()) {
             $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/locales/bootstrap-datepicker.' . $locale . '.min.js"></script>';

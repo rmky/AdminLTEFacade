@@ -21,9 +21,9 @@ class lteMenuButton extends lteAbstractElement
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateHtml()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
      */
-    function generateHtml()
+    function buildHtml()
     {
         $output = '';
         
@@ -48,9 +48,9 @@ HTML;
     /**
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Template\Elements\lteAbstractElement::generateJs()
+     * @see \exface\AdminLteTemplate\Template\Elements\lteAbstractElement::buildJs()
      */
-    function generateJs()
+    function buildJs()
     {
         $output = '';
         foreach ($this->getWidget()->getButtons() as $b) {

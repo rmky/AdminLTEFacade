@@ -9,7 +9,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteImageSlider extends lteDataCards
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         /* @var $widget \exface\Core\Widgets\ImageGallery */
         $widget = $this->getWidget();
@@ -73,7 +73,7 @@ HTML;
         return ($this->getHeightRelativeUnit() * 12) . 'px';
     }
 
-    function generateJs()
+    function buildJs()
     {
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
@@ -110,7 +110,7 @@ HTML;
                 if ($fltr->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED)
                     continue;
                 $fltr_element = $this->getTemplate()->getElement($fltr);
-                $filters_js .= $this->getTemplate()->generateJs($fltr);
+                $filters_js .= $this->getTemplate()->buildJs($fltr);
                 $filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . ' = ' . $fltr_element->buildJsValueGetter() . ";\n";
                 
                 // Here we generate some JS make the filter visible by default, once it gets used.
@@ -236,9 +236,9 @@ JS;
         return $this->buildJsFunctionPrefix() . "load();";
     }
 
-    public function generateHeaders()
+    public function buildHtmlHeadTags()
     {
-        $includes = parent::generateHeaders();
+        $includes = parent::buildHtmlHeadTags();
         $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Template/js/jssor/skin.css">';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
         return $includes;

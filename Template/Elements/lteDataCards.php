@@ -26,7 +26,7 @@ class lteDataCards extends lteDataList
         $this->getWidget()->getUidColumn();
     }
 
-    function generateHtml()
+    function buildHtml()
     {
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
@@ -148,7 +148,7 @@ HTML;
         return $tpl;
     }
 
-    function generateJs()
+    function buildJs()
     {
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
@@ -347,9 +347,9 @@ JS;
         return $this->buildJsFunctionPrefix() . "load(" . ($keep_pagination_position ? 1 : 0) . ");";
     }
 
-    public function generateHeaders()
+    public function buildHtmlHeadTags()
     {
-        $includes = parent::generateHeaders();
+        $includes = parent::buildHtmlHeadTags();
         $includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
         return $includes;
     }

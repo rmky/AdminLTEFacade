@@ -7,7 +7,7 @@ class lteForm extends ltePanel
 {
     use JqueryToolbarsTrait;
 
-    public function generateHtml()
+    public function buildHtml()
     {
         $widget = $this->getWidget();
         
@@ -58,7 +58,7 @@ HTML;
     {
         $output = '';
         foreach ($this->getWidget()->getButtons() as $btn) {
-            $output .= $this->getTemplate()->generateHtml($btn);
+            $output .= $this->getTemplate()->buildHtml($btn);
         }
         
         return $output;
@@ -68,7 +68,7 @@ HTML;
     {
         $output = '';
         foreach ($this->getWidget()->getButtons() as $btn) {
-            $output .= $this->getTemplate()->generateJs($btn);
+            $output .= $this->getTemplate()->buildJs($btn);
         }
         
         return $output;

@@ -104,11 +104,11 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::generateJs()
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
      */
-    public function generateJs()
+    public function buildJs()
     {
-        $output = parent::generateJs();
+        $output = parent::buildJs();
         $output .= <<<JS
     
     // $('#{$this->getId()}_popup_columnList').sortable();

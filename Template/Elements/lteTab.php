@@ -12,7 +12,7 @@ use exface\Core\Widgets\Tab;
 class lteTab extends ltePanel
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         $output = <<<HTML
 
@@ -67,9 +67,9 @@ HTML;
         return $output;
     }
 
-    public function generateJs()
+    public function buildJs()
     {
-        $output = parent::generateJs();
+        $output = parent::buildJs();
         
         $output .= <<<JS
 

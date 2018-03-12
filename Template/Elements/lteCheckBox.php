@@ -4,7 +4,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 class lteCheckBox extends lteAbstractElement
 {
 
-    function generateHtml()
+    function buildHtml()
     {
         $checkedScript = $this->getWidget()->getValue() ? 'checked="checked"' : '';
         $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled"' : '';
@@ -26,7 +26,7 @@ HTML;
         return $output;
     }
 
-    function generateJs()
+    function buildJs()
     {
         return '';
     }

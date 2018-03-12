@@ -37,7 +37,7 @@ class lteDataTable extends lteAbstractElement
         $this->getWidget()->getToolbarMain()->setIncludeSearchActions(false);
     }
 
-    function generateHtml()
+    function buildHtml()
     {
         $widget = $this->getWidget();
         
@@ -87,7 +87,7 @@ HTML;
         return $result;
     }
 
-    function generateJs()
+    function buildJs()
     {
         /* @var $widget \exface\Core\Widgets\DataTable */
         $widget = $this->getWidget();
@@ -98,7 +98,7 @@ if ($.fn.dataTable != undefined){
     $.fn.dataTable.ext.errMode = 'throw';
 }
 
-{$this->getTemplate()->getElement($widget->getConfiguratorWidget())->generateJs()}
+{$this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJs()}
 
 {$this->buildJsFunctionPrefix()}Init();
 
@@ -181,9 +181,9 @@ JS;
         return $output;
     }
 
-    public function generateHeaders()
+    public function buildHtmlHeadTags()
     {
-        $includes = parent::generateHeaders();
+        $includes = parent::buildHtmlHeadTags();
         // DataTables
         $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-bs/css/dataTables.bootstrap.css">';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net/js/jquery.dataTables.min.js"></script>';
@@ -340,7 +340,7 @@ JS;
                 <h4 class="modal-title">{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}</h4>
             </div>
             <div class="modal-body">
-                {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->generateHtml()}
+                {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->buildHtml()}
             </div>
             <div class="modal-footer">
                 <button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left"><i class="{$this->buildCssIconClass(Icons::TIMES)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.SHOWDIALOG.CANCEL_BUTTON')}</button>

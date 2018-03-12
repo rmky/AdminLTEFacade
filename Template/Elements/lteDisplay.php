@@ -20,9 +20,9 @@ class lteDisplay extends lteValue implements JsValueDecoratingInterface
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Template\Elements\lteValue::generateHtml()
+     * @see \exface\AdminLteTemplate\Template\Elements\lteValue::buildHtml()
      */
-    public function generateHtml()
+    public function buildHtml()
     {
         $output = '';
         $widget = $this->getWidget();

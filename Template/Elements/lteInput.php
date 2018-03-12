@@ -22,7 +22,7 @@ class lteInput extends lteValue
         $this->registerDisableConditionAtLinkedElement();
     }
 
-    function generateHtml()
+    function buildHtml()
     {
         $requiredScript = $this->getWidget()->isRequired() ? 'required="true" ' : '';
         $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled" ' : '';
@@ -52,7 +52,7 @@ HTML;
         return $this->escapeString($this->getWidget()->getValueWithDefaults());
     }
 
-    function generateJs()
+    function buildJs()
     {
         $output = '';
         
