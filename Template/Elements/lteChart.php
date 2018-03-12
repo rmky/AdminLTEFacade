@@ -13,7 +13,7 @@ class lteChart extends lteDataTable
     use JqueryToolbarsTrait;
     
     use JqueryFlotTrait {
-        generateHeaders as generateHeadersByTrait;
+        buildHtmlHeadTags as buildHtmlHeadTagsByTrait;
     }
 
     public function init()
@@ -178,7 +178,7 @@ JS;
     
     public function buildHtmlHeadTags()
     {
-        $includes = $this->generateHeadersByTrait();
+        $includes = $this->buildHtmlHeadTagsByTrait();
         
         $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/flot/plugins/axislabels/jquery.flot.axislabels.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Template/js/flot/plugins/jquery.flot.orderBars.js"></script>';
