@@ -27,11 +27,7 @@ class lteDataList extends lteDataTable
      */
     protected function isLazyLoading()
     {
-        $widget_option = $this->getWidget()->getLazyLoading();
-        if (is_null($widget_option)) {
-            return true;
-        }
-        return $widget_option;
+        return $this->getWidget()->getLazyLoading(true);
     }
 
     function generateHtml()
