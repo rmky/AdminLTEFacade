@@ -6,18 +6,17 @@
 ul.datalist li {padding: 4px 0;}
 .tab-content>.tab-pane {height: initial !important;}
 .exf-input>.form-group {margin-bottom: initial;}
-.modal-body-content-wrapper>.nav-tabs-custom {margin-top: -15px;margin-bottom: -15px}
-.modal-footer {text-align: left}
 .datalist {z-index: 2000}
 .dropdown {display: inline-block}
-.modal-footer .dropdown+.btn, .modal-footer .btn+.dropdown {
-    margin-left: 3px;
-}
+
 
 /* Dialogs */
-.modal-body > .nav-tabs-custom {margin-bottom: 0; box-shadow: none;}
+.modal-body > .col-xs-12 > .nav-tabs-custom, .modal-body > .nav-tabs-custom {margin: -15px 0 0 0; box-shadow: none;}
+.modal-body > .col-xs-12 {float: none; padding: 0;}
 .nav-tabs-custom>.nav-tabs>li:first-of-type.active>a {border-left-color: #f4f4f4;}
+.modal-footer {text-align: left}
 .modal-footer > .exf-toolbar {padding-bottom: 0;}
+.modal-footer .dropdown+.btn, .modal-footer .btn+.dropdown {margin-left: 3px;}
 
 /* Tabs */
 .nav-tabs a[data-toggle=tab].disabled {color: #999}
