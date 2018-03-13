@@ -408,7 +408,7 @@ function {$this->buildJsFunctionPrefix()}valueGetter(column, row){
         if (selectedRows.length > 0) {
             {$valueGetter}
         } else {
-            return "";
+            return $('#{$this->getId()}').val();
         }
     } else {
         if (column == "{$uidColumnName}") {
@@ -887,7 +887,12 @@ JS;
         
         $must_be_validated = $widget->isRequired() && ! ($widget->isHidden() || $widget->isReadonly() || $widget->isDisabled() || $widget->isDisplayOnly());
         if ($must_be_validated) {
-            $output = $this->getId() . '_ms.isValid()';
+            if ($widget->isRequired()) {
+                $fallback = '(' . $this->buildJsValueGetter() . ' !== "")';
+            } else {
+                $fallback = 'true';
+            }
+            $output = '(' . $this->getId() . '_ms.getData().length === 0 ? ' . $fallback . ' : ' . $this->getId() . '_ms.isValid())';
         } else {
             $output = 'true';
         }
