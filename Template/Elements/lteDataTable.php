@@ -48,11 +48,7 @@ class lteDataTable extends lteAbstractElement
         
         $style = '';
         if (! $this->getWidget()->getHeight()->isUndefined()){
-            $height = $this->getHeight();
-            if ($widget->getHideFooter()){
-                $height = 'calc(' . $height . ' + 55px)';
-            }
-            $style .= 'height:' . $height . '; overflow-y: auto;';
+            $style .= 'height:' . $this->getHeight() . '; overflow-y: auto;';
         }
         
         // output the html code
@@ -513,6 +509,40 @@ JS;
         }
         
         return $output;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::getHeight()
+     */
+    public function getHeight($calculate = true)
+    {
+        $height = parent::getHeight();
+        if (! $calculate) {
+            return $height;
+        }
+        
+        if (strtolower(substr($height, 0, 5)) === 'calc(') {
+            $height = trim(substr($height, 4), "()");
+        }
+        
+        $widget = $this->getWidget();
+        $calc = [];
+        $calc[] = '+ 20px'; // box padding at the bottom
+        $calc[] = '- 44px'; // height of the table header
+        if (! $widget->getHideFooter()){
+            $calc[] = '- 55px';
+        } 
+        if (! $widget->getHideHeader()){
+            $calc[] = '- 54px';
+        } else {
+            $calc[] = '- 40px';
+        }
+        if (! empty($calc)) {
+            $height = 'calc(' . $height . ' ' . implode(' ', $calc) . ')';
+        }
+        return $height;
     }
 }
 ?>

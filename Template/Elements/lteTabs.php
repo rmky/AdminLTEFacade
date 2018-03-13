@@ -1,12 +1,14 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
+use exface\Core\Widgets\Dialog;
+
 class lteTabs extends lteContainer
 {
 
     function buildHtml()
     {
-        return <<<HTML
+        $html = <<<HTML
 
     <div id="{$this->getId()}" class="nav-tabs-custom">
         <ul class="nav nav-tabs">
@@ -16,7 +18,13 @@ class lteTabs extends lteContainer
             {$this->buildHtmlTabBodies()}
         </div>
     </div>
+
 HTML;
+        if (! $this->getWidget()->getParent() instanceof Dialog) {
+            $html = '<div class="col-xs-12">' . $html . '</div>';
+        }
+        
+        return $html;
     }
 
     protected function buildHtmlTabBodies()
