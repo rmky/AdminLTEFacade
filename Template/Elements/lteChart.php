@@ -45,11 +45,7 @@ class lteChart extends lteDataTable
         
         $style = '';
         if (! $widget->getHeight()->isUndefined()){
-            $height = $this->getHeight();
-            if (! $this->hasFooter()){
-                $height = 'calc(' . $height . ' + 35px)';
-            }
-            $style .= 'height:' . $height . ';';
+            $style .= 'height:' . $this->getHeight() . ';';
         } 
         
         if ($widget->getHeight()->isPercentual() || $widget->getHeight()->isUndefined()){
@@ -254,6 +250,40 @@ HTML;
     {
         // TODO
         return false;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Template\Elements\lteDataTable::getHeight()
+     */
+    public function getHeight($calculate = true)
+    {
+        $height = parent::getHeight(false);
+        if (! $calculate) {
+            return $height;
+        }
+        
+        if (strtolower(substr($height, 0, 5)) === 'calc(') {
+            $height = trim(substr($height, 4), "()");
+        }
+        
+        $widget = $this->getWidget();
+        $calc = [];
+        $calc[] = '+ 20px'; // box padding at the bottom
+        $calc[] = '- 10px'; // padding of the chart canvas
+        if ($this->hasFooter()){
+            $calc[] = '- 55px';
+        } else {
+            $calc[] = '- 40px';
+        }
+        if (! $widget->getHideHeader()){
+            $calc[] = '- 54px';
+        }
+        if (! empty($calc)) {
+            $height = 'calc(' . $height . ' ' . implode(' ', $calc) . ')';
+        }
+        return $height;
     }
 }
 ?>
