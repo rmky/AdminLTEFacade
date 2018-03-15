@@ -100,32 +100,8 @@ HTML;
             }
         }
         // Remove tailing comma
-        if ($default_sorters)
+        if ($default_sorters) {
             $default_sorters = substr($default_sorters, 0, - 2);
-            
-            // Filters defined in the UXON description
-        if ($widget->hasFilters()) {
-            foreach ($widget->getFilters() as $fnr => $fltr) {
-                // Skip promoted filters, as they are displayed next to quick search
-                if ($fltr->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED)
-                    continue;
-                $fltr_element = $this->getTemplate()->getElement($fltr);
-                $filters_js .= $this->getTemplate()->buildJs($fltr);
-                $filters_ajax .= 'data.fltr' . str_pad($fnr, 2, 0, STR_PAD_LEFT) . '_' . $fltr->getAttributeAlias() . ' = ' . $fltr_element->buildJsValueGetter() . ";\n";
-                
-                // Here we generate some JS make the filter visible by default, once it gets used.
-                // This code will be called when the table's config page gets closed.
-                if (! $fltr->isHidden()) {
-                    $filters_js_promoted .= "
-							if (" . $fltr_element->buildJsValueGetter() . " && $('#" . $fltr_element->getId() . "').parents('#{$this->getId()}_popup_config').length > 0){
-								var fltr = $('#" . $fltr_element->getId() . "').parents('.exf-input');
-								var ui_block = $('<div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-3\"></div>').appendTo('#{$this->getId()}_filters_container');
-								fltr.detach().appendTo(ui_block).trigger('resize');
-								$('#{$this->getId()}_filters_container').show();
-							}
-					";
-                }
-            }
         }
         
         $output = <<<JS
@@ -195,8 +171,8 @@ function {$this->buildJsFunctionPrefix()}load(){
     data.action = '{$widget->getLazyLoadingActionAlias()}';
 	data.resource = "{$widget->getPage()->getAliasWithNamespace()}";
 	data.element = "{$widget->getId()}";
-	data.object = "{$this->getWidget()->getMetaObject()->getId()}";
-	{$filters_ajax}
+	data.object = "{$widget->getMetaObject()->getId()}";
+	data.data = {$this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter()};
     
 	$.ajax({
        url: "{$this->getAjaxUrl()}",

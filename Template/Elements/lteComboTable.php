@@ -3,6 +3,7 @@ namespace exface\AdminLteTemplate\Template\Elements;
 
 use exface\Core\Exceptions\InvalidArgumentException;
 use exface\Core\Exceptions\Widgets\WidgetConfigurationError;
+use exface\Core\DataTypes\StringDataType;
 
 /**
  * 
@@ -145,7 +146,7 @@ HTML;
                 $initialValueScriptAfterMsInit = $this->getId() . '_ms.setSelection([{"' . $widget->getTextColumn()->getDataColumnName() . '": "' . $widget_value_text . '", "' . $widget->getValueColumn()->getDataColumnName() . '": "' . $this->getValueWithDefaults() . '"}]);';
             } else {
                 $initialValueScriptBeforeMsInit = $this->getId() . '_jquery.data("_valueSetterUpdate", true);';
-                $initialFilterScript = ', fltr00_' . $widget->getValueColumn()->getDataColumnName() . ': "' . $this->getValueWithDefaults() . '"';
+                $initialFilterScript = ', filter_' . $widget->getValueColumn()->getDataColumnName() . ': "' . $this->getValueWithDefaults() . '"';
             }
         } else {
             // If no value set, just supress initial autoload
@@ -568,30 +569,15 @@ JS;
     {
         $widget = $this->getWidget();
         
-        $fltrId = 0;
-        // Filter aus Filter-Referenzen erzeugen.
-        $filters = [];
-        if ($widget->getTable()->hasFilters()) {
-            foreach ($widget->getTable()->getFilters() as $fltr) {
-                if ($link = $fltr->getValueWidgetLink()) {
-                    // filter is a live reference
-                    $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $widget->getPage());
-                    $filters[] = 'dataUrlParams.fltr' . str_pad($fltrId ++, 2, 0, STR_PAD_LEFT) . '_' . urlencode($fltr->getAttributeAlias()) . ' = "' . $fltr->getComparator() . '"+' . $linked_element->buildJsValueGetter($link->getColumnId()) . ';';
-                } else {
-                    // filter has a static value
-                    $filters[] = 'dataUrlParams.fltr' . str_pad($fltrId ++, 2, 0, STR_PAD_LEFT) . '_' . urlencode($fltr->getAttributeAlias()) . ' = "' . $fltr->getComparator() . urlencode(strpos($fltr->getValue(), '=') === 0 ? '' : $fltr->getValue()) . '";';
-                }
-            }
-        }
-        $filters_script = implode("\n        ", $filters);
+        // Run the data getter of the (unrendered) DataConfigurator widget to get the data
+        // parameter with filters, sorters, etc.
+        $dataParam = 'dataUrlParams.data = ' . $this->getTemplate()->getElement($widget->getTable()->getConfiguratorWidget())->buildJsDataGetter(null, true);
         // Beim Leeren eines Widgets in einer in einer lazy-loading-group wird kein Filter gesetzt,
         // denn alle Filter sollten leer sein (alle Elemente der Gruppe leer). Beim Leeren eines
         // Widgets ohne Gruppe werden die normalen Filter gesetzt.
-        $clear_filters_script = $widget->getLazyLoadingGroupId() ? '' : $filters_script;
+        $clearFiltersParam = $widget->getLazyLoadingGroupId() ? '' : $dataParam;
         // Filter aus dem gesetzten Wert erzeugen.
-        $value_filters = [];
-        $value_filters[] = 'dataUrlParams.fltr' . str_pad($fltrId ++, 2, 0, STR_PAD_LEFT) . '_' . $widget->getValueColumn()->getDataColumnName() . ' = ' . $this->getId() . '_ms.getValue().join();';
-        $value_filters_script = implode("\n        ", $value_filters);
+        $valueFilterParam = 'dataUrlParams.filter_' . $widget->getValueColumn()->getDataColumnName() . ' = ' . $this->getId() . '_ms.getValue().join();';
         
         $output = <<<JS
 
@@ -606,17 +592,17 @@ JS;
     
     if ({$this->getId()}_jquery.data("_valueSetterUpdate")) {
         dataUrlParams._valueSetterUpdate = true;
-        {$value_filters_script}
+        {$valueFilterParam}
     } else if ({$this->getId()}_jquery.data("_clearFilterSetterUpdate")) {
         dataUrlParams._clearFilterSetterUpdate = true;
-        {$clear_filters_script}
+        {$clearFiltersParam}
     } else if ({$this->getId()}_jquery.data("_filterSetterUpdate")) {
         dataUrlParams._filterSetterUpdate = true;
-        {$filters_script}
-        {$value_filters_script}
+        {$dataParam}
+        {$valueFilterParam}
     } else {
         dataUrlParams.q = {$this->getId()}_ms.getRawValue();
-        {$filters_script}
+        {$dataParam}
     }
 JS;
         
@@ -652,9 +638,10 @@ JS;
     var suppressAutoSelectSingleSuggestion = false;
     var suppressLazyLoadingGroupUpdate = false;
     var dataUrlParams = {$this->getId()}_ms.getDataUrlParams();
-    
+    var urlFilterPrefix = ("{$this->getTemplate()->getUrlFilterPrefix()}").toLowerCase();  
+
     for (key in dataUrlParams) {
-        if (key.substring(0, 4) == "fltr") {
+        if (key.toLowerCase().startsWith(urlFilterPrefix)) {
             delete dataUrlParams[key];
         }
     }
