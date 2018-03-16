@@ -2,66 +2,39 @@
 namespace exface\AdminLteTemplate\Template;
 
 use exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate;
+use exface\Core\Templates\AbstractAjaxTemplate\Middleware\JqueryDataTablesUrlParamsReader;
 
 class AdminLteTemplate extends AbstractAjaxTemplate
 {
-
-    protected $request_columns = array();
-
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate::init()
+     */
     public function init()
     {
         parent::init();
         $this->setClassPrefix('lte');
         $this->setClassNamespace(__NAMESPACE__);
     }
-
-    public function getRequestPagingOffset()
+    
+    /**
+     *
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate::getMiddleware()
+     */
+    public function getMiddleware() : array
     {
-        if (! $this->request_paging_offset) {
-            $this->request_paging_offset = $this->getWorkbench()->getRequestParams()['start'];
-            $this->getWorkbench()->removeRequestParam('start');
-        }
-        return $this->request_paging_offset;
-    }
-
-    public function getRequestPagingRows()
-    {
-        if (! $this->request_paging_rows) {
-            $this->request_paging_rows = $this->getWorkbench()->getRequestParams()['length'];
-            $this->getWorkbench()->removeRequestParam('length');
-        }
-        return $this->request_paging_rows;
-    }
-
-    public function getRequestSortingDirection()
-    {
-        if (! $this->request_sorting_direction) {
-            $this->getRequestSortingSortBy();
-        }
-        return $this->request_sorting_direction;
-    }
-
-    public function getRequestSortingSortBy()
-    {
-        if (! $this->request_sorting_sort_by) {
-            $sorters = ! is_null($this->getWorkbench()->getRequestParams()['order']) ? $this->getWorkbench()->getRequestParams()['order'] : array();
-            $this->getWorkbench()->removeRequestParam('order');
-            
-            foreach ($sorters as $sorter) {
-                if (! is_null($sorter['column'])) { // sonst wird nicht nach der 0. Spalte sortiert (0 == false)
-                    if ($sort_attr = $this->request_columns[$sorter['column']]['data']) {
-                        $this->request_sorting_sort_by .= ($this->request_sorting_sort_by ? ',' : '') . $sort_attr;
-                        $this->request_sorting_direction .= ($this->request_sorting_direction ? ',' : '') . $sorter['dir'];
-                    }
-                } elseif ($sorter['attribute_alias']) {
-                    $this->request_sorting_sort_by .= ($this->request_sorting_sort_by ? ',' : '') . $sorter['attribute_alias'];
-                    $this->request_sorting_direction .= ($this->request_sorting_direction ? ',' : '') . $sorter['dir'];
-                }
-            }
-        }
-        return $this->request_sorting_sort_by;
+        $middleware = parent::getMiddleware();
+        $middleware[] = new JqueryDataTablesUrlParamsReader($this, 'getInputData', 'setInputData');
+        return $middleware;
     }
     
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Interfaces\Templates\HttpTemplateInterface::getUrlRoutePatterns()
+     */
     public function getUrlRoutePatterns() : array
     {
         return [

@@ -110,7 +110,7 @@ function contextBarLoad(delay){
 		if ($('#contextBar .context-bar-spinner').length > 0){
 			$.ajax({
 				type: 'POST',
-				url: 'exface/exface.php?exftpl=exface.AdminLteTemplate',
+				url: 'exface/api/adminlte',
 				dataType: 'json',
 				data: {
 					action: 'exface.Core.ShowWidget',
@@ -152,7 +152,7 @@ function contextShowMenu(containerSelector){
 	$(containerSelector).find('.dropdown-menu').empty().append('<li class="header"><div class="overlay text-center"><i class="fa fa-refresh fa-spin"></i></div></li>');
 	$.ajax({
 		type: 'POST',
-		url: 'exface/exface.php?exftpl=exface.AdminLteTemplate',
+		url: 'exface/api/adminlte',
 		dataType: 'html',
 		data: {
 			action: 'exface.Core.ShowContextPopup',
