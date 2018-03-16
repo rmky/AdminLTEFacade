@@ -24,11 +24,5 @@ class AdminLteTemplateApp extends App
         $installer->addInstaller($tplInstaller);
         return $installer;
     }
-
-    public function getModx()
-    {
-        global $modx;
-        return $modx;
-    }
 }
 ?>
