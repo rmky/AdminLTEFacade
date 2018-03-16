@@ -15,22 +15,6 @@ class AdminLteTemplate extends AbstractAjaxTemplate
         $this->setClassNamespace(__NAMESPACE__);
     }
 
-    /**
-     *
-     * {@inheritdoc}
-     *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate::processRequest($page_alias=NULL, $widget_id=NULL, $action_alias=NULL, $disable_error_handling=false)
-     */
-    public function processRequest($page_alias = NULL, $widget_id = NULL, $action_alias = NULL, $disable_error_handling = false)
-    {
-        $this->request_columns = $this->getWorkbench()->getRequestParams()['columns'];
-        $this->getWorkbench()->removeRequestParam('columns');
-        $this->getWorkbench()->removeRequestParam('search');
-        $this->getWorkbench()->removeRequestParam('draw');
-        $this->getWorkbench()->removeRequestParam('_');
-        return parent::processRequest($page_alias, $widget_id, $action_alias, $disable_error_handling);
-    }
-
     public function getRequestPagingOffset()
     {
         if (! $this->request_paging_offset) {
@@ -76,6 +60,14 @@ class AdminLteTemplate extends AbstractAjaxTemplate
             }
         }
         return $this->request_sorting_sort_by;
+    }
+    
+    public function getUrlRoutePatterns() : array
+    {
+        return [
+            "/[\?&]tpl=adminlte/",
+            "/\/api\/adminlte[\/?]/"
+        ];
     }
 }
 ?>
