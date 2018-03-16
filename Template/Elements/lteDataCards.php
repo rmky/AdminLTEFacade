@@ -296,9 +296,9 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 		   {$this->buildJsShowError('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
 		},
         beforeSend: function(jqXHR, settings) {
-            {$this->getId()}_jquery = $("#{$this->getId()}");
-            if ({$this->getId()}_jquery.data("_skipNextLoad") === true) {
-                {$this->getId()}_jquery.data("_skipNextLoad", false);
+            var jqself = $("#{$this->getId()}");
+            if (jqself.data("_skipNextLoad") === true) {
+                jqself.data("_skipNextLoad", false);
                 {$this->buildJsBusyIconHide()}
                 $('#{$this->getId()}').data('loading', 0);
                 return false;
