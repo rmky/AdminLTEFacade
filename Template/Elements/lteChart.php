@@ -155,7 +155,7 @@ JS;
                         method: "POST",
 						data: data,
 						success: function(data){
-							' . $this->buildJsFunctionPrefix() . 'plot($.parseJSON(data));
+							' . $this->buildJsFunctionPrefix() . 'plot(data);
 							' . $this->buildJsBusyIconHide() . '
 						},
 						error: function(jqXHR, textStatus, errorThrown){
