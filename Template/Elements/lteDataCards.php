@@ -256,7 +256,7 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
        method: 'POST',
        success: function(json){
 			try {
-				var data = $.parseJSON(json);
+				var data = json;
 			} catch (err) {
 				{$this->buildJsBusyIconHide()}
 			}

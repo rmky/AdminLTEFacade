@@ -180,7 +180,7 @@ function {$this->buildJsFunctionPrefix()}load(){
        method: 'POST',
        success: function(json){
 			try {
-				var data = $.parseJSON(json);
+				var data = json;
 				if (data.data.length > 0) {
 					var template = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
 			        var elements = $(template(data));
