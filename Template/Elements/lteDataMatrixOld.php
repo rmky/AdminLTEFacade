@@ -1,6 +1,8 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
+use exface\Core\Factories\DataSheetFactory;
+
 class lteDataMatrixOld extends lteDataTable
 {
 
@@ -59,7 +61,6 @@ class lteDataMatrixOld extends lteDataTable
      */
     public function buildJsDataSource($js_filters = '')
     {
-        global $exface;
         /* @var $widget \exface\Core\Widgets\DataMatrix */
         $widget = $this->getWidget();
         $visible_columns = array();
@@ -67,7 +68,7 @@ class lteDataMatrixOld extends lteDataTable
         $result = array();
         
         // create data sheet to fetch data
-        $ds = $exface->data()->createDataSheet($this->getMetaObject());
+        $ds = DataSheetFactory::createFromObject($this->getMetaObject());
         // add columns
         foreach ($widget->getColumns() as $col) {
             $ds->getColumns()->addFromExpression($col->getAttributeAlias(), $col->getDataColumnName(), $col->isHidden());
