@@ -1,9 +1,6 @@
 <?php
 namespace exface\AdminLteTemplate\Template\Elements;
 
-use exface\Core\Widgets\ChartAxis;
-use exface\Core\Widgets\ChartSeries;
-use exface\Core\Widgets\Chart;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryFlotTrait;
@@ -30,7 +27,7 @@ class lteChart extends lteDataTable
      */
     protected function buildCssHeightDefaultValue()
     {
-        return ($this->getHeightRelativeUnit() * 9) . 'px'; 
+        return $this->buildCssCanvasHeightValue(($this->getHeightRelativeUnit() * 5) . 'px'); 
     }
 
     public function buildHtml()
@@ -264,6 +261,12 @@ HTML;
             return $height;
         }
         
+        return $this->buildCssCanvasHeightValue($height);
+    }
+    
+    protected function buildCssCanvasHeightValue($cssValue)
+    {
+        $height = $cssValue;
         if (strtolower(substr($height, 0, 5)) === 'calc(') {
             $height = trim(substr($height, 4), "()");
         }
