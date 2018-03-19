@@ -223,7 +223,8 @@ ol li.highlight i.icon-move {}
 }
 
 /* Symfony Debugger */
-.exception .container {width: auto !important;} 
+.exception > .container {width: auto !important; padding: 0 !important;} 
+.exception > .exception-summary {margin-bottom: 0 !important;} 
 pre.sf-dump {background: none !important; border: none !important;}
 pre.sf-dump span.sf-dump-key {color: black !important;}
 pre.sf-dump span.sf-dump-str {color: black !important;}
