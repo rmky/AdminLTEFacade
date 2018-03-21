@@ -20,7 +20,7 @@ class AdminLteTemplateApp extends App
     {
         $installer = parent::getInstaller($injected_installer);
         $tplInstaller = new HttpTemplateInstaller($this->getSelector());
-        $tplInstaller->setTemplate(TemplateFactory::createFromString('exface.AdminLteTemplate', $this->getWorkbench()));
+        $tplInstaller->setTemplate(TemplateFactory::createFromString('exface.AdminLteTemplate.AdminLteTemplate', $this->getWorkbench()));
         $installer->addInstaller($tplInstaller);
         return $installer;
     }
