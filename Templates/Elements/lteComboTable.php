@@ -32,7 +32,7 @@ class lteComboTable extends lteInput
         if ($widget->getTable()->hasFilters()) {
             foreach ($widget->getTable()->getFilters() as $fltr) {
                 if ($link = $fltr->getValueWidgetLink()) {
-                    $linked_element = $this->getTemplate()->getElementByWidgetId($link->getWidgetId(), $widget->getPage());
+                    $linked_element = $this->getTemplate()->getElement($link->getTargetWidget());
                     
                     $widget_lazy_loading_group_id = $widget->getLazyLoadingGroupId();
                     $linked_element_lazy_loading_group_id = method_exists($linked_element->getWidget(), 'getLazyLoadingGroupId') ? $linked_element->getWidget()->getLazyLoadingGroupId() : '';
