@@ -9,9 +9,7 @@ class lteChart extends lteDataTable
 {
     use JqueryToolbarsTrait;
     
-    use JqueryFlotTrait {
-        buildHtmlHeadTags as buildHtmlHeadTagsByTrait;
-    }
+    use JqueryFlotTrait;
 
     public function init()
     {
@@ -167,16 +165,6 @@ JS;
         }
         
         return $output;
-    }
-    
-    public function buildHtmlHeadTags()
-    {
-        $includes = $this->buildHtmlHeadTagsByTrait();
-        
-        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Templates/js/flot/plugins/axislabels/jquery.flot.axislabels.js"></script>';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Templates/js/flot/plugins/jquery.flot.orderBars.js"></script>';
-        
-        return $includes;
     }
     
     protected function buildJsDataRowsSelector()
