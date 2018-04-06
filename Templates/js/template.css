@@ -43,6 +43,9 @@ table.dataTable td.ok{background-color: green;}
 table.dataTable td.warning{background-color: yellow;}
 table.dataTable td.error{background-color: red; color: white;}
 
+/* In-table editors */
+td input.form-control {height: 25px; margin: -5px 0;}
+
 .btn-advanced-filtering .label {position: absolute; top: 15px; right: 5px; text-align: center; font-size: 9px; padding: 2px 3px; line-height: .9;}
 /* Show overlay message if initial load is skipped */
 .box-body {position: relative;}

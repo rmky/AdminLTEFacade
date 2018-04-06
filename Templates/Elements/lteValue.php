@@ -2,6 +2,7 @@
 namespace exface\AdminLteTemplate\Templates\Elements;
 
 use exface\Core\Widgets\Value;
+use exface\Core\Widgets\DataColumn;
 
 /**
  *
@@ -36,14 +37,23 @@ class lteValue extends lteAbstractElement
      */
     public function buildHtmlGridItemWrapper($inner_html)
     {
+        if (! $this->isInTable()) {
+            $cssClasses = "exf-grid-item {$this->getMasonryItemClass()}  {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}";
+        }
+        
         $output = <<<HTML
         
-                    <div class="exf-input exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}" title="{$this->buildHintText()}">
+                    <div class="exf-input {$cssClasses}" title="{$this->buildHintText()}">
                         {$inner_html}
                     </div>
 HTML;
                         
         return $output;
+    }
+    
+    protected function isInTable()
+    {
+        return $this->getWidget()->getParent() instanceof DataColumn;
     }
 
     /**
