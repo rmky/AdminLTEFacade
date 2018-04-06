@@ -1,32 +1,30 @@
 <?php
 namespace exface\AdminLteTemplate\Templates\Elements;
 
-class lteCheckBox extends lteAbstractElement
+class lteCheckBox extends lteValue
 {
 
-    function buildHtml()
+    public function buildHtml()
     {
         $checkedScript = $this->getWidget()->getValue() ? 'checked="checked"' : '';
         $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled"' : '';
         $output = <<<HTML
 
-                    <div class="exf-input exf-grid-item {$this->getMasonryItemClass()} checkbox {$this->getWidthClasses()}" title="{$this->buildHintText()}">
+                    <div class="exf-input checkbox">
                         <label>
                             <input type="checkbox" value="1"
-                                    form=""
-                                    id="{$this->getWidget()->getId()}_checkbox"
-                                    onchange="$('#{$this->getWidget()->getId()}').val(this.checked);"
+                                    name="{$this->getWidget()->getAttributeAlias()}" 
+                                    id="{$this->getWidget()->getId()}"
                                     {$checkedScript}
                                     {$disabledScript} />
                             {$this->getWidget()->getCaption()}
                         </label>
-                        <input type="hidden" name="{$this->getWidget()->getAttributeAlias()}" id="{$this->getWidget()->getId()}" value="{$this->getWidget()->getValue()}" />
                     </div>
 HTML;
-        return $output;
+        return $this->buildHtmlGridItemWrapper($output);
     }
 
-    function buildJs()
+    public function buildJs()
     {
         return '';
     }
