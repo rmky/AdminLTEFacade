@@ -10,7 +10,7 @@ use exface\Core\DataTypes\StringDataType;
  *
  * @author Andrej Kabachnik
  */
-class lteComboTable extends lteInput
+class lteInputComboTable extends lteInput
 {
 
     private $js_debug_level = 0;
@@ -75,7 +75,7 @@ JS;
     /**
      *
      * @throws WidgetConfigurationError
-     * @return \exface\AdminLteTemplate\Templates\Elements\lteComboTable
+     * @return \exface\AdminLteTemplate\Templates\Elements\lteInputComboTable
      */
     protected function registerLiveReferenceAtLinkedElement()
     {
@@ -102,7 +102,7 @@ JS;
      */
     function buildHtml()
     {
-        /* @var $widget \exface\Core\Widgets\ComboTable */
+        /* @var $widget \exface\Core\Widgets\InputComboTable */
         $widget = $this->getWidget();
         
         $value = $this->escapeString($this->getValueWithDefaults());
@@ -131,7 +131,7 @@ HTML;
      */
     function buildJs()
     {
-        /* @var $widget \exface\Core\Widgets\ComboTable */
+        /* @var $widget \exface\Core\Widgets\InputComboTable */
         $widget = $this->getWidget();
         
         // Initialer Wert
@@ -157,7 +157,7 @@ HTML;
         $options = [];
         if (! $widget->getMultiSelect()) {
             $options[] = 'maxSelection: 1';
-            $options[] = 'maxSelectionRenderer: function() { return "' . $this->translate('WIDGET.COMBOTABLE.MAX_SELECTION', [
+            $options[] = 'maxSelectionRenderer: function() { return "' . $this->translate('WIDGET.INPUTCOMBOTABLE.MAX_SELECTION', [
                 '%number%' => 1
             ], 1) . '"; }';
         }
@@ -225,14 +225,14 @@ window.{$this->getId()}_ms = $("#{$this->getId()}_ms").magicSuggest({
         {$initialFilterScript}
     },
     displayField: "{$widget->getTextColumn()->getDataColumnName()}",
-    noSuggestionText: "{$this->translate('WIDGET.COMBOTABLE.NO_SUGGESTION')}",
-    placeholder: "{$this->translate('WIDGET.COMBOTABLE.PLACEHOLDER')}",
+    noSuggestionText: "{$this->translate('WIDGET.INPUTCOMBOTABLE.NO_SUGGESTION')}",
+    placeholder: "{$this->translate('WIDGET.INPUTCOMBOTABLE.PLACEHOLDER')}",
     queryParam: "q",
     resultAsString: true, // Das Resultat wird als String, nicht als Tag, dargestellt.
     resultsField: "data",
-    // Ist toggleOnClick true wird die ComboTable expandiert, egal wohin man klickt. Das gibt
+    // Ist toggleOnClick true wird die InputComboTable expandiert, egal wohin man klickt. Das gibt
     // allerdings Probleme beim Loeschen von Lazy-Loading-Groups. Man klickt ins Feld um zu
-    // Loeschen, expandiert dadurch aber die ComboTable und loest eine Abfrage aus. Loescht
+    // Loeschen, expandiert dadurch aber die InputComboTable und loest eine Abfrage aus. Loescht
     // man jetzt schnell das Feld, kommt die Anfrage spaeter zurueck, mit dem vorherigen
     // Inhalt als einzigem Ergebnis, wodurch dieses wieder automatisch ausgewaehlt wird.
     toggleOnClick: false,
@@ -284,7 +284,7 @@ var {$this->getId()}_input = $("#{$this->getId()}_ms .ms-sel-ctn input");
 });
 JS;
         
-        // Es werden JavaScript Value-Getter-/Setter- und OnChange-Funktionen fuer die ComboTable erzeugt,
+        // Es werden JavaScript Value-Getter-/Setter- und OnChange-Funktionen fuer die InputComboTable erzeugt,
         // um duplizierten Code zu vermeiden.
         $output .= <<<JS
 
@@ -293,7 +293,7 @@ JS;
 {$this->buildJsOnChangeFunction()}
 JS;
         
-        // Es werden Dummy-Methoden fuer die Filter der DataTable hinter dieser ComboTable generiert. Diese
+        // Es werden Dummy-Methoden fuer die Filter der DataTable hinter dieser InputComboTable generiert. Diese
         // Funktionen werden nicht benoetigt, werden aber trotzdem vom verlinkten Element aufgerufen, da
         // dieses nicht entscheiden kann, ob das Filter-Input-Widget existiert oder nicht. Fuer diese Filter
         // existiert kein Input-Widget, daher existiert fuer sie weder HTML- noch JavaScript-Code und es
@@ -521,7 +521,7 @@ JS;
 
 function {$this->buildJsFunctionPrefix()}onChange(){
     {$this->buildJsDebugMessage('onChange()')}
-    // Diese Werte koennen gesetzt werden damit, wenn der Wert der ComboTable
+    // Diese Werte koennen gesetzt werden damit, wenn der Wert der InputComboTable
     // geaendert wird, nur ein Teil oder gar keine verlinkten Elemente aktualisiert
     // werden.
     var suppressFilterSetterUpdate = false, clearFilterSetterUpdate = false, suppressAllUpdates = false, suppressLazyLoadingGroupUpdate = false;
@@ -692,7 +692,7 @@ JS;
         
         // Ergibt die Anfrage bei einem FilterSetterUpdate keine Ergebnisse waehrend ein Wert
         // gesetzt ist, widerspricht der gesetzte Wert wahrscheinlich den gesetzten Filtern.
-        // Deshalb wird der Wert der ComboTable geloescht und anschliessend neu geladen.
+        // Deshalb wird der Wert der InputComboTable geloescht und anschliessend neu geladen.
         var rows = {$this->getId()}_ms.getData();
         if (rows.length == 0 && {$this->buildJsFunctionPrefix()}valueGetter()) {
             {$this->getId()}_ms.clear(true);
@@ -749,7 +749,7 @@ JS;
      * 0 = off, 1 = low, 2 = medium, 3 = high detail-level (default: 0)
      *
      * @param integer|string $value            
-     * @return lteComboTable
+     * @return lteInputComboTable
      */
     function setJsDebugLevel($value)
     {

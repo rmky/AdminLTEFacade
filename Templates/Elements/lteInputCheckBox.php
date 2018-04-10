@@ -1,7 +1,7 @@
 <?php
 namespace exface\AdminLteTemplate\Templates\Elements;
 
-class lteCheckBox extends lteValue
+class lteInputCheckBox extends lteValue
 {
 
     public function buildHtml()

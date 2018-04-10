@@ -6,7 +6,7 @@ namespace exface\AdminLteTemplate\Templates\Elements;
  * @author PATRIOT
  *        
  */
-class lteImageSlider extends lteDataCards
+class lteImageCarousel extends lteDataCards
 {
 
     function buildHtml()
