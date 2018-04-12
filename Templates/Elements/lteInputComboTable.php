@@ -110,7 +110,7 @@ JS;
         
         $output = <<<HTML
 
-						<label for="{$this->getId()}">{$this->getWidget()->getCaption()}</label>
+						{$this->buildHtmlLabel()}
 						<input type="hidden"
 								id="{$this->getId()}" 
 								name="{$widget->getAttributeAlias()}"

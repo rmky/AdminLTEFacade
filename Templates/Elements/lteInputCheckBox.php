@@ -12,12 +12,8 @@ class lteInputCheckBox extends lteValue
 
                     <div class="exf-input checkbox">
                         <label>
-                            <input type="checkbox" value="1"
-                                    name="{$this->getWidget()->getAttributeAlias()}" 
-                                    id="{$this->getWidget()->getId()}"
-                                    {$checkedScript}
-                                    {$disabledScript} />
-                            {$this->getWidget()->getCaption()}
+                            <input type="checkbox" value="1" name="{$this->getWidget()->getAttributeAlias()}" id="{$this->getWidget()->getId()}" {$checkedScript} {$disabledScript} /> 
+                            {$this->getCaption()}
                         </label>
                     </div>
 HTML;
@@ -27,6 +23,11 @@ HTML;
     public function buildJs()
     {
         return '';
+    }
+    
+    protected function getCaption()
+    {
+        return $this->getWidget()->isInTable() ? '' : parent::getCaption();
     }
 }
 ?>

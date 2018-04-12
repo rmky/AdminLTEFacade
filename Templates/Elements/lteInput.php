@@ -29,7 +29,7 @@ class lteInput extends lteValue
         
         $output = <<<HTML
 
-                        <label for="{$this->getId()}">{$this->getWidget()->getCaption()}</label>
+                        {$this->buildHtmlLabel()}
                         <input class="form-control"
                             type="{$this->getElementType()}"
                             name="{$this->getWidget()->getAttributeAlias()}" 

@@ -11,7 +11,7 @@ class lteInputText extends lteInput
         
         $output = <<<HTML
 
-                        <label for="{$this->getId()}">{$this->getWidget()->getCaption()}</label>
+                        {$this->buildHtmlLabel()}
                         <textarea class="form-control"
                                 name="{$this->getWidget()->getAttributeAlias()}"
                                 id="{$this->getId()}"

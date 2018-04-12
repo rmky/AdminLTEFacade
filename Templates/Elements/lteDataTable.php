@@ -89,6 +89,7 @@ HTML;
         $widget = $this->getWidget();
         
         $output = <<<JS
+
 var {$this->getId()}_table;
 if ($.fn.dataTable != undefined){
     $.fn.dataTable.ext.errMode = 'throw';

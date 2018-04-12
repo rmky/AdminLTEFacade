@@ -68,7 +68,7 @@ HTML;
     
     protected function buildHtmlLabel()
     {
-        if ($this->getWidget()->getCaption() && ! $this->getWidget()->getHideCaption()) {
+        if (! empty($this->getCaption()) && ! $this->getWidget()->isInTable()) {
             return '<label for="' . $this->getId() . '" class="exf-text-label">' . $this->getWidget()->getCaption() . '</label>';
         }
         return '';

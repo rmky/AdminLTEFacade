@@ -30,7 +30,7 @@ class lteInputSelect extends lteInput
         }
         
         $output = '
-						<label for="' . $this->getId() . '">' . $this->getWidget()->getCaption() . '</label>
+						' . $this->buildHtmlLabel() . '
 						<select class="form-control"
 								name="' . $this->getWidget()->getAttributeAlias() . '"
 								value="' . $this->escapeString($this->getValueWithDefaults()) . '"

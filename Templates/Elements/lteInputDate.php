@@ -36,7 +36,7 @@ class lteInputDate extends lteInput
         
         $output = <<<HTML
 
-                <label for="{$this->getId()}">{$this->getWidget()->getCaption()}</label>
+                {$this->buildHtmlLabel()}
                 <div class="form-group input-group date">
                     <input class="form-control"
                         type="text"
