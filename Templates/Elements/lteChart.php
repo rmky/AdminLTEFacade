@@ -4,6 +4,7 @@ namespace exface\AdminLteTemplate\Templates\Elements;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryFlotTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataTableTrait;
 
 class lteChart extends lteDataTable
 {
@@ -275,6 +276,16 @@ HTML;
             $height = 'calc(' . $height . ' ' . implode(' ', $calc) . ')';
         }
         return $height;
+    }
+    
+    /**
+     * 
+     * {@inheritdoc}
+     * @see JqueryDataTableTrait::isEditable()
+     */
+    public function isEditable()
+    {
+        return false;
     }
 }
 ?>
