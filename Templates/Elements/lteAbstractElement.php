@@ -255,5 +255,25 @@ JS;
         }
         return '';
     }
+    
+    /**
+     *
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
+     */
+    public function buildJs()
+    {
+        return '';
+    }
+    
+    /**
+     *
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
+     */
+    public function buildHtml()
+    {
+        return '';
+    }
 }
 ?>
