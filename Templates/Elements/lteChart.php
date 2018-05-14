@@ -78,7 +78,7 @@ HTML;
         $widget = $this->getWidget();
         $output = '';
         
-        $output .= $this->buildJsPlotFunction();
+        $output .= $this->buildJsFunctions();
         
         // Add JS code for the configurator
         $output .= $this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJs();
@@ -107,12 +107,11 @@ JS;
     }
 
     /**
-     * Returns the definition of the function elementId_load(urlParams) which is used to fethc the data via AJAX
-     * if the chart is not bound to another data widget (in that case, the data should be provided by that widget).
+     * Returns the JS code to fetch data: either via AJAX or from a Data widget (if the chart is bound to another data widget).
      *
      * @return string
      */
-    protected function buildJsAjaxLoaderFunction()
+    protected function buildJsDataLoader()
     {
         $widget = $this->getWidget();
         $output = '';
@@ -141,7 +140,6 @@ JS;
             
             // Loader function
             $output .= '
-				function ' . $this->buildJsFunctionPrefix() . 'load(){
 					' . $this->buildJsBusyIconShow() . '
 					var data = { };
 					' . $post_data . '
@@ -151,18 +149,15 @@ JS;
                         method: "POST",
 						data: data,
 						success: function(data){
-							' . $this->buildJsFunctionPrefix() . 'plot(data);
-							' . $this->buildJsBusyIconHide() . '
+							' . $this->buildJsRedraw('data') . ';
+							' . $this->buildJsBusyIconHide() . ';
 						},
 						error: function(jqXHR, textStatus, errorThrown){
 							' . $this->buildJsShowError('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText') . '
 							' . $this->buildJsBusyIconHide() . '
 						}
 					});
-				}';
-            
-            // Call the data loader to populate the Chart initially
-            $output .= $this->buildJsRefresh();
+				';
         }
         
         return $output;
@@ -286,6 +281,16 @@ HTML;
     public function isEditable()
     {
         return false;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Templates\Elements\lteDataTable::buildHtmlHeadTags()
+     */
+    public function buildHtmlHeadTags()
+    {
+        return $this->buildHtmlHeadDefaultIncludes();
     }
 }
 ?>
