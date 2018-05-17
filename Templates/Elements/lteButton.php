@@ -6,6 +6,7 @@ use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryButtonTrait;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement;
 use exface\Core\Widgets\Button;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDisableConditionTrait;
 
 /**
  * Generates jQuery Mobile buttons for ExFace
@@ -15,8 +16,8 @@ use exface\Core\Widgets\Button;
  */
 class lteButton extends lteAbstractElement
 {
-    
     use JqueryButtonTrait;
+    use JqueryDisableConditionTrait;
 
     function buildJs()
     {
@@ -51,6 +52,9 @@ class lteButton extends lteAbstractElement
         foreach ($hotkey_handlers as $hotkey => $handlers) {
             // TODO add hotkey detection here
         }
+        
+        // Initialize the disabled state of the widget if a disabled condition is set.
+        $output .= $this->buildJsDisableConditionInitializer();
         
         return $output;
     }

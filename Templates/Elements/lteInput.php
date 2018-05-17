@@ -3,11 +3,13 @@ namespace exface\AdminLteTemplate\Templates\Elements;
 
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLiveReferenceTrait;
+use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDisableConditionTrait;
 
 class lteInput extends lteValue
 {
     
     use JqueryLiveReferenceTrait;
+    use JqueryDisableConditionTrait;
 
     protected function init()
     {
