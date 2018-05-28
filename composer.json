@@ -22,6 +22,8 @@
 		"bower-asset/datatables.net-select-bs" : "^1.2.1",
 		"bower-asset/datatables.net-rowgroup" : "^1.0.2",
 		"bower-asset/datatables.net-rowgroup-bs" : "^1.0.2",
+		"bower-asset/datatables.net-responsive": "^2.2.0",
+		"bower-asset/datatables.net-responsive-bs": "^2.2.0",
 		"bower-asset/jssor" : "^22",
 		"bower-asset/magicsuggest" : "^2.1",
 		"bower-asset/sortable.js" : "^1",

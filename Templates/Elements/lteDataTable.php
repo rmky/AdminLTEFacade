@@ -25,7 +25,9 @@ class lteDataTable extends lteAbstractElement
     
     use JqueryDataTableTrait;
     
-    use JqueryDataTablesTrait;
+    use JqueryDataTablesTrait {
+        buildHtmlHeadTags as buildHtmlHeadTagsViaTrait;
+    }
     
     use JqueryToolbarsTrait;
 
@@ -180,19 +182,14 @@ JS;
 
     public function buildHtmlHeadTags()
     {
-        $includes = parent::buildHtmlHeadTags();
-        // DataTables
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-bs/css/dataTables.bootstrap.css">';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net/js/jquery.dataTables.min.js"></script>';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Templates/js/DataTables.exface.helpers.js"></script>';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-select/js/dataTables.select.min.js"></script>';
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-select-bs/css/select.bootstrap.min.css">';
+        $includes = $this->buildHtmlHeadTagsViaTrait();
+        $template = $this->getTemplate();
         
-        if ($this->getWidget()->hasRowGroups()){
-            $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/datatables.net-rowgroup/js/dataTables.rowgroup.min.js"></script>';
-            $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/bower-asset/datatables.net-rowgroup-bs/css/rowGroup.bootstrap.min.css">';
+        if ($this->isResponsive()) {
+            $includes[] = '<script type="text/javascript" src="' . $template->buildUrlToSource('LIBS.DATATABLES.RESPONSIVE.JS_THEME') . '"></script>';
         }
+        
+        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Templates/js/DataTables.exface.helpers.js"></script>';
         
         // Sortable plugin for column sorting in the table configuration popup
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jquery-sortable/source/js/jquery-sortable-min.js"></script>';
@@ -399,7 +396,7 @@ JS;
     {
         $menu_item = '';
         
-        /* @var $btn_element \exface\AdminLteTemplate\lteButton */
+        /* @var $btn_element \exface\AdminLteTemplate\Templates\Elements\lteButton */
         $btn_element = $this->getTemplate()->getElement($button);
         
         $icon = '<i class=\'' . $btn_element->buildCssIconClass($button->getIcon()) . '\'></i> ';
