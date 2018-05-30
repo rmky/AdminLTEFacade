@@ -44,7 +44,7 @@ class lteDataCards extends lteDataList
         if (! $widget->getAutoloadData() && $widget->getLazyLoading()) {
             $aldMessageAppend = <<<HTML
 
-            <div id="{$this->getId()}_no_initial_load_message" class="placeholder dataTables_empty">{$widget->getTextNotLoaded()}</div>
+            <div id="{$this->getId()}_no_initial_load_message" class="placeholder dataTables_empty">{$widget->getAutoloadDisabledHint()}</div>
 HTML;
         }
         

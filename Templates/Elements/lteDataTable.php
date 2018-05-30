@@ -495,7 +495,7 @@ JS;
                     <table class='no-initial-load-message-overlay-table'>\
                         <tr>\
                             <td style='text-align:center;'>\
-                                {$widget->getTextNotLoaded()}\
+                                {$widget->getAutoloadDisabledHint()}\
                             </td>\
                         </tr>\
                     </table>\

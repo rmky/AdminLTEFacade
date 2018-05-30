@@ -48,6 +48,10 @@ table.dataTable td.error{background-color: red; color: white;}
 .dataTable.responsive>tbody>tr.child>td {border-bottom: 1px solid #efefef; border-top: none !important;}
 .dataTable.responsive>tbody>tr.odd + tr.child {background-color: #f9f9f9;}
 .dataTable.responsive>tbody>tr.selected + tr.child {background-color: #f9f9f9;}
+.dataTable.responsive>tbody>tr.child span.dtr-data {display: inline-block;}
+
+/* messages */
+.no-initial-load-message-overlay-table tr {background-color: #f9f9f9; height: 100px; font-style: italic;}
 
 /* In-table editors */
 td input.form-control {height: 25px; margin: -5px 0;}
