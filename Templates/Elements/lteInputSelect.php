@@ -33,7 +33,7 @@ class lteInputSelect extends lteInput
 						' . $this->buildHtmlLabel() . '
 						<select class="form-control"
 								name="' . $this->getWidget()->getAttributeAlias() . '"
-								value="' . $this->escapeString($this->getValueWithDefaults()) . '"
+								value="' . $this->getValueWithDefaults() . '"
 								id="' . $this->getId() . '"
 								' . ($this->getWidget()->isRequired() ? 'required="true" ' : '') . '
 								' . ($this->getWidget()->isDisabled() ? 'disabled="disabled" ' : '') . '
