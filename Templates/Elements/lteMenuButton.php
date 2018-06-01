@@ -50,22 +50,16 @@ HTML;
      *
      * @see \exface\AdminLteTemplate\Templates\Elements\lteAbstractElement::buildJs()
      */
-    function buildJs()
+    public function buildJs()
     {
         $output = '';
         foreach ($this->getWidget()->getButtons() as $b) {
-            if ($js_click_function = $this->getTemplate()->getElement($b)->buildJsClickFunction()) {
-                $output .= "
-					function " . $this->getTemplate()->getElement($b)->buildJsClickFunctionName(). "(){
-						" . $js_click_function . "
-					}
-					";
-            }
+            $output .= "\n" . $this->getTemplate()->getElement($b)->buildJs();
         }
         return $output;
     }
 
-    function getAlignClass()
+    protected function getAlignClass()
     {
         $align = $this->getWidget()->getAlign();
         if ($align == 'left') {
