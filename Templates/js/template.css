@@ -53,6 +53,9 @@ table.dataTable td.error{background-color: red; color: white;}
 /* messages */
 .no-initial-load-message-overlay-table tr {background-color: #f9f9f9; height: 100px; font-style: italic;}
 
+/* Split-widgets*/
+.container.exf-SplitVertical .container.exf-SplitHorizontal {padding-right: 0; padding-left: 0;}
+
 /* In-table editors */
 td input.form-control {height: 25px; margin: -5px 0;}
 

@@ -2,15 +2,29 @@
 namespace exface\AdminLteTemplate\Templates\Elements;
 
 use exface\Core\Widgets\SplitHorizontal;
+use exface\Core\Interfaces\Widgets\iFillEntireContainer;
 
 class lteSplitPanel extends ltePanel
 {
 
     public function buildHtml(){
+        $widget = $this->getWidget();
+        $childrenCount = $widget->countWidgetsVisible();
+        
+        if ($childrenCount === 1 && ($widget->getChildren()[0] instanceof iFillEntireContainer) && ! $widget->getHeight()->isUndefined()) {
+            $widget->getChildren()[0]->setHeight($widget->getHeight());
+        }
+        
+        $content = $this->buildHtmlForChildren();
+        
+        if ($childrenCount > 1) {
+            $content = $this->buildHtmlChildrenWrapperPlain($content);
+        }
+        
         return <<<HTML
 
 <div id="{$this->getId()}">
-    {$this->buildHtmlChildrenWrapperPlain($this->buildHtmlForChildren())}
+    {$content}
 </div>
 
 HTML;

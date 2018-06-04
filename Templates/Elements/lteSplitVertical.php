@@ -5,12 +5,11 @@ use exface\Core\Exceptions\Templates\TemplateUnsupportedWidgetPropertyWarning;
 
 class lteSplitVertical extends lteContainer
 {
-
     function buildHtml()
     {
         $output = <<<HTML
 
-                <div class="" id="{$this->getId()}" style="width:100%;">
+                <div class="container {$this->buildCssElementClass()}" id="{$this->getId()}" style="width:100%;">
                     {$this->buildHtmlForWidgets()}
                 </div>
 HTML;
@@ -65,5 +64,10 @@ HTML;
 HTML;
         }
         return $panels_html;
+    }
+    
+    public function buildCssElementClass()
+    {
+        return parent::buildCssElementClass() . ' exf-' . $this->getWidget()->getWidgetType();
     }
 }

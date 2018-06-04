@@ -8,10 +8,13 @@ class lteSplitHorizontal extends lteSplitVertical
 
     function buildHtmlForWidgets()
     {
-        $panels = $this->getWidget()->getPanels();
+        $widget = $this->getWidget();
+        $height = $widget->getHeight();
+        
+        $panels = $widget->getPanels();
         $panel_no = count($panels);
         if ($panel_no == 0) {
-            throw new TemplateUnsupportedWidgetPropertyWarning('No Panels have been defined for ' . $this->getWidget()->getId() . ', at least one Panel is required.');
+            throw new TemplateUnsupportedWidgetPropertyWarning('No Panels have been defined for ' . $widget->getId() . ', at least one Panel is required.');
         } elseif ($panel_no <= 12) {
             $col_width = floor(12 / $panel_no);
             $col_rest = 12 % $panel_no;
@@ -22,9 +25,14 @@ class lteSplitHorizontal extends lteSplitVertical
         
         $panels_html = '';
         foreach ($panels as $panel) {
+            $style = '';
+            if (! $height->isUndefined()) {
+                $style .= 'height: ' . $this->getHeight();
+                $panel->setHeight($height);
+            }
             $panels_html .= <<<HTML
 
-                            <div class="col-xs-12 col-md-{$col_width}">
+                            <div class="col-xs-12 col-md-{$col_width}" style="{$style}">
                                 {$this->getTemplate()->getElement($panel)->buildHtml()}
                             </div>
 HTML;
