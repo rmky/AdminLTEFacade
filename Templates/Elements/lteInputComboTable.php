@@ -4,6 +4,7 @@ namespace exface\AdminLteTemplate\Templates\Elements;
 use exface\Core\Exceptions\InvalidArgumentException;
 use exface\Core\Exceptions\Widgets\WidgetConfigurationError;
 use exface\Core\DataTypes\StringDataType;
+use exface\Core\DataTypes\UrlDataType;
 
 /**
  * 
@@ -133,6 +134,7 @@ HTML;
     {
         /* @var $widget \exface\Core\Widgets\InputComboTable */
         $widget = $this->getWidget();
+        $valueFilterParam = UrlDataType::urlEncode($this->getTemplate()->getUrlFilterPrefix().$widget->getValueColumn()->getAttributeAlias());
         
         // Initialer Wert
         $initialValueScriptBeforeMsInit = '';
@@ -146,7 +148,7 @@ HTML;
                 $initialValueScriptAfterMsInit = $this->getId() . '_ms.setSelection([{"' . $widget->getTextColumn()->getDataColumnName() . '": "' . $widget_value_text . '", "' . $widget->getValueColumn()->getDataColumnName() . '": "' . $this->getValueWithDefaults() . '"}]);';
             } else {
                 $initialValueScriptBeforeMsInit = $this->getId() . '_jquery.data("_valueSetterUpdate", true);';
-                $initialFilterScript = ', filter_' . $widget->getValueColumn()->getDataColumnName() . ': "' . $this->getValueWithDefaults() . '"';
+                $initialFilterScript = ', "' . $valueFilterParam . '": "' . $this->getValueWithDefaults() . '"';
             }
         } else {
             // If no value set, just supress initial autoload
@@ -568,6 +570,7 @@ JS;
     function buildJsOnBeforeload()
     {
         $widget = $this->getWidget();
+        $valueFilterParam = UrlDataType::urlEncode($this->getTemplate()->getUrlFilterPrefix().$widget->getValueColumn()->getAttributeAlias());
         
         // Run the data getter of the (unrendered) DataConfigurator widget to get the data
         // parameter with filters, sorters, etc.
@@ -577,7 +580,7 @@ JS;
         // Widgets ohne Gruppe werden die normalen Filter gesetzt.
         $clearFiltersParam = $widget->getLazyLoadingGroupId() ? '' : $dataParam;
         // Filter aus dem gesetzten Wert erzeugen.
-        $valueFilterParam = 'dataUrlParams.filter_' . $widget->getValueColumn()->getDataColumnName() . ' = ' . $this->getId() . '_ms.getValue().join();';
+        $valueFilterParam = 'dataUrlParams["' . $valueFilterParam . '"] = ' . $this->getId() . '_ms.getValue().join();';
         
         $output = <<<JS
 
