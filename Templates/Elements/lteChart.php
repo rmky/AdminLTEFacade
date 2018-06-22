@@ -5,6 +5,7 @@ use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryFlotTrait;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataTableTrait;
+use exface\Core\DataTypes\BooleanDataType;
 
 class lteChart extends lteDataTable
 {
@@ -35,8 +36,8 @@ class lteChart extends lteDataTable
         $widget = $this->getWidget();
         
         // Create the toolbar if the chart has it's own controls and is not bound to another data widget
-        if (! $widget->getDataWidgetLink()) {
-            $header = $widget->getHideHeader() ? '' : $this->buildHtmlHeader();
+        if ($this->hasBoxTitle()) {
+            $header = $this->buildHtmlHeader();
         }
         
         $style = '';
@@ -264,8 +265,8 @@ HTML;
         } else {
             $calc[] = '- 40px';
         }
-        if (! $widget->getHideHeader()){
-            $calc[] = '- 54px';
+        if ($this->hasBoxTitle()){
+            $calc[] = '- 54px'; // If 
         }
         if (! empty($calc)) {
             $height = 'calc(' . $height . ' ' . implode(' ', $calc) . ')';
@@ -291,6 +292,11 @@ HTML;
     public function buildHtmlHeadTags()
     {
         return $this->buildHtmlHeadDefaultIncludes();
+    }
+    
+    protected function hasBoxTitle() : bool
+    {
+        return $this->getWidget()->getDataWidgetLink() === null;
     }
 }
 ?>
