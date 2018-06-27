@@ -159,14 +159,14 @@ JS;
                     if ($widthClass < 1) {
                         $widthClass = 1;
                     }
-                    $output = 'col-xs-12 col-md-' . $widthClass;
+                    $output = 'col-xs-12 col-md-' . $widthClass . ' col-sm-6';
                 }
             } else {
                 $widthClass = floor($this->getWidthDefault() / $columnNumber * 12);
                 if ($widthClass < 1) {
                     $widthClass = 1;
                 }
-                $output = 'col-xs-12 col-md-' . $widthClass;
+                $output = 'col-xs-12 col-md-' . $widthClass . ' col-sm-6';
             }
         } elseif ($widget instanceof iFillEntireContainer) {
             // Ein "grosses" Widget ohne angegebene Breite fuellt die gesamte Breite des
@@ -207,7 +207,7 @@ JS;
         if ($col_no < 1) {
             $col_no = 1;
         }
-        return 'col-xs-' . $col_no;
+        return ($columnNumber > 2 ? 'col-sm-6 col-md-' . $col_no : 'col-xs-' . $col_no);
     }
 
     public function prepareData(\exface\Core\Interfaces\DataSheets\DataSheetInterface $data_sheet)
