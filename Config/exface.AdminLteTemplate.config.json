@@ -1,20 +1,35 @@
 {
 	"WIDTH_RELATIVE_UNIT": 400,
 	"WIDTH_DEFAULT": 1,
-	"HEIGHT_RELATIVE_UNIT": 32,
+	"HEIGHT_RELATIVE_UNIT": 59,
 	"HEIGHT_DEFAULT": 1,
 	"COLUMNS_BY_DEFAULT": 4,
 	"HINT_MAX_CHARS_IN_LINE": 60,
 	"FORBIDDEN_CHARS_IN_ELEMENT_ID": ["/", "(", ")", "."],
 	"FORBIDDEN_CHARS_IN_FUNCTION_PREFIX": ["-", "."],
-	"DEFAULT_AJAX_URL": "exface/exface.php?exftpl=exface.AdminLteTemplate",
-	"DATAGRID_SHOW_FOOTER_BY_DEFAULT": false,
+	"DEFAULT_AJAX_URL": "/api/adminlte",
 	
 	"ICON_CLASSES.DEFAULT_CLASS_PREFIX": "fa fa-",
 	"ICON_CLASSES.INSTALL": "fa fa-hdd-o",
 	"ICON_CLASSES.UNINSTALL": "fa fa-trash",
 	"ICON_CLASSES.PENCIL_MULTIPLE": "fa fa-pencil-square",
 	"ICON_CLASSES.COMPARE": "fa fa-files-o",
+	
+	"LIBS.DATATABLES.CORE.JS": "bower-asset/datatables.net/js/jquery.dataTables.min.js",
+    "LIBS.DATATABLES.CORE.CSS": "bower-asset/datatables.net-dt/css/jquery.dataTables.min.css",
+    "LIBS.DATATABLES.THEME.JS": "bower-asset/datatables.net-bs/js/dataTables.bootstrap.min.js",
+    "LIBS.DATATABLES.THEME.CSS": "npm-asset/datatables.net-bs/css/dataTables.bootstrap.css",
+    "LIBS.DATATABLES.SELECT.CSS": "npm-asset/datatables.net-select-bs/css/select.bootstrap.min.css",
+    "LIBS.DATATABLES.SELECT.JS": "npm-asset/datatables.net-select/js/dataTables.select.min.js",
+    "LIBS.DATATABLES.ROWGROUP.JS": "npm-asset/datatables.net-rowgroup/js/dataTables.rowgroup.min.js",
+    "LIBS.DATATABLES.ROWGROUP.CSS": "npm-asset/datatables.net-rowgroup-bs/css/rowGroup.bootstrap.min.css",
+    "LIBS.DATATABLES.RESPONSIVE.JS": "npm-asset/datatables.net-responsive/js/dataTables.responsive.min.js",
+    "LIBS.DATATABLES.RESPONSIVE.JS_THEME": "npm-asset/datatables.net-responsive-bs/js/responsive.bootstrap.min.js",
+    "LIBS.DATATABLES.RESPONSIVE.CSS": "npm-asset/datatables.net-responsive-bs/css/responsive.bootstrap.min.css",
+    
+    "LIBS.FLOT.CORE_FOLDER": "npm-asset/flot-charts/",
+	"LIBS.FLOT.PLUGINS.ORDERBARS": "exface/AdminLteTemplate/Templates/js/flot/plugins/jquery.flot.orderBars.js",
+	"LIBS.FLOT.PLUGINS.AXISLABELS": "exface/AdminLteTemplate/Templates/js/flot/plugins/jquery.flot.orderBars.js",
 	
 	"WIDGET.ALL.DEFAULT_ALIGNMENT": "left",
 	
