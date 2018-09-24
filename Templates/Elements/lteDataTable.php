@@ -216,7 +216,7 @@ JS;
         
         if ($widget->getHideHeader()) {
             $header_pagination = '';
-            if ($widget->getHideFooter() && $widget->getPaginate()){
+            if ($widget->getHideFooter() && $widget->isPaged()){
                 $header_pagination = <<<HTML
         <button type="button" href="#" id="{$this->getId()}_prevPage" class="btn btn-box-tool"><i class="fa fa-caret-left"></i></button>
         <button type="button" href="#" id="{$this->getId()}_nextPage" class="btn btn-box-tool"><i class="fa fa-caret-right"></i></button>
@@ -263,7 +263,7 @@ HTML;
     {
         $widget = $this->getWidget();
         
-        $paginator_class = ! $widget->getPaginate() ? 'hidden' : '';
+        $paginator_class = ! $widget->isPaged() ? 'hidden' : '';
         $refresh_button_class = ! $this->isLazyLoading() ? 'hidden' : '';
         $configurator_button_class = ! $this->isLazyLoading() ? 'hidden': '';
         
