@@ -6,7 +6,6 @@ use exface\Core\Templates\AbstractHttpTemplate\HttpTemplateInstaller;
 use exface\Core\CommonLogic\Model\App;
 use exface\Core\Factories\TemplateFactory;
 use exface\Core\Templates\AbstractPWATemplate\ServiceWorkerInstaller;
-use exface\Core\Templates\AbstractPWATemplate\ServiceWorkerBuilder;
 
 class AdminLteTemplateApp extends App
 {
