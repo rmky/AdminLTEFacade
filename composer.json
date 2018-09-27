@@ -35,17 +35,27 @@
 		"npm-asset/datatables.net-select-bs" : "^1.2.1",
 		"npm-asset/datatables.net-rowgroup" : "^1.0.2",
 		"npm-asset/datatables.net-rowgroup-bs" : "^1.0.2",
-		"npm-asset/datatables.net-responsive": "^2.2.1",
-		"npm-asset/datatables.net-responsive-bs": "^2.2.1",
+		"npm-asset/datatables.net-responsive" : "^2.2.1",
+		"npm-asset/datatables.net-responsive-bs" : "^2.2.1",
 		"npm-asset/flot-charts" : "~0.8",
 		"npm-asset/css-element-queries" : "^0.4"
 	},
-    "autoload": {
-        "psr-4": { "exface\\AdminLteTemplate\\": "" },
-        "exclude-from-classmap": [
-            "/Config/",
-            "/Translations/",
-            "/Model/"
-        ]
-    }
+	"autoload" : {
+		"psr-4" : {
+			"exface\\AdminLteTemplate\\" : ""
+		},
+		"exclude-from-classmap" : [
+			"/Config/",
+			"/Translations/",
+			"/Model/"
+		]
+	},
+	"extra" : {
+		"app" : {
+			"app_uid" : "0x11e8c23db26b0a35b73e0205857feb80",
+			"app_alias" : "exface.AdminLteTemplate",
+			"model_md5" : "646d9e7adae562bc4fe9131dc7d04798",
+			"model_timestamp" : "2018-09-27 10:11:55"
+		}
+	}
 }
