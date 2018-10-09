@@ -73,5 +73,20 @@
     
     "WIDGET.TABS.COLUMNS_BY_DEFAULT": 3,
     
+    "WIDGET.TILE.AUTOCOLORS": [
+        "bg-aqua",
+        "bg-light-blue",
+        "bg-teal",
+        "bg-purple",
+        "bg-orange",
+        "bg-maroon",
+        "bg-green",
+        "bg-yellow",
+        "bg-navy",
+        "bg-black",
+        "bg-gray",
+        "bg-red"
+    ],
+    
     "JAVASCRIPT_DEBUG_LEVEL": 0
 }

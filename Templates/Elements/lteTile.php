@@ -12,22 +12,6 @@ use exface\Core\Widgets\Container;
  */
 class lteTile extends lteButton
 {
-    const COLORS = [
-        'bg-aqua',
-        'bg-navy',
-        'bg-light-blue',
-        'bg-teal',
-        'bg-purple',
-        'bg-orange',
-        'bg-maroon',
-        'bg-black',
-        'bg-gray',
-        'bg-green',
-        'bg-yellow',
-        'bg-red'
-    ];
-    
-    
     function buildHtml()
     {
         $widget = $this->getWidget();
@@ -36,7 +20,7 @@ class lteTile extends lteButton
         
         return <<<JS
                 <div class="{$this->getMasonryItemClass()} {$this->getWidthClasses()}"</div>
-                    <div id="{$this->getId()}" class="small-box exf-tile {$this->getColorClass($widget)}">
+                    <div id="{$this->getId()}" class="small-box exf-tile {$this->getColorClass($widget)}" style="{$this->buildCssElementStyle()}">
                         <div class="inner">
                             <h3>{$widget->getTitle()}</h3>
            					<p>{$widget->getSubtitle()}</p>
@@ -49,9 +33,18 @@ class lteTile extends lteButton
                 </div>
 JS;
     }
-        
+       
+    /**
+     * 
+     * @param Tile $widget
+     * @return string
+     */
     protected function getColorClass(Tile $widget) : string
     {
+        if ($widget->getColor() !== null) {
+            return '';
+        }
+        
         $container = $widget->getParent();
         if ($container instanceof Container) {
             $idx = $container->getWidgetIndex($widget);
@@ -59,6 +52,21 @@ JS;
             $idx = 0;
         }
         
-        return static::COLORS[$idx];
+        return $this->getTemplate()->getConfig()->getOption('WIDGET.TILE.AUTOCOLORS')->getProperty($idx);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildCssElementStyle()
+     */
+    public function buildCssElementStyle()
+    {
+        $style = '';
+        $bgColor = $this->getWidget()->getColor();
+        if ($bgColor !== null && $bgColor !== '') {
+            $style .= 'background-color:' . $bgColor;
+        }
+        return $style;
     }
 }
