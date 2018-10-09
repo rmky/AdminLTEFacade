@@ -1,6 +1,9 @@
 <?php
 namespace exface\AdminLteTemplate\Templates\Elements;
 
+use exface\Core\Widgets\Tile;
+use exface\Core\Widgets\Container;
+
 /**
  * Tile-widget for AdminLte-Template.
  * 
@@ -9,6 +12,21 @@ namespace exface\AdminLteTemplate\Templates\Elements;
  */
 class lteTile extends lteButton
 {
+    const COLORS = [
+        'bg-aqua',
+        'bg-navy',
+        'bg-light-blue',
+        'bg-teal',
+        'bg-purple',
+        'bg-orange',
+        'bg-maroon',
+        'bg-black',
+        'bg-gray',
+        'bg-green',
+        'bg-yellow',
+        'bg-red'
+    ];
+    
     
     function buildHtml()
     {
@@ -18,10 +36,10 @@ class lteTile extends lteButton
         
         return <<<JS
                 <div class="{$this->getMasonryItemClass()} {$this->getWidthClasses()}"</div>
-                    <div id="{$this->getId()}" class="small-box bg-aqua">
+                    <div id="{$this->getId()}" class="small-box exf-tile {$this->getColorClass($widget)}">
                         <div class="inner">
-                            <h3 style="overflow:hidden;">{$widget->getTitle()}</h3>
-           					<p style="overflow:hidden;">{$widget->getSubtitle()}</p>
+                            <h3>{$widget->getTitle()}</h3>
+           					<p>{$widget->getSubtitle()}</p>
                 		</div>
                 		<div class="icon">
                 			<i class="{$icon_class}"></i>
@@ -30,5 +48,17 @@ class lteTile extends lteButton
         			</div>
                 </div>
 JS;
+    }
+        
+    protected function getColorClass(Tile $widget) : string
+    {
+        $container = $widget->getParent();
+        if ($container instanceof Container) {
+            $idx = $container->getWidgetIndex($widget);
+        } else {
+            $idx = 0;
+        }
+        
+        return static::COLORS[$idx];
     }
 }

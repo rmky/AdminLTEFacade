@@ -262,6 +262,11 @@ pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-
 	padding: 10px 0;
 }
 
+/* Tiles */
+.small-box.exf-tile .inner p {overflow: hidden; min-height: 21px;}
+.small-box.exf-tile .inner h3 {overflow: hidden;}
+.small-box.bg-navy .icon, .small-box.bg-black .icon {color: rgba(255,255,255,0.15)}
+
 /* DataList & Menu */
 .exf-menu > li > a {
   color: #777;

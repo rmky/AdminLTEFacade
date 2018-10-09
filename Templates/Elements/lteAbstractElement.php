@@ -172,7 +172,7 @@ JS;
             // Ein "grosses" Widget ohne angegebene Breite fuellt die gesamte Breite des
             // Containers aus.
             $output = 'col-xs-12';
-            if (is_null($widget->getParent()) || (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() == 1))) {
+            if (! $widget->hasParent() || (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() == 1))) {
                 $output = '';
             }
         } else {

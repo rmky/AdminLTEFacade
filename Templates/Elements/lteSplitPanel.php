@@ -18,7 +18,7 @@ class lteSplitPanel extends ltePanel
         $content = $this->buildHtmlForChildren();
         
         if ($childrenCount > 1) {
-            $content = $this->buildHtmlChildrenWrapperPlain($content);
+            $content = $this->buildHtmlChildrenWrapperGrid($content);
         }
         
         return <<<HTML
