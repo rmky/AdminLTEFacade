@@ -205,7 +205,7 @@ HTML;
         $output = <<<JS
 
     function {$this->buildJsFunctionPrefix()}chartCustomizerOnShown() {
-        {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget()->getChildren()[0])->buildJsLayouter()}
+        {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget()->getTab(0))->buildJsLayouter()}
     }
 JS;
         

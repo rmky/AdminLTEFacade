@@ -11,7 +11,7 @@ class lteSplitPanel extends ltePanel
         $widget = $this->getWidget();
         $childrenCount = $widget->countWidgetsVisible();
         
-        if ($childrenCount === 1 && ($widget->getChildren()[0] instanceof iFillEntireContainer) && ! $widget->getHeight()->isUndefined()) {
+        if ($childrenCount === 1 && ($widget->getWidgetFirst() instanceof iFillEntireContainer) && ! $widget->getHeight()->isUndefined()) {
             $widget->getChildren()[0]->setHeight($widget->getHeight());
         }
         

@@ -33,7 +33,7 @@ HTML;
     {
         $widget = $this->getWidget();
         // der erste Tab ist aktiv
-        $active_class = $widget === $widget->getParent()->getChildren()[0] ? 'active' : '';
+        $active_class = $widget === $widget->getParent()->getTab(0) ? 'active' : '';
         $disabled_class = $widget->isDisabled() ? 'disabled' : '';
         $icon = $widget->getIcon() ? '<i class="' . $this->buildCssIconClass($widget->getIcon()) . '"></i>' : '';
         
@@ -50,7 +50,7 @@ HTML;
     {
         $widget = $this->getWidget();
         // der erste Tab ist aktiv
-        $active_class = $widget === $widget->getParent()->getChildren()[0] ? 'active' : '';
+        $active_class = $widget === $widget->getParent()->getTab(0) ? 'active' : '';
         
         $output = <<<HTML
 

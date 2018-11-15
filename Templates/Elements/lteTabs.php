@@ -2,7 +2,15 @@
 namespace exface\AdminLteTemplate\Templates\Elements;
 
 use exface\Core\Widgets\Dialog;
+use exface\Core\Widgets\Tabs;
 
+/**
+ * 
+ * @method Tabs getWidget()
+ * 
+ * @author Andrej Kabachnik
+ *
+ */
 class lteTabs extends lteContainer
 {
 
@@ -30,7 +38,7 @@ HTML;
     protected function buildHtmlTabBodies()
     {
         $output = '';
-        foreach ($this->getWidget()->getChildren() as $tab) {
+        foreach ($this->getWidget()->getTabs() as $tab) {
             $output .= $this->getTemplate()->getElement($tab)->buildHtmlBody();
         }
         return $output;
@@ -39,7 +47,7 @@ HTML;
     protected function buildHtmlTabHeaders()
     {
         $output = '';
-        foreach ($this->getWidget()->getChildren() as $tab) {
+        foreach ($this->getWidget()->getTabs() as $tab) {
             $output .= $this->getTemplate()->getElement($tab)->buildHtmlHeader();
         }
         return $output;
