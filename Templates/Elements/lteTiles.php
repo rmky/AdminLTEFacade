@@ -1,10 +1,10 @@
 <?php
 namespace exface\AdminLteTemplate\Templates\Elements;
 
-use exface\Core\Widgets\NavTiles;
+use exface\Core\Widgets\Tiles;
 
 /**
- * @method NavTiles getWidget()
+ * @method Tiles getWidget()
  * 
  * @author Andrej Kabachnik
  *
