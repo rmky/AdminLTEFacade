@@ -9,7 +9,7 @@ use exface\Core\Widgets\NavTiles;
  * @author Andrej Kabachnik
  *
  */
-class lteNavTiles extends lteWidgetGrid
+class lteTiles extends lteWidgetGrid
 {
     /**
      * 
