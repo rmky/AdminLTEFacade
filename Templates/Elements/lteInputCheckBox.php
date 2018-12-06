@@ -25,7 +25,7 @@ HTML;
         return '';
     }
     
-    protected function getCaption()
+    protected function getCaption() : string
     {
         return $this->getWidget()->isInTable() ? '' : parent::getCaption();
     }
