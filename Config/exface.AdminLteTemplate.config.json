@@ -67,8 +67,6 @@
     
     "WIDGET.DIALOG.COLUMNS_BY_DEFAULT": 2,
     
-    "WIDGET.NAVTILES.COLUMNS_BY_DEFAULT": 4,
-    
     "WIDGET.PANEL.COLUMNS_BY_DEFAULT": 3,
     
     "WIDGET.TABS.COLUMNS_BY_DEFAULT": 3,
@@ -87,6 +85,7 @@
         "bg-gray",
         "bg-red"
     ],
+    "WIDGET.TILES.COLUMNS_BY_DEFAULT": 4,
     
     "JAVASCRIPT_DEBUG_LEVEL": 0
 }

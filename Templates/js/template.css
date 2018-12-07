@@ -266,6 +266,7 @@ pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-
 .small-box.exf-tile .inner p {overflow: hidden; min-height: 21px;}
 .small-box.exf-tile .inner h3 {overflow: hidden;}
 .small-box.bg-navy .icon, .small-box.bg-black .icon {color: rgba(255,255,255,0.15)}
+.exf-navtiles > .grid > .exf-tiles:first-of-type h2.page-header {display: none}
 
 /* DataList & Menu */
 .exf-menu > li > a {

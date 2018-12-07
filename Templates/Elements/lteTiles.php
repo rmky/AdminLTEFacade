@@ -18,7 +18,7 @@ class lteTiles extends lteWidgetGrid
      */
     public function getDefaultColumnNumber()
     {
-        return $this->getTemplate()->getConfig()->getOption("WIDGET.NAVTILES.COLUMNS_BY_DEFAULT");
+        return $this->getTemplate()->getConfig()->getOption("WIDGET.TILES.COLUMNS_BY_DEFAULT");
     }
     
     /**
@@ -28,7 +28,30 @@ class lteTiles extends lteWidgetGrid
      */
     public function getWidthDefault()
     {
-        return 4;
+        return $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+    }
+    
+    /**
+     * Tiles do not actually need a masonry grid as they are all of equal height!
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::buildHtmlChildrenWrapperGrid()
+     */
+    protected function buildHtmlChildrenWrapperGrid($contents_html)
+    {
+        if ($caption = $this->getCaption()) {
+            $heading = '<h2 class="page-header">' . $caption . '</h2>';
+        }
+        return $heading . $contents_html;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildCssElementClass()
+     */
+    public function buildCssElementClass()
+    {
+        return parent::buildCssElementClass() . ' exf-tiles row';
     }
 }
-?>

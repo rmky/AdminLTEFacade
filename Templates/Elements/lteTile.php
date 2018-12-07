@@ -12,6 +12,8 @@ use exface\Core\Widgets\Container;
  */
 class lteTile extends lteButton
 {
+    private $cssColorClass = null;
+    
     function buildHtml()
     {
         $widget = $this->getWidget();
@@ -20,7 +22,7 @@ class lteTile extends lteButton
         
         return <<<JS
                 <div class="{$this->getMasonryItemClass()} {$this->getWidthClasses()}"</div>
-                    <div id="{$this->getId()}" class="small-box exf-tile {$this->getColorClass($widget)}" style="{$this->buildCssElementStyle()}">
+                    <div id="{$this->getId()}" class="small-box exf-tile {$this->buildCssColorClass($widget)}" style="{$this->buildCssElementStyle()}">
                         <div class="inner">
                             <h3>{$widget->getTitle()}</h3>
            					<p>{$widget->getSubtitle()}</p>
@@ -39,10 +41,14 @@ JS;
      * @param Tile $widget
      * @return string
      */
-    protected function getColorClass(Tile $widget) : string
+    public function buildCssColorClass(Tile $widget) : string
     {
         if ($widget->getColor() !== null) {
             return '';
+        }
+        
+        if ($this->cssColorClass !== null) {
+            return $this->cssColorClass;
         }
         
         $container = $widget->getParent();
@@ -55,6 +61,12 @@ JS;
         return $this->getTemplate()->getConfig()->getOption('WIDGET.TILE.AUTOCOLORS')->getProperty($idx);
     }
     
+    public function setCssColorClass(string $class) : lteTile
+    {
+        $this->cssColorClass = $class;
+        return $this;
+    }
+    
     /**
      * 
      * {@inheritDoc}
@@ -65,7 +77,7 @@ JS;
         $style = '';
         $bgColor = $this->getWidget()->getColor();
         if ($bgColor !== null && $bgColor !== '') {
-            $style .= 'background-color:' . $bgColor;
+            $style .= 'background-color:' . $bgColor . ';';
         }
         return $style;
     }

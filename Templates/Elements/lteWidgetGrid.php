@@ -30,7 +30,7 @@ class lteWidgetGrid extends lteContainer implements JqueryLayoutInterface
     {
         return <<<HTML
         
-                <div id="{$this->getId()}" class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
+                <div id="{$this->getId()}" class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssElementClass()}">
                     {$contents_html}
                 </div>
 HTML;

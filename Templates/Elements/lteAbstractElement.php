@@ -146,9 +146,7 @@ JS;
                 $width = $columnNumber;
             }
             if (is_numeric($width)) {
-                if ($width < 1) {
-                    $width = 1;
-                } else if ($width > $columnNumber) {
+                if ($width > $columnNumber) {
                     $width = $columnNumber;
                 }
                 
