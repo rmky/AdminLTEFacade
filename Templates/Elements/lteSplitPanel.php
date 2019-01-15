@@ -3,7 +3,15 @@ namespace exface\AdminLteTemplate\Templates\Elements;
 
 use exface\Core\Widgets\SplitHorizontal;
 use exface\Core\Interfaces\Widgets\iFillEntireContainer;
+use exface\Core\Widgets\SplitPanel;
 
+/**
+ * 
+ * 
+ * @method SplitPanel getWidget()
+ * @author Andrej Kabachnik
+ *
+ */
 class lteSplitPanel extends ltePanel
 {
 
@@ -12,7 +20,7 @@ class lteSplitPanel extends ltePanel
         $childrenCount = $widget->countWidgetsVisible();
         
         if ($childrenCount === 1 && ($widget->getWidgetFirst() instanceof iFillEntireContainer) && ! $widget->getHeight()->isUndefined()) {
-            $widget->getChildren()[0]->setHeight($widget->getHeight());
+            $widget->getWidgetFirst()->setHeight($widget->getHeight());
         }
         
         $content = $this->buildHtmlForChildren();
