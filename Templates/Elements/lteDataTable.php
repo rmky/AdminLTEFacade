@@ -205,7 +205,7 @@ JS;
         return $includes;
     }
 
-    protected function buildHtmlHeader()
+    public function buildHtmlHeader()
     {
         $widget = $this->getWidget();
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
@@ -244,7 +244,7 @@ HTML;
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default btn-advanced-filtering" data-toggle="modal"{$filter_button_disabled} data-target="#{$this->getId()}_popup_config"><i class="fa fa-filter"></i></button>
                     </span>
-                    <input id="{$this->getId()}_quickSearch" type="text" class="form-control" placeholder="{$this->getQuickSearchPlaceholder()}" />
+                    <input id="{$this->getId()}_quickSearch" type="text" class="form-control" placeholder="{$widget->getQuickSearchPlaceholder()}" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" onclick="{$this->buildJsRefresh(false)} return false;"><i class="fa fa-search"></i></button>
                     </span>
@@ -322,7 +322,7 @@ JS;
         return $js;
     }
 
-    protected function buildHtmlTableCustomizer()
+    public function buildHtmlTableCustomizer()
     {
         return <<<HTML
 
