@@ -3,6 +3,8 @@ namespace exface\AdminLteTemplate\Templates;
 
 use exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate;
 use exface\Core\Templates\AbstractAjaxTemplate\Middleware\JqueryDataTablesUrlParamsReader;
+use exface\Core\Interfaces\DataSheets\DataSheetInterface;
+use exface\Core\Interfaces\WidgetInterface;
 
 class AdminLteTemplate extends AbstractAjaxTemplate
 {
@@ -42,5 +44,14 @@ class AdminLteTemplate extends AbstractAjaxTemplate
             "/\/api\/adminlte[\/?]/"
         ];
     }
+    
+    public function buildResponseData(DataSheetInterface $data_sheet, WidgetInterface $widget = null)
+    {
+        $data = array();
+        $data['data'] = $data_sheet->getRows();
+        $data['recordsFiltered'] = $data_sheet->countRowsInDataSource();
+        $data['recordsTotal'] = $data_sheet->countRowsInDataSource();
+        $data['footer'] = $data_sheet->getTotalsRows();
+        return $data;
+    }
 }
-?>
