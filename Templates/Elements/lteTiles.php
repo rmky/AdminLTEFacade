@@ -14,9 +14,9 @@ class lteTiles extends lteWidgetGrid
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::getDefaultColumnNumber()
+     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::getNumberOfColumnsByDefault()
      */
-    public function getDefaultColumnNumber()
+    public function getNumberOfColumnsByDefault() : int
     {
         return $this->getTemplate()->getConfig()->getOption("WIDGET.TILES.COLUMNS_BY_DEFAULT");
     }

@@ -1,19 +1,23 @@
 <?php
 namespace exface\AdminLteTemplate\Templates\Elements;
 
+use exface\Core\Widgets\DataCarousel;
+
 /**
  *
- * @author PATRIOT
+ * @author Andrej Kabachnik
+ * 
+ * @method DataCarousel getWidget()
  *        
  */
-class lteImageCarousel extends lteDataCards
+class lteImageCarousel extends lteSplitVertical
 {
 
     function buildHtml()
     {
-        /* @var $widget \exface\Core\Widgets\ImageGallery */
         $widget = $this->getWidget();
-        $top_toolbar = $this->buildHtmlHeader();
+        $galleryElement = $this->getTemplate()->getElement($widget->getDataWidget());
+        $top_toolbar = $galleryElement->buildHtmlHeader();
         
         // output the html code
         $output = <<<HTML
@@ -47,17 +51,17 @@ class lteImageCarousel extends lteDataCards
 		    </div>
 		</div>
 	</div>
-	{$this->buildHtmlTableCustomizer()}
+	{$galleryElement->buildHtmlTableCustomizer()}
 </div>
 					
 <script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
 { {#data}}
     <div data-p="150.00" style="display: none;">
 		<div data-u="image" class="img-wrap" >
-			<img src="{ {{$widget->getImageUrlColumnId()}}}"/>
+			<img src="{ {{$widget->getImageUrlColumn()->getDataColumnName()}}}"/>
 		</div>
 		<div data-u="thumb" class="thumb-wrap">
-			<img src="{ {{$widget->getImageUrlColumnId()}}}" />
+			<img src="{ {{$widget->getImageUrlColumn()->getDataColumnName()}}}" />
 		</div>
 	</div>
 { {/data}}
@@ -75,34 +79,9 @@ HTML;
 
     function buildJs()
     {
-        /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
-        $columns = array();
-        $column_number_offset = 0;
-        $filters_html = '';
-        $filters_js = '';
-        $filters_ajax = "data.q = $('#" . $this->getId() . "_quickSearch').val();\n";
-        $buttons_js = '';
-        $footer_callback = '';
-        $default_sorters = '';
-        
-        // sorters
-        foreach ($widget->getSorters() as $sorter) {
-            $column_exists = false;
-            foreach ($widget->getColumns() as $nr => $col) {
-                if ($col->getAttributeAlias() == $sorter->getProperty('attribute_alias')) {
-                    $column_exists = true;
-                    $default_sorters .= '[ ' . $nr . ', "' . $sorter->getProperty('direction') . '" ], ';
-                }
-            }
-            if (! $column_exists) {
-                // TODO add a hidden column
-            }
-        }
-        // Remove tailing comma
-        if ($default_sorters) {
-            $default_sorters = substr($default_sorters, 0, - 2);
-        }
+        $galleryWidget = $widget->getDataWidget();
+        $galleryElement = $this->getTemplate()->getElement($galleryWidget);
         
         $output = <<<JS
 
@@ -110,11 +89,11 @@ $(document).ready(function() {
 	
 	{$this->buildJsFunctionPrefix()}load();
 	
-	{$this->buildJsPagination()}
+	{$galleryElement->buildJsPagination()}
 	
-	{$this->buildJsQuicksearch()}
+	{$galleryElement->buildJsQuicksearch()}
 	
-	{$this->buildJsRowSelection()}
+	{$galleryElement->buildJsRowSelection()}
 	
 });
 
@@ -168,11 +147,11 @@ function {$this->buildJsFunctionPrefix()}load(){
 	{$this->buildJsBusyIconShow()}
 	$('#{$this->getId()}').data('loading', 1);
 	var data = {};
-    data.action = '{$widget->getLazyLoadingActionAlias()}';
-	data.resource = "{$widget->getPage()->getAliasWithNamespace()}";
-	data.element = "{$widget->getId()}";
-	data.object = "{$widget->getMetaObject()->getId()}";
-	data.data = {$this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter()};
+    data.action = '{$galleryWidget->getLazyLoadingActionAlias()}';
+	data.resource = "{$galleryWidget->getPage()->getAliasWithNamespace()}";
+	data.element = "{$galleryWidget->getId()}";
+	data.object = "{$galleryWidget->getMetaObject()->getId()}";
+	data.data = {$this->getTemplate()->getElement($galleryWidget->getConfiguratorWidget())->buildJsDataGetter()};
     
 	$.ajax({
        url: "{$this->getAjaxUrl()}",
@@ -200,8 +179,6 @@ function {$this->buildJsFunctionPrefix()}load(){
 	});
 }
 
-{$filters_js}
-
 JS;
         
         return $output;
@@ -217,6 +194,7 @@ JS;
         $includes = parent::buildHtmlHeadTags();
         $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Templates/js/jssor/skin.css">';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
+        $includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
         return $includes;
     }
 }

@@ -98,12 +98,11 @@ HTML;
     }
 
     /**
-     *
-     * {@inheritdoc}
-     *
-     * @see \exface\AdminLteTemplate\Templates\Elements\ltePanel::buildJsLayouterFunction()
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::buildJsLayouterFunction()
      */
-    public function buildJsLayouterFunction()
+    protected function buildJsLayouterFunction() : string
     {
         $output = <<<JS
 
@@ -156,9 +155,9 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\ltePanel::getDefaultColumnNumber()
+     * @see \exface\AdminLteTemplate\Templates\Elements\ltePanel::getNumberOfColumnsByDefault()
      */
-    public function getDefaultColumnNumber()
+    public function getNumberOfColumnsByDefault() : int
     {
         return $this->getTemplate()->getConfig()->getOption("WIDGET.DIALOG.COLUMNS_BY_DEFAULT");
     }
@@ -167,9 +166,9 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\ltePanel::inheritsColumnNumber()
+     * @see \exface\AdminLteTemplate\Templates\Elements\ltePanel::inheritsNumberOfColumns()
      */
-    public function inheritsColumnNumber()
+    public function inheritsNumberOfColumns() : bool
     {
         return false;
     }

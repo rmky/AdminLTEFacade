@@ -15,9 +15,9 @@ class lteNavTiles extends lteWidgetGrid
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::getDefaultColumnNumber()
+     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::getNumberOfColumnsByDefault()
      */
-    public function getDefaultColumnNumber()
+    public function getNumberOfColumnsByDefault() : int
     {
         return $this->getTemplate()->getConfig()->getOption("WIDGET.TILES.COLUMNS_BY_DEFAULT");
     }
@@ -62,7 +62,7 @@ class lteNavTiles extends lteWidgetGrid
      *
      * @return boolean
      */
-    public function inheritsColumnNumber()
+    public function inheritsNumberOfColumns() : bool
     {
         return false;
     }

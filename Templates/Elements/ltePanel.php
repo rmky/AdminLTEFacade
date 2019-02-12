@@ -1,14 +1,8 @@
 <?php
 namespace exface\AdminLteTemplate\Templates\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLayoutInterface;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLayoutTrait;
-
-class ltePanel extends lteWidgetGrid implements JqueryLayoutInterface
+class ltePanel extends lteWidgetGrid
 {
-    
-    use JqueryLayoutTrait;
-
     /**
      * The HTML for a Panel is either a div or a box depending on where the panel is located.
      * 

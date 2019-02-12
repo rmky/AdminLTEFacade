@@ -14,7 +14,10 @@ use exface\Core\Widgets\SplitPanel;
  */
 class lteSplitPanel extends ltePanel
 {
-
+    private $number_of_columns = null;
+    
+    private $searched_for_number_of_columns = false;
+    
     public function buildHtml(){
         $widget = $this->getWidget();
         $childrenCount = $widget->countWidgetsVisible();
@@ -43,7 +46,7 @@ HTML;
         return '';
     }
 
-    public function getNumberOfColumns()
+    public function getNumberOfColumns() : int
     {
         if (! $this->searched_for_number_of_columns) {
             $widget = $this->getWidget();

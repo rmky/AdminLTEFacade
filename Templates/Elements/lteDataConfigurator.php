@@ -20,7 +20,7 @@ class lteDataConfigurator extends lteTabs
      *
      * @return integer
      */
-    public function getDefaultColumnNumber()
+    public function getNumberOfColumnsByDefault() : int
     {
         return $this->getTemplate()->getConfig()->getOption("WIDGET.DATACONFIGURATOR.COLUMNS_BY_DEFAULT");
     }
@@ -28,9 +28,9 @@ class lteDataConfigurator extends lteTabs
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteTabs::inheritsColumnNumber()
+     * @see \exface\AdminLteTemplate\Templates\Elements\lteTabs::inheritsNumberOfColumns()
      */
-    public function inheritsColumnNumber()
+    public function inheritsNumberOfColumns() : bool
     {
         return false;
     }

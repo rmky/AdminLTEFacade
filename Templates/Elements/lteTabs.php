@@ -58,7 +58,7 @@ HTML;
      *
      * @return integer
      */
-    public function getDefaultColumnNumber()
+    public function getNumberOfColumnsByDefault() : int
     {
         return $this->getTemplate()->getConfig()->getOption("WIDGET.TABS.COLUMNS_BY_DEFAULT");
     }
@@ -69,7 +69,7 @@ HTML;
      * 
      * @return boolean
      */
-    public function inheritsColumnNumber()
+    public function inheritsNumberOfColumns() : bool
     {
         return true;
     }

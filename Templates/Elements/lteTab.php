@@ -86,13 +86,13 @@ JS;
      *
      * @return integer
      */
-    public function getDefaultColumnNumber()
+    public function getNumberOfColumnsByDefault() : int
     {
         $parent_element = $this->getTemplate()->getElement($this->getWidget()->getParent());
-        if (method_exists($parent_element, 'getDefaultColumnNumber')) {
-            return $parent_element->getDefaultColumnNumber();
+        if (method_exists($parent_element, 'getNumberOfColumnsByDefault')) {
+            return $parent_element->getNumberOfColumnsByDefault();
         }
-        return parent::getDefaultColumnNumber();
+        return parent::getNumberOfColumnsByDefault();
     }
 
     /**
@@ -101,13 +101,13 @@ JS;
      * 
      * @return boolean
      */
-    public function inheritsColumnNumber()
+    public function inheritsNumberOfColumns() : bool
     {
         $parent_element = $this->getTemplate()->getElement($this->getWidget()->getParent());
-        if (method_exists($parent_element, 'inheritsColumnNumber')) {
-            return $parent_element->inheritsColumnNumber();
+        if (method_exists($parent_element, 'inheritsNumberOfColumns')) {
+            return $parent_element->inheritsNumberOfColumns();
         }
-        return parent::inheritsColumnNumber();
+        return parent::inheritsNumberOfColumns();
     }
 }
 ?>

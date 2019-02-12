@@ -212,7 +212,7 @@ JS;
         return $output;
     }
 
-    protected function buildHtmlHeader()
+    public function buildHtmlHeader()
     {
         $table_caption = $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         

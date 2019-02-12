@@ -1,10 +1,9 @@
 <?php
 namespace exface\AdminLteTemplate\Templates\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLayoutInterface;
 use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLayoutTrait;
 
-class lteWidgetGrid extends lteContainer implements JqueryLayoutInterface
+class lteWidgetGrid extends lteContainer
 {
     use JqueryLayoutTrait;
 
@@ -104,14 +103,18 @@ JS;
         $headers[] = '<script src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
         return $headers;
     }
-
+    
     /**
-     *
-     * {@inheritdoc}
-     *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLayoutInterface::buildJsLayouterFunction()
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLayoutTrait::buildJsLayouter()
      */
-    public function buildJsLayouterFunction()
+    public function buildJsLayouter() : string
+    {
+        return $this->buildJsFunctionPrefix() . 'layouter()';
+    }
+
+    protected function buildJsLayouterFunction() : string
     {
         $widget = $this->getWidget();
         
@@ -159,7 +162,7 @@ JS;
      *
      * @return integer
      */
-    public function getDefaultColumnNumber()
+    public function getNumberOfColumnsByDefault() : int
     {
         return $this->getTemplate()->getConfig()->getOption("WIDGET.PANEL.COLUMNS_BY_DEFAULT");
     }
@@ -170,7 +173,7 @@ JS;
      *
      * @return boolean
      */
-    public function inheritsColumnNumber()
+    public function inheritsNumberOfColumns() : bool
     {
         return true;
     }
