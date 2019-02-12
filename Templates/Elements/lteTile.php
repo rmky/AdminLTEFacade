@@ -18,7 +18,7 @@ class lteTile extends lteButton
     {
         $widget = $this->getWidget();
         
-        $icon_class = $widget->getIcon() && ! $widget->getHideButtonIcon() ? $this->buildCssIconClass($widget->getIcon()) : '';
+        $icon_class = $widget->getIcon() && $widget->getShowIcon(true) ? $this->buildCssIconClass($widget->getIcon()) : '';
         
         return <<<JS
                 <div class="{$this->getMasonryItemClass()} {$this->getWidthClasses()}"</div>

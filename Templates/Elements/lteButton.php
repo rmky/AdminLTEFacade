@@ -71,13 +71,13 @@ class lteButton extends lteAbstractElement
         
         // In any case, create a button
         $button_class = $widget->getVisibility() == EXF_WIDGET_VISIBILITY_PROMOTED ? ' btn-primary' : ' btn-default';
-        $icon_class = $widget->getIcon() && ! $widget->getHideButtonIcon() ? ' ' . $this->buildCssIconClass($widget->getIcon()) : '';
+        $icon_class = $widget->getIcon() && $widget->getShowIcon(true) ? ' ' . $this->buildCssIconClass($widget->getIcon()) : '';
         $hidden_class = $widget->isHidden() ? ' exfHidden' : '';
         $disabled_class = $widget->isDisabled() ? ' disabled' : '';
         $align_class = $this->getAlignClass();
         $output .= '
 				<button id="' . $this->getId() . '" type="button" class="btn' . $button_class . $hidden_class . $disabled_class . $align_class . '"' . ($widget->isDisabled() ? '' : ' onclick="' . $this->buildJsClickFunctionName() . '();"') . '>
-						<i class="' . $icon_class . '"></i> ' . ($widget->getCaption() && ! $widget->getHideButtonText() ? $widget->getCaption() : '') . '
+						<i class="' . $icon_class . '"></i> ' . ($widget->getCaption() && ! $widget->getHideCaption() ? $widget->getCaption() : '') . '
 				</button>';
         return $output;
     }
