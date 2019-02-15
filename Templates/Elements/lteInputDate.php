@@ -72,7 +72,7 @@ HTML;
         format: {
             toDisplay: function (date) {
                 // date ist ein date-Objekt und wird zu einem String geparst
-                return {$this->getDataTypeFormatter()->buildJsDateFormatter('date')};
+                return (date instanceof Date ? {$this->getDataTypeFormatter()->buildJsDateFormatter('date')} : '');
             },
             toValue: function(date, format, language) {
                 var output = {$this->getDataTypeFormatter()->buildJsDateParserFunctionName()}(date);
