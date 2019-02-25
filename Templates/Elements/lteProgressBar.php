@@ -22,7 +22,7 @@ class lteProgressBar extends lteDisplay
      */
     public function buildHtml()
     {
-        return $this->buildHtmlProgressBar($this->getValueWithDefaults());
+        return $this->buildHtmlProgressBar($this->getWidget()->getValueWithDefaults());
     }
     
     /**
