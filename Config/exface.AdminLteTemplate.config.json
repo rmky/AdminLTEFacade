@@ -55,6 +55,8 @@
 	"LIBS.FLOT.PLUGINS.ORDERBARS": "exface/AdminLteTemplate/Templates/js/flot/plugins/jquery.flot.orderBars.js",
 	"LIBS.FLOT.PLUGINS.AXISLABELS": "exface/AdminLteTemplate/Templates/js/flot/plugins/jquery.flot.orderBars.js",
 	
+	"LIBS.QRCODE.JS": "bower-asset/jquery-qrcode/jquery.qrcode.min.js",
+	
 	"WIDGET.ALL.DEFAULT_ALIGNMENT": "left",
 	
 	"WIDGET.CHART.PAGE_SIZE": 20,
