@@ -135,7 +135,7 @@ JS;
                 $("#{$this->getId()}_masonry_grid").masonry({
                     columnWidth: "#{$this->getId()}_sizer",
                     itemSelector: ".{$this->buildCssLayoutItemClass()}"
-                });
+                }).on('layoutComplete', function() {var el = $("#{$this->getId()}_masonry_grid"); if(el.height() === 1){el.css('height', 'initial');}});
             }
         } else {
             $("#{$this->getId()}_masonry_grid").masonry("reloadItems");
@@ -176,6 +176,20 @@ JS;
     public function inheritsNumberOfColumns() : bool
     {
         return true;
+    }
+    
+    protected function getMinChildWidthRelative()
+    {
+        $minChildWidthValue = 1;
+        foreach ($this->getWidget()->getChildren() as $child) {
+            $childWidth = $child->getWidth();
+            if ($childWidth->isRelative() && ! $childWidth->isMax()) {
+                if ($childWidth->getValue() < $minChildWidthValue) {
+                    $minChildWidthValue = $childWidth->getValue();
+                }
+            }
+        }
+        return $minChildWidthValue;
     }
 }
 ?>

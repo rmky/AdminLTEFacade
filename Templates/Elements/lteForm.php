@@ -17,7 +17,7 @@ class lteForm extends ltePanel
                         <div class="{$this->getColumnWidthClasses()} {$this->buildCssLayoutItemClass()}" id="{$this->getId()}_sizer"></div>
 HTML;
         
-        if ($widget->countWidgetsVisible() > 1) {
+        if ($widget->countWidgetsVisible() > 1 && $this->getMinChildWidthRelative() > 1) {
             // Wrap children widgets with a grid for masonry layouting - but only if there is something to be layed out
             $children_html = <<<HTML
 
