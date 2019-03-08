@@ -27,7 +27,6 @@ ul.datalist li {padding: 4px 0;}
 .user-panel .image i {color: #4b646f; font-size: 45px;}
 .box .box, .dropdown .box, .tab-pane .box {border: 0; box-shadow: none; margin-bottom: 0;}
 .dropdown .exf-grid-item > .box {margin: 0 -15px 0 -15px; width: calc(100% + 30px);}
-.small-box .inner h3, .small-box .inner p {overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 
 /* DataTables customization */
 table.dataTable tr.detailRow table {width: initial;}
@@ -266,8 +265,11 @@ pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-
 }
 
 /* Tiles */
-.small-box.exf-tile .inner p {overflow: hidden; min-height: 21px;}
-.small-box.exf-tile .inner h3 {overflow: hidden;}
+.small-box .inner h3, .small-box .inner p {overflow: hidden; text-overflow: ellipsis;}
+.small-box .inner h3 {font-size: 24px; margin: 2px 0 8px 0; white-space: nowrap; }
+.small-box .icon {font-size: 50px; top: 0;}
+.small-box .icon:hover {font-size: 90px;}
+.small-box p {font-size: 12px; overflow: hidden; height: 31px;}
 .small-box.bg-navy .icon, .small-box.bg-black .icon {color: rgba(255,255,255,0.15)}
 .exf-navtiles > .grid > .exf-tiles:first-of-type h2.page-header {display: none}
 
