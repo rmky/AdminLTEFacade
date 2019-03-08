@@ -22,7 +22,7 @@ class lteTile extends lteButton
         
         return <<<JS
                 <div class="{$this->getMasonryItemClass()} {$this->getWidthClasses()}"</div>
-                    <div id="{$this->getId()}" class="small-box exf-tile {$this->buildCssColorClass($widget)}" style="{$this->buildCssElementStyle()}">
+                    <div id="{$this->getId()}" class="small-box overlay-wrapper exf-tile {$this->buildCssColorClass($widget)}" style="{$this->buildCssElementStyle()}">
                         <div class="inner">
                             <h3>{$widget->getTitle()}</h3>
            					<p>{$widget->getSubtitle()}</p>

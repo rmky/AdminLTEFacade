@@ -54,4 +54,24 @@ class lteTiles extends lteWidgetGrid
     {
         return parent::buildCssElementClass() . ' exf-tiles row';
     }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Templates\Elements\lteAbstractElement::buildJsBusyIconShow()
+     */
+    public function buildJsBusyIconShow()
+    {
+        return '$("#' . $this->getId() . '").find(".small-box").append($(\'<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>\'));';
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLteTemplate\Templates\Elements\lteAbstractElement::buildJsBusyIconHide()
+     */
+    public function buildJsBusyIconHide()
+    {
+        return '$("#' . $this->getId() . '").find(".overlay").remove();';
+    }
 }
