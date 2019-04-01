@@ -1,8 +1,8 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\ProgressBar;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\HtmlProgressBarTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\HtmlProgressBarTrait;
 
 /**
  *
@@ -18,7 +18,7 @@ class lteProgressBar extends lteDisplay
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteDisplay::buildHtml()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteDisplay::buildHtml()
      */
     public function buildHtml()
     {
@@ -28,7 +28,7 @@ class lteProgressBar extends lteDisplay
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteValue::buildJs()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteValue::buildJs()
      */
     public function buildJs()
     {

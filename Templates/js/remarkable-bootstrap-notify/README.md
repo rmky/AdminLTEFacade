@@ -59,7 +59,7 @@ notify.update({ type: 'warning', '<strong>Oops</strong> Something happened. Corr
 ```
 
 ##### [Version 3.0.0](http://bootstrap-notify.remabledesigns.com/3.0.0/)
-- New template structure
+- New facade structure
 - Better event handling for onShow, onShown, onClose, onClosed
 - updating notification content will reposition growls below it
 - Fixed updating icon images
@@ -107,7 +107,7 @@ transition: all 0.5 ease-in-out;
 - Added onGrowlClose and onGrowlClosed callback functionality.
 
 ##### Version 1.0.3
-- Made jQuery $.extend() Recursive so when you change just one option under position or template the script wont fail
+- Made jQuery $.extend() Recursive so when you change just one option under position or facade the script wont fail
 
 ##### Version 1.0.2
 - Fixed an issue where $.growl("message") would thrown an exception | Provided by [DannyJo](https://github.com/DannyJo/bootstrap-growl)

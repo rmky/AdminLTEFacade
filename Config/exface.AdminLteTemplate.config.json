@@ -18,7 +18,7 @@
     "INSTALLER.SERVICEWORKER.DISABLED": true, 
     "INSTALLER.SERVICEWORKER.ROUTES": {
     	"GET data": {
-			"description": "Cache data from the template API",
+			"description": "Cache data from the facade API",
 			"matcher": "/.*\\/api\\/adminlte\\?(?!.*context).*/",
 			"strategy": "workbox.strategies.networkFirst",
 			"cacheName": "adminlte-cache",
@@ -26,7 +26,7 @@
     		"maxAgeSeconds": 86400
 		},
     	"POST data": {
-			"description": "Cache reading POST requests from the template API",
+			"description": "Cache reading POST requests from the facade API",
 			"method": "POST",
 			"matcher": "/.*\\/api\\/adminlte(?!.*context).*/i",
 			"strategy": "swTools.strategies.postNetworkFirst",
@@ -36,7 +36,7 @@
 	},
     "INSTALLER.SERVICEWORKER.IMPORTS": [
     	"npm-asset/dexie/dist/dexie.min.js",
-    	"exface/Core/Templates/AbstractPWATemplate/sw_tools.js"
+    	"exface/Core/Facades/AbstractPWAFacade/sw_tools.js"
     ],
 	
 	"LIBS.DATATABLES.CORE.JS": "bower-asset/datatables.net/js/jquery.dataTables.min.js",
@@ -52,8 +52,8 @@
     "LIBS.DATATABLES.RESPONSIVE.CSS": "npm-asset/datatables.net-responsive-bs/css/responsive.bootstrap.min.css",
     
     "LIBS.FLOT.CORE_FOLDER": "npm-asset/flot-charts/",
-	"LIBS.FLOT.PLUGINS.ORDERBARS": "exface/AdminLteTemplate/Templates/js/flot/plugins/jquery.flot.orderBars.js",
-	"LIBS.FLOT.PLUGINS.AXISLABELS": "exface/AdminLteTemplate/Templates/js/flot/plugins/jquery.flot.orderBars.js",
+	"LIBS.FLOT.PLUGINS.ORDERBARS": "exface/AdminLteFacade/Facades/js/flot/plugins/jquery.flot.orderBars.js",
+	"LIBS.FLOT.PLUGINS.AXISLABELS": "exface/AdminLteFacade/Facades/js/flot/plugins/jquery.flot.orderBars.js",
 	
 	"LIBS.QRCODE.JS": "bower-asset/jquery-qrcode/jquery.qrcode.min.js",
 	

@@ -47,7 +47,7 @@ interface INotifySettings {
 	onClose?: () => void;
 	onClosed?: () => void;
 	icon_type?: string;
-	template?: string;
+	facade?: string;
 }
 
 interface INotifyReturn {

@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarsTrait;
 
 class lteForm extends ltePanel
 {
@@ -58,7 +58,7 @@ HTML;
     {
         $output = '';
         foreach ($this->getWidget()->getButtons() as $btn) {
-            $output .= $this->getTemplate()->buildHtml($btn);
+            $output .= $this->getFacade()->buildHtml($btn);
         }
         
         return $output;
@@ -68,7 +68,7 @@ HTML;
     {
         $output = '';
         foreach ($this->getWidget()->getButtons() as $btn) {
-            $output .= $this->getTemplate()->buildJs($btn);
+            $output .= $this->getFacade()->buildJs($btn);
         }
         
         return $output;

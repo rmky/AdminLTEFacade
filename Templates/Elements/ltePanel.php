@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 class ltePanel extends lteWidgetGrid
 {
@@ -7,7 +7,7 @@ class ltePanel extends lteWidgetGrid
      * The HTML for a Panel is either a div or a box depending on where the panel is located.
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtml()
      */
     public function buildHtml()
     {

@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 class lteWidgetGroup extends ltePanel
 {

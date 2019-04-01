@@ -1,11 +1,11 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\Tile;
 use exface\Core\Widgets\Container;
 
 /**
- * Tile-widget for AdminLte-Template.
+ * Tile-widget for AdminLte-Facade.
  * 
  * @author SFL
  *
@@ -58,7 +58,7 @@ JS;
             $idx = 0;
         }
         
-        return $this->getTemplate()->getConfig()->getOption('WIDGET.TILE.AUTOCOLORS')->getProperty($idx);
+        return $this->getFacade()->getConfig()->getOption('WIDGET.TILE.AUTOCOLORS')->getProperty($idx);
     }
     
     public function setCssColorClass(string $class) : lteTile
@@ -70,7 +70,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildCssElementStyle()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildCssElementStyle()
      */
     public function buildCssElementStyle()
     {

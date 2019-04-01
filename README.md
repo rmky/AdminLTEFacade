@@ -1,2 +1,2 @@
-# AdminLteTemplate
-UI Template based on the AdminLTE Bootstrap skin
+# AdminLteFacade
+UI Facade based on the AdminLTE Bootstrap skin

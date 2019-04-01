@@ -1,8 +1,8 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\Image;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\HtmlImageTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\HtmlImageTrait;
 
 /**
  *

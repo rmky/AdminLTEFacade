@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryInputDateTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryInputDateTrait;
 
 // Es waere wuenschenswert die Formatierung des Datums abhaengig vom Locale zu machen.
 // Das Problem dabei ist folgendes: Wird im DateFormatter das Datum von DateJs ent-
@@ -137,7 +137,7 @@ JS;
         if (is_null($this->bootstrapDatepickerLocale)) {
             $datepickerBasepath = $this->getWorkbench()->filemanager()->getPathToVendorFolder() . DIRECTORY_SEPARATOR . 'bower-asset' . DIRECTORY_SEPARATOR . 'bootstrap-datepicker' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
             
-            $fullLocale = $this->getTemplate()->getApp()->getTranslator()->getLocale();
+            $fullLocale = $this->getFacade()->getApp()->getTranslator()->getLocale();
             $locale = str_replace("_", "-", $fullLocale);
             if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
                 return ($this->bootstrapDatepickerLocale = $locale);
@@ -147,7 +147,7 @@ JS;
                 return ($this->bootstrapDatepickerLocale = $locale);
             }
             
-            $fallbackLocales = $this->getTemplate()->getApp()->getTranslator()->getFallbackLocales();
+            $fallbackLocales = $this->getFacade()->getApp()->getTranslator()->getFallbackLocales();
             foreach ($fallbackLocales as $fallbackLocale) {
                 $locale = str_replace("_", "-", $fallbackLocale);
                 if (file_exists($datepickerBasepath . 'bootstrap-datepicker.' . $locale . '.min.js')) {
@@ -172,7 +172,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteInput::buildJsRequired()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsRequired()
      */
     function buildJsRequired()
     {
@@ -207,7 +207,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteInput::buildJsValidator()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsValidator()
      */
     function buildJsValidator()
     {

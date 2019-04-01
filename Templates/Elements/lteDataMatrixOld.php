@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Factories\DataSheetFactory;
 
@@ -10,7 +10,7 @@ class lteDataMatrixOld extends lteDataTable
 
     /**
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteAbstractElement::getWidget()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteAbstractElement::getWidget()
      * @return \exface\Core\Widgets\DataMatrix
      */
     public function getWidget()
@@ -57,7 +57,7 @@ class lteDataMatrixOld extends lteDataTable
      * It basically transposes the data column (data_column_id) using values of the label column (label_column_id) as new column headers.
      * The other columns remain untouched.
      *
-     * @see \exface\Templates\jeasyui\Widgets\grid::buildJsDataSource()
+     * @see \exface\Facades\jeasyui\Widgets\grid::buildJsDataSource()
      */
     public function buildJsDataSource($js_filters = '')
     {

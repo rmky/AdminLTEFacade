@@ -1,9 +1,9 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Interfaces\Actions\ActionInterface;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLiveReferenceTrait;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDisableConditionTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryLiveReferenceTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDisableConditionTrait;
 
 class lteInput extends lteValue
 {
@@ -79,7 +79,7 @@ HTML;
 
     /**
      * Returns a JavaScript-snippet, which highlights an invalid widget
-     * (similiar to the JEasyUi-Template).
+     * (similiar to the JEasyUi-Facade).
      *  
      * @return string
      */
@@ -110,7 +110,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsDataGetter($action, $custom_body_js)
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsDataGetter($action, $custom_body_js)
      */
     public function buildJsDataGetter(ActionInterface $action = null)
     {
@@ -139,7 +139,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsValueSetter()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsValueSetter()
      */
     function buildJsValueSetter($value)
     {
@@ -149,7 +149,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsValidator()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsValidator()
      */
     function buildJsValidator()
     {

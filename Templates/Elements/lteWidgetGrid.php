@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLayoutTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryLayoutTrait;
 
 class lteWidgetGrid extends lteContainer
 {
@@ -11,7 +11,7 @@ class lteWidgetGrid extends lteContainer
      * The HTML for a Panel is either a div or a box depending on where the panel is located.
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtml()
      */
     public function buildHtml()
     {
@@ -73,7 +73,7 @@ HTML;
      * and when one of the layout items is resized.
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJs()
      */
     public function buildJs()
     {
@@ -95,7 +95,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtmlHeadTags()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtmlHeadTags()
      */
     function buildHtmlHeadTags()
     {
@@ -107,7 +107,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryLayoutTrait::buildJsLayouter()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryLayoutTrait::buildJsLayouter()
      */
     public function buildJsLayouter() : string
     {
@@ -123,7 +123,7 @@ JS;
         $layoutWidgetScript = '';
         if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
             $layoutWidgetScript = <<<JS
-{$this->getTemplate()->getElement($layoutWidget)->buildJsLayouter()};
+{$this->getFacade()->getElement($layoutWidget)->buildJsLayouter()};
 JS;
         }
         
@@ -164,7 +164,7 @@ JS;
      */
     public function getNumberOfColumnsByDefault() : int
     {
-        return $this->getTemplate()->getConfig()->getOption("WIDGET.PANEL.COLUMNS_BY_DEFAULT");
+        return $this->getFacade()->getConfig()->getOption("WIDGET.PANEL.COLUMNS_BY_DEFAULT");
     }
 
     /**

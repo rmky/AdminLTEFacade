@@ -1,6 +1,6 @@
 {
-	"name" : "exface/AdminLteTemplate",
-	"description" : "UI template for ExFace based on the AdminLTE skin for Bootstrap",
+	"name" : "exface/AdminLteFacade",
+	"description" : "UI facade for ExFace based on the AdminLTE skin for Bootstrap",
 	"type" : "library",
 	"license" : "GPL-3.0+",
 	"authors" : [{
@@ -10,7 +10,7 @@
 		}
 	],
 	"support" : {
-		"issues" : "https://github.com/exface/AdminLteTemplate/issues"
+		"issues" : "https://github.com/exface/AdminLteFacade/issues"
 	},
 	"require" : {
 		"exface/core" : "~0.1",
@@ -43,7 +43,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"exface\\AdminLteTemplate\\" : ""
+			"exface\\AdminLteFacade\\" : ""
 		},
 		"exclude-from-classmap" : [
 			"/Config/",
@@ -54,7 +54,7 @@
 	"extra" : {
 		"app" : {
 			"app_uid" : "0x11e8c23db26b0a35b73e0205857feb80",
-			"app_alias" : "exface.AdminLteTemplate",
+			"app_alias" : "exface.AdminLteFacade",
 			"model_md5" : "3698e243b7bf790f018a5af0f04e6476",
 			"model_timestamp" : "2018-09-27 10:17:12"
 		}

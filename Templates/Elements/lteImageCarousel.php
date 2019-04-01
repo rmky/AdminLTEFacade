@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\DataCarousel;
 
@@ -16,7 +16,7 @@ class lteImageCarousel extends lteSplitVertical
     function buildHtml()
     {
         $widget = $this->getWidget();
-        $galleryElement = $this->getTemplate()->getElement($widget->getDataWidget());
+        $galleryElement = $this->getFacade()->getElement($widget->getDataWidget());
         $top_toolbar = $galleryElement->buildHtmlHeader();
         
         // output the html code
@@ -38,7 +38,7 @@ class lteImageCarousel extends lteSplitVertical
 		            <div data-u="slides" style="cursor: default;">
 		                <div data-u="prototype" class="p">
 		                    <div class="w">
-		                        <div data-u="thumbnailtemplate" class="t"></div>
+		                        <div data-u="thumbnailfacade" class="t"></div>
 		                    </div>
 		                    <div class="c"></div>
 		                </div>
@@ -54,7 +54,7 @@ class lteImageCarousel extends lteSplitVertical
 	{$galleryElement->buildHtmlTableCustomizer()}
 </div>
 					
-<script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
+<script type="text/x-handlebars-facade" id="{$this->getId()}_tpl">
 { {#data}}
     <div data-p="150.00" style="display: none;">
 		<div data-u="image" class="img-wrap" >
@@ -81,7 +81,7 @@ HTML;
     {
         $widget = $this->getWidget();
         $galleryWidget = $widget->getDataWidget();
-        $galleryElement = $this->getTemplate()->getElement($galleryWidget);
+        $galleryElement = $this->getFacade()->getElement($galleryWidget);
         
         $output = <<<JS
 
@@ -151,7 +151,7 @@ function {$this->buildJsFunctionPrefix()}load(){
 	data.resource = "{$galleryWidget->getPage()->getAliasWithNamespace()}";
 	data.element = "{$galleryWidget->getId()}";
 	data.object = "{$galleryWidget->getMetaObject()->getId()}";
-	data.data = {$this->getTemplate()->getElement($galleryWidget->getConfiguratorWidget())->buildJsDataGetter()};
+	data.data = {$this->getFacade()->getElement($galleryWidget->getConfiguratorWidget())->buildJsDataGetter()};
     
 	$.ajax({
        url: "{$this->getAjaxUrl()}",
@@ -161,8 +161,8 @@ function {$this->buildJsFunctionPrefix()}load(){
 			try {
 				var data = json;
 				if (data.data.length > 0) {
-					var template = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
-			        var elements = $(template(data));
+					var facade = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
+			        var elements = $(facade(data));
 			        $('#{$this->getId()} .slides').append(elements);
 			        {$this->buildJsFunctionPrefix()}startSlider();
 		        }
@@ -192,7 +192,7 @@ JS;
     public function buildHtmlHeadTags()
     {
         $includes = parent::buildHtmlHeadTags();
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Templates/js/jssor/skin.css">';
+        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteFacade/Facades/js/jssor/skin.css">';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
         return $includes;

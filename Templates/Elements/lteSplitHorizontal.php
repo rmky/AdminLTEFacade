@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Exceptions\Templates\TemplateUnsupportedWidgetPropertyWarning;
+use exface\Core\Exceptions\Facades\FacadeUnsupportedWidgetPropertyWarning;
 
 class lteSplitHorizontal extends lteSplitVertical
 {
@@ -14,7 +14,7 @@ class lteSplitHorizontal extends lteSplitVertical
         $panels = $widget->getPanels();
         $panel_no = count($panels);
         if ($panel_no == 0) {
-            throw new TemplateUnsupportedWidgetPropertyWarning('No Panels have been defined for ' . $widget->getId() . ', at least one Panel is required.');
+            throw new FacadeUnsupportedWidgetPropertyWarning('No Panels have been defined for ' . $widget->getId() . ', at least one Panel is required.');
         } elseif ($panel_no <= 12) {
             $col_width = floor(12 / $panel_no);
             $col_rest = 12 % $panel_no;
@@ -33,7 +33,7 @@ class lteSplitHorizontal extends lteSplitVertical
             $panels_html .= <<<HTML
 
                             <div class="col-xs-12 col-md-{$col_width}" style="{$style}">
-                                {$this->getTemplate()->getElement($panel)->buildHtml()}
+                                {$this->getFacade()->getElement($panel)->buildHtml()}
                             </div>
 HTML;
         }

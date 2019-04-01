@@ -1,17 +1,17 @@
 <?php
-namespace exface\AdminLteTemplate\Templates;
+namespace exface\AdminLteFacade\Facades;
 
-use exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate;
-use exface\Core\Templates\AbstractAjaxTemplate\Middleware\JqueryDataTablesUrlParamsReader;
+use exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade;
+use exface\Core\Facades\AbstractAjaxFacade\Middleware\JqueryDataTablesUrlParamsReader;
 use exface\Core\Interfaces\DataSheets\DataSheetInterface;
 use exface\Core\Interfaces\WidgetInterface;
 
-class AdminLteTemplate extends AbstractAjaxTemplate
+class AdminLteFacade extends AbstractAjaxFacade
 {
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate::init()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::init()
      */
     public function init()
     {
@@ -23,7 +23,7 @@ class AdminLteTemplate extends AbstractAjaxTemplate
     /**
      *
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\AbstractAjaxTemplate::getMiddleware()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::getMiddleware()
      */
     protected function getMiddleware() : array
     {
@@ -35,7 +35,7 @@ class AdminLteTemplate extends AbstractAjaxTemplate
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Interfaces\Templates\HttpTemplateInterface::getUrlRoutePatterns()
+     * @see \exface\Core\Interfaces\Facades\HttpFacadeInterface::getUrlRoutePatterns()
      */
     public function getUrlRoutePatterns() : array
     {

@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataConfiguratorTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDataConfiguratorTrait;
 use exface\Core\Widgets\DataConfigurator;
 
 /**
@@ -22,13 +22,13 @@ class lteDataConfigurator extends lteTabs
      */
     public function getNumberOfColumnsByDefault() : int
     {
-        return $this->getTemplate()->getConfig()->getOption("WIDGET.DATACONFIGURATOR.COLUMNS_BY_DEFAULT");
+        return $this->getFacade()->getConfig()->getOption("WIDGET.DATACONFIGURATOR.COLUMNS_BY_DEFAULT");
     }
 
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteTabs::inheritsNumberOfColumns()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteTabs::inheritsNumberOfColumns()
      */
     public function inheritsNumberOfColumns() : bool
     {
@@ -38,7 +38,7 @@ class lteDataConfigurator extends lteTabs
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteTabs::buildHtmlTabHeaders()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteTabs::buildHtmlTabHeaders()
      */
     protected function buildHtmlTabHeaders()
     {
@@ -61,7 +61,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteTabs::buildHtmlTabBodies()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteTabs::buildHtmlTabBodies()
      */
     protected function buildHtmlTabBodies()
     {
@@ -104,7 +104,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJs()
      */
     public function buildJs()
     {

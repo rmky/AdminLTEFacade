@@ -1,14 +1,14 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement;
-use exface\AdminLteTemplate\Templates\AdminLteTemplate;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement;
+use exface\AdminLteFacade\Facades\AdminLteFacade;
 use exface\Core\Interfaces\Widgets\iFillEntireContainer;
 use exface\Core\Interfaces\Widgets\iLayoutWidgets;
 
 /**
  *
- * @method AdminLteTemplate getTemplate()
+ * @method AdminLteFacade getFacade()
  *        
  * @author Andrej Kabachnik
  *        
@@ -40,7 +40,7 @@ abstract class lteAbstractElement extends AbstractJqueryElement
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsShowMessageError()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsShowMessageError()
      */
     public function buildJsShowMessageError($message_body_js, $title = null)
     {
@@ -52,7 +52,7 @@ abstract class lteAbstractElement extends AbstractJqueryElement
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsShowError()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsShowError()
      */
     public function buildJsShowError($message_body_js, $title = null)
     {
@@ -68,7 +68,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsShowMessageSuccess()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsShowMessageSuccess()
      */
     public function buildJsShowMessageSuccess($message_body_js, $title = null)
     {
@@ -87,7 +87,7 @@ JS;
 						exit: "animated fadeOutDown"
 					},
 					mouse_over: "pause",
-					template: "<div data-notify=\"container\" class=\"col-xs-11 col-sm-3 alert alert-{0}\" role=\"alert\">" +
+					facade: "<div data-notify=\"container\" class=\"col-xs-11 col-sm-3 alert alert-{0}\" role=\"alert\">" +
 						"<button type=\"button\" aria-hidden=\"true\" class=\"close\" data-notify=\"dismiss\">×</button>" +
 						"<div data-notify=\"icon\"></div> " +
 						"<div data-notify=\"title\">{1}</div> " +
@@ -118,7 +118,7 @@ JS;
     {
         $output = '';
         if (($containerWidget = $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget instanceof iLayoutWidgets)) {
-            $output = $this->getTemplate()->getElement($containerWidget)->getId() . '_masonry_exf-grid-item';
+            $output = $this->getFacade()->getElement($containerWidget)->getId() . '_masonry_exf-grid-item';
         }
         return $output;
     }
@@ -134,9 +134,9 @@ JS;
         $widget = $this->getWidget();
         
         if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
-            $columnNumber = $this->getTemplate()->getElement($layoutWidget)->getNumberOfColumns();
+            $columnNumber = $this->getFacade()->getElement($layoutWidget)->getNumberOfColumns();
         } else {
-            $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+            $columnNumber = $this->getFacade()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
         }
         
         $dimension = $widget->getWidth();
@@ -198,7 +198,7 @@ JS;
         if ($this->getWidget() instanceof iLayoutWidgets) {
             $columnNumber = $this->getNumberOfColumns();
         } else {
-            $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+            $columnNumber = $this->getFacade()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
         }
         
         $col_no = floor(12 / $columnNumber);
@@ -224,7 +224,7 @@ JS;
     /**
      *
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJs()
      */
     public function buildJs()
     {
@@ -234,7 +234,7 @@ JS;
     /**
      *
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtml()
      */
     public function buildHtml()
     {

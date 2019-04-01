@@ -1,10 +1,10 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\Tab;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataTablesTrait;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataTableTrait;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDataTablesTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDataTableTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarsTrait;
 use exface\Core\Widgets\Dialog;
 use exface\Core\Widgets\DataTable;
 use exface\Core\CommonLogic\Constants\Icons;
@@ -97,7 +97,7 @@ if ($.fn.dataTable != undefined){
     $.fn.dataTable.ext.errMode = 'throw';
 }
 
-{$this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJs()}
+{$this->getFacade()->getElement($widget->getConfiguratorWidget())->buildJs()}
 
 {$this->buildJsFunctionPrefix()}Init();
 
@@ -108,7 +108,7 @@ function {$this->buildJsFunctionPrefix()}Init(){
         return;
     }
     
-    $('#{$this->getTemplate()->getElement($widget->getConfiguratorWidget())->getId()}_popup_columns input').click(function(){
+    $('#{$this->getFacade()->getElement($widget->getConfiguratorWidget())->getId()}_popup_columns input').click(function(){
         setColumnVisibility(this.name, (this.checked ? true : false) );
     });
     
@@ -183,21 +183,21 @@ JS;
     public function buildHtmlHeadTags()
     {
         $includes = $this->buildHtmlHeadTagsViaTrait();
-        $template = $this->getTemplate();
+        $facade = $this->getFacade();
         
         if ($this->isResponsive()) {
-            $includes[] = '<script type="text/javascript" src="' . $template->buildUrlToSource('LIBS.DATATABLES.RESPONSIVE.JS_THEME') . '"></script>';
+            $includes[] = '<script type="text/javascript" src="' . $facade->buildUrlToSource('LIBS.DATATABLES.RESPONSIVE.JS_THEME') . '"></script>';
         }
         
-        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Templates/js/DataTables.exface.helpers.js"></script>';
+        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteFacade/Facades/js/DataTables.exface.helpers.js"></script>';
         
         // Sortable plugin for column sorting in the table configuration popup
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jquery-sortable/source/js/jquery-sortable-min.js"></script>';
         
         // Right-click menu with context.js
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteTemplate/Templates/js/context.js/context.bootstrap.css">';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Templates/js/context.js/context.js"></script>';
-        // $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteTemplate/Templates/js/jquery.contextmenu.js"></script>';
+        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteFacade/Facades/js/context.js/context.bootstrap.css">';
+        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteFacade/Facades/js/context.js/context.js"></script>';
+        // $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteFacade/Facades/js/jquery.contextmenu.js"></script>';
         
         // Resize-Sensor
         $includes[] = '<script src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
@@ -298,7 +298,7 @@ HTML;
     }
 
     /**
-     * Generates JS fixes for various template-specific issues.
+     * Generates JS fixes for various facade-specific issues.
      *
      * @return string
      */
@@ -334,7 +334,7 @@ JS;
                 <h4 class="modal-title">{$this->translate('WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE')}</h4>
             </div>
             <div class="modal-body">
-                {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->buildHtml()}
+                {$this->getFacade()->getElement($this->getWidget()->getConfiguratorWidget())->buildHtml()}
             </div>
             <div class="modal-footer">
                 <button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left"><i class="{$this->buildCssIconClass(Icons::TIMES)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.SHOWDIALOG.CANCEL_BUTTON')}</button>
@@ -354,7 +354,7 @@ HTML;
         $output = <<<JS
 
     function {$this->buildJsFunctionPrefix()}tableCustomizerOnShown() {
-        {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget()->getTab(0))->buildJsLayouter()}
+        {$this->getFacade()->getElement($this->getWidget()->getConfiguratorWidget()->getTab(0))->buildJsLayouter()}
     }
 JS;
         
@@ -396,13 +396,13 @@ JS;
     {
         $menu_item = '';
         
-        /* @var $btn_element \exface\AdminLteTemplate\Templates\Elements\lteButton */
-        $btn_element = $this->getTemplate()->getElement($button);
+        /* @var $btn_element \exface\AdminLteFacade\Facades\Elements\lteButton */
+        $btn_element = $this->getFacade()->getElement($button);
         
         $icon = '<i class=\'' . $btn_element->buildCssIconClass($button->getIcon()) . '\'></i> ';
         
         if ($button instanceof MenuButton){
-            if ($button->getParent() instanceof ButtonGroup && $button === $this->getTemplate()->getElement($button->getParent())->getMoreButtonsMenu()){
+            if ($button->getParent() instanceof ButtonGroup && $button === $this->getFacade()->getElement($button->getParent())->getMoreButtonsMenu()){
                 $caption = $button->getCaption() ? $button->getCaption() : '...';
             } else {
                 $caption = $button->getCaption();
@@ -428,7 +428,7 @@ JS;
     {
         $filter_checks = '';
         foreach ($this->getWidget()->getFilters() as $fltr) {
-            $filter_checks .= 'if(' . $this->getTemplate()->getElement($fltr)->buildJsValueGetter() . ") activeFilters++; \n";
+            $filter_checks .= 'if(' . $this->getFacade()->getElement($fltr)->buildJsValueGetter() . ") activeFilters++; \n";
         }
         return <<<JS
                 var activeFilters = 0;
@@ -512,7 +512,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::getHeight()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::getHeight()
      */
     public function getHeight($calculate = true)
     {

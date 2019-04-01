@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\Dialog;
 use exface\Core\Widgets\Tabs;
@@ -39,7 +39,7 @@ HTML;
     {
         $output = '';
         foreach ($this->getWidget()->getTabs() as $tab) {
-            $output .= $this->getTemplate()->getElement($tab)->buildHtmlBody();
+            $output .= $this->getFacade()->getElement($tab)->buildHtmlBody();
         }
         return $output;
     }
@@ -48,7 +48,7 @@ HTML;
     {
         $output = '';
         foreach ($this->getWidget()->getTabs() as $tab) {
-            $output .= $this->getTemplate()->getElement($tab)->buildHtmlHeader();
+            $output .= $this->getFacade()->getElement($tab)->buildHtmlHeader();
         }
         return $output;
     }
@@ -60,7 +60,7 @@ HTML;
      */
     public function getNumberOfColumnsByDefault() : int
     {
-        return $this->getTemplate()->getConfig()->getOption("WIDGET.TABS.COLUMNS_BY_DEFAULT");
+        return $this->getFacade()->getConfig()->getOption("WIDGET.TABS.COLUMNS_BY_DEFAULT");
     }
 
     /**

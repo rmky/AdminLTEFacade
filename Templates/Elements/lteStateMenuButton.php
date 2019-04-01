@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 /**
  *
@@ -11,7 +11,7 @@ class lteStateMenuButton extends lteMenuButton
 
     /**
      *
-     * @see \exface\Templates\jeasyui\Widgets\abstractWidget::buildHtml()
+     * @see \exface\Facades\jeasyui\Widgets\abstractWidget::buildHtml()
      */
     function buildHtml()
     {
@@ -25,7 +25,7 @@ class lteStateMenuButton extends lteMenuButton
             $b->setCaption($widget->getCaption());
             $b->setAlign($widget->getAlign());
             $b->setVisibility($widget->getVisibility());
-            $output = $this->getTemplate()->getElement($b)->buildHtml();
+            $output = $this->getFacade()->getElement($b)->buildHtml();
         } elseif ($button_no > 1) {
             $output = parent::buildHtml();
         }

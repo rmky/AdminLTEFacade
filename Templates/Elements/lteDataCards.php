@@ -1,8 +1,8 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\DataColumn;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarsTrait;
 use exface\Core\DataTypes\HtmlDataType;
 use exface\Core\DataTypes\ImageUrlDataType;
 use exface\Core\Interfaces\Widgets\iShowText;
@@ -21,7 +21,7 @@ class lteDataCards extends lteDataList
         parent::init();
         // Make sure, the DataTable has a UID column. This method will create the column if it does not exist yet.
         // It is important to call the method within init(), because at this point, the processing of the UXON is definitely
-        // finished while the creation of the template element has not started yet!
+        // finished while the creation of the facade element has not started yet!
         // FIXME Move this
         $this->getWidget()->getUidColumn();
     }
@@ -30,10 +30,10 @@ class lteDataCards extends lteDataList
     {
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
-        $column_templates = '';
+        $column_facades = '';
         
         foreach ($widget->getColumns() as $column) {
-            $column_templates .= $this->generateColumnTemplate($column) . "\n";
+            $column_facades .= $this->generateColumnFacade($column) . "\n";
         }
         
         $footer_style = $widget->getHideFooter() ? 'display: none;' : '';
@@ -70,12 +70,12 @@ HTML;
 {$this->buildHtmlTableCustomizer()}
 
 
-<script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
+<script type="text/x-handlebars-facade" id="{$this->getId()}_tpl">
 { {#data}}
     <div class="exf-grid-item col-lg-3 col-md-4 col-sm-5 col-xs-12">
     	<div class="box box-default box-solid">
         	<div class="box-body" style="overflow: hidden;">
-				{$column_templates}
+				{$column_facades}
 			</div>
         </div>
     </div>
@@ -87,10 +87,10 @@ HTML;
         return $this->buildHtmlGridItemWrapper($output);
     }
 
-    function generateColumnTemplate(DataColumn $column)
+    function generateColumnFacade(DataColumn $column)
     {
         $tpl = '';
-        // TODO use cell widgets to generate templates instead of taking the data type
+        // TODO use cell widgets to generate facades instead of taking the data type
         if ($column->getDataType() instanceof HtmlDataType) {
             $tpl = '{ { {' . $column->getDataColumnName() . '}}}';
         } elseif ($column->getDataType() instanceof ImageUrlDataType) {
@@ -240,7 +240,7 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 	data.element = "{$widget->getId()}";
 	data.object = "{$this->getWidget()->getMetaObject()->getId()}";
     data.q = $('#{$this->getId()}_quickSearch').val();			
-	data.data = {$this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter()}
+	data.data = {$this->getFacade()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter()}
 	if ({$this->getId()}_pages.length) {
 		data.start = {$this->getId()}_pages.page * {$this->getId()}_pages.length;
 		data.length = {$this->getId()}_pages.length;
@@ -261,8 +261,8 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 				{$this->buildJsBusyIconHide()}
 			}
 			if (data.data.length > 0) {
-				var template = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
-				var elements = $(template(data));
+				var facade = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
+				var elements = $(facade(data));
 		        $('#{$this->getId()}')
 		           .hide()
 		           .append(elements)

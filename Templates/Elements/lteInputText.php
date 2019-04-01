@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 class lteInputText extends lteInput
 {
@@ -32,7 +32,7 @@ HTML;
             $output .= <<<JS
 
     $("#{$this->getId()}").on("resize", function() {
-        {$this->getTemplate()->getElement($layoutWidget)->buildJsLayouter()};
+        {$this->getFacade()->getElement($layoutWidget)->buildJsLayouter()};
     });
 JS;
         }
@@ -43,7 +43,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildCssHeightDefaultValue()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildCssHeightDefaultValue()
      */
     protected function buildCssHeightDefaultValue()
     {

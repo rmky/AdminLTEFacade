@@ -1,8 +1,8 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\Button;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryButtonTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryButtonTrait;
 use exface\Core\Widgets\MenuButton;
 
 /**
@@ -21,7 +21,7 @@ class lteMenuButton extends lteAbstractElement
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtml()
      */
     function buildHtml()
     {
@@ -37,7 +37,7 @@ class lteMenuButton extends lteAbstractElement
 <div class="dropdown {$align_class}">
 <button type="button" class="btn dropdown-toggle{$button_class}" data-toggle="dropdown">{$icon}{$this->getWidget()->getCaption()} <span class="caret"></span></button>
 	<ul class="dropdown-menu" role="menu">
-		{$this->getTemplate()->getElement($this->getWidget()->getMenu())->buildHtmlButtons()}
+		{$this->getFacade()->getElement($this->getWidget()->getMenu())->buildHtmlButtons()}
 	</ul>
 </div>
 HTML;
@@ -48,13 +48,13 @@ HTML;
     /**
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteAbstractElement::buildJs()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteAbstractElement::buildJs()
      */
     public function buildJs()
     {
         $output = '';
         foreach ($this->getWidget()->getButtons() as $b) {
-            $output .= "\n" . $this->getTemplate()->getElement($b)->buildJs();
+            $output .= "\n" . $this->getFacade()->getElement($b)->buildJs();
         }
         return $output;
     }

@@ -45,10 +45,10 @@
             "CREATED_BY_USER": "0x31000000000000000000000000000000",
             "MODIFIED_BY_USER": "0x31000000000000000000000000000000",
             "UID": "0x11e8c23db26b0a35b73e0205857feb80",
-            "PACKAGE": "exface\/AdminLteTemplate",
+            "PACKAGE": "exface\/AdminLteFacade",
             "DEFAULT_LANGUAGE_CODE": "en",
-            "ALIAS": "exface.AdminLteTemplate",
-            "NAME": "ExFace Template for AdminLTE 2"
+            "ALIAS": "exface.AdminLteFacade",
+            "NAME": "ExFace Facade for AdminLTE 2"
         }
     ],
     "totals_rows": [],

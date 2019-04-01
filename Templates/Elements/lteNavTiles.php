@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\NavTiles;
 use exface\Core\Widgets\Tile;
@@ -15,17 +15,17 @@ class lteNavTiles extends lteWidgetGrid
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::getNumberOfColumnsByDefault()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteWidgetGrid::getNumberOfColumnsByDefault()
      */
     public function getNumberOfColumnsByDefault() : int
     {
-        return $this->getTemplate()->getConfig()->getOption("WIDGET.TILES.COLUMNS_BY_DEFAULT");
+        return $this->getFacade()->getConfig()->getOption("WIDGET.TILES.COLUMNS_BY_DEFAULT");
     }
     
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::buildHtml()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteWidgetGrid::buildHtml()
      */
     public function buildHtml()
     {
@@ -34,7 +34,7 @@ class lteNavTiles extends lteWidgetGrid
                 $tiles->setNumberOfColumns(2);
                 foreach ($tiles->getTiles() as $tile) {
                     if ($colorClass = $this->getColorClass($tile)) {
-                        $this->getTemplate()->getElement($tile)->setCssColorClass($colorClass);
+                        $this->getFacade()->getElement($tile)->setCssColorClass($colorClass);
                     }
                 }
             }
@@ -47,11 +47,11 @@ class lteNavTiles extends lteWidgetGrid
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::getWidthDefault()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::getWidthDefault()
      */
     public function getWidthDefault()
     {
-        return $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+        return $this->getFacade()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
     }
     
     
@@ -78,7 +78,7 @@ class lteNavTiles extends lteWidgetGrid
             return $this->getColorClass($upperTile);
         }
         
-        $classes = $this->getTemplate()->getConfig()->getOption('WIDGET.TILE.AUTOCOLORS')->toArray();
+        $classes = $this->getFacade()->getConfig()->getOption('WIDGET.TILE.AUTOCOLORS')->toArray();
         $idx = $tile->getParent()->getWidgetIndex($tile);
         return $classes[$idx % count($classes)];
     }

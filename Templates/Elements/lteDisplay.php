@@ -1,10 +1,10 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Interfaces\JsValueDecoratingInterface;
+use exface\Core\Facades\AbstractAjaxFacade\Interfaces\JsValueDecoratingInterface;
 use exface\Core\Widgets\Display;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDisplayTrait;
-use exface\Core\Templates\AbstractAjaxTemplate\Formatters\JsBooleanFormatter;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDisplayTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Formatters\JsBooleanFormatter;
 
 /**
  *
@@ -20,7 +20,7 @@ class lteDisplay extends lteValue implements JsValueDecoratingInterface
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteValue::buildHtml()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteValue::buildHtml()
      */
     public function buildHtml()
     {

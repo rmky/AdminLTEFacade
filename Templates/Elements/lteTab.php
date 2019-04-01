@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\Tab;
 
@@ -88,7 +88,7 @@ JS;
      */
     public function getNumberOfColumnsByDefault() : int
     {
-        $parent_element = $this->getTemplate()->getElement($this->getWidget()->getParent());
+        $parent_element = $this->getFacade()->getElement($this->getWidget()->getParent());
         if (method_exists($parent_element, 'getNumberOfColumnsByDefault')) {
             return $parent_element->getNumberOfColumnsByDefault();
         }
@@ -103,7 +103,7 @@ JS;
      */
     public function inheritsNumberOfColumns() : bool
     {
-        $parent_element = $this->getTemplate()->getElement($this->getWidget()->getParent());
+        $parent_element = $this->getFacade()->getElement($this->getWidget()->getParent());
         if (method_exists($parent_element, 'inheritsNumberOfColumns')) {
             return $parent_element->inheritsNumberOfColumns();
         }

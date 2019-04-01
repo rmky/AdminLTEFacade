@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\Menu;
 
@@ -15,7 +15,7 @@ class lteMenu extends lteAbstractElement
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtml()
      */
     public function buildHtml()
     {  
@@ -62,7 +62,7 @@ HTML;
                 $disabled_class = $b->isDisabled() ? ' disabled' : '';
                 $buttons_html .= '
     					<li class="' . $disabled_class . '">
-    						<a id="' . $this->getTemplate()->getElement($b)->getId() . '" data-target="#"' . ($b->isDisabled() ? '' : ' onclick="' . $this->getTemplate()->getElement($b)->buildJsClickFunctionName(). '();"') . '>
+    						<a id="' . $this->getFacade()->getElement($b)->getId() . '" data-target="#"' . ($b->isDisabled() ? '' : ' onclick="' . $this->getFacade()->getElement($b)->buildJsClickFunctionName(). '();"') . '>
     							<i class="' . $this->buildCssIconClass($b->getIcon()) . '"></i>' . $b->getCaption() . '
     						</a>
     					</li>';
@@ -74,13 +74,13 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJs()
      */
     public function buildJs()
     {
         $buttons_js = '';
         foreach ($this->getWidget()->getButtons() as $btn){
-            $buttons_js .= $this->getTemplate()->getElement($btn)->buildJs();
+            $buttons_js .= $this->getFacade()->getElement($btn)->buildJs();
         }
         return $buttons_js;
     }

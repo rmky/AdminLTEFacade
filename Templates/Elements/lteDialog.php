@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\Dialog;
 use exface\Core\Interfaces\Widgets\iLayoutWidgets;
@@ -100,7 +100,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteWidgetGrid::buildJsLayouterFunction()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteWidgetGrid::buildJsLayouterFunction()
      */
     protected function buildJsLayouterFunction() : string
     {
@@ -146,7 +146,7 @@ JS;
             }
         }
         if ($widget instanceof iLayoutWidgets) {
-            $output .= $this->getTemplate()->getElement($widget)->buildJsLayouter() . ';';
+            $output .= $this->getFacade()->getElement($widget)->buildJsLayouter() . ';';
         }
         return $output;
     }
@@ -155,18 +155,18 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\ltePanel::getNumberOfColumnsByDefault()
+     * @see \exface\AdminLteFacade\Facades\Elements\ltePanel::getNumberOfColumnsByDefault()
      */
     public function getNumberOfColumnsByDefault() : int
     {
-        return $this->getTemplate()->getConfig()->getOption("WIDGET.DIALOG.COLUMNS_BY_DEFAULT");
+        return $this->getFacade()->getConfig()->getOption("WIDGET.DIALOG.COLUMNS_BY_DEFAULT");
     }
 
     /**
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\ltePanel::inheritsNumberOfColumns()
+     * @see \exface\AdminLteFacade\Facades\Elements\ltePanel::inheritsNumberOfColumns()
      */
     public function inheritsNumberOfColumns() : bool
     {

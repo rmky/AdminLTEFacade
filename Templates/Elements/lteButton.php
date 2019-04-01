@@ -1,12 +1,12 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\DialogButton;
 use exface\Core\Interfaces\Actions\ActionInterface;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryButtonTrait;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryButtonTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement;
 use exface\Core\Widgets\Button;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDisableConditionTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDisableConditionTrait;
 
 /**
  * Generates jQuery Mobile buttons for ExFace
@@ -27,10 +27,10 @@ class lteButton extends lteAbstractElement
         
         // Get the java script required for the action itself
         if ($action) {
-            // Actions with template scripts may contain some helper functions or global variables.
+            // Actions with facade scripts may contain some helper functions or global variables.
             // Print the here first.
-            if ($action && $action->implementsInterface('iRunTemplateScript')) {
-                $output .= $this->getAction()->buildScriptHelperFunctions($this->getTemplate());
+            if ($action && $action->implementsInterface('iRunFacadeScript')) {
+                $output .= $this->getAction()->buildScriptHelperFunctions($this->getFacade());
             }
         }
         
@@ -61,7 +61,7 @@ class lteButton extends lteAbstractElement
 
     /**
      *
-     * @see \exface\Templates\jeasyui\Widgets\abstractWidget::buildHtml()
+     * @see \exface\Facades\jeasyui\Widgets\abstractWidget::buildHtml()
      */
     function buildHtml()
     {
@@ -90,7 +90,7 @@ class lteButton extends lteAbstractElement
         $prefill = '';
         if ($prefill_link = $this->getAction()->getPrefillWithDataFromWidgetLink()) {
             if ($prefill_link->getTargetPageAlias() === null || $widget->getPage()->is($prefill_link->getPageAlias())) {
-                $prefill = ", prefill: " . $this->getTemplate()->getElement($prefill_link->getTargetWidget())->buildJsDataGetter($this->getAction());
+                $prefill = ", prefill: " . $this->getFacade()->getElement($prefill_link->getTargetWidget())->buildJsDataGetter($this->getAction());
             }
         }
         
@@ -173,7 +173,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtmlHeadTags()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtmlHeadTags()
      */
     public function buildHtmlHeadTags()
     {

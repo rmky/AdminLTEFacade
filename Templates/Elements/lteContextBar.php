@@ -1,8 +1,8 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\AdminLteTemplate\Templates\Elements\lteAbstractElement;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryContextBarAjaxTrait;
+use exface\AdminLteFacade\Facades\Elements\lteAbstractElement;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryContextBarAjaxTrait;
 
 /**
  * 

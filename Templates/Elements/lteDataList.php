@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Interfaces\Actions\ActionInterface;
 
@@ -16,7 +16,7 @@ class lteDataList extends lteDataTable
         parent::init();
         // Make sure, the DataTable has a UID column. This method will create the column if it does not exist yet.
         // It is important to call the method within init(), because at this point, the processing of the UXON is definitely
-        // finished while the creation of the template element has not started yet!
+        // finished while the creation of the facade element has not started yet!
         // FIXME Move this
         $this->getWidget()->getUidColumn();
     }
@@ -102,7 +102,7 @@ HTML;
         // buttons
         if ($widget->hasButtons()) {
             foreach ($widget->getButtons() as $button) {
-                $buttons_js .= $this->getTemplate()->buildJs($button);
+                $buttons_js .= $this->getFacade()->buildJs($button);
             }
         }
         
@@ -157,16 +157,16 @@ JS;
         // Click actions
         // Single click. Currently only supports one double click action - the first one in the list of buttons
         if ($leftclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_LEFT_CLICK)[0]) {
-            $leftclick_script = $this->getTemplate()->getElement($leftclick_button)->buildJsClickFunctionName() . '()';
+            $leftclick_script = $this->getFacade()->getElement($leftclick_button)->buildJsClickFunctionName() . '()';
         }
         // Double click. Currently only supports one double click action - the first one in the list of buttons
         if ($dblclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_DOUBLE_CLICK)[0]) {
-            $dblclick_script = $this->getTemplate()->getElement($dblclick_button)->buildJsClickFunctionName() . '()';
+            $dblclick_script = $this->getFacade()->getElement($dblclick_button)->buildJsClickFunctionName() . '()';
         }
         
         // Right click. Currently only supports one right click action - the first one in the list of buttons
         if ($rightclick_button = $widget->getButtonsBoundToMouseAction(EXF_MOUSE_ACTION_RIGHT_CLICK)[0]) {
-            $rightclick_script = $this->getTemplate()->getElement($rightclick_button)->buildJsClickFunctionName() . '()';
+            $rightclick_script = $this->getFacade()->getElement($rightclick_button)->buildJsClickFunctionName() . '()';
         }
         
         // NOTE: it is important, to remove any existing click listeners before

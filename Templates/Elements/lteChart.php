@@ -1,10 +1,10 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryToolbarsTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarsTrait;
 use exface\Core\CommonLogic\Constants\Icons;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryFlotTrait;
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryDataTableTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryFlotTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDataTableTrait;
 use exface\Core\DataTypes\BooleanDataType;
 
 class lteChart extends lteDataTable
@@ -23,7 +23,7 @@ class lteChart extends lteDataTable
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildCssHeightDefaultValue()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildCssHeightDefaultValue()
      */
     protected function buildCssHeightDefaultValue()
     {
@@ -82,7 +82,7 @@ HTML;
         $output .= $this->buildJsFunctions();
         
         // Add JS code for the configurator
-        $output .= $this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJs();
+        $output .= $this->getFacade()->getElement($widget->getConfiguratorWidget())->buildJs();
         // Add JS for all buttons
         $output .= $this->buildJsButtons();
         
@@ -136,7 +136,7 @@ JS;
             // send pagination/limit information. Charts currently do not support real pagination, but just a TOP-X display.
             if ($widget->getData()->isPaged()) {
                 $post_data .= 'data.start = 0;';
-                $post_data .= 'data.length = ' . $widget->getData()->getPaginator()->getPageSize($this->getTemplate()->getConfig()->getOption('WIDGET.CHART.PAGE_SIZE')) . ';';
+                $post_data .= 'data.length = ' . $widget->getData()->getPaginator()->getPageSize($this->getFacade()->getConfig()->getOption('WIDGET.CHART.PAGE_SIZE')) . ';';
             }
             
             // Loader function
@@ -144,7 +144,7 @@ JS;
 					' . $this->buildJsBusyIconShow() . '
 					var data = { };
 					' . $post_data . '
-                    data.data = ' . $this->getTemplate()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter() . '
+                    data.data = ' . $this->getFacade()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter() . '
 					$.ajax({
 						url: "' . $this->getAjaxUrl() . '",
                         method: "POST",
@@ -184,7 +184,7 @@ JS;
                 <h4 class="modal-title">{$this->translate('WIDGET.CHART.SETTINGS_DIALOG_TITLE')}</h4>
             </div>
             <div class="modal-body">
-                {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget())->buildHtml()}
+                {$this->getFacade()->getElement($this->getWidget()->getConfiguratorWidget())->buildHtml()}
             </div>
             <div class="modal-footer">
                 <button type="button" href="#" data-dismiss="modal" class="btn btn-default pull-left"><i class="{$this->buildCssIconClass(Icons::TIMES)}"></i> {$this->getWorkbench()->getCoreApp()->getTranslator()->translate('ACTION.SHOWDIALOG.CANCEL_BUTTON')}</button>
@@ -205,7 +205,7 @@ HTML;
         $output = <<<JS
 
     function {$this->buildJsFunctionPrefix()}chartCustomizerOnShown() {
-        {$this->getTemplate()->getElement($this->getWidget()->getConfiguratorWidget()->getTab(0))->buildJsLayouter()}
+        {$this->getFacade()->getElement($this->getWidget()->getConfiguratorWidget()->getTab(0))->buildJsLayouter()}
     }
 JS;
         
@@ -237,7 +237,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteDataTable::getHeight()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteDataTable::getHeight()
      */
     public function getHeight($calculate = true)
     {
@@ -287,7 +287,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteDataTable::buildHtmlHeadTags()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteDataTable::buildHtmlHeadTags()
      */
     public function buildHtmlHeadTags()
     {

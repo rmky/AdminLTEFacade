@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Exceptions\InvalidArgumentException;
 use exface\Core\Exceptions\Widgets\WidgetConfigurationError;
@@ -20,20 +20,20 @@ class lteInputComboTable extends lteInput
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteInput::init()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::init()
      */
     protected function init()
     {
         parent::init();
         $this->setElementType('combogrid');
-        $this->setJsDebugLevel($this->getTemplate()->getConfig()->getOption("JAVASCRIPT_DEBUG_LEVEL"));
+        $this->setJsDebugLevel($this->getFacade()->getConfig()->getOption("JAVASCRIPT_DEBUG_LEVEL"));
         
         // Register onChange-Handler for Filters with Live-Reference-Values
         $widget = $this->getWidget();
         if ($widget->getTable()->hasFilters()) {
             foreach ($widget->getTable()->getFilters() as $fltr) {
                 if ($link = $fltr->getValueWidgetLink()) {
-                    $linked_element = $this->getTemplate()->getElement($link->getTargetWidget());
+                    $linked_element = $this->getFacade()->getElement($link->getTargetWidget());
                     
                     $widget_lazy_loading_group_id = $widget->getLazyLoadingGroupId();
                     $linked_element_lazy_loading_group_id = method_exists($linked_element->getWidget(), 'getLazyLoadingGroupId') ? $linked_element->getWidget()->getLazyLoadingGroupId() : '';
@@ -76,13 +76,13 @@ JS;
     /**
      *
      * @throws WidgetConfigurationError
-     * @return \exface\AdminLteTemplate\Templates\Elements\lteInputComboTable
+     * @return \exface\AdminLteFacade\Facades\Elements\lteInputComboTable
      */
     protected function registerLiveReferenceAtLinkedElement()
     {
         $widget = $this->getWidget();
         
-        if ($linked_element = $this->getLinkedTemplateElement()) {
+        if ($linked_element = $this->getLinkedFacadeElement()) {
             // Gehoert das Widget einer Lazyloadinggruppe an, so darf es keine Value-
             // Referenzen haben.
             $widget_lazy_loading_group_id = $widget->getLazyLoadingGroupId();
@@ -99,7 +99,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteInput::buildHtml()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildHtml()
      */
     function buildHtml()
     {
@@ -128,13 +128,13 @@ HTML;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteInput::buildJs()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJs()
      */
     function buildJs()
     {
         /* @var $widget \exface\Core\Widgets\InputComboTable */
         $widget = $this->getWidget();
-        $valueFilterParam = UrlDataType::urlEncode($this->getTemplate()->getUrlFilterPrefix().$widget->getValueColumn()->getAttributeAlias());
+        $valueFilterParam = UrlDataType::urlEncode($this->getFacade()->getUrlFilterPrefix().$widget->getValueColumn()->getAttributeAlias());
         
         // Initialer Wert
         $initialValueScriptBeforeMsInit = '';
@@ -304,7 +304,7 @@ JS;
             foreach ($widget->getTable()->getFilters() as $fltr) {
                 $output .= <<<JS
 
-function {$this->getTemplate()->getElement($fltr->getInputWidget())->buildJsFunctionPrefix()}valueSetter(value){}
+function {$this->getFacade()->getElement($fltr->getInputWidget())->buildJsFunctionPrefix()}valueSetter(value){}
 JS;
             }
         }
@@ -322,7 +322,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtmlHeadTags()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtmlHeadTags()
      */
     function buildHtmlHeadTags()
     {
@@ -336,7 +336,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsValueGetter()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsValueGetter()
      */
     function buildJsValueGetter($column = null, $row = null)
     {
@@ -430,7 +430,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteInput::buildJsValueSetter()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsValueSetter()
      */
     function buildJsValueSetter($value)
     {
@@ -570,11 +570,11 @@ JS;
     function buildJsOnBeforeload()
     {
         $widget = $this->getWidget();
-        $valueFilterParam = UrlDataType::urlEncode($this->getTemplate()->getUrlFilterPrefix().$widget->getValueColumn()->getAttributeAlias());
+        $valueFilterParam = UrlDataType::urlEncode($this->getFacade()->getUrlFilterPrefix().$widget->getValueColumn()->getAttributeAlias());
         
         // Run the data getter of the (unrendered) DataConfigurator widget to get the data
         // parameter with filters, sorters, etc.
-        $dataParam = 'dataUrlParams.data = ' . $this->getTemplate()->getElement($widget->getTable()->getConfiguratorWidget())->buildJsDataGetter(null, true);
+        $dataParam = 'dataUrlParams.data = ' . $this->getFacade()->getElement($widget->getTable()->getConfiguratorWidget())->buildJsDataGetter(null, true);
         // Beim Leeren eines Widgets in einer in einer lazy-loading-group wird kein Filter gesetzt,
         // denn alle Filter sollten leer sein (alle Elemente der Gruppe leer). Beim Leeren eines
         // Widgets ohne Gruppe werden die normalen Filter gesetzt.
@@ -641,7 +641,7 @@ JS;
     var suppressAutoSelectSingleSuggestion = false;
     var suppressLazyLoadingGroupUpdate = false;
     var dataUrlParams = {$this->getId()}_ms.getDataUrlParams();
-    var urlFilterPrefix = ("{$this->getTemplate()->getUrlFilterPrefix()}").toLowerCase();  
+    var urlFilterPrefix = ("{$this->getFacade()->getUrlFilterPrefix()}").toLowerCase();  
 
     for (key in dataUrlParams) {
         if (key.toLowerCase().startsWith(urlFilterPrefix)) {
@@ -847,7 +847,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsEnabler()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsEnabler()
      */
     function buildJsEnabler()
     {
@@ -858,7 +858,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJsDisabler()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsDisabler()
      */
     function buildJsDisabler()
     {
@@ -869,7 +869,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteInput::buildJsValidator()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsValidator()
      */
     function buildJsValidator()
     {
@@ -894,7 +894,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteTemplate\Templates\Elements\lteInput::buildJsRequired()
+     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsRequired()
      */
     function buildJsRequired()
     {

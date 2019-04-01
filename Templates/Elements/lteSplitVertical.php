@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Exceptions\Templates\TemplateUnsupportedWidgetPropertyWarning;
+use exface\Core\Exceptions\Facades\FacadeUnsupportedWidgetPropertyWarning;
 
 class lteSplitVertical extends lteContainer
 {
@@ -22,7 +22,7 @@ HTML;
         $panels = $this->getWidget()->getPanels();
         $panel_no = count($panels);
         if ($panel_no == 0) {
-            throw new TemplateUnsupportedWidgetPropertyWarning('No Panels have been defined for ' . $this->getWidget()->getId() . ', at least one Panel is required.');
+            throw new FacadeUnsupportedWidgetPropertyWarning('No Panels have been defined for ' . $this->getWidget()->getId() . ', at least one Panel is required.');
         }
         $panels_html = '';
         foreach ($panels as $panel) {
@@ -58,7 +58,7 @@ HTML;
 
                     <div class="row" style="{$style}">
                         <div class="col-xs-12">
-                            {$this->getTemplate()->getElement($panel)->buildHtml()}
+                            {$this->getFacade()->getElement($panel)->buildHtml()}
                         </div>
                     </div>
 HTML;

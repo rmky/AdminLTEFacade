@@ -1,19 +1,19 @@
 <?php
-namespace exface\AdminLteTemplate;
+namespace exface\AdminLteFacade;
 
 use exface\Core\Interfaces\InstallerInterface;
-use exface\Core\Templates\AbstractHttpTemplate\HttpTemplateInstaller;
+use exface\Core\Facades\AbstractHttpFacade\HttpFacadeInstaller;
 use exface\Core\CommonLogic\Model\App;
-use exface\Core\Factories\TemplateFactory;
-use exface\Core\Templates\AbstractPWATemplate\ServiceWorkerInstaller;
+use exface\Core\Factories\FacadeFactory;
+use exface\Core\Facades\AbstractPWAFacade\ServiceWorkerInstaller;
 
-class AdminLteTemplateApp extends App
+class AdminLteFacadeApp extends App
 {
 
     /**
      * {@inheritdoc}
      * 
-     * An additional installer is included to condigure the routing for the HTTP templates.
+     * An additional installer is included to condigure the routing for the HTTP facades.
      * 
      * @see App::getInstaller($injected_installer)
      */
@@ -22,8 +22,8 @@ class AdminLteTemplateApp extends App
         $installer = parent::getInstaller($injected_installer);
         
         // Routing installer
-        $tplInstaller = new HttpTemplateInstaller($this->getSelector());
-        $tplInstaller->setTemplate(TemplateFactory::createFromString('exface.AdminLteTemplate.AdminLteTemplate', $this->getWorkbench()));
+        $tplInstaller = new HttpFacadeInstaller($this->getSelector());
+        $tplInstaller->setFacade(FacadeFactory::createFromString('exface.AdminLteFacade.AdminLteFacade', $this->getWorkbench()));
         $installer->addInstaller($tplInstaller);
         
         // ServiceWorker installer

@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
-use exface\Core\Templates\AbstractAjaxTemplate\Elements\JqueryButtonGroupTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryButtonGroupTrait;
 
 /**
  * The AdminLTE implementation of the ButtonGroup widget
@@ -17,7 +17,7 @@ class lteButtonGroup extends lteAbstractElement
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildHtml()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtml()
      */
     public function buildHtml()
     {
@@ -27,7 +27,7 @@ class lteButtonGroup extends lteAbstractElement
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\Core\Templates\AbstractAjaxTemplate\Elements\AbstractJqueryElement::buildJs()
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJs()
      */
     public function buildJs()
     {

@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteTemplate\Templates\Elements;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 use exface\Core\Widgets\SplitHorizontal;
 use exface\Core\Interfaces\Widgets\iFillEntireContainer;
@@ -53,9 +53,9 @@ HTML;
             
             if (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget instanceof SplitHorizontal)) {
                 if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
-                    $columnNumber = $this->getTemplate()->getElement($layoutWidget)->getNumberOfColumns();
+                    $columnNumber = $this->getFacade()->getElement($layoutWidget)->getNumberOfColumns();
                 } else {
-                    $columnNumber = $this->getTemplate()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+                    $columnNumber = $this->getFacade()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
                 }
                 $panelNumber = count($containerWidget->getPanels());
                 
