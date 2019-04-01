@@ -1,9 +1,9 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Exceptions\Facades\FacadeUnsupportedWidgetPropertyWarning;
 
-class lteSplitHorizontal extends lteSplitVertical
+class LteSplitHorizontal extends lteSplitVertical
 {
 
     function buildHtmlForWidgets()

@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\SplitHorizontal;
 use exface\Core\Interfaces\Widgets\iFillEntireContainer;
@@ -12,7 +12,7 @@ use exface\Core\Widgets\SplitPanel;
  * @author Andrej Kabachnik
  *
  */
-class lteSplitPanel extends ltePanel
+class LteSplitPanel extends ltePanel
 {
     private $number_of_columns = null;
     

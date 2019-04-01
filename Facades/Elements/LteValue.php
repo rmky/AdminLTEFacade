@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Value;
 use exface\Core\Widgets\DataColumn;
@@ -11,7 +11,7 @@ use exface\Core\Widgets\DataColumn;
  * @author Andrej Kabachnik
  *        
  */
-class lteValue extends lteAbstractElement
+class LteValue extends lteAbstractElement
 {
 
     function buildHtml()

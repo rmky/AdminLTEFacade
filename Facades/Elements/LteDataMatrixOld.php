@@ -1,16 +1,16 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Factories\DataSheetFactory;
 
-class lteDataMatrixOld extends lteDataTable
+class LteDataMatrixOld extends lteDataTable
 {
 
     private $label_values = array();
 
     /**
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\lteAbstractElement::getWidget()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteAbstractElement::getWidget()
      * @return \exface\Core\Widgets\DataMatrix
      */
     public function getWidget()

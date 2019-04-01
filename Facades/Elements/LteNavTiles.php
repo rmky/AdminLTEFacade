@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\NavTiles;
 use exface\Core\Widgets\Tile;
@@ -10,12 +10,12 @@ use exface\Core\Widgets\Tile;
  * @author Andrej Kabachnik
  *
  */
-class lteNavTiles extends lteWidgetGrid
+class LteNavTiles extends lteWidgetGrid
 {
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteWidgetGrid::getNumberOfColumnsByDefault()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteWidgetGrid::getNumberOfColumnsByDefault()
      */
     public function getNumberOfColumnsByDefault() : int
     {
@@ -25,7 +25,7 @@ class lteNavTiles extends lteWidgetGrid
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteWidgetGrid::buildHtml()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteWidgetGrid::buildHtml()
      */
     public function buildHtml()
     {

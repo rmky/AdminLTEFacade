@@ -1,19 +1,19 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement;
-use exface\AdminLteFacade\Facades\AdminLteFacade;
+use exface\AdminLTEFacade\Facades\AdminLTEFacade;
 use exface\Core\Interfaces\Widgets\iFillEntireContainer;
 use exface\Core\Interfaces\Widgets\iLayoutWidgets;
 
 /**
  *
- * @method AdminLteFacade getFacade()
+ * @method AdminLTEFacade getFacade()
  *        
  * @author Andrej Kabachnik
  *        
  */
-abstract class lteAbstractElement extends AbstractJqueryElement
+abstract class LteAbstractElement extends AbstractJqueryElement
 {
 
     public function buildJsInitOptions()

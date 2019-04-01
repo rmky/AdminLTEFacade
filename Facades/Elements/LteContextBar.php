@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-use exface\AdminLteFacade\Facades\Elements\lteAbstractElement;
+use exface\AdminLTEFacade\Facades\Elements\LteAbstractElement;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryContextBarAjaxTrait;
 
 /**
@@ -9,7 +9,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryContextBarAjaxTrait;
  * @author Andrej Kabachnik
  *
  */
-class lteContextBar extends lteAbstractElement 
+class LteContextBar extends lteAbstractElement 
 {
     use JqueryContextBarAjaxTrait;
 }

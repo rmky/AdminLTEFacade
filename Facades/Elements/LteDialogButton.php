@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 /**
  * generates jEasyUI-Buttons for ExFace dialogs
@@ -7,7 +7,7 @@ namespace exface\AdminLteFacade\Facades\Elements;
  * @author Andrej Kabachnik
  *        
  */
-class lteDialogButton extends lteButton
+class LteDialogButton extends lteButton
 {
 }
 ?>

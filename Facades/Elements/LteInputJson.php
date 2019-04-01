@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteInputJson extends lteInputText
+class LteInputJson extends lteInputText
 {
 }
 ?>

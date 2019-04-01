@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade;
+namespace exface\AdminLTEFacade;
 
 use exface\Core\Interfaces\InstallerInterface;
 use exface\Core\Facades\AbstractHttpFacade\HttpFacadeInstaller;
@@ -7,7 +7,7 @@ use exface\Core\CommonLogic\Model\App;
 use exface\Core\Factories\FacadeFactory;
 use exface\Core\Facades\AbstractPWAFacade\ServiceWorkerInstaller;
 
-class AdminLteFacadeApp extends App
+class AdminLTEFacadeApp extends App
 {
 
     /**
@@ -23,7 +23,7 @@ class AdminLteFacadeApp extends App
         
         // Routing installer
         $tplInstaller = new HttpFacadeInstaller($this->getSelector());
-        $tplInstaller->setFacade(FacadeFactory::createFromString('exface.AdminLteFacade.AdminLteFacade', $this->getWorkbench()));
+        $tplInstaller->setFacade(FacadeFactory::createFromString('exface.AdminLTEFacade.AdminLTEFacade', $this->getWorkbench()));
         $installer->addInstaller($tplInstaller);
         
         // ServiceWorker installer

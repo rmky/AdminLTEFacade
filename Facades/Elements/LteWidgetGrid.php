@@ -1,9 +1,9 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryLayoutTrait;
 
-class lteWidgetGrid extends lteContainer
+class LteWidgetGrid extends lteContainer
 {
     use JqueryLayoutTrait;
 

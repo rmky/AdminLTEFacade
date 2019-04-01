@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Button;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryButtonTrait;
@@ -13,7 +13,7 @@ use exface\Core\Widgets\MenuButton;
  * @author Andrej Kabachnik
  *        
  */
-class lteMenuButton extends lteAbstractElement
+class LteMenuButton extends lteAbstractElement
 {
     
     use JqueryButtonTrait;
@@ -48,7 +48,7 @@ HTML;
     /**
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\lteAbstractElement::buildJs()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteAbstractElement::buildJs()
      */
     public function buildJs()
     {

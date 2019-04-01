@@ -1,6 +1,6 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteDataButton extends lteButton
+class LteDataButton extends lteButton
 {
 }

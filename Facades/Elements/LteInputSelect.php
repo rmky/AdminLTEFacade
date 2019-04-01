@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\InputSelect;
 
@@ -10,7 +10,7 @@ use exface\Core\Widgets\InputSelect;
  * @author Andrej Kabachnik
  *        
  */
-class lteInputSelect extends lteInput
+class LteInputSelect extends lteInput
 {
 
     public function buildHtml()

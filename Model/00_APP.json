@@ -45,9 +45,9 @@
             "CREATED_BY_USER": "0x31000000000000000000000000000000",
             "MODIFIED_BY_USER": "0x31000000000000000000000000000000",
             "UID": "0x11e8c23db26b0a35b73e0205857feb80",
-            "PACKAGE": "exface\/AdminLteFacade",
+            "PACKAGE": "exface\/AdminLTEFacade",
             "DEFAULT_LANGUAGE_CODE": "en",
-            "ALIAS": "exface.AdminLteFacade",
+            "ALIAS": "exface.AdminLTEFacade",
             "NAME": "ExFace Facade for AdminLTE 2"
         }
     ],

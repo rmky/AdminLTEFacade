@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarsTrait;
 use exface\Core\CommonLogic\Constants\Icons;
@@ -7,7 +7,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryFlotTrait;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDataTableTrait;
 use exface\Core\DataTypes\BooleanDataType;
 
-class lteChart extends lteDataTable
+class LteChart extends lteDataTable
 {
     use JqueryToolbarsTrait;
     
@@ -237,7 +237,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteDataTable::getHeight()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteDataTable::getHeight()
      */
     public function getHeight($calculate = true)
     {
@@ -287,7 +287,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteDataTable::buildHtmlHeadTags()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteDataTable::buildHtmlHeadTags()
      */
     public function buildHtmlHeadTags()
     {

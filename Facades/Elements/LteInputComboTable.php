@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Exceptions\InvalidArgumentException;
 use exface\Core\Exceptions\Widgets\WidgetConfigurationError;
@@ -11,7 +11,7 @@ use exface\Core\DataTypes\UrlDataType;
  *
  * @author Andrej Kabachnik
  */
-class lteInputComboTable extends lteInput
+class LteInputComboTable extends lteInput
 {
 
     private $js_debug_level = 0;
@@ -20,7 +20,7 @@ class lteInputComboTable extends lteInput
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::init()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteInput::init()
      */
     protected function init()
     {
@@ -76,7 +76,7 @@ JS;
     /**
      *
      * @throws WidgetConfigurationError
-     * @return \exface\AdminLteFacade\Facades\Elements\lteInputComboTable
+     * @return \exface\AdminLTEFacade\Facades\Elements\LteInputComboTable
      */
     protected function registerLiveReferenceAtLinkedElement()
     {
@@ -99,7 +99,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildHtml()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteInput::buildHtml()
      */
     function buildHtml()
     {
@@ -128,7 +128,7 @@ HTML;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJs()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteInput::buildJs()
      */
     function buildJs()
     {
@@ -430,7 +430,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsValueSetter()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteInput::buildJsValueSetter()
      */
     function buildJsValueSetter($value)
     {
@@ -869,7 +869,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsValidator()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteInput::buildJsValidator()
      */
     function buildJsValidator()
     {
@@ -894,7 +894,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsRequired()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteInput::buildJsRequired()
      */
     function buildJsRequired()
     {

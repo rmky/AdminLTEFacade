@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\QrCode;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryQrCodeTrait;
@@ -11,7 +11,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryQrCodeTrait;
  * @author Andrej Kabachnik
  *        
  */
-class lteQrCode extends lteDisplay
+class LteQrCode extends lteDisplay
 {
     use JqueryQrCodeTrait;
 }

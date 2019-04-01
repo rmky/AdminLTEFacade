@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\DataColumn;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarsTrait;
@@ -12,7 +12,7 @@ use exface\Core\Interfaces\Widgets\iShowText;
  * @author PATRIOT
  *        
  */
-class lteDataCards extends lteDataList
+class LteDataCards extends lteDataList
 {
     use JqueryToolbarsTrait;
     

@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteInputNumber extends lteInput
+class LteInputNumber extends lteInput
 {
 
     protected function init()

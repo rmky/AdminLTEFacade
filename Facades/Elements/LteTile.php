@@ -1,16 +1,16 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Tile;
 use exface\Core\Widgets\Container;
 
 /**
- * Tile-widget for AdminLte-Facade.
+ * Tile-widget for AdminLTE-Facade.
  * 
  * @author SFL
  *
  */
-class lteTile extends lteButton
+class LteTile extends lteButton
 {
     private $cssColorClass = null;
     

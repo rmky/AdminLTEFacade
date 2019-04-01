@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDataConfiguratorTrait;
 use exface\Core\Widgets\DataConfigurator;
@@ -11,7 +11,7 @@ use exface\Core\Widgets\DataConfigurator;
  * @author Andrej Kabachnik
  *
  */
-class lteDataConfigurator extends lteTabs
+class LteDataConfigurator extends lteTabs
 {
     use JqueryDataConfiguratorTrait;
 
@@ -28,7 +28,7 @@ class lteDataConfigurator extends lteTabs
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteTabs::inheritsNumberOfColumns()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteTabs::inheritsNumberOfColumns()
      */
     public function inheritsNumberOfColumns() : bool
     {
@@ -38,7 +38,7 @@ class lteDataConfigurator extends lteTabs
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteTabs::buildHtmlTabHeaders()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteTabs::buildHtmlTabHeaders()
      */
     protected function buildHtmlTabHeaders()
     {
@@ -61,7 +61,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteTabs::buildHtmlTabBodies()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteTabs::buildHtmlTabBodies()
      */
     protected function buildHtmlTabBodies()
     {

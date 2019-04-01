@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteBasicElement extends lteAbstractElement
+class LteBasicElement extends lteAbstractElement
 {
 
     function buildHtml()

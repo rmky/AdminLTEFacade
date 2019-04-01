@@ -1,9 +1,9 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryFilterTrait;
 
-class lteFilter extends lteAbstractElement
+class LteFilter extends lteAbstractElement
 {
     use JqueryFilterTrait;
     

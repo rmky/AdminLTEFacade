@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Interfaces\Actions\ActionInterface;
 
@@ -8,7 +8,7 @@ use exface\Core\Interfaces\Actions\ActionInterface;
  * @author PATRIOT
  *        
  */
-class lteDataList extends lteDataTable
+class LteDataList extends lteDataTable
 {
 
     function init()

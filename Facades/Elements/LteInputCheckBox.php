@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteInputCheckBox extends lteValue
+class LteInputCheckBox extends lteValue
 {
 
     public function buildHtml()

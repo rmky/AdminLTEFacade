@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Menu;
 
@@ -10,7 +10,7 @@ use exface\Core\Widgets\Menu;
  * @author Andrej Kabachnik
  *
  */
-class lteMenu extends lteAbstractElement 
+class LteMenu extends lteAbstractElement 
 {
     /**
      * 

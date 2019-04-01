@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Tiles;
 
@@ -9,12 +9,12 @@ use exface\Core\Widgets\Tiles;
  * @author Andrej Kabachnik
  *
  */
-class lteTiles extends lteWidgetGrid
+class LteTiles extends lteWidgetGrid
 {
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteWidgetGrid::getNumberOfColumnsByDefault()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteWidgetGrid::getNumberOfColumnsByDefault()
      */
     public function getNumberOfColumnsByDefault() : int
     {
@@ -35,7 +35,7 @@ class lteTiles extends lteWidgetGrid
      * Tiles do not actually need a masonry grid as they are all of equal height!
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteWidgetGrid::buildHtmlChildrenWrapperGrid()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteWidgetGrid::buildHtmlChildrenWrapperGrid()
      */
     protected function buildHtmlChildrenWrapperGrid($contents_html)
     {
@@ -58,7 +58,7 @@ class lteTiles extends lteWidgetGrid
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteAbstractElement::buildJsBusyIconShow()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteAbstractElement::buildJsBusyIconShow()
      */
     public function buildJsBusyIconShow()
     {
@@ -68,7 +68,7 @@ class lteTiles extends lteWidgetGrid
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteAbstractElement::buildJsBusyIconHide()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteAbstractElement::buildJsBusyIconHide()
      */
     public function buildJsBusyIconHide()
     {

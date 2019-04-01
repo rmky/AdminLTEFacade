@@ -1,9 +1,9 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryHtmlTrait;
 
-class lteHtml extends lteText
+class LteHtml extends lteText
 {
     use JqueryHtmlTrait;
 

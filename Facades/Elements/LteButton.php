@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\DialogButton;
 use exface\Core\Interfaces\Actions\ActionInterface;
@@ -14,7 +14,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDisableConditionTrait;
  * @author Andrej Kabachnik
  *        
  */
-class lteButton extends lteAbstractElement
+class LteButton extends lteAbstractElement
 {
     use JqueryButtonTrait;
     use JqueryDisableConditionTrait;

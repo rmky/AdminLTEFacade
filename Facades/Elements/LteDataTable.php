@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Tab;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDataTablesTrait;
@@ -20,7 +20,7 @@ use exface\Core\DataTypes\JsonDataType;
  * @author Andrej Kabachnik
  *        
  */
-class lteDataTable extends lteAbstractElement
+class LteDataTable extends lteAbstractElement
 {
     
     use JqueryDataTableTrait;
@@ -189,15 +189,15 @@ JS;
             $includes[] = '<script type="text/javascript" src="' . $facade->buildUrlToSource('LIBS.DATATABLES.RESPONSIVE.JS_THEME') . '"></script>';
         }
         
-        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteFacade/Facades/js/DataTables.exface.helpers.js"></script>';
+        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLTEFacade/Facades/js/DataTables.exface.helpers.js"></script>';
         
         // Sortable plugin for column sorting in the table configuration popup
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jquery-sortable/source/js/jquery-sortable-min.js"></script>';
         
         // Right-click menu with context.js
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteFacade/Facades/js/context.js/context.bootstrap.css">';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteFacade/Facades/js/context.js/context.js"></script>';
-        // $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLteFacade/Facades/js/jquery.contextmenu.js"></script>';
+        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLTEFacade/Facades/js/context.js/context.bootstrap.css">';
+        $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLTEFacade/Facades/js/context.js/context.js"></script>';
+        // $includes[] = '<script type="text/javascript" src="exface/vendor/exface/AdminLTEFacade/Facades/js/jquery.contextmenu.js"></script>';
         
         // Resize-Sensor
         $includes[] = '<script src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
@@ -396,7 +396,7 @@ JS;
     {
         $menu_item = '';
         
-        /* @var $btn_element \exface\AdminLteFacade\Facades\Elements\lteButton */
+        /* @var $btn_element \exface\AdminLTEFacade\Facades\Elements\LteButton */
         $btn_element = $this->getFacade()->getElement($button);
         
         $icon = '<i class=\'' . $btn_element->buildCssIconClass($button->getIcon()) . '\'></i> ';

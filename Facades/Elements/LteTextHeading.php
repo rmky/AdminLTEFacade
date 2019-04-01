@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteTextHeading extends lteText
+class LteTextHeading extends lteText
 {
 
     function buildHtml()

@@ -1,9 +1,9 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarsTrait;
 
-class lteForm extends ltePanel
+class LteForm extends ltePanel
 {
     use JqueryToolbarsTrait;
 

@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Interfaces\JsValueDecoratingInterface;
 use exface\Core\Widgets\Display;
@@ -13,14 +13,14 @@ use exface\Core\Facades\AbstractAjaxFacade\Formatters\JsBooleanFormatter;
  * @author Andrej Kabachnik
  *        
  */
-class lteDisplay extends lteValue implements JsValueDecoratingInterface
+class LteDisplay extends lteValue implements JsValueDecoratingInterface
 {
     use JqueryDisplayTrait;
 
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteValue::buildHtml()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteValue::buildHtml()
      */
     public function buildHtml()
     {

@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryInputDateTrait;
 
@@ -17,7 +17,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryInputDateTrait;
 // festgelegt. Dabei ist darauf zu achten, dass es kompatibel zum Parser ist, das
 // amerikanische Format MM/dd/yyyy ist deshalb nicht moeglich, da es vom Parser als
 // dd/MM/yyyy interpretiert wird.
-class lteInputDate extends lteInput
+class LteInputDate extends lteInput
 {
     use JqueryInputDateTrait;
 
@@ -172,7 +172,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsRequired()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteInput::buildJsRequired()
      */
     function buildJsRequired()
     {
@@ -207,7 +207,7 @@ JS;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteInput::buildJsValidator()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteInput::buildJsValidator()
      */
     function buildJsValidator()
     {

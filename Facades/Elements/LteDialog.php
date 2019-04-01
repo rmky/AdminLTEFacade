@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Dialog;
 use exface\Core\Interfaces\Widgets\iLayoutWidgets;
@@ -13,7 +13,7 @@ use exface\Core\Interfaces\Widgets\iContainOtherWidgets;
  * @author aka
  *        
  */
-class lteDialog extends lteForm
+class LteDialog extends lteForm
 {
 
     /**
@@ -100,7 +100,7 @@ HTML;
     /**
      * 
      * {@inheritDoc}
-     * @see \exface\AdminLteFacade\Facades\Elements\lteWidgetGrid::buildJsLayouterFunction()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteWidgetGrid::buildJsLayouterFunction()
      */
     protected function buildJsLayouterFunction() : string
     {
@@ -155,7 +155,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\ltePanel::getNumberOfColumnsByDefault()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LtePanel::getNumberOfColumnsByDefault()
      */
     public function getNumberOfColumnsByDefault() : int
     {
@@ -166,7 +166,7 @@ JS;
      *
      * {@inheritdoc}
      *
-     * @see \exface\AdminLteFacade\Facades\Elements\ltePanel::inheritsNumberOfColumns()
+     * @see \exface\AdminLTEFacade\Facades\Elements\LtePanel::inheritsNumberOfColumns()
      */
     public function inheritsNumberOfColumns() : bool
     {

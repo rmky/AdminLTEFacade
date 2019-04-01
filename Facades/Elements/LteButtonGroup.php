@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryButtonGroupTrait;
 
@@ -10,7 +10,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryButtonGroupTrait;
  *        
  * @method Toolbar getWidget()
  */
-class lteButtonGroup extends lteAbstractElement
+class LteButtonGroup extends lteAbstractElement
 {
     use JqueryButtonGroupTrait;
     

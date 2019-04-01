@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarTrait;
 
@@ -10,7 +10,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryToolbarTrait;
  *        
  * @method Toolbar getWidget()
  */
-class lteToolbar extends lteAbstractElement
+class LteToolbar extends lteAbstractElement
 {
     use JqueryToolbarTrait;
     

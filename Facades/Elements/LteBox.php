@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteBox extends lteForm
+class LteBox extends lteForm
 {
 
     public function buildHtml()

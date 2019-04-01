@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteWidgetGroup extends ltePanel
+class LteWidgetGroup extends ltePanel
 {
     protected function buildHtmlCaption()
     {

@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Tab;
 
@@ -9,7 +9,7 @@ use exface\Core\Widgets\Tab;
  * @author Andrej Kabachnik
  *
  */
-class lteTab extends ltePanel
+class LteTab extends ltePanel
 {
 
     function buildHtml()

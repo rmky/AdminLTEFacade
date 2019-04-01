@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Image;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\HtmlImageTrait;
@@ -11,7 +11,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\HtmlImageTrait;
  * @author Andrej Kabachnik
  *        
  */
-class lteImage extends lteDisplay
+class LteImage extends lteDisplay
 {
     use HtmlImageTrait;
     

@@ -1,9 +1,9 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryContainerTrait;
 
-class lteContainer extends lteAbstractElement
+class LteContainer extends lteAbstractElement
 {
     use JqueryContainerTrait;
     

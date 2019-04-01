@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class ltePanel extends lteWidgetGrid
+class LtePanel extends lteWidgetGrid
 {
     /**
      * The HTML for a Panel is either a div or a box depending on where the panel is located.

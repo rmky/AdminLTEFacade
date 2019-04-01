@@ -1,12 +1,12 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 /**
  *
  * @author SFL
  *        
  */
-class lteStateMenuButton extends lteMenuButton
+class LteStateMenuButton extends lteMenuButton
 {
 
     /**

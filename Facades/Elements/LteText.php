@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\Text;
 
@@ -10,7 +10,7 @@ use exface\Core\Widgets\Text;
  * @author Andrej Kabachnik
  *        
  */
-class lteText extends lteDisplay
+class LteText extends lteDisplay
 {
 
     function buildHtml()

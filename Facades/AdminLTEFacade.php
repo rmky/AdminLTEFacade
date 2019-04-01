@@ -1,12 +1,12 @@
 <?php
-namespace exface\AdminLteFacade\Facades;
+namespace exface\AdminLTEFacade\Facades;
 
 use exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade;
 use exface\Core\Facades\AbstractAjaxFacade\Middleware\JqueryDataTablesUrlParamsReader;
 use exface\Core\Interfaces\DataSheets\DataSheetInterface;
 use exface\Core\Interfaces\WidgetInterface;
 
-class AdminLteFacade extends AbstractAjaxFacade
+class AdminLTEFacade extends AbstractAjaxFacade
 {
     /**
      * 

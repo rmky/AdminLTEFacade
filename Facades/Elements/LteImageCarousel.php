@@ -1,5 +1,5 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Widgets\DataCarousel;
 
@@ -10,7 +10,7 @@ use exface\Core\Widgets\DataCarousel;
  * @method DataCarousel getWidget()
  *        
  */
-class lteImageCarousel extends lteSplitVertical
+class LteImageCarousel extends lteSplitVertical
 {
 
     function buildHtml()
@@ -192,7 +192,7 @@ JS;
     public function buildHtmlHeadTags()
     {
         $includes = parent::buildHtmlHeadTags();
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLteFacade/Facades/js/jssor/skin.css">';
+        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLTEFacade/Facades/js/jssor/skin.css">';
         $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
         $includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
         return $includes;

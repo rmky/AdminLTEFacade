@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteInputHidden extends lteInput
+class LteInputHidden extends lteInput
 {
 
     function buildHtml()

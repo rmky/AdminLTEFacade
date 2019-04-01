@@ -1,7 +1,7 @@
 <?php
-namespace exface\AdminLteFacade\Facades\Elements;
+namespace exface\AdminLTEFacade\Facades\Elements;
 
-class lteInputDateTime extends lteInputDate
+class LteInputDateTime extends lteInputDate
 {
     // Vorsicht wenn neben dem Datum auch die Zeit uebergeben werden soll. In welcher
     // Zeitzone befindet sich der Client und der Server. In welcher Zeitzone erwartet der
