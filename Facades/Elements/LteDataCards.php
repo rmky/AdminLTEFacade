@@ -153,7 +153,6 @@ HTML;
         /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
         $filters_js = '';
-        $filters_ajax = "data.q = $('#" . $this->getId() . "_quickSearch').val();\n";
         $default_sorters = '';
         
         // sorters
@@ -239,7 +238,7 @@ function {$this->buildJsFunctionPrefix()}load(keep_page_pos, replace_data){
 	data.resource = "{$widget->getPage()->getAliasWithNamespace()}";
 	data.element = "{$widget->getId()}";
 	data.object = "{$this->getWidget()->getMetaObject()->getId()}";
-    data.q = $('#{$this->getId()}_quickSearch').val();			
+    data.q = $('#{$this->getFacade()->getElement($widget->getQuickSearchWidget())->getId()}').val();			
 	data.data = {$this->getFacade()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter()}
 	if ({$this->getId()}_pages.length) {
 		data.start = {$this->getId()}_pages.page * {$this->getId()}_pages.length;

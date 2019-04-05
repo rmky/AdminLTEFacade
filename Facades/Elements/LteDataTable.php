@@ -244,7 +244,7 @@ HTML;
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default btn-advanced-filtering" data-toggle="modal"{$filter_button_disabled} data-target="#{$this->getId()}_popup_config"><i class="fa fa-filter"></i></button>
                     </span>
-                    <input id="{$this->getId()}_quickSearch" type="text" class="form-control" placeholder="{$widget->getQuickSearchPlaceholder()}" />
+                    <input id="{$this->getFacade()->getElement($widget->getQuickSearchWidget())->getId()}" type="text" class="form-control" placeholder="{$widget->getQuickSearchPlaceholder()}" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" onclick="{$this->buildJsRefresh(false)} return false;"><i class="fa fa-search"></i></button>
                     </span>
