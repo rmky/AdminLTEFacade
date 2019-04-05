@@ -20,6 +20,7 @@ ul.datalist li {padding: 4px 0;}
 
 /* Tabs */
 .nav-tabs a[data-toggle=tab].disabled {color: #999}
+.modal-body-content-wrapper > .nav-tabs-custom {margin-bottom: 0;}
 
 /* AdminLTE customization */
 .user-menu .user-image i {font-size: 25px;}

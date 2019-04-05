@@ -5,6 +5,8 @@ use exface\Core\Widgets\Dialog;
 use exface\Core\Interfaces\Widgets\iLayoutWidgets;
 use exface\Core\Widgets\AbstractWidget;
 use exface\Core\Interfaces\Widgets\iContainOtherWidgets;
+use exface\Core\Interfaces\WidgetInterface;
+use exface\Core\Interfaces\Widgets\iFillEntireContainer;
 
 /**
  *
@@ -49,24 +51,32 @@ JS;
     public function buildHtml()
     {
         $output = '';
-        $style = '';
+        $dialogStyle = '';
+        $bodyStyle = '';
         $widget = $this->getWidget();
         
         if ($widget->getWidth()->isRelative() || $widget->getWidth()->isPercentual()){
-            $style .= 'width: ' . $widget->getValue() . ';';
+            $dialogStyle .= 'width: ' . $widget->getValue() . ';';
+        }
+        
+        if ($widget->countWidgetsVisible() === 1) {
+            $firstWidget = $widget->getWidgetFirst(function($w){return $w->isHidden() === false;});
+            if ($firstWidget instanceof iFillEntireContainer) {
+                $bodyStyle .= 'padding-top: 0; padding-bottom: 0;';
+            }
         }
         
         if (! $this->isLazyLoading()) {
             $output = <<<HTML
 
 <div class="modal" id="{$this->getId()}">
-    <div class="modal-dialog {$this->getWidthClasses()}" style="{$style}">
+    <div class="modal-dialog {$this->getWidthClasses()}" style="{$dialogStyle}">
         <div class="modal-content box">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">{$this->getWidget()->getCaption()}</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="{$bodyStyle}">
                 <div class="modal-body-content-wrapper row">
                     {$this->buildHtmlForWidgets()}
                 </div>
