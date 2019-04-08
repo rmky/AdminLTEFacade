@@ -28,7 +28,7 @@ abstract class LteAbstractElement extends AbstractJqueryElement
 
     public function buildJsBusyIconShow()
     {
-        return '$("#' . $this->getId() . '").parents(".box").append($(\'<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>\'));';
+        return '$("#' . $this->getId() . '").parents(".box").first().append($(\'<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>\'));';
     }
 
     public function buildJsBusyIconHide()
