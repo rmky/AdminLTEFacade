@@ -9,7 +9,6 @@ ul.datalist li {padding: 4px 0;}
 .datalist {z-index: 2000}
 .dropdown {display: inline-block}
 
-
 /* Dialogs */
 .modal-body > .col-xs-12 > .nav-tabs-custom, .modal-body > .nav-tabs-custom {margin: -15px 0 0 0; box-shadow: none;}
 .modal-body > .col-xs-12 {float: none; padding: 0;}
@@ -17,6 +16,13 @@ ul.datalist li {padding: 4px 0;}
 .modal-footer {text-align: left}
 .modal-footer > .exf-toolbar {padding-bottom: 0;}
 .modal-footer .dropdown+.btn, .modal-footer .btn+.dropdown {margin-left: 3px;}
+
+.exf-dialogheader {font-size: 80%;}
+.exf-dialogheader label + div {display: inline-block;}
+.exf-dialogheader h3 {font-size: 14px !important; margin: 0 !important}
+
+/* WidgetGroup */
+.exf-widgetgroup h3 {font-size: 18px;}
 
 /* Tabs */
 .nav-tabs a[data-toggle=tab].disabled {color: #999}

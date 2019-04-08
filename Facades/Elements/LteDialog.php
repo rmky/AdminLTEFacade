@@ -66,6 +66,28 @@ JS;
             }
         }
         
+        if ($widget->hasHeader() === true) {
+            $dialogHeader = $widget->getHeader();
+            foreach ($dialogHeader->getWidgets() as $dhw) {
+                $dialogHeaderContent .= $this->getFacade()->getElement($dhw)->buildHtml();
+            }
+            $headerHtml = <<<HTML
+            
+                <div class="exf-dialogheader">
+                    <div class="">
+                      <h5 class="box-title"><a href="javascript:;" data-toggle="collapse" data-target="#{$this->getId()}_header"><i class="fa fa-chevron-down"></i> {$dialogHeader->getCaption()}</a></h3>
+                      <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div id="{$this->getId()}_header" class="collapse">
+                      {$dialogHeaderContent}
+                    </div>
+                    <!-- /.box-body -->
+                  </div>
+
+HTML;
+        }
+        
         if (! $this->isLazyLoading()) {
             $output = <<<HTML
 
@@ -75,6 +97,7 @@ JS;
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">{$this->getWidget()->getCaption()}</h4>
+                {$headerHtml}
             </div>
             <div class="modal-body" style="{$bodyStyle}">
                 <div class="modal-body-content-wrapper row">

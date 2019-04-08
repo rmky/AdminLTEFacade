@@ -48,7 +48,7 @@ HTML;
     {
         return <<<HTML
         
-                   <div class="box">
+                   <div class="box {$this->buildCssElementClass()}">
                         {$this->buildHtmlCaption()}
                         <div class="box-body grid" id="{$this->getId()}_masonry_grid" style="width:100%;height:100%;">
                             {$contents_html}
