@@ -57,6 +57,8 @@
 	
 	"LIBS.QRCODE.JS": "bower-asset/jquery-qrcode/jquery.qrcode.min.js",
 	
+	"LIBS.ECHARTS.ECHARTS_JS": "npm-asset/echarts/dist/echarts-en.common.min.js",
+	
 	"WIDGET.ALL.DEFAULT_ALIGNMENT": "left",
 	
 	"WIDGET.CHART.PAGE_SIZE": 20,
