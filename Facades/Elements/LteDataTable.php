@@ -141,9 +141,9 @@ function {$this->buildJsFunctionPrefix()}Init(){
     });
     
     // Starten des Layouters wenn der Konfigurator angezeigt wird.
-    {$this->buildJsTableCustomizerOnShownFunction()}
+    {$this->buildJsCustomizerOnShownFunction()}
     $("#{$this->getId()}_popup_config").on("shown.bs.modal", function() {
-        {$this->buildJsFunctionPrefix()}tableCustomizerOnShown();
+        {$this->buildJsCustomizerOnShown()};
     });
 }
 
@@ -346,19 +346,22 @@ JS;
 
 HTML;
     }
-
-    protected function buildJsTableCustomizerOnShownFunction()
+    
+    protected function buildJsCustomizerOnShownFunction()
     {
         // Der 1. Tab ist der aktive wenn der Konfigurator angezeigt wird. Von diesem wird
         // beim Anzeigen des Dialogs der Layouter gestartet.
-        $output = <<<JS
-
-    function {$this->buildJsFunctionPrefix()}tableCustomizerOnShown() {
+        return <<<JS
+        
+    function {$this->buildJsCustomizerOnShown()} {
         {$this->getFacade()->getElement($this->getWidget()->getConfiguratorWidget()->getTab(0))->buildJsLayouter()}
     }
 JS;
-        
-        return $output;
+    }
+    
+    public function buildJsCustomizerOnShown()
+    {
+        return "{$this->buildJsFunctionPrefix()}CustomizerOnShown()";
     }
 
     protected function buildJsContextMenu()
