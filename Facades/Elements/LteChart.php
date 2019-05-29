@@ -61,7 +61,7 @@ class LteChart extends lteDataTable
         <div class="box-header">
             {$header}
         </div><!-- /.box-header -->
-        <div class="box-body">
+        <div id="{$this->getId()}_box" class="box-body">
             {$this->buildHtmlChart($style)}
         </div>
     </div>
@@ -87,11 +87,17 @@ HTML;
         // Starten des Layouters wenn der Konfigurator angezeigt wird.
         $output .= <<<JS
 
-    {$this->buildJsTableCustomizerOnShownFunction()}
+    {$this->buildJsCustomizerOnShownFunction()}
     $("#{$this->getId()}_popup_config").on("shown.bs.modal", function() {
-        {$this->buildJsFunctionPrefix()}tableCustomizerOnShown();
+        {$this->buildJsCustomizerOnShown()};
     });
+
+    new ResizeSensor(document.getElementById("{$this->getId()}_box"), function() {
+        echarts.getInstanceByDom(document.getElementById('{$this->getId()}')).resize();
+    });
+
 JS;
+   
         
         $output .= $this->buildJsEChartsInit('light');
         $output .= $this->buildJsFunctions();
@@ -202,20 +208,6 @@ JS;
 </div><!-- /.modal -->
 
 HTML;
-        return $output;
-    }
-
-    protected function buildJsTableCustomizerOnShownFunction()
-    {
-        // Der 1. Tab ist der aktive wenn der Konfigurator angezeigt wird. Von diesem wird
-        // beim Anzeigen des Dialogs der Layouter gestartet.
-        $output = <<<JS
-
-    function {$this->buildJsFunctionPrefix()}chartCustomizerOnShown() {
-        {$this->getFacade()->getElement($this->getWidget()->getConfiguratorWidget()->getTab(0))->buildJsLayouter()}
-    }
-JS;
-        
         return $output;
     }
 
