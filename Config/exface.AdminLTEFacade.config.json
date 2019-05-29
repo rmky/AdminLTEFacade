@@ -50,10 +50,6 @@
     "LIBS.DATATABLES.RESPONSIVE.JS": "npm-asset/datatables.net-responsive/js/dataTables.responsive.min.js",
     "LIBS.DATATABLES.RESPONSIVE.JS_THEME": "npm-asset/datatables.net-responsive-bs/js/responsive.bootstrap.min.js",
     "LIBS.DATATABLES.RESPONSIVE.CSS": "npm-asset/datatables.net-responsive-bs/css/responsive.bootstrap.min.css",
-    
-    "LIBS.FLOT.CORE_FOLDER": "npm-asset/flot-charts/",
-	"LIBS.FLOT.PLUGINS.ORDERBARS": "exface/AdminLTEFacade/Facades/js/flot/plugins/jquery.flot.orderBars.js",
-	"LIBS.FLOT.PLUGINS.AXISLABELS": "exface/AdminLTEFacade/Facades/js/flot/plugins/jquery.flot.orderBars.js",
 	
 	"LIBS.QRCODE.JS": "bower-asset/jquery-qrcode/jquery.qrcode.min.js",
 	
