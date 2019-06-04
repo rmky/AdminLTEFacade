@@ -101,7 +101,7 @@ JS;
         
         $output .= $this->buildJsEChartsInit('light');
         $output .= $this->buildJsFunctions();
-        $output .= $this->buildJsOnClickHandlers();
+        $output .= $this->buildJsEventHandlers();
         $output .= $this->buildJsRefresh();
         
         return $output;
