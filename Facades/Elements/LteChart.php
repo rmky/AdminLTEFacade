@@ -33,7 +33,7 @@ class LteChart extends lteDataTable
     public function buildHtml()
     {
         $output = '';
-        $widget = $this->getWidget();
+        $widget = $this->getWidget();        
         
         // Create the toolbar if the chart has it's own controls and is not bound to another data widget
         if ($this->hasBoxTitle()) {
@@ -101,6 +101,7 @@ JS;
         
         $output .= $this->buildJsEChartsInit('light');
         $output .= $this->buildJsFunctions();
+        $output .= $this->buildJsEventHandlers();
         $output .= $this->buildJsRefresh();
         
         return $output;
@@ -301,6 +302,25 @@ HTML;
     protected function hasBoxTitle() : bool
     {
         return $this->getWidget()->getDataWidgetLink() === null;
+    }
+    
+    /**
+     *
+     * {@inheritDoc}
+     * @see exface\AdminLTEFacade\Facades\Elements\LteAbstractElement::buildJsBusyIconShow()
+     */
+    public function buildJsBusyIconShow() : string
+    {
+        return $this->buildJsEChartsShowLoading();
+    }
+    /**
+     *
+     * {@inheritDoc}
+     * @see exface\AdminLTEFacade\Facades\Elements\LteAbstractElement::buildJsBusyIconShow()
+     */
+    public function buildJsBusyIconHide() : string
+    {
+        return $this->buildJsEChartsHideLoading();
     }
 }
 ?>
