@@ -33,7 +33,7 @@ class LteChart extends lteDataTable
     public function buildHtml()
     {
         $output = '';
-        $widget = $this->getWidget();
+        $widget = $this->getWidget();        
         
         // Create the toolbar if the chart has it's own controls and is not bound to another data widget
         if ($this->hasBoxTitle()) {
@@ -93,7 +93,7 @@ HTML;
     });
 
     new ResizeSensor(document.getElementById("{$this->getId()}_box"), function() {
-        echarts.getInstanceByDom(document.getElementById('{$this->buildJsEChartsDivVar()}')).resize();
+        echarts.getInstanceByDom(document.getElementById('{$this->getId()}')).resize();
     });
 
 JS;
