@@ -93,7 +93,7 @@ HTML;
     });
 
     new ResizeSensor(document.getElementById("{$this->getId()}_box"), function() {
-        echarts.getInstanceByDom(document.getElementById('{$this->getId()}')).resize();
+        echarts.getInstanceByDom(document.getElementById('{$this->buildJsEChartsDivVar()}')).resize();
     });
 
 JS;
@@ -302,6 +302,25 @@ HTML;
     protected function hasBoxTitle() : bool
     {
         return $this->getWidget()->getDataWidgetLink() === null;
+    }
+    
+    /**
+     *
+     * {@inheritDoc}
+     * @see exface\AdminLTEFacade\Facades\Elements\LteAbstractElement::buildJsBusyIconShow()
+     */
+    public function buildJsBusyIconShow() : string
+    {
+        return $this->buildJsEChartsShowLoading();
+    }
+    /**
+     *
+     * {@inheritDoc}
+     * @see exface\AdminLTEFacade\Facades\Elements\LteAbstractElement::buildJsBusyIconShow()
+     */
+    public function buildJsBusyIconHide() : string
+    {
+        return $this->buildJsEChartsHideLoading();
     }
 }
 ?>
