@@ -4,12 +4,15 @@ namespace exface\AdminLTEFacade\Facades\Elements;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryLiveReferenceTrait;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDisableConditionTrait;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryInputValidationTrait;
 
 class LteInput extends lteValue
 {
-    
     use JqueryLiveReferenceTrait;
     use JqueryDisableConditionTrait;
+    use JqueryInputValidationTrait {
+        buildJsValidator as buildJsValidatorViaTrait;
+    }
 
     protected function init()
     {
@@ -153,18 +156,11 @@ JS;
      */
     function buildJsValidator()
     {
-        $widget = $this->getWidget();
-        
-        $must_be_validated = $widget->isRequired() && ! ($widget->isHidden() || $widget->isReadonly() || $widget->isDisabled() || $widget->isDisplayOnly());
-        if ($must_be_validated) {
-            $output = 'Boolean($("#' . $this->getId() . '").val())';
-        } elseif ($widget->isRequired()) {
-            $output = '(' . $this->buildJsValueGetter() . ' === "" ? false : true)';
-        } else {
-            $output = 'true';
+        if ($this->isValidationRequired() === true) {
+            return 'Boolean($("#' . $this->getId() . '").val())';
         }
         
-        return $output;
+        return $this->buildJsValidatorViaTrait();
     }
 }
 ?>

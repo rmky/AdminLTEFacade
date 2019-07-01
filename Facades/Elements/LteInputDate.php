@@ -211,10 +211,7 @@ JS;
      */
     function buildJsValidator()
     {
-        $widget = $this->getWidget();
-        
-        $must_be_validated = $widget->isRequired() && ! ($widget->isHidden() || $widget->isReadonly() || $widget->isDisabled() || $widget->isDisplayOnly());
-        if ($must_be_validated) {
+        if ($this->isValidationRequired() === true) {
             $output = '$("#' . $this->getId() . '").data("_isValid")';
         } else {
             $output = 'true';
