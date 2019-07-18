@@ -29,5 +29,14 @@ HTML;
     {
         return $this->getWidget()->isInTable() ? '' : parent::getCaption();
     }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsValidator()
+     */
+    public function buildJsValidator()
+    {
+        return 'true';
+    }
 }
-?>

@@ -211,7 +211,7 @@ JS;
      */
     function buildJsValidator()
     {
-        if ($this->isValidationRequired() === true) {
+        if ($this->isValidationRequired() === true && $this->getWidget()->isRequired()) {
             $output = '$("#' . $this->getId() . '").data("_isValid")';
         } else {
             $output = 'true';
