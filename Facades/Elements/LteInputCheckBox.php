@@ -1,12 +1,14 @@
 <?php
 namespace exface\AdminLTEFacade\Facades\Elements;
 
+use exface\Core\DataTypes\BooleanDataType;
+
 class LteInputCheckBox extends lteValue
 {
 
     public function buildHtml()
     {
-        $checkedScript = $this->getWidget()->getValue() ? 'checked="checked"' : '';
+        $checkedScript = BooleanDataType::cast($this->getWidget()->getValueWithDefaults()) ? 'checked="checked"' : '';
         $disabledScript = $this->getWidget()->isDisabled() ? 'disabled="disabled"' : '';
         $output = <<<HTML
 
