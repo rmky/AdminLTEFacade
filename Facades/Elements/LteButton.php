@@ -7,6 +7,7 @@ use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryButtonTrait;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement;
 use exface\Core\Widgets\Button;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDisableConditionTrait;
+use exface\Core\Interfaces\Actions\iRunFacadeScript;
 
 /**
  * Generates jQuery Mobile buttons for ExFace
@@ -80,6 +81,18 @@ class LteButton extends lteAbstractElement
 						<i class="' . $icon_class . '"></i> ' . ($widget->getCaption() && ! $widget->getHideCaption() ? $widget->getCaption() : '') . '
 				</button>';
         return $output;
+    }
+    
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtmlHeadTags()
+     */
+    public function buildHtmlHeadTags()
+    {
+        $tags = parent::buildHtmlHeadTags();
+        return array_merge($tags, $this->buildHtmlHeadTagsForCustomScriptIncludes());
     }
 
     protected function buildJsClickShowDialog(ActionInterface $action, AbstractJqueryElement $input_element)
@@ -165,19 +178,6 @@ JS;
             $align_class = '';
         }
         return $align_class;
-    }
-
-    /**
-     * In AdminLTE the button does not need any extra headers, as all headers needed for whatever the button loads will
-     * come with the AJAX-request.
-     *
-     * {@inheritdoc}
-     *
-     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtmlHeadTags()
-     */
-    public function buildHtmlHeadTags()
-    {
-        return array();
     }
 }
 ?>
