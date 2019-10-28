@@ -203,9 +203,11 @@ JS;
     public function buildHtmlHeadTags()
     {
         $includes = $this->buildHtmlHeadTagsForJExcel();
+        $includes[] = '<script type="text/javascript">' . $this->buildJsFixJqueryImportUseStrict() . '</script>';
+        
         // Resize-Sensor
-        $includes[] = '<script src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
-            return $includes;
+        $includes[] = '<script type="text/javascript" src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
+        return $includes;
     }
     
     public function buildCssElementClass()
