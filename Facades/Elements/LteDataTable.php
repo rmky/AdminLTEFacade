@@ -85,7 +85,7 @@ HTML;
         return $result;
     }
 
-    function buildJs()
+    public function buildJs()
     {
         /* @var $widget \exface\Core\Widgets\DataTable */
         $widget = $this->getWidget();
