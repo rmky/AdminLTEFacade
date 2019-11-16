@@ -15,7 +15,6 @@ use exface\Core\Widgets\MenuButton;
  */
 class LteMenuButton extends lteAbstractElement
 {
-    
     use JqueryButtonTrait;
 
     /**
@@ -43,6 +42,16 @@ class LteMenuButton extends lteAbstractElement
 HTML;
         
         return $output;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildHtmlHeadTags()
+     */
+    public function buildHtmlHeadTags()
+    {
+        return array_merge(parent::buildHtmlHeadTags(), $this->getFacade()->getElement($this->getWidget()->getMenu())->buildHtmlHeadTags());
     }
 
     /**
