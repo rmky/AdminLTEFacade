@@ -52,13 +52,21 @@ HTML;
         showMeridian: false
     });
 
+    //use own parser when 'tab' or 'enter' is pressed
     $("#{$this->getId()}").timepicker().on('keydown', function(e) {
         //key is 'tab' or 'enter'
         if (e.which === 9 || e.which === 13) {
-            input = $(this).val();
-            value = {$this->getDateFormatter()->buildJsFormatParser('input')};
+            var input = $(this).val();
+            var value = {$this->getDateFormatter()->buildJsFormatParser('input')};
             $("#{$this->getId()}").timepicker('setTime', value);
         }
+    });
+
+    //use own parser when timepicker gets hidden
+    $("#{$this->getId()}").timepicker().on('hide.timepicker', function(e) {        
+        var input = $(this).val();
+        var value = {$this->getDateFormatter()->buildJsFormatParser('input')};
+        $("#{$this->getId()}").timepicker('setTime', value);
     });
 JS;
     }
