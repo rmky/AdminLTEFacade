@@ -72,13 +72,13 @@ HTML;
         format: {
             toDisplay: function (date) {
                 // date ist ein date-Objekt und wird zu einem String geparst
-                return (date instanceof Date ? {$this->getDataTypeFormatter()->buildJsDateFormatter('date')} : '');
+                return (date instanceof Date ? {$this->getDateFormatter()->buildJsFormatDateObjectToString('date')} : '');
             },
-            toValue: function(date, format, language) {
-                var output = {$this->getDataTypeFormatter()->buildJsDateParserFunctionName()}(date);
-                if (output) {
+            toValue: function(string, format, language) {
+                var date = {$this->getDateFormatter()->buildJsFormatParserToJsDate('string')};
+                if (date) {
                     $('#{$this->getId()}')
-                        .data("_internalValue", {$this->getDataTypeFormatter()->buildJsDateStringifier('output')})
+                        .data("_internalValue", {$this->getDateFormatter()->buildJsFormatDateObjectToInternal('date')})
                         .data("_isValid", true);
                 } else {
                     $('#{$this->getId()}')
@@ -86,7 +86,7 @@ HTML;
                         .data("_isValid", false);
                 }
                 {$validateScript}
-                return output != null ? output.setTimezoneOffset(0) : output;
+                return date;
             }
         },
         {$languageScript}
@@ -121,7 +121,7 @@ JS;
         }
         $headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
         
-        $formatter = $this->getDataTypeFormatter();
+        $formatter = $this->getDateFormatter();
         $headers = array_merge($headers, $formatter->buildHtmlHeadIncludes(), $formatter->buildHtmlBodyIncludes());
         return $headers;
     }
