@@ -77,7 +77,7 @@ JS;
         $headers[] = '<script type="text/javascript" src="exface/vendor/almasaeed2010/adminlte/plugins/timepicker/bootstrap-timepicker.min.js"></script>';
         $headers[] = '<link rel="stylesheet" href="exface/vendor/almasaeed2010/adminlte/plugins/timepicker/bootstrap-timepicker.min.css">';
         $formatter = $this->getDateFormatter();
-        $headers = array_merge($headers, $formatter->buildHtmlHeadIncludes(), $formatter->buildHtmlBodyIncludes());
+        $headers = array_merge($headers, $formatter->buildHtmlHeadIncludes($this->getFacade()), $formatter->buildHtmlBodyIncludes($this->getFacade()));
         return $headers;
     }
 }
