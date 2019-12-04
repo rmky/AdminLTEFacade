@@ -75,18 +75,7 @@ HTML;
                 return (date instanceof Date ? {$this->getDateFormatter()->buildJsFormatDateObjectToString('date')} : '');
             },
             toValue: function(string, format, language) {
-                var date = {$this->getDateFormatter()->buildJsFormatParserToJsDate('string')};
-                if (date) {
-                    $('#{$this->getId()}')
-                        .data("_internalValue", {$this->getDateFormatter()->buildJsFormatDateObjectToInternal('date')})
-                        .data("_isValid", true);
-                } else {
-                    $('#{$this->getId()}')
-                        .data("_internalValue", "")
-                        .data("_isValid", false);
-                }
-                {$validateScript}
-                return date;
+                return {$this->getDateFormatter()->buildJsFormatParserToJsDate('string')};
             }
         },
         {$languageScript}
@@ -96,17 +85,33 @@ HTML;
     // Wird der uebergebene Wert per value="..." im HTML uebergeben, erscheint er
     // unformatiert (z.B. "-1d"). Wird der Wert hier gesetzt, wird er formatiert.
     $("#{$this->getId()}").{$this->getElementType()}("update", "{$this->escapeString($this->getValueWithDefaults())}");
-    
     // Bei leeren Werten, wird die toValue-Funktion nicht aufgerufen, und damit der
     // interne Wert fuer die Rueckgabe des value-Getters nicht entfernt. Dies geschieht
     // hier.
-    $("#{$this->getId()}").on("input change", function() {
-        if (!$("#{$this->getId()}").val()) {
-            $("#{$this->getId()}").data("_internalValue", "");
+    $("#{$this->getId()}").on("change", function() {
+        var val = $("#{$this->getId()}").val();
+        var input = $("#{$this->getId()}");
+        if (val === '' || val === undefined || val === null) {
+            input
+                .data("_internalValue", "")
+                .data("_isValid", false);
+        } else {
+            var date = {$this->getDateFormatter()->buildJsFormatParserToJsDate('val')};
+            if (date) {
+                input
+                    .data("_internalValue", {$this->getDateFormatter()->buildJsFormatDateObjectToInternal('date')})
+                    .data("_isValid", true);
+            } else {
+                input
+                    .data("_internalValue", "")
+                    .data("_isValid", false);
+            }
+            {$validateScript}
         }
     });
     
     {$requiredScript}
+
 JS;
         
         return $output;
@@ -166,7 +171,7 @@ JS;
 
     public function buildJsValueGetter()
     {
-        return '($("#' . $this->getId() . '").data("_internalValue") !== undefined ? $("#' . $this->getId() . '").data("_internalValue") : $("#' . $this->getId() . '").val())';
+        return "( $('#{$this->getId()}').data('_internalValue') !== undefined ? $('#{$this->getId()}').data('_internalValue') : {$this->getDateFormatter()->buildJsFormatParser("$('#{$this->getId()}').val()")} )";
     }
 
     /**
