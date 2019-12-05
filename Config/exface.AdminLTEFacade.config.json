@@ -51,7 +51,7 @@
     "LIBS.DATATABLES.RESPONSIVE.JS_THEME": "npm-asset/datatables.net-responsive-bs/js/responsive.bootstrap.min.js",
     "LIBS.DATATABLES.RESPONSIVE.CSS": "npm-asset/datatables.net-responsive-bs/css/responsive.bootstrap.min.css",
     
-	"LIBS.EXFTOOLS": "exface/Core/Facades/AbstractAjaxFacade/js/exfTools.js",
+	"LIBS.EXFTOOLS.JS": "exface/Core/Facades/AbstractAjaxFacade/js/exfTools.js",
    	
 	"LIBS.JEXCEL.JS": "npm-asset/jexcel/dist/jexcel.js",
    	"LIBS.JEXCEL.JS_JSUITES": "npm-asset/jsuites/dist/jsuites.js",
@@ -59,6 +59,7 @@
  	"LIBS.JEXCEL.CSS_JSUITES": "npm-asset/jsuites/dist/jsuites.css",
 	
 	"LIBS.MOMENT.JS": "npm-asset/moment/min/moment.min.js",
+	"LIBS.MOMENT.LOCALES": "npm-asset/moment/locale",
 	
 	"LIBS.QRCODE.JS": "bower-asset/jquery-qrcode/jquery.qrcode.min.js",
 	
