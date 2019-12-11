@@ -173,7 +173,7 @@ JS;
             if (! $widget->hasParent() || (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() == 1))) {
                 $output = '';
             }
-        } else {
+        } elseif ($widget->getWidth()->isUndefined() === true) {
             // Ein "kleines" Widget ohne angegebene Breite hat ist widthDefault Spalten breit.
             $widthClass = floor($this->getWidthDefault() / $columnNumber * 12);
             if ($widthClass < 1) {

@@ -38,7 +38,7 @@ class LteValue extends lteAbstractElement
     public function buildHtmlGridItemWrapper($inner_html)
     {
         if (! $this->isInTable()) {
-            $cssClasses = "exf-grid-item {$this->getMasonryItemClass()}  {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}";
+            $cssClasses = "exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssElementClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}";
         }
         
         $output = <<<HTML
@@ -68,7 +68,8 @@ HTML;
     
     protected function buildHtmlLabel()
     {
-        if (! empty($this->getCaption()) && ! $this->getWidget()->isInTable()) {
+        $widget = $this->getWidget();
+        if (! empty($this->getCaption()) && ! ($widget instanceof Value && $widget->isInTable())) {
             return '<label for="' . $this->getId() . '" class="exf-text-label">' . $this->getWidget()->getCaption() . '</label>';
         }
         return '';

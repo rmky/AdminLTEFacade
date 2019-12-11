@@ -24,6 +24,10 @@ ul.datalist li {padding: 4px 0;}
 /* WidgetGroup */
 .exf-widgetgroup h3 {font-size: 18px;}
 
+/* InlineGroup */
+.exf-inline-group label {display: block}
+.exf-inline-group .exf-input, .exf-inline-group .exf-display {display: inline-block}
+
 /* Tabs */
 .nav-tabs a[data-toggle=tab].disabled {color: #999}
 .modal-body-content-wrapper > .nav-tabs-custom {margin-bottom: 0;}
