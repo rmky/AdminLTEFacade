@@ -171,7 +171,7 @@ JS;
 
     public function buildJsValueGetter()
     {
-        return "( $('#{$this->getId()}').data('_internalValue') !== undefined ? $('#{$this->getId()}').data('_internalValue') : $('#{$this->getId()}').val() )";
+        return "( $('#{$this->getId()}').data('_internalValue') !== undefined ? $('#{$this->getId()}').data('_internalValue') : {$this->getDateFormatter()->buildJsFormatParser("$('#{$this->getId()}').val()")})";
     }
 
     /**
