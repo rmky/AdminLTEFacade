@@ -38,6 +38,7 @@ HTML;
                 {$header}
                 <form class="form" id="{$widget->getId()}">
                     {$children_html}
+                    {$this->buildHtmlToolbars()}
                 </form>
 HTML;
         

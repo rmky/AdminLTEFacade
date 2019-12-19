@@ -265,6 +265,10 @@ ol li.highlight i.icon-move {}
   width: 20px;
 }
 
+.navbar-nav > .context-menu.open .form {padding: 10px}
+.navbar-nav > .context-menu.open .exf-form-toolbar {background-color: #f9f9f9; margin: 20px -10px -10px -10px;}
+.navbar-nav > .context-menu.open .exf-toolbar .btn {margin: 5px 5px 0 5px}
+
 /* Symfony Debugger */
 .exception > .container {max-width: initial !important; width: auto !important; padding: 0 !important;} 
 .exception > .exception-summary {margin-bottom: 0 !important;} 
