@@ -29,6 +29,11 @@ class LteInlineGroup extends LteValue
         parent::init();
         $this->setElementType('div');
         $this->optimizeChildrenWidths();
+        // Make all direct children use CSS with instead of bootstrap gird classes,
+        // so that the width optimization works correctly
+        foreach ($this->getWidget()->getWidgets() as $subw) {
+            $this->getFacade()->getElement($subw)->setWidthUsesGridClasses(false);
+        }
         return;
     }
     
@@ -56,11 +61,9 @@ class LteInlineGroup extends LteValue
     public function buildHtml()
     {
         $output = <<<HTML
-        
+
                         {$this->buildHtmlLabel()}
-                        
-                        {$this->buildHtmlForWidgets()}
-                     
+                        {$this->buildHtmlForWidgets()}                     
                             
 HTML;
         return $this->buildHtmlGridItemWrapper($output);

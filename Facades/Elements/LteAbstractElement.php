@@ -15,6 +15,7 @@ use exface\Core\Interfaces\Widgets\iLayoutWidgets;
  */
 abstract class LteAbstractElement extends AbstractJqueryElement
 {
+    private $widthUsesGridClasses = null;
 
     public function buildJsInitOptions()
     {
@@ -131,6 +132,10 @@ JS;
      */
     public function getWidthClasses()
     {
+        if ($this->getWidthUsesGridClasses() === false) {
+            return '';
+        }
+        
         $widget = $this->getWidget();
         
         if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
@@ -240,5 +245,26 @@ JS;
     {
         return '';
     }
+    
+    /**
+     *
+     * @return bool
+     */
+    protected function getWidthUsesGridClasses() : bool
+    {
+        return $this->widthUsesGridClasses ?? true;
+    }
+    
+    /**
+     * Set to FALSE the render widget width with CSS instead of bootstrap grid classes (col-xs-6, etc.)
+     * @param bool $value
+     * @return LteAbstractElement
+     */
+    public function setWidthUsesGridClasses(bool $value) : LteAbstractElement
+    {
+        $this->widthUsesGridClasses = $value;
+        return $this;
+    }
+    
 }
 ?>

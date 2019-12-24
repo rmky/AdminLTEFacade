@@ -23,9 +23,12 @@ ul.datalist li {padding: 4px 0;}
 
 /* WidgetGroup */
 .exf-widgetgroup h3 {font-size: 18px;}
+.exf-widgetgroup > .box-body.grid {padding: 0;}
+.exf-widgetgroup > .grid > .exf-grid-item {padding: 0;}
 
 /* InlineGroup */
 .exf-inline-group label {display: block}
+.exf-inline-group > .exf-grid-item {vertical-align: bottom;}
 .exf-inline-group .exf-input, .exf-inline-group .exf-display {display: inline-block}
 
 /* Tabs */
@@ -114,7 +117,7 @@ td.nmpd-target{border: 1px solid #d2d6de !important;}
 .exf-datacards .box {margin-bottom: 20px;}
 
 /* Inputs */
-.exface_inputgroup {border-width: 1px 0 0 0; padding: 10px 0 20px 0;}
+.exf-input label {margin: 5px 0 2px 0 !important}
 .invalid .form-control {
 	border-color: #ffa8a8;
 	background-color: #fff3f3;

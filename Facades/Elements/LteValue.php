@@ -37,13 +37,19 @@ class LteValue extends lteAbstractElement
      */
     public function buildHtmlGridItemWrapper($inner_html)
     {
+        $style = '';
+        $cssClasses = '';
+        
         if (! $this->isInTable()) {
-            $cssClasses = "exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssElementClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}";
+            $cssClasses .= "exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssElementClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}";
+            if ($this->getWidthUsesGridClasses() === false && $this->getWidget()->getWidth()->isUndefined() === false) {
+                $style .= 'width: ' . $this->getWidth() . ';';
+            }
         }
         
         $output = <<<HTML
         
-                    <div class="exf-input {$cssClasses}" title="{$this->buildHintText()}">
+                    <div class="exf-input {$cssClasses}" title="{$this->buildHintText()}" style="$style">
                         {$inner_html}
                     </div>
 HTML;
