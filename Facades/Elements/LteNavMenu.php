@@ -29,8 +29,6 @@ class LteNavMenu extends LteAbstractElement
     
     protected function buildHtmlMenu(array $menu, int $level = 1) : string
     {
-        //TODO get the link prefix via a function, its hardcoded right now for testing
-        
         if ($level === 1) {
             $output = "<ul class='sidebar-menu'>";
             $output .= "<li class='header'>MAIN NAVIGATION</li>";
