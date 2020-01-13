@@ -18,7 +18,6 @@ use exface\Core\Interfaces\Actions\iRunFacadeScript;
 class LteButton extends lteAbstractElement
 {
     use JqueryButtonTrait;
-    use JqueryDisableConditionTrait;
 
     function buildJs()
     {
