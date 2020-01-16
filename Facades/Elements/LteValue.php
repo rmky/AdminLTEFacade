@@ -41,7 +41,7 @@ class LteValue extends lteAbstractElement
         $cssClasses = '';
         
         if (! $this->isInTable()) {
-            $cssClasses .= "exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssElementClass()} {$this->getWidthClasses()} {$this->buildCssVisibilityClass()}";
+            $cssClasses .= "exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssElementClass()} {$this->buildCssWidthClasses()} {$this->buildCssVisibilityClass()}";
             if ($this->getWidthUsesGridClasses() === false && $this->getWidget()->getWidth()->isUndefined() === false) {
                 $style .= 'width: ' . $this->getWidth() . ';';
             }

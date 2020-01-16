@@ -92,7 +92,7 @@ HTML;
             $output = <<<HTML
 
 <div class="modal" id="{$this->getId()}">
-    <div class="modal-dialog {$this->getWidthClasses()}" style="{$dialogStyle}">
+    <div class="modal-dialog {$this->buildCssWidthClasses()}" style="{$dialogStyle}">
         <div class="modal-content box">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -115,7 +115,7 @@ HTML;
         return $output;
     }
     
-    public function getWidthClasses()
+    public function buildCssWidthClasses()
     {
         $dim = $this->getWidget()->getWidth();   
         if ($dim->isUndefined() || $dim->isMax()) {

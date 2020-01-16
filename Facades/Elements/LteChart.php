@@ -49,14 +49,14 @@ class LteChart extends lteDataTable
             $style .= 'min-height: ' . $this->buildCssHeightDefaultValue() . ';';
         }
         
-        if (! $this->getWidthClasses()) {
+        if (! $this->buildCssWidthClasses()) {
             $wrapper_style .= 'width: 100%';
         }
         
         // Create the panel for the chart
         $output = <<<HTML
 
-<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}" style="{$wrapper_style}">
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssWidthClasses()}" style="{$wrapper_style}">
     <div class="box">
         <div class="box-header">
             {$header}

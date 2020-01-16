@@ -130,7 +130,7 @@ JS;
      *
      * @return string
      */
-    public function getWidthClasses()
+    public function buildCssWidthClasses()
     {
         if ($this->getWidthUsesGridClasses() === false) {
             return '';

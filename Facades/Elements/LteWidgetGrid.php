@@ -29,7 +29,7 @@ class LteWidgetGrid extends lteContainer
     {
         return <<<HTML
         
-                <div id="{$this->getId()}" class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()} {$this->buildCssElementClass()}">
+                <div id="{$this->getId()}" class="exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssWidthClasses()} {$this->buildCssElementClass()}">
                     {$contents_html}
                 </div>
 HTML;

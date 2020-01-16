@@ -21,7 +21,7 @@ class LteTile extends lteButton
         $icon_class = $widget->getIcon() && $widget->getShowIcon(true) ? $this->buildCssIconClass($widget->getIcon()) : '';
         
         return <<<JS
-                <div class="{$this->getMasonryItemClass()} {$this->getWidthClasses()}"</div>
+                <div class="{$this->getMasonryItemClass()} {$this->buildCssWidthClasses()}"</div>
                     <div id="{$this->getId()}" class="small-box overlay-wrapper exf-tile {$this->buildCssColorClass($widget)}" style="{$this->buildCssElementStyle()}">
                         <div class="inner">
                             <h3>{$widget->getTitle()}</h3>

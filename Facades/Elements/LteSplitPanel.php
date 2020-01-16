@@ -41,7 +41,7 @@ class LteSplitPanel extends ltePanel
 HTML;
     }
     
-    public function getWidthClasses()
+    public function buildCssWidthClasses()
     {
         return '';
     }
