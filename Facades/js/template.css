@@ -414,3 +414,7 @@ pre.sf-dump .sf-dump-private, pre.sf-dump .sf-dump-public, pre.sf-dump .sf-dump-
     color: #333;
     white-space: nowrap;
 }
+
+/* Chart widget*/
+table.exf-echarts-tooltip-table>tbody>tr>td {padding: 0px 3px;} /* padding for cells of the chart tooltip table */
+table.exf-echarts-tooltip-table>tbody>tr>th {padding: 0px 3px;} /* padding for th type cells of the chart tooltip table */
