@@ -55,7 +55,7 @@ HTML;
                 if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
                     $columnNumber = $this->getFacade()->getElement($layoutWidget)->getNumberOfColumns();
                 } else {
-                    $columnNumber = $this->getFacade()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+                    $columnNumber = $this->getFacade()->getConfig()->getOption("WIDGET.ALL.COLUMNS_BY_DEFAULT");
                 }
                 $panelNumber = count($containerWidget->getPanels());
                 

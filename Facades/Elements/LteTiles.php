@@ -28,7 +28,7 @@ class LteTiles extends lteWidgetGrid
      */
     public function getWidthDefault()
     {
-        return $this->getFacade()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+        return $this->getFacade()->getConfig()->getOption("WIDGET.ALL.COLUMNS_BY_DEFAULT");
     }
     
     /**
