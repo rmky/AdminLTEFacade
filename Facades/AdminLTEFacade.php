@@ -54,4 +54,15 @@ class AdminLTEFacade extends AbstractAjaxFacade
         $data['footer'] = $data_sheet->getTotalsRows();
         return $data;
     }
+    
+    /**
+     *
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::getPageTemplateFilePathDefault()
+     */
+    protected function getPageTemplateFilePathDefault() : string
+    {
+        return $this->getApp()->getDirectoryAbsolutePath() . DIRECTORY_SEPARATOR . 'Facades' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'AdminLTETemplate.html';
+    }
+
 }

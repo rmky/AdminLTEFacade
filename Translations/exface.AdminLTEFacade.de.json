@@ -19,5 +19,7 @@
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.COLUMNS": "Spalten",
 	"WIDGET.DATATABLE.SETTINGS_DIALOG.TITLE": "Tabelleneinstellungen",
 	
-	"WIDGET.REFRESH": "Aktualisieren"
+	"WIDGET.REFRESH": "Aktualisieren",
+	
+	"TEMPLATE.NAVIGATION": "Navigation"
 }
