@@ -80,7 +80,7 @@ HTML;
 HTML;
         }
         $result = <<<HTML
-<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">{$result}</div>
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssWidthClasses()}">{$result}</div>
 HTML;
         return $result;
     }

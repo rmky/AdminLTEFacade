@@ -130,7 +130,7 @@ JS;
      *
      * @return string
      */
-    public function getWidthClasses()
+    public function buildCssWidthClasses()
     {
         if ($this->getWidthUsesGridClasses() === false) {
             return '';
@@ -141,7 +141,7 @@ JS;
         if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
             $columnNumber = $this->getFacade()->getElement($layoutWidget)->getNumberOfColumns();
         } else {
-            $columnNumber = $this->getFacade()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+            $columnNumber = $this->getFacade()->getConfig()->getOption("WIDGET.ALL.COLUMNS_BY_DEFAULT");
         }
         
         $dimension = $widget->getWidth();
@@ -203,7 +203,7 @@ JS;
         if ($this->getWidget() instanceof iLayoutWidgets) {
             $columnNumber = $this->getNumberOfColumns();
         } else {
-            $columnNumber = $this->getFacade()->getConfig()->getOption("COLUMNS_BY_DEFAULT");
+            $columnNumber = $this->getFacade()->getConfig()->getOption("WIDGET.ALL.COLUMNS_BY_DEFAULT");
         }
         
         $col_no = floor(12 / $columnNumber);

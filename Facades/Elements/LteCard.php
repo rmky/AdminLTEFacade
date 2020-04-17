@@ -1,13 +1,13 @@
 <?php
 namespace exface\AdminLTEFacade\Facades\Elements;
 
-class LteBox extends lteForm
+class LteCard extends LteForm
 {
 
     public function buildHtml()
     {
         $output = <<<HTML
-<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssWidthClasses()}">
 	{$this->buildHtmlBox()}
 </div>
 HTML;

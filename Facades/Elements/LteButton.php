@@ -18,7 +18,6 @@ use exface\Core\Interfaces\Actions\iRunFacadeScript;
 class LteButton extends lteAbstractElement
 {
     use JqueryButtonTrait;
-    use JqueryDisableConditionTrait;
 
     function buildJs()
     {
@@ -121,10 +120,7 @@ class LteButton extends lteAbstractElement
 							url: '{$this->getAjaxUrl()}',
 							dataType: 'html',
 							data: {
-								action: '{$widget->getActionAlias()}',
-								resource: '{$widget->getPage()->getAliasWithNamespace()}',
-								element: '{$widget->getId()}',
-								data: requestData
+								{$this->buildJsRequestCommonParams($widget, $action)}
 								{$prefill}
 							},
 							success: function(data, textStatus, jqXHR) {

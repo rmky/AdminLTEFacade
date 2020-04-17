@@ -22,7 +22,7 @@ class LteImageCarousel extends lteSplitVertical
         // output the html code
         $output = <<<HTML
 
-<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->getWidthClasses()}">
+<div class="exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssWidthClasses()}">
 	<div class="box" >
 		<div class="box-header">
 			{$top_toolbar}
