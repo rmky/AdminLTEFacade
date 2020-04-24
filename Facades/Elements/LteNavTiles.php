@@ -29,18 +29,23 @@ class LteNavTiles extends lteWidgetGrid
      */
     public function buildHtml()
     {
-        if ($this->getWidget()->countWidgets() > 1) {
-            foreach ($this->getWidget()->getWidgets() as $tiles) {
-                $tiles->setNumberOfColumns(2);
-                foreach ($tiles->getTiles() as $tile) {
-                    if ($colorClass = $this->getColorClass($tile)) {
-                        $this->getFacade()->getElement($tile)->setCssColorClass($colorClass);
+        switch ($this->getWidget()->countWidgets()) {
+            case 0:
+                break;
+            case 1:
+                $this->getWidget()->getWidgetFirst()->setHideCaption(true);
+                break;
+            default: 
+                foreach ($this->getWidget()->getWidgets() as $tiles) {
+                    $tiles->setNumberOfColumns(2);
+                    foreach ($tiles->getTiles() as $tile) {
+                        if ($colorClass = $this->getColorClass($tile)) {
+                            $this->getFacade()->getElement($tile)->setCssColorClass($colorClass);
+                        }
                     }
                 }
-            }
-        } else {
-            $this->getWidget()->getWidgetFirst()->setHideCaption(true);
-        }
+                break;
+        } 
         return parent::buildHtml();
     }
     
