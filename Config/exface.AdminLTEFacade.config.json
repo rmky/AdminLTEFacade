@@ -37,6 +37,9 @@
     	"npm-asset/dexie/dist/dexie.min.js",
     	"exface/Core/Facades/AbstractPWAFacade/sw_tools.js"
     ],
+    
+    "LIBS.CONTEXT_JS.CSS": "exface/AdminLTEFacade/Facades/js/context.js/context.bootstrap.css",
+    "LIBS.CONTEXT_JS.JS": "exface/AdminLTEFacade/Facades/js/context.js/context.js",
 	
 	"LIBS.DATATABLES.CORE.JS": "bower-asset/datatables.net/js/jquery.dataTables.min.js",
     "LIBS.DATATABLES.CORE.CSS": "bower-asset/datatables.net-dt/css/jquery.dataTables.min.css",
@@ -56,6 +59,11 @@
    	"LIBS.JEXCEL.JS_JSUITES": "npm-asset/jsuites/dist/jsuites.js",
    	"LIBS.JEXCEL.CSS": "npm-asset/jexcel/dist/jexcel.css",
  	"LIBS.JEXCEL.CSS_JSUITES": "npm-asset/jsuites/dist/jsuites.css",
+ 	
+ 	"LIBS.JQUERY_SORTABLE.JS": "bower-asset/jquery-sortable/source/js/jquery-sortable-min.js",
+ 	
+ 	"LIBS.MAGICSUGGEST.CSS": "bower-asset/magicsuggest/magicsuggest-min.css",
+ 	"LIBS.MAGICSUGGEST.JS": "bower-asset/magicsuggest/magicsuggest-min.js",
 	
 	"LIBS.MOMENT.JS": "npm-asset/moment/min/moment.min.js",
 	"LIBS.MOMENT.LOCALES": "npm-asset/moment/locale",
@@ -63,6 +71,8 @@
 	"LIBS.QRCODE.JS": "bower-asset/jquery-qrcode/jquery.qrcode.min.js",
 	
 	"LIBS.ECHARTS.ECHARTS_JS": "exface/Core/Facades/AbstractAjaxFacade/js/echarts/echarts.custom.min.js",
+	
+	"LIBS.RESIZESENSOR.JS": "npm-asset/css-element-queries/src/ResizeSensor.js",
 	
 	"WIDGET.ALL.WIDTH_RELATIVE_UNIT": 400,
 	"WIDGET.ALL.WIDTH_DEFAULT": 1,

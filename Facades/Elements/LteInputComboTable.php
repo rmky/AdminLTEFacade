@@ -327,8 +327,9 @@ JS;
     function buildHtmlHeadTags()
     {
         $headers = parent::buildHtmlHeadTags();
-        $headers[] = '<link href="exface/vendor/bower-asset/magicsuggest/magicsuggest-min.css" rel="stylesheet">';
-        $headers[] = '<script src="exface/vendor/bower-asset/magicsuggest/magicsuggest-min.js"></script>';
+        $f = $this->getFacade();
+        $headers[] = '<link href="' . $f->buildUrlToSource('LIBS.MAGICSUGGEST.CSS') . '" rel="stylesheet">';
+        $headers[] = '<script src="' . $f->buildUrlToSource('LIBS.MAGICSUGGEST.JS') . '"></script>';
         return $headers;
     }
 

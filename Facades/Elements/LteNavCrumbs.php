@@ -26,15 +26,10 @@ class LteNavCrumbs extends LteAbstractElement
         if (empty($breadcrumbs) === true) {
             return '';
         }
+        $items = $this->buildHtmlBreadcrumbs($breadcrumbs);
         $output = <<<HTML
-        
-<div>
-HTML;
-        $output .= $this->buildHtmlBreadcrumbs($breadcrumbs);
-        
-        $output .= <<<HTML
-        
-</div>
+
+<ol class="breadcrumb">$items</ol>
 HTML;
         
         return $output;
@@ -47,19 +42,25 @@ HTML;
      */
     protected function buildHtmlBreadcrumbs(array $menu) : string
     {
+        $output = '';
         foreach($menu as $node) {
             if ($node->isAncestorOf($this->currentPage)) {
                 $url = $this->getFacade()->buildUrlToPage($node->getPageAlias());
+                if ($node->hasParent() === false) {
+                    $name = '<i class="fa fa-home"></i><span class="hidden-xs">' . $node->getName() . '</span></a>';
+                } else {
+                    $name = $node->getName();
+                }
                 $output .= <<<HTML
                 
-    <a style="text-decoration:underline;" href='{$url}'>{$node->getName()}</a> »&nbsp;
+    <li><a href="{$url}">{$name}</a></li>
 HTML;
                 if ($node->hasChildNodes()) {
                     $output .= $this->buildHtmlBreadcrumbs($node->getChildNodes());
                 }
                 break;
             } elseif ($node->isPage($this->currentPage)) {
-                $output .= "{$node->getName()}";
+                // Do not display last crumb (current page)
                 break;
             }
         }
