@@ -48,7 +48,7 @@ class AdminLTEFacade extends AbstractAjaxFacade
     public function buildResponseData(DataSheetInterface $data_sheet, WidgetInterface $widget = null)
     {
         $data = array();
-        $data['data'] = $data_sheet->getRows();
+        $data['data'] = $data_sheet->getRowsDecrypted();
         $data['recordsFiltered'] = $data_sheet->countRowsInDataSource();
         $data['recordsTotal'] = $data_sheet->countRowsInDataSource();
         $data['footer'] = $data_sheet->getTotalsRows();
