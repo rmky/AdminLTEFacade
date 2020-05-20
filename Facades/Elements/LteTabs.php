@@ -14,6 +14,11 @@ use exface\Core\Widgets\Tabs;
 class LteTabs extends lteContainer
 {
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\AdminLTEFacade\Facades\Elements\LteContainer::buildHtml()
+     */
     function buildHtml()
     {
         $html = <<<HTML

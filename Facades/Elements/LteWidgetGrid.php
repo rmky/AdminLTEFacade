@@ -100,7 +100,7 @@ JS;
     function buildHtmlHeadTags()
     {
         $headers = parent::buildHtmlHeadTags();
-        $headers[] = '<script src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
+        $headers[] = '<script src="' . $this->getFacade()->buildUrlToSource('LIBS.RESIZESENSOR.JS') . '"></script>';
         return $headers;
     }
     

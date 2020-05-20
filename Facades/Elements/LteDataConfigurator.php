@@ -75,7 +75,7 @@ HTML;
         $widget = $this->getWidget();
         
         foreach ($widget->getDataWidget()->getColumns() as $col) {
-            if ($col->isHidden() && ! $this->getWorkbench()->getContext()->getScopeUser()->getUserCurrent()->isUserAdmin()) {
+            if ($col->isHidden() && ! $this->getWorkbench()->getSecurity()->getAuthenticatedUser()->isUserAdmin()) {
                 continue;
             }
             $columns_html .= '

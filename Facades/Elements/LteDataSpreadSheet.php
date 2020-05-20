@@ -206,7 +206,7 @@ JS;
         array_unshift($includes, '<script type="text/javascript">' . $this->buildJsFixJqueryImportUseStrict() . '</script>');
         
         // Resize-Sensor
-        $includes[] = '<script type="text/javascript" src="exface/vendor/npm-asset/css-element-queries/src/ResizeSensor.js"></script>';
+        $includes[] = '<script type="text/javascript" src="' . $this->getFacade()->buildUrlToSource('LIBS.RESIZESENSOR.JS') . '"></script>';
         return $includes;
     }
     

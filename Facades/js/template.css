@@ -9,6 +9,9 @@ ul.datalist li {padding: 4px 0;}
 .datalist {z-index: 2000}
 .dropdown {display: inline-block}
 
+/* LoginPrompt */
+.login-box-body > .exf-loginprompt {margin: -20px}
+
 /* Dialogs */
 .modal-body > .col-xs-12 > .nav-tabs-custom, .modal-body > .nav-tabs-custom {margin: -15px 0 0 0; box-shadow: none;}
 .modal-body > .col-xs-12 {float: none; padding: 0;}

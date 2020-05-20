@@ -31,7 +31,6 @@ class LteNavMenu extends LteAbstractElement
     {
         if ($level === 1) {
             $output = "<ul class='sidebar-menu'>";
-            $output .= "<li class='header'>MAIN NAVIGATION</li>";
         } else {
             $output = "<ul class ='treeview-menu'>";
         }
