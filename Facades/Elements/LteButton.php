@@ -111,7 +111,7 @@ class LteButton extends lteAbstractElement
             }
         }
         
-        $js_on_close_dialog = ($this->buildJsInputRefresh($widget, $input_element) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->buildJsInputRefresh($widget, $input_element) . "});" : "");
+        $js_on_close_dialog = ($this->buildJsInputRefresh($widget) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->buildJsInputRefresh($widget) . $this->buildJsRefreshCascade($widget) . "});" : "");
         $output = $this->buildJsRequestDataCollector($action, $input_element);
         $output .= <<<JS
 						{$this->buildJsBusyIconShow()}
@@ -125,7 +125,7 @@ class LteButton extends lteAbstractElement
 							},
 							success: function(data, textStatus, jqXHR) {
 								{$this->buildJsCloseDialog($widget, $input_element)}
-								{$this->buildJsInputRefresh($widget, $input_element)}
+								{$this->buildJsInputRefresh($widget)}
 		                       	{$this->buildJsBusyIconHide()}
 		                       	if ($('#ajax-dialogs').length < 1){
 		                       		$('body').append('<div id=\"ajax-dialogs\"></div>');
