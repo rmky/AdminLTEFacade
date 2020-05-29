@@ -4,6 +4,8 @@ namespace exface\AdminLTEFacade\Facades\Elements;
 use exface\Core\Widgets\Button;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryButtonTrait;
 use exface\Core\Widgets\MenuButton;
+use exface\Core\Interfaces\WidgetInterface;
+use exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement;
 
 /**
  * generates jQuery Mobile buttons for ExFace
@@ -79,6 +81,16 @@ HTML;
             $align_class = '';
         }
         return $align_class;
+    }
+    
+    /**
+     * 
+     * {@inheritdoc}
+     * @see JqueryButtonTrait::buildJsCloseDialog()
+     */
+    protected function buildJsCloseDialog($widget, $input_element)
+    {
+        return '';
     }
 }
 ?>
