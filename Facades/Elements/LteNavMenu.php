@@ -37,30 +37,27 @@ class LteNavMenu extends LteAbstractElement
         foreach ($menu as $node) {
             $url = $this->getFacade()->buildUrlToPage($node->getPageAlias());
             if ($node->hasChildNodes()) {
-                if ($node->isAncestorOf($this->currentPage) || $node->isPage($this->currentPage)) {
-                    $output .= <<<HTML
+                $style = '';
+                if ($node->isAncestorOf($this->currentPage)) {
+                    $style = " style='font-weight:bold;'";
+                }
+                if ($node->isPage($this->currentPage)) {
+                    $style = " style='text-decoration:underline;'";
+                }
+                
+                $output .= <<<HTML
                 <li class='level{$level} treeview active'>
-                    <a href='{$url}'>{$node->getName()}</a>
-{$this->buildHtmlMenu($node->getChildNodes(), $level+1)}
-                </li>
-                
-                
-HTML;
-                } else {
-                    $output .= <<<HTML
-                <li class='level{$level} treeview'>
-                    <a href='{$url}'>{$node->getName()}</a>
+                    <a href='{$url}' {$style}>{$node->getName()}</a>
 {$this->buildHtmlMenu($node->getChildNodes(), $level+1)}
                 </li>
                 
 HTML;
 
-                }
             } elseif ($node->isAncestorOf($this->currentPage) || $node->isPage($this->currentPage)) {
                 $output .= <<<HTML
 
                 <li class='level{$level} active current'>
-                    <a href='{$url}'>{$node->getName()}</a>
+                    <a href='{$url}' style='text-decoration:underline;'>{$node->getName()}</a>
                 </li>
                 
 HTML;
