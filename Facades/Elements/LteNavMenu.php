@@ -38,17 +38,21 @@ class LteNavMenu extends LteAbstractElement
             $url = $this->getFacade()->buildUrlToPage($node->getPageAlias());
             if ($node->hasChildNodes()) {
                 $style = '';
+                $childNodesHtml = '';
                 if ($node->isAncestorOf($this->currentPage)) {
                     $style = " style='font-weight:bold;'";
                 }
                 if ($node->isPage($this->currentPage)) {
                     $style = " style='text-decoration:underline;'";
                 }
+                if ($node->isAncestorOf($this->currentPage) || $node->isPage($this->currentPage) || $this->getWidget()->getExpandAll()) {
+                    $childNodesHtml = $this->buildHtmlMenu($node->getChildNodes(), $level+1);
+                }
                 
                 $output .= <<<HTML
                 <li class='level{$level} treeview active'>
                     <a href='{$url}' {$style}>{$node->getName()}</a>
-{$this->buildHtmlMenu($node->getChildNodes(), $level+1)}
+{$childNodesHtml}
                 </li>
                 
 HTML;
