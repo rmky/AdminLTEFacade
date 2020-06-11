@@ -13,7 +13,7 @@ class LtePanel extends lteWidgetGrid
     {
         $widget = $this->getWidget();
         
-        if (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() > 1)) {
+        if (($containerWidget = $widget->getParentByClass('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() > 1)) {
             $children_html = $this->buildHtmlChildrenWrapperBox($this->buildHtmlForChildren());   
         } elseif ($widget->countWidgetsVisible() > 1) {
             // Wrap children widgets with a grid for masonry layouting - but only if there is something to be layed out

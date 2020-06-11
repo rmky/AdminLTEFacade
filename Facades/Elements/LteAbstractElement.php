@@ -118,7 +118,7 @@ JS;
     public function getMasonryItemClass()
     {
         $output = '';
-        if (($containerWidget = $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget instanceof iLayoutWidgets)) {
+        if (($containerWidget = $this->getWidget()->getParentByClass('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget instanceof iLayoutWidgets)) {
             $output = $this->getFacade()->getElement($containerWidget)->getId() . '_masonry_exf-grid-item';
         }
         return $output;
@@ -138,7 +138,7 @@ JS;
         
         $widget = $this->getWidget();
         
-        if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
+        if ($layoutWidget = $widget->getParentByClass('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
             $columnNumber = $this->getFacade()->getElement($layoutWidget)->getNumberOfColumns();
         } else {
             $columnNumber = $this->getFacade()->getConfig()->getOption("WIDGET.ALL.COLUMNS_BY_DEFAULT");
@@ -175,7 +175,7 @@ JS;
             // Ein "grosses" Widget ohne angegebene Breite fuellt die gesamte Breite des
             // Containers aus.
             $output = 'col-xs-12';
-            if (! $widget->hasParent() || (($containerWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() == 1))) {
+            if (! $widget->hasParent() || (($containerWidget = $widget->getParentByClass('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) && ($containerWidget->countWidgetsVisible() == 1))) {
                 $output = '';
             }
         } elseif ($widget->getWidth()->isUndefined() === true) {

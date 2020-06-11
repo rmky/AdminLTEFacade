@@ -74,7 +74,7 @@ HTML;
     {
         $result = $html;
         
-        if (! $this->getWidget()->getParent() || $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) {
+        if (! $this->getWidget()->getParent() || $this->getWidget()->getParentByClass('exface\\Core\\Interfaces\\Widgets\\iContainOtherWidgets')) {
             $result = <<<HTML
 <div class="box">{$result}</div>
 HTML;

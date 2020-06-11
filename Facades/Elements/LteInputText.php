@@ -28,7 +28,7 @@ HTML;
         $output = parent::buildJs();
         
         // Das Layout des Containers wird erneuert wenn das InputText die Groesse veraendert.
-        if ($layoutWidget = $this->getWidget()->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
+        if ($layoutWidget = $this->getWidget()->getParentByClass('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
             $output .= <<<JS
 
     $("#{$this->getId()}").on("resize", function() {

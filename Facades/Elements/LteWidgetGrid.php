@@ -121,7 +121,7 @@ JS;
         // Auch das Layout des Containers wird erneuert nachdem das eigene Layout aktualisiert
         // wurde.
         $layoutWidgetScript = '';
-        if ($layoutWidget = $widget->getParentByType('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
+        if ($layoutWidget = $widget->getParentByClass('exface\\Core\\Interfaces\\Widgets\\iLayoutWidgets')) {
             $layoutWidgetScript = <<<JS
 {$this->getFacade()->getElement($layoutWidget)->buildJsLayouter()};
 JS;
