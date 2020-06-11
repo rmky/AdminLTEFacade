@@ -149,7 +149,10 @@ JS;
 
     protected function buildJsCloseDialog($widget, $input_element)
     {
-        return ($widget->getWidgetType() == 'DialogButton' && $widget->getCloseDialogAfterActionSucceeds() ? "$('#" . $input_element->getId() . "').modal('hide');" : "");
+        if ($widget instanceof DialogButton && $widget->getCloseDialogAfterActionSucceeds()) {
+            return "$('#" . $this->getFacade()->getElement($widget->getDialog())->getId() . "').modal('hide');";
+        }
+        return '';
     }
 
     /**
