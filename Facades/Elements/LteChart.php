@@ -293,7 +293,7 @@ HTML;
         $includes = $this->buildHtmlHeadDefaultIncludes();
         $f = $this->getFacade();
         // Resize-Sensor
-        $includes[] = '<script src="' . $f->buildUrlToSource('LIBS.RESIZESINSOR.JS') . '"></script>';
+        $includes[] = '<script src="' . $f->buildUrlToSource('LIBS.RESIZESENSOR.JS') . '"></script>';
         $includes[] = '<link href="' . $f->buildUrlToSource('LIBS.MAGICSUGGEST.CSS') . '" rel="stylesheet">';
         $includes[] = '<script src="' . $f->buildUrlToSource('LIBS.MAGICSUGGEST.JS') . '"></script>';
         
