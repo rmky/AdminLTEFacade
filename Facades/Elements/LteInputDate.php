@@ -2,6 +2,7 @@
 namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryInputDateTrait;
+use exface\Core\DataTypes\FilePathDataType;
 
 // Es waere wuenschenswert die Formatierung des Datums abhaengig vom Locale zu machen.
 // Das Problem dabei ist folgendes: Wird im DateFormatter das Datum von DateJs ent-
@@ -120,11 +121,12 @@ JS;
     public function buildHtmlHeadTags()
     {
         $headers = parent::buildHtmlHeadTags();
-        $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>';
-        if ($locale = $this->getBootstrapDatepickerLocale()) {
-            $headers[] = '<script type="text/javascript" src="exface/vendor/bower-asset/bootstrap-datepicker/dist/locales/bootstrap-datepicker.' . $locale . '.min.js"></script>';
+        $datepickerBaseUrl = $this->getFacade()->buildUrlToSource('LIBS.BOOTSTRAP_DATEPICKER.FOLDER');
+        $headers[] = '<script type="text/javascript" src="' . $datepickerBaseUrl . '/js/bootstrap-datepicker.js"></script>';
+        if ($locale = $this->getBootstrapDatepickerLocale($datepickerBaseUrl)) {
+            $headers[] = '<script type="text/javascript" src="' . $datepickerBaseUrl . '/locales/bootstrap-datepicker.' . $locale . '.min.js"></script>';
         }
-        $headers[] = '<link rel="stylesheet" href="exface/vendor/bower-asset/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">';
+        $headers[] = '<link rel="stylesheet" href="' . $datepickerBaseUrl . '/css/bootstrap-datepicker3.css">';
         
         $formatter = $this->getDateFormatter();
         $headers = array_merge($headers, $formatter->buildHtmlHeadIncludes($this->getFacade()), $formatter->buildHtmlBodyIncludes($this->getFacade()));
@@ -140,7 +142,7 @@ JS;
     protected function getBootstrapDatepickerLocale()
     {
         if (is_null($this->bootstrapDatepickerLocale)) {
-            $datepickerBasepath = $this->getWorkbench()->filemanager()->getPathToVendorFolder() . DIRECTORY_SEPARATOR . 'bower-asset' . DIRECTORY_SEPARATOR . 'bootstrap-datepicker' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
+            $datepickerBasepath = $this->getWorkbench()->filemanager()->getPathToVendorFolder() . DIRECTORY_SEPARATOR . FilePathDataType::normalize($this->getFacade()->buildUrlToSource('LIBS.BOOTSTRAP_DATEPICKER.FOLDER'), DIRECTORY_SEPARATOR) .  DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
             
             $fullLocale = $this->getFacade()->getApp()->getTranslator()->getLocale();
             $locale = str_replace("_", "-", $fullLocale);

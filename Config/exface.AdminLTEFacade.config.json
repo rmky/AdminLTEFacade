@@ -38,6 +38,9 @@
     	"exface/Core/Facades/AbstractPWAFacade/sw_tools.js"
     ],
     
+    "LIBS.BOOTSTRAP_DATEPICKER.FOLDER": "bower-asset/bootstrap-datepicker/dist/",
+    
+    
     "LIBS.CONTEXT_JS.CSS": "exface/AdminLTEFacade/Facades/js/context.js/context.bootstrap.css",
     "LIBS.CONTEXT_JS.JS": "exface/AdminLTEFacade/Facades/js/context.js/context.js",
 	
