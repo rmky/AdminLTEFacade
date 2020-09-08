@@ -349,7 +349,7 @@ JS;
     public function buildHtmlHeadTags()
     {
         $includes = parent::buildHtmlHeadTags();
-        $includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
+        $includes[] = '<script type="text/javascript" src="vendor/components/handlebars.js/handlebars.min.js"></script>';
         return $includes;
     }
 
