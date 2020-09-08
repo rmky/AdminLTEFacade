@@ -1,27 +1,23 @@
 <?php
-namespace exface\AdminLTEFacade\Facades\Elements;
-
-use exface\Core\Widgets\DataCarousel;
+namespace exface\AdminLteFacade\Facades\Elements;
 
 /**
  *
  * @author Andrej Kabachnik
- * 
- * @method DataCarousel getWidget()
- *        
+ *
  */
-class LteImageCarousel extends lteSplitVertical
+class LteImageCarousel extends LteDataCards
 {
-
+    
     function buildHtml()
     {
+        /* @var $widget \exface\Core\Widgets\ImageGallery */
         $widget = $this->getWidget();
-        $galleryElement = $this->getFacade()->getElement($widget->getDataWidget());
-        $top_toolbar = $galleryElement->buildHtmlHeader();
+        $top_toolbar = $this->buildHtmlHeader();
         
         // output the html code
         $output = <<<HTML
-
+        
 <div class="exf-grid-item {$this->getMasonryItemClass()} {$this->buildCssWidthClasses()}">
 	<div class="box" >
 		<div class="box-header">
@@ -38,7 +34,7 @@ class LteImageCarousel extends lteSplitVertical
 		            <div data-u="slides" style="cursor: default;">
 		                <div data-u="prototype" class="p">
 		                    <div class="w">
-		                        <div data-u="thumbnailfacade" class="t"></div>
+		                        <div data-u="thumbnailtemplate" class="t"></div>
 		                    </div>
 		                    <div class="c"></div>
 		                </div>
@@ -51,54 +47,79 @@ class LteImageCarousel extends lteSplitVertical
 		    </div>
 		</div>
 	</div>
-	{$galleryElement->buildHtmlTableCustomizer()}
+	{$this->buildHtmlTableCustomizer()}
 </div>
-					
-<script type="text/x-handlebars-facade" id="{$this->getId()}_tpl">
+
+<script type="text/x-handlebars-template" id="{$this->getId()}_tpl">
 { {#data}}
     <div data-p="150.00" style="display: none;">
 		<div data-u="image" class="img-wrap" >
-			<img src="{ {{$widget->getImageUrlColumn()->getDataColumnName()}}}"/>
+			<img src="{ {{$widget->getImageUrlColumnId()}}}"/>
 		</div>
 		<div data-u="thumb" class="thumb-wrap">
-			<img src="{ {{$widget->getImageUrlColumn()->getDataColumnName()}}}" />
+			<img src="{ {{$widget->getImageUrlColumnId()}}}" />
 		</div>
 	</div>
 { {/data}}
 </script>
-	
-HTML;
-        
-        return $output;
-    }
 
+HTML;
+	
+	return $output;
+    }
+    
     protected function buildCssHeightDefaultValue()
     {
         return ($this->getHeightRelativeUnit() * 12) . 'px';
     }
-
+    
     function buildJs()
     {
+        /* @var $widget \exface\Core\Widgets\DataCards */
         $widget = $this->getWidget();
-        $galleryWidget = $widget->getDataWidget();
-        $galleryElement = $this->getFacade()->getElement($galleryWidget);
+        $columns = array();
+        $column_number_offset = 0;
+        $filters_html = '';
+        $filters_js = '';
+        $filters_ajax = "data.q = $('#" . $this->getId() . "_quickSearch').val();\n";
+        $buttons_js = '';
+        $footer_callback = '';
+        $default_sorters = '';
+        
+        // sorters
+        foreach ($widget->getSorters() as $sorter) {
+            $column_exists = false;
+            foreach ($widget->getColumns() as $nr => $col) {
+                if ($col->getAttributeAlias() == $sorter->getProperty('attribute_alias')) {
+                    $column_exists = true;
+                    $default_sorters .= '[ ' . $nr . ', "' . $sorter->getProperty('direction') . '" ], ';
+                }
+            }
+            if (! $column_exists) {
+                // TODO add a hidden column
+            }
+        }
+        // Remove tailing comma
+        if ($default_sorters) {
+            $default_sorters = substr($default_sorters, 0, - 2);
+        }
         
         $output = <<<JS
-
+        
 $(document).ready(function() {
-	
+
 	{$this->buildJsFunctionPrefix()}load();
 	
-	{$galleryElement->buildJsPagination()}
+	{$this->buildJsPagination()}
 	
-	{$galleryElement->buildJsQuicksearch()}
+	{$this->buildJsQuicksearch()}
 	
-	{$galleryElement->buildJsRowSelection()}
+	{$this->buildJsRowSelection()}
 	
 });
 
 function {$this->buildJsFunctionPrefix()}startSlider(){
-            
+
 var options = {
   \$AutoPlay: true,
   \$SlideshowOptions: {
@@ -147,12 +168,12 @@ function {$this->buildJsFunctionPrefix()}load(){
 	{$this->buildJsBusyIconShow()}
 	$('#{$this->getId()}').data('loading', 1);
 	var data = {};
-    data.action = '{$galleryWidget->getLazyLoadingActionAlias()}';
-	data.resource = "{$galleryWidget->getPage()->getAliasWithNamespace()}";
-	data.element = "{$galleryWidget->getId()}";
-	data.object = "{$galleryWidget->getMetaObject()->getId()}";
-	data.data = {$this->getFacade()->getElement($galleryWidget->getConfiguratorWidget())->buildJsDataGetter()};
-    
+    data.action = '{$widget->getLazyLoadingActionAlias()}';
+	data.resource = "{$widget->getPage()->getAliasWithNamespace()}";
+	data.element = "{$widget->getId()}";
+	data.object = "{$widget->getMetaObject()->getId()}";
+	data.data = {$this->getFacade()->getElement($widget->getConfiguratorWidget())->buildJsDataGetter()};
+	
 	$.ajax({
        url: "{$this->getAjaxUrl()}",
        data: data,
@@ -161,8 +182,8 @@ function {$this->buildJsFunctionPrefix()}load(){
 			try {
 				var data = json;
 				if (data.data.length > 0) {
-					var facade = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
-			        var elements = $(facade(data));
+					var template = Handlebars.compile($('#{$this->getId()}_tpl').html().replace(/\{\s\{\s\{/g, '{{{').replace(/\{\s\{/g, '{{'));
+			        var elements = $(template(data));
 			        $('#{$this->getId()} .slides').append(elements);
 			        {$this->buildJsFunctionPrefix()}startSlider();
 		        }
@@ -179,22 +200,23 @@ function {$this->buildJsFunctionPrefix()}load(){
 	});
 }
 
-JS;
-        
-        return $output;
-    }
+{$filters_js}
 
+JS;
+
+return $output;
+    }
+    
     public function buildJsRefresh($keep_pagination_position = false)
     {
         return $this->buildJsFunctionPrefix() . "load();";
     }
-
+    
     public function buildHtmlHeadTags()
     {
         $includes = parent::buildHtmlHeadTags();
-        $includes[] = '<link rel="stylesheet" type="text/css" href="exface/vendor/exface/AdminLTEFacade/Facades/js/jssor/skin.css">';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
-        $includes[] = '<script type="text/javascript" src="exface/vendor/components/handlebars.js/handlebars.min.js"></script>';
+        $includes[] = '<link rel="stylesheet" type="text/css" href="vendor/exface/AdminLteFacade/Facades/js/jssor/skin.css">';
+        $includes[] = '<script type="text/javascript" src="vendor/bower-asset/jssor/js/jssor.slider.min.js"></script>';
         return $includes;
     }
 }
