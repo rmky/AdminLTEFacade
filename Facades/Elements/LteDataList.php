@@ -2,6 +2,7 @@
 namespace exface\AdminLTEFacade\Facades\Elements;
 
 use exface\Core\Interfaces\Actions\ActionInterface;
+use exface\Core\Exceptions\Widgets\WidgetConfigurationError;
 
 /**
  *
@@ -256,5 +257,39 @@ JS;
     {
         return '';
     }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsValueGetter()
+     */
+    public function buildJsValueGetter($dataColumnName = null, $rowNr = null)
+    {
+        $widget = $this->getWidget();
+        if ($dataColumnName !== null) {
+            /* @var $col \exface\Core\Widgets\DataColumn */
+            if (! $col = $widget->getColumnByDataColumnName($dataColumnName)) {
+                if ($col = $widget->getColumnByAttributeAlias($dataColumnName)) {
+                    $dataColumnName = $col->getDataColumnName();
+                }
+            }
+            if (! $col && ! ($widget->getMetaObject()->getUidAttributeAlias() === $dataColumnName)) {
+                throw new WidgetConfigurationError($this->getWidget(), 'Cannot build live value getter for ' . $this->getWidget()->getWidgetType() . ': column "' . $dataColumnName . '" not found!');
+            }
+            $delim = $col && $col->isBoundToAttribute() ? $col->getAttribute()->getValueListDelimiter() : EXF_LIST_SEPARATOR;
+            $colMapper = '.map(function(value,index) { return value === undefined ? "" : value["' . $dataColumnName . '"];}).join("' . $delim . '")';
+        } else {
+            $colMapper = '';
+        }
+        
+        return <<<JS
+        
+(function(){
+    return {$this->buildJsFunctionPrefix()}getSelection(){$colMapper};
+}() || '')
+
+JS;
+    }
+    
 }
 ?>
