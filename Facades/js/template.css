@@ -60,8 +60,9 @@ table.dataTable td.warning{background-color: yellow;}
 table.dataTable td.error{background-color: red; color: white;}
 /* responsive */
 .table-striped>tbody>tr.even {background-color: #fff;}
-.dataTable>tbody>tr.child ul.dtr-details>li {border-bottom: none !important;}
+.dataTable>tbody>tr.child ul.dtr-details>li {border-bottom: none !important; padding: 0.1em 0 !important;}
 .dataTable.responsive>tbody>tr.child>td {border-bottom: 1px solid #efefef; border-top: none !important;}
+.dataTable.responsive>tbody>tr.child>td li.text-right {text-align: left;}
 .dataTable.responsive>tbody>tr.odd + tr.child {background-color: #f9f9f9;}
 .dataTable.responsive>tbody>tr.selected + tr.child {background-color: #f9f9f9;}
 .dataTable.responsive>tbody>tr.child span.dtr-data {display: inline-block;}
