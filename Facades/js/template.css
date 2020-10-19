@@ -90,7 +90,7 @@ td input.form-control {height: 25px; margin: -5px 0;}
 .exf-grid-item:has(.exf-spreadsheet) {overflow: visible;}
 /* jExcel specific fixes for AdminLTE */
 .jexcel td.dropdown {display: table-cell}
-.jdropdown-container.slide-bottom-in {bottom: auto !important;}
+.jdropdown-container {top: calc(100vh - 336px) !important;}
 
 .btn-advanced-filtering .label {position: absolute; top: 15px; right: 5px; text-align: center; font-size: 9px; padding: 2px 3px; line-height: .9;}
 /* Show overlay message if initial load is skipped */

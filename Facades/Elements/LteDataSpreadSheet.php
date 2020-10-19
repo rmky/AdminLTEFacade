@@ -34,9 +34,6 @@ class LteDataSpreadSheet extends LteDataTable
         return <<<JS
         
 var {$this->getId()}_table;
-if ($.fn.dataTable != undefined){
-    $.fn.dataTable.ext.errMode = 'throw';
-}
 
 {$this->getFacade()->getElement($widget->getConfiguratorWidget())->buildJs()}
 
