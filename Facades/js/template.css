@@ -13,6 +13,7 @@ ul.datalist li {padding: 4px 0;}
 .login-box-body > .exf-loginprompt {margin: -20px}
 
 /* Dialogs */
+.modal-lg > .modal-content > .modal-body {max-height: calc(100vh - 56px - 68px); overflow-y: auto;}
 .modal-body > .col-xs-12 > .nav-tabs-custom, .modal-body > .nav-tabs-custom {margin: -15px 0 0 0; box-shadow: none;}
 .modal-body > .col-xs-12 {float: none; padding: 0;}
 .nav-tabs-custom>.nav-tabs>li:first-of-type.active>a {border-left-color: #f4f4f4;}
