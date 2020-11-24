@@ -121,6 +121,7 @@ class LteButton extends lteAbstractElement
 							dataType: 'html',
 							data: {
 								{$this->buildJsRequestCommonParams($widget, $action)}
+								data: requestData
 								{$prefill}
 							},
 							success: function(data, textStatus, jqXHR) {
