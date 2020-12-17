@@ -1,11 +1,13 @@
 <?php
 namespace exface\AdminLTEFacade\Facades\Elements;
 
-use exface\Core\Widgets\NavTiles;
 use exface\Core\Widgets\Tile;
+use exface\Core\CommonLogic\UxonObject;
+use exface\Core\Factories\WidgetFactory;
+use exface\Core\DataTypes\MessageTypeDataType;
 
 /**
- * @method NavTiles getWidget()
+ * @method \exface\Core\Widgets\NavTiles getWidget()
  * 
  * @author Andrej Kabachnik
  *
@@ -29,8 +31,18 @@ class LteNavTiles extends lteWidgetGrid
      */
     public function buildHtml()
     {
-        switch ($this->getWidget()->countWidgets()) {
+        switch ($this->getWidget()->countTiles()) {
             case 0:
+                if (! $this->getWidget()->isHiddenIfEmpty()) {
+                    $msg = WidgetFactory::createFromUxonInParent($this->getWidget(), new UxonObject([
+                        'widget_type' => 'Message',
+                        'type' => MessageTypeDataType::INFO,
+                        'caption' => $this->getWidget()->getEmptyText(),
+                        'width' => '100%'
+                    ]));
+                    
+                    return $this->getFacade()->getElement($msg)->buildHtml();
+                }
                 break;
             case 1:
                 $this->getWidget()->getWidgetFirst()->setHideCaption(true);
