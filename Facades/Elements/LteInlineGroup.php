@@ -1,7 +1,6 @@
 <?php
 namespace exface\AdminLTEFacade\Facades\Elements;
 
-use exface\Core\Widgets\InlineGroup;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryContainerTrait;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JsInlineGroupTrait;
 use exface\Core\Interfaces\WidgetInterface;
@@ -12,7 +11,7 @@ use exface\Core\Interfaces\WidgetInterface;
  *
  * @author Andrej Kabachnik
  *        
- * @method InlineGroup getWidget()
+ * @method \exface\Core\Widgets\InlineGroup getWidget()
  */
 class LteInlineGroup extends LteValue
 {
@@ -28,11 +27,13 @@ class LteInlineGroup extends LteValue
     {
         parent::init();
         $this->setElementType('div');
-        $this->optimizeChildrenWidths();
-        // Make all direct children use CSS with instead of bootstrap gird classes,
-        // so that the width optimization works correctly
-        foreach ($this->getWidget()->getWidgets() as $subw) {
-            $this->getFacade()->getElement($subw)->setWidthUsesGridClasses(false);
+        if ($this->getWidget()->isStretched()) {
+            $this->optimizeChildrenWidths();
+            // Make all direct children use CSS width instead of bootstrap gird classes,
+            // so that the width optimization works correctly
+            foreach ($this->getWidget()->getWidgets() as $subw) {
+                $this->getFacade()->getElement($subw)->setWidthUsesGridClasses(false);
+            }
         }
         return;
     }
