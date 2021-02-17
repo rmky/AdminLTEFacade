@@ -7,7 +7,7 @@ use  exface\Core\Facades\AbstractAjaxFacade\Elements\EChartsTrait;
 use exface\Core\Facades\AbstractAjaxFacade\Elements\JqueryDataTableTrait;
 use exface\Core\DataTypes\BooleanDataType;
 
-class LteChart extends lteDataTable
+class LteChart extends LteDataTable
 {
     use JqueryToolbarsTrait;
     
@@ -322,6 +322,11 @@ HTML;
     public function buildJsBusyIconHide() : string
     {
         return $this->buildJsEChartsHideLoading();
+    }
+    
+    public function buildJsRefresh($keep_pagination_position = false)
+    {
+        return $this->buildJsEChartsRefresh();
     }
 }
 ?>
