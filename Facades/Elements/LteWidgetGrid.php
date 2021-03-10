@@ -111,7 +111,7 @@ JS;
      */
     public function buildJsLayouter() : string
     {
-        return $this->buildJsFunctionPrefix() . 'layouter()';
+        return $this->buildJsFunctionPrefix() . 'layouter();';
     }
 
     protected function buildJsLayouterFunction() : string
