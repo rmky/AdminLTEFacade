@@ -108,13 +108,13 @@ HTML;
      */
     public function buildJs()
     {
-        $output = parent::buildJs();
-        $output .= <<<JS
+        return parent::buildJs() . <<<JS
     
     // $('#{$this->getId()}_popup_columnList').sortable();
+
+    {$this->buildJsRefreshOnActionEffect()}
 	
 JS;
-        return $output;
     }
 
     /**

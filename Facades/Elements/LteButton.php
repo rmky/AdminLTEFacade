@@ -111,7 +111,6 @@ class LteButton extends lteAbstractElement
             }
         }
         
-        $js_on_close_dialog = ($this->buildJsInputRefresh($widget) ? "$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){" . $this->buildJsInputRefresh($widget) . $this->buildJsRefreshCascade($widget) . "});" : "");
         $output = $this->buildJsRequestDataCollector($action, $input_element);
         $output .= <<<JS
 						{$this->buildJsBusyIconShow()}
@@ -126,17 +125,17 @@ class LteButton extends lteAbstractElement
 							},
 							success: function(data, textStatus, jqXHR) {
 								{$this->buildJsCloseDialog($widget, $input_element)}
-								{$this->buildJsInputRefresh($widget)}
 		                       	{$this->buildJsBusyIconHide()}
 		                       	if ($('#ajax-dialogs').length < 1){
 		                       		$('body').append('<div id=\"ajax-dialogs\"></div>');
                        			}
 		                       	$('#ajax-dialogs').append('<div class=\"ajax-wrapper\">'+data+'</div>');
                                 $('#ajax-dialogs').children().last().children('.modal').last().modal('show');
-                       			$(document).trigger('{$action->getAliasWithNamespace()}.action.performed', [requestData]);
                        			
 								// Make sure, the input widget of the button is always refreshed, once the dialog is closed again
-								{$js_on_close_dialog}
+								$('#ajax-dialogs').children('.modal').last().one('hide.bs.modal', function(){ 
+                                    {$this->buildJsTriggerActionEffects($action)} 
+                                });
 							},
 							error: function(jqXHR, textStatus, errorThrown){
 								{$this->buildJsShowError('jqXHR.responseText', 'jqXHR.status + " " + jqXHR.statusText')}
