@@ -459,7 +459,7 @@ JS;
     {
         $widget = $this->getWidget();
         
-        if (! $widget->getAutoloadData() && $widget->getLazyLoading()) {
+        if (! $widget->hasAutoloadData() && $widget->getLazyLoading()) {
             // Wenn noetig initiales Laden ueberspringen.
             $output = <<<JS
 
@@ -489,7 +489,7 @@ JS;
     {
         $widget = $this->getWidget();
         
-        if (! $widget->getAutoloadData() && $widget->getLazyLoading()) {
+        if (! $widget->hasAutoloadData() && $widget->getLazyLoading()) {
             $output = <<<JS
 
             $("#{$this->getId()}").closest(".box-body").append("\
