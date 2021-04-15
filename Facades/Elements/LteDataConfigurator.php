@@ -112,7 +112,7 @@ HTML;
     
     // $('#{$this->getId()}_popup_columnList').sortable();
 
-    {$this->buildJsRefreshOnActionEffect()}
+    {$this->buildJsRegisterOnActionPerformed($this->buildJsRefreshConfiguredWidget(true))}
 	
 JS;
     }
