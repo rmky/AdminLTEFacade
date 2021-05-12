@@ -74,6 +74,8 @@
 	"LIBS.QRCODE.JS": "bower-asset/jquery-qrcode/jquery.qrcode.min.js",
 	
 	"LIBS.ECHARTS.ECHARTS_JS": "exface/Core/Facades/AbstractAjaxFacade/js/echarts/echarts.custom.min.js",
+	"LIBS.TINYCOLOR.JS": "npm-asset/tinycolor2/dist/tinycolor-min.js",
+	"LIBS.TINYGRADIENT.JS": "npm-asset/tinygradient/browser.js",
 	
 	"LIBS.RESIZESENSOR.JS": "npm-asset/css-element-queries/src/ResizeSensor.js",
 	
