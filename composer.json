@@ -41,7 +41,9 @@
 		"npm-asset/css-element-queries" : "^0.4",
 		"npm-asset/echarts" : "^5",
 		"npm-asset/moment" : "^2.24.0",
-		"npm-asset/jexcel" : "^4.4.1"
+		"npm-asset/jexcel" : "^4.4.1",
+		"npm-asset/tinycolor2": "^1.4.2",
+		"npm-asset/tinygradient": "^1.1.4"
 	},
 	"autoload" : {
 		"psr-4" : {
