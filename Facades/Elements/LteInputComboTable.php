@@ -106,7 +106,7 @@ JS;
         /* @var $widget \exface\Core\Widgets\InputComboTable */
         $widget = $this->getWidget();
         
-        $value = $this->escapeString($this->getValueWithDefaults());
+        $value = $this->escapeString($widget->getValueWithDefaults(), false, true);
         $valueSkript = $value ? 'value=\'["' . $value . '"]\'' : '';
         
         $output = <<<HTML

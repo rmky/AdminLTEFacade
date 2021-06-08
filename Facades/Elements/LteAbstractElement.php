@@ -101,11 +101,6 @@ JS;
 				});';
     }
 
-    public function escapeString($string)
-    {
-        return htmlentities($string, ENT_QUOTES);
-    }
-
     /**
      * Returns the masonry-item class name of this widget.
      *

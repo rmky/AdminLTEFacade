@@ -38,23 +38,13 @@ class LteInput extends lteValue
                         <input class="form-control"
                             type="{$this->getElementType()}"
                             name="{$this->getWidget()->getAttributeAlias()}" 
-                            value="{$this->escapeString($this->getValueWithDefaults())}" 
+                            value="{$this->escapeString($this->getWidget()->getValueWithDefaults(), false, true)}" 
                             id="{$this->getId()}"  
                             {$requiredScript}
                             {$disabledScript} />
 
 HTML;
         return $this->buildHtmlGridItemWrapper($output);
-    }
-
-    /**
-     * Returns the escaped and ready-to-use value of the widget including the default value (if applicable).
-     * 
-     * @return string
-     */
-    public function getValueWithDefaults()
-    {
-        return $this->escapeString($this->getWidget()->getValueWithDefaults());
     }
 
     function buildJs()

@@ -85,7 +85,7 @@ HTML;
     });
     // Wird der uebergebene Wert per value="..." im HTML uebergeben, erscheint er
     // unformatiert (z.B. "-1d"). Wird der Wert hier gesetzt, wird er formatiert.
-    $("#{$this->getId()}").{$this->getElementType()}("update", "{$this->escapeString($this->getValueWithDefaults())}");
+    $("#{$this->getId()}").{$this->getElementType()}("update", {$this->escapeString($this->getWidget()->getValueWithDefaults())});
     // Bei leeren Werten, wird die toValue-Funktion nicht aufgerufen, und damit der
     // interne Wert fuer die Rueckgabe des value-Getters nicht entfernt. Dies geschieht
     // hier.

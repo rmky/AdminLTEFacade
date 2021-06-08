@@ -8,7 +8,7 @@ class LteInputHidden extends lteInput
     {
         $output = '<input type="hidden"
 								name="' . $this->getWidget()->getAttributeAlias() . '"
-								value="' . $this->escapeString($this->getValueWithDefaults()) . '"
+								value="' . $this->escapeString($this->getWidget()->getValueWithDefaults(), false, true) . '"
 								id="' . $this->getId() . '" />';
         return $output;
     }
