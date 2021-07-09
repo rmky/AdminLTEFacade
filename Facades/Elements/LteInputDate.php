@@ -43,7 +43,7 @@ class LteInputDate extends lteInput
                         type="text"
                         name="{$this->getWidget()->getAttributeAlias()}"
                         id="{$this->getId()}"
-                        value="{$this->getValueWithDefaults()}"
+                        value="{$this->getWidget()->getValueWithDefaults()}"
                         {$requiredScript}
                         {$disabledScript} />
                     <div class="input-group-addon" onclick="$('#{$this->getId()}').{$this->getElementType()}('show');">

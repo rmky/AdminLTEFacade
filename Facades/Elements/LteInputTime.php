@@ -23,7 +23,7 @@ class LteInputTime extends lteInput
                             class="form-control timepicker"
                             name="{$this->getWidget()->getAttributeAlias()}"
                             id="{$this->getId()}"
-                            value="{$this->getValueWithDefaults()}"
+                            value="{$this->getWidget()->getValueWithDefaults()}"
                             {$requiredScript}
                             {$disabledScript} />
     

@@ -140,15 +140,15 @@ HTML;
         $initialValueScriptBeforeMsInit = '';
         $initialValueScriptAfterMsInit = '';
         $initialFilterScript = '';
-        if (! is_null($this->getValueWithDefaults()) && $this->getValueWithDefaults() !== '') {
+        if (! is_null($widget->getValueWithDefaults()) && $widget->getValueWithDefaults() !== '') {
             if (trim($widget->getValueText())) {
                 // If the text is already known, set it and prevent initial backend request
                 $widget_value_text = preg_replace('/\r|\n/', '', str_replace('"', '\"', trim($widget->getValueText())));
                 $initialValueScriptBeforeMsInit = $this->getId() . '_jquery.data("_suppressXhr", true);';
-                $initialValueScriptAfterMsInit = $this->getId() . '_ms.setSelection([{"' . $widget->getTextColumn()->getDataColumnName() . '": "' . $widget_value_text . '", "' . $widget->getValueColumn()->getDataColumnName() . '": "' . $this->getValueWithDefaults() . '"}]);';
+                $initialValueScriptAfterMsInit = $this->getId() . '_ms.setSelection([{"' . $widget->getTextColumn()->getDataColumnName() . '": "' . $widget_value_text . '", "' . $widget->getValueColumn()->getDataColumnName() . '": "' . $widget->getValueWithDefaults() . '"}]);';
             } else {
                 $initialValueScriptBeforeMsInit = $this->getId() . '_jquery.data("_valueSetterUpdate", true);';
-                $initialFilterScript = ', "' . $valueFilterParam . '": "' . $this->getValueWithDefaults() . '"';
+                $initialFilterScript = ', "' . $valueFilterParam . '": "' . $widget->getValueWithDefaults() . '"';
             }
         } else {
             // If no value set, just supress initial autoload

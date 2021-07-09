@@ -17,7 +17,7 @@ class LteInputText extends lteInput
                                 id="{$this->getId()}"
                                 style="height: {$this->getHeight()}; width: 100%;" 
                                 {$requiredScript}
-                                {$disabledScript}>{$this->getValueWithDefaults()}</textarea>
+                                {$disabledScript}>{$this->getWidget()->getValueWithDefaults()}</textarea>
 HTML;
         
         return $this->buildHtmlGridItemWrapper($output);
